@@ -14,6 +14,7 @@ Workout Planner is a framework-free web app for building, running, and tracking 
 - Custom audio signals for workout events.
 - Import and export of user data as JSON.
 - Local persistence through `localStorage`, including unfinished session recovery.
+- Progressive Web App support with installable metadata and offline app shell caching.
 
 ## Tech Stack
 
@@ -114,6 +115,16 @@ User data is stored locally in the browser under the app storage key. It include
 - active workout session
 
 The app supports JSON export and import from the Settings page. Export is useful for backups or moving data to another browser.
+
+## Progressive Web App
+
+The app includes:
+
+- `manifest.webmanifest` for install metadata.
+- `sw.js` for offline caching of the application shell.
+- SVG and PNG icons in `assets/icons/`.
+
+PWA features require HTTPS or `localhost`. GitHub Pages provides HTTPS, so the app can be installed from the browser after deployment.
 
 ## Main Routes
 

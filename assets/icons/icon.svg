@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Workout Planner icon</title>
+  <rect width="512" height="512" rx="96" fill="#111827"/>
+  <path fill="#22c55e" d="M118 246h276v48H118z"/>
+  <path fill="#f8fafc" d="M80 210h46v120H80zm306 0h46v120h-46z"/>
+  <path fill="#38bdf8" d="M132 170h56v200h-56zm192 0h56v200h-56z"/>
+  <path fill="#f8fafc" d="M215 176h32v160h-32zm50 0h32v160h-32z"/>
+  <path fill="#22c55e" d="M200 370h112v26H200z"/>
+</svg>
