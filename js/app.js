@@ -1,8 +1,8 @@
-import { loadExercises } from './exercises.js';
-import { registerServiceWorker } from './pwa.js';
-import { initRouter } from './router.js';
-import { setExercises, state, subscribe } from './state.js';
-import { initShell, renderApp } from './ui.js';
+import { loadExercises } from './features/exercises.js';
+import { registerServiceWorker } from './core/pwa.js';
+import { initRouter } from './core/router.js';
+import { setExercises, state, subscribe } from './core/state.js';
+import { initShell, renderApp } from './ui/shell.js';
 
 async function bootstrap() {
   registerServiceWorker();

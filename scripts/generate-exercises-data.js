@@ -3,7 +3,7 @@ const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
 const sourcePath = path.join(rootDir, 'data', 'exercises.json');
-const targetPath = path.join(rootDir, 'js', 'exercises-data.js');
+const targetPath = path.join(rootDir, 'js', 'features', 'exercises-data.js');
 
 const records = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
 
@@ -18,4 +18,4 @@ const content = [
 ].join('\n');
 
 fs.writeFileSync(targetPath, content, 'utf8');
-console.log(`Generated js/exercises-data.js with ${records.length} records.`);
+console.log(`Generated js/features/exercises-data.js with ${records.length} records.`);

@@ -37,17 +37,13 @@ No frontend framework, bundler, or package manager is required for the app itsel
 │   └── Техническое задание.md
 ├── js/
 │   ├── app.js
-│   ├── router.js
-│   ├── state.js
-│   ├── exercises.js
-│   ├── exercises-data.js
-│   ├── workouts.js
-│   ├── session.js
-│   ├── storage.js
-│   ├── storage-core.js
-│   ├── storage-schema.js
-│   ├── i18n.js
-│   └── ...
+│   ├── core/
+│   ├── features/
+│   ├── i18n/
+│   ├── pages/
+│   ├── session/
+│   ├── storage/
+│   └── ui/
 ├── scripts/
 │   └── generate-exercises-data.js
 └── styles/
@@ -93,7 +89,7 @@ data/exercises.json
 The browser app imports a generated module:
 
 ```text
-js/exercises-data.js
+js/features/exercises-data.js
 ```
 
 After changing `data/exercises.json`, regenerate the module:
