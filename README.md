@@ -149,4 +149,4 @@ docs/Техническое задание.md
 
 ## License
 
-No license has been specified yet. Add a `LICENSE` file before publishing if you want to define reuse terms.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
