@@ -1,6 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
 const sourcePath = path.join(rootDir, 'data', 'exercises.json');
 const targetPath = path.join(rootDir, 'js', 'features', 'exercises-data.js');

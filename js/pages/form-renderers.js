@@ -1,14 +1,14 @@
-import { getExerciseCatalog } from '../features/exercises.js';
 import { localizedText, t } from '../i18n/index.js';
 import { renderEmptyState, renderListItem } from './components.js';
 import { escapeAttribute, escapeHtml, formatDuration } from '../core/utils.js';
+import { selectExerciseCatalog, selectLanguage } from '../core/selectors.js';
 import { capitalize, createExerciseMap, renderWorkoutExerciseSidebar } from './workout-renderers.js';
 
 const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
 const TEMPO_FIELDS = ['eccentric', 'pauseBottom', 'concentric', 'pauseTop'];
 
 export function renderWorkoutFormPage(state, workout, requestedId = '') {
-  const exercises = getExerciseCatalog(state);
+  const exercises = selectExerciseCatalog(state);
   const hasExercises = exercises.length > 0;
   const exerciseMap = createExerciseMap(exercises);
   const isEdit = Boolean(workout);
@@ -233,7 +233,7 @@ export function renderEditableList(state, name, labelKey, values) {
 
 
 export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem = null) {
-  const language = state.settings.language;
+  const language = selectLanguage(state);
   const exerciseId = exercise?.id || workoutItem?.exerciseId || '';
   const name = localizedText(exercise?.name, language) || exerciseId || t(state, 'emptyValue');
   const isMissingExercise = Boolean(exerciseId && !exercise);
@@ -289,5 +289,4 @@ export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem =
     </article>
   `;
 }
-
 

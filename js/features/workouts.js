@@ -17,8 +17,9 @@ const DEFAULT_REP_DURATION_SEC = 3;
 const TEMPO_FIELDS = ['eccentric', 'pauseBottom', 'concentric', 'pauseTop'];
 
 // Workout-specific helpers stay UI-agnostic so editor/session flows can reuse them.
-export function getWorkouts() {
-  return listWorkouts().map(normalizeWorkout);
+export function getWorkouts(store = null) {
+  const source = Array.isArray(store?.workouts) ? store.workouts : listWorkouts();
+  return source.map(normalizeWorkout);
 }
 
 /**

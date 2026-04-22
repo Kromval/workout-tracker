@@ -26,6 +26,8 @@ Workout Planner is a framework-free web app for building, running, and tracking 
 
 No frontend framework, bundler, or package manager is required for the app itself.
 
+Jest is used for storage and data-normalization tests.
+
 ## Project Structure
 
 ```text
@@ -78,6 +80,17 @@ npx serve .
 
 Because the app uses ES modules, running it through a local HTTP server is recommended.
 
+## Tests
+
+Install development dependencies and run the Jest suite:
+
+```bash
+npm install
+npm test
+```
+
+The current tests cover storage import/export behavior, schema migrations, and normalizers/sanitizers.
+
 ## Exercise Data
 
 Built-in exercises are stored in:
@@ -106,11 +119,23 @@ User data is stored locally in the browser under the app storage key. It include
 - custom exercises
 - workouts
 - workout history
-- favorites
-- custom audio signals
 - active workout session
 
+Favorites and custom audio signals are stored inside `settings` so persisted data has a single source of truth for user preferences.
+
 The app supports JSON export and import from the Settings page. Export is useful for backups or moving data to another browser.
+
+Storage schema metadata lives in `js/storage/schema.js`; version-to-version migrations live in `js/storage/migrations.js`. When changing persisted data shape, bump `STORAGE_VERSION`, add a migration, and run:
+
+```bash
+node scripts/check-storage-migrations.js
+```
+
+Derived state selectors live in `js/core/selectors.js`. They keep UI modules away from raw persisted shape and memoize by stable state references. Check them with:
+
+```bash
+node scripts/check-selectors.js
+```
 
 ## Progressive Web App
 

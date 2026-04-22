@@ -1,4 +1,3 @@
-import { getExerciseCatalog } from '../features/exercises.js';
 import { saveHistoryEntry } from '../features/history.js';
 import { t } from '../i18n/index.js';
 import { getRouteParams } from '../core/router.js';
@@ -17,7 +16,7 @@ import {
   normalizeString,
   setText,
 } from '../core/utils.js';
-import { getWorkouts } from '../features/workouts.js';
+import { selectExerciseCatalog, selectRoute, selectWorkoutById } from '../core/selectors.js';
 import {
   buildSessionSummary,
   formatNextStep,
@@ -47,14 +46,14 @@ let activeWorkoutId = '';
 export function initWorkoutRunUi(state) {
   const root = document.querySelector('[data-session-root]');
 
-  if (!root || state.route !== 'workout-run') {
+  if (!root || selectRoute(state) !== 'workout-run') {
     pauseActiveSessionOnRouteExit();
     return;
   }
 
   const workoutId = root.dataset.workoutId || getRouteParams().id;
-  const exercises = getExerciseCatalog(state);
-  const workout = getWorkouts().find((item) => item.id === workoutId);
+  const exercises = selectExerciseCatalog(state);
+  const workout = selectWorkoutById(state, workoutId);
 
   if (!workout) {
     return;
@@ -317,4 +316,3 @@ function handleFinishFormSubmit(form, snapshot, state) {
     submitButton?.removeAttribute('disabled');
   }
 }
-

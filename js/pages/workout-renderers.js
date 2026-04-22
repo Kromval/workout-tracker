@@ -1,9 +1,10 @@
 import { localizedText, t } from '../i18n/index.js';
-import { escapeAttribute, escapeHtml, formatCalories, formatDuration } from '../core/utils.js';
+import { escapeAttribute, escapeHtml, formatCalories, formatDuration, uniqueStrings } from '../core/utils.js';
+import { selectFavoriteExerciseIdSet, selectLanguage } from '../core/selectors.js';
 import { calculateEstimatedWorkoutDuration, calculateWorkoutCaloriesEstimate } from '../features/workouts.js';
 
 export function renderWorkoutViewItem(state, item, exercise, index) {
-  const language = state.settings.language;
+  const language = selectLanguage(state);
   const name = localizedText(exercise?.name, language) || item.exerciseId || t(state, 'emptyValue');
   const exerciseType = getExerciseTypeLabel(exercise, language) || exercise?.executionMode || t(state, 'emptyValue');
 
@@ -34,7 +35,7 @@ export function renderWorkoutViewItem(state, item, exercise, index) {
 
 export function renderWorkoutCard(state, workout, exercises, options = {}) {
   const isPresetCard = Boolean(options.isPresetCard);
-  const language = state.settings.language;
+  const language = selectLanguage(state);
   const title = isPresetCard
     ? localizedText(workout.title, language)
     : workout.title;
@@ -86,8 +87,8 @@ export function renderWorkoutCard(state, workout, exercises, options = {}) {
 
 
 export function renderWorkoutExerciseSidebar(state, exercises) {
-  const language = state.settings.language;
-  const favoriteIds = new Set(state.store.favorites);
+  const language = selectLanguage(state);
+  const favoriteIds = selectFavoriteExerciseIdSet(state);
   const sortedExercises = [...exercises].sort((left, right) => {
     const favoriteDelta = Number(favoriteIds.has(right.id)) - Number(favoriteIds.has(left.id));
     if (favoriteDelta !== 0) return favoriteDelta;
@@ -140,7 +141,7 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
 
 
 export function renderWorkoutExerciseOption(state, exercise, isFavorite) {
-  const language = state.settings.language;
+  const language = selectLanguage(state);
   const name = getExerciseDisplayName(exercise, language);
   const type = getExerciseTypeLabel(exercise, language);
   const description = localizedText(exercise.shortDescription, language) || t(state, 'emptyValue');
@@ -250,5 +251,4 @@ export function formatTempo(tempo, state) {
 export function capitalize(value) {
   return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
-
 

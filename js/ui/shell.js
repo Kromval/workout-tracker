@@ -3,13 +3,13 @@ import {
   selectProgressCalendarDay,
 } from '../features/calendar.js';
 import { preview as previewAudio, setVolume, stopAll } from '../features/audio.js';
-import { getExerciseCatalog } from '../features/exercises.js';
 import { localizedText, t } from '../i18n/index.js';
 import { pageRenderers, renderListItem, renderWorkoutDraftItem } from '../pages/renderers.js';
 import { getPopularPresetWorkout } from '../features/presets.js';
 import { defaultRoute, routes } from '../core/router.js';
 import { initWorkoutRunUi } from '../session/ui.js';
 import { refreshStore, updateSettings } from '../core/state.js';
+import { selectCustomAudio, selectExerciseCatalog, selectLanguage, selectRoute, selectTheme, selectWorkoutById } from '../core/selectors.js';
 import { navRoutes, routeLabels } from './navigation.js';
 import {
   getAudioMimeFromName,
@@ -54,7 +54,7 @@ export function initShell(state) {
   updateHeaderControls(state);
   updateShellLabels(state);
   bindHeaderActions(state);
-  applyTheme(state.settings.theme);
+  applyTheme(selectTheme(state));
   syncDocumentLanguage(state);
   bindSystemThemeListener(state);
 }
@@ -66,13 +66,14 @@ export function renderApp(state) {
   renderNav(state);
   updateHeaderControls(state);
   updateShellLabels(state);
-  applyTheme(state.settings.theme);
+  applyTheme(selectTheme(state));
   syncDocumentLanguage(state);
 
   const app = document.querySelector('#app');
   if (!app) return;
 
-  const renderPage = pageRenderers[state.route] || pageRenderers[defaultRoute];
+  const route = selectRoute(state);
+  const renderPage = pageRenderers[route] || pageRenderers[defaultRoute];
   app.innerHTML = renderPage(state);
   renderPendingNotice(app);
   app.focus({ preventScroll: true });
@@ -84,7 +85,7 @@ function renderNav(state) {
   if (!nav) return;
 
   nav.innerHTML = routes.filter((route) => navRoutes.includes(route)).map((route) => `
-    <a class="nav__link" href="#${route}" ${state.route === route ? 'aria-current="page"' : ''}>${t(state, routeLabels[route])}</a>
+    <a class="nav__link" href="#${route}" ${selectRoute(state) === route ? 'aria-current="page"' : ''}>${t(state, routeLabels[route])}</a>
   `).join('');
 
   document.querySelector('#nav-toggle')?.setAttribute('aria-label', t(state, 'navigationToggleLabel'));
@@ -165,12 +166,12 @@ function bindHeaderActions(state) {
   });
 
   document.querySelector('#theme-toggle')?.addEventListener('click', () => {
-    const nextTheme = getResolvedTheme(state.settings.theme) === 'dark' ? 'light' : 'dark';
+    const nextTheme = getResolvedTheme(selectTheme(state)) === 'dark' ? 'light' : 'dark';
     updateSettings({ theme: nextTheme });
   });
 
   document.querySelector('#language-toggle')?.addEventListener('click', () => {
-    const nextLanguage = state.settings.language === 'ru' ? 'en' : 'ru';
+    const nextLanguage = selectLanguage(state) === 'ru' ? 'en' : 'ru';
     updateSettings({ language: nextLanguage });
   });
 
@@ -408,13 +409,13 @@ function handleProgressCalendarAction(button, state) {
 function updateHeaderControls(state) {
   const languageToggle = document.querySelector('#language-toggle');
   if (languageToggle) {
-    languageToggle.textContent = state.settings.language.toUpperCase();
+    languageToggle.textContent = selectLanguage(state).toUpperCase();
     languageToggle.setAttribute('aria-label', t(state, 'languageToggleLabel'));
   }
 
   const themeToggle = document.querySelector('#theme-toggle');
   if (themeToggle) {
-    themeToggle.textContent = getResolvedTheme(state.settings.theme) === 'dark' ? '☀' : '◐';
+    themeToggle.textContent = getResolvedTheme(selectTheme(state)) === 'dark' ? '☀' : '◐';
     themeToggle.setAttribute('aria-label', t(state, 'themeToggleLabel'));
   }
 }
@@ -423,7 +424,8 @@ function updateShellLabels(state) {
   const brandText = document.querySelector('#app-brand-text');
   const brandMark = document.querySelector('#app-brand-mark');
   const brandLink = document.querySelector('#app-brand-link');
-  const routeTitle = t(state, routeLabels[state.route] || 'homeTitle');
+  const route = selectRoute(state);
+  const routeTitle = t(state, routeLabels[route] || 'homeTitle');
   const brand = t(state, 'appBrand');
 
   if (brandText) {
@@ -436,7 +438,7 @@ function updateShellLabels(state) {
 
   brandLink?.setAttribute('aria-label', t(state, 'brandHomeLabel'));
 
-  document.title = state.route === 'home'
+  document.title = route === 'home'
     ? brand
     : `${routeTitle} - ${brand}`;
 }
@@ -452,13 +454,13 @@ function getResolvedTheme(theme) {
 }
 
 function syncDocumentLanguage(state) {
-  document.documentElement.lang = state.settings.language;
+  document.documentElement.lang = selectLanguage(state);
 }
 
 function bindSystemThemeListener(state) {
   const handleSystemThemeChange = () => {
-    if (state.settings.theme === 'system') {
-      applyTheme(state.settings.theme);
+    if (selectTheme(state) === 'system') {
+      applyTheme(selectTheme(state));
       updateHeaderControls(state);
     }
   };
@@ -523,7 +525,7 @@ async function handleCustomAudioUpload(input, state) {
     const mimeType = file.type || getAudioMimeFromName(file.name);
     const dataUrl = normalizeAudioDataUrl(await readFileAsDataUrl(file), mimeType);
     const customAudio = {
-      ...(state.settings.customAudio || {}),
+      ...selectCustomAudio(state),
       [eventName]: {
         name: file.name,
         type: mimeType,
@@ -547,7 +549,7 @@ function handleCustomAudioReset(button, state) {
     return;
   }
 
-  const customAudio = { ...(state.settings.customAudio || {}) };
+  const customAudio = { ...selectCustomAudio(state) };
   delete customAudio[eventName];
   updateSettings({ customAudio });
   setCustomAudioStatus(t(state, 'customAudioRemoved'));
@@ -626,7 +628,7 @@ function setImportExportStatus(message, type = 'success') {
 function handleExerciseAction(button, state) {
   const exerciseId = button.dataset.exerciseId;
   const action = button.dataset.exerciseAction;
-  const exercise = getExerciseCatalog(state).find((item) => item.id === exerciseId);
+  const exercise = selectExerciseCatalog(state).find((item) => item.id === exerciseId);
 
   if (!exercise) {
     window.alert(t(state, 'exerciseNotFound'));
@@ -674,7 +676,7 @@ function handleExerciseAction(button, state) {
 function handleWorkoutAction(button, state) {
   const workoutId = button.dataset.workoutId;
   const action = button.dataset.workoutAction;
-  const workout = state.store.workouts.find((item) => item.id === workoutId);
+  const workout = selectWorkoutById(state, workoutId);
 
   if (!workout) {
     window.alert(t(state, 'workoutNotFound'));
@@ -710,7 +712,7 @@ function handlePresetWorkoutAction(button, state) {
     return;
   }
 
-  const language = state.settings.language;
+  const language = selectLanguage(state);
   let workout = null;
 
   try {
@@ -747,7 +749,7 @@ function handlePresetWorkoutAction(button, state) {
 }
 
 function getLocalizedExerciseName(exercise, state) {
-  const language = state.settings.language;
+  const language = selectLanguage(state);
   return localizedText(exercise.name, language) || exercise.id;
 }
 
@@ -776,7 +778,7 @@ function handleWorkoutAddExercise(button, state) {
   const picker = form?.querySelector('[data-workout-exercise-picker]');
   const items = form?.querySelector('[data-workout-items]');
   const exerciseId = button.dataset.workoutAddExerciseId || picker?.value;
-  const exercise = getExerciseCatalog(state).find((item) => item.id === exerciseId);
+  const exercise = selectExerciseCatalog(state).find((item) => item.id === exerciseId);
 
   if (!exercise || !items) {
     setWorkoutFormStatus(form, t(state, 'workoutExerciseRequired'), 'error');
@@ -951,7 +953,7 @@ function handleWorkoutFormSubmit(form, state) {
     return;
   }
 
-  const knownExerciseIds = new Set(getExerciseCatalog(state).map((exercise) => exercise.id));
+  const knownExerciseIds = new Set(selectExerciseCatalog(state).map((exercise) => exercise.id));
   const unknownExerciseRows = rows.filter((row) => !knownExerciseIds.has(row.dataset.exerciseId || ''));
   if (unknownExerciseRows.length > 0) {
     markInvalidControls(form, unknownExerciseRows);
@@ -1145,4 +1147,3 @@ function setExerciseFormStatus(form, message, type = 'success') {
 function clearExerciseFormStatus(form) {
   setExerciseFormStatus(form, '');
 }
-

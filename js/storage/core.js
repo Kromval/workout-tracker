@@ -107,8 +107,6 @@
  *   customExercises: Exercise[],
  *   workouts: Workout[],
  *   history: HistoryEntry[],
- *   favorites: string[],
- *   customAudio: Record<string, string | CustomAudioEntry>,
  *   activeSession: object | null
  * }} WorkoutTrackerStore
  */
@@ -117,10 +115,12 @@ import {
   AUDIO_EVENTS,
   DEFAULT_STORE,
   EXPORT_DATA_KEYS,
+  IMPORT_DATA_KEYS,
   IMPORT_MODES,
   STORAGE_KEY,
   STORAGE_VERSION,
 } from './schema.js';
+import { isFutureStorageVersion, migrateStore } from './migrations.js';
 
 export { DEFAULT_SETTINGS, DEFAULT_STORE, IMPORT_MODES, STORAGE_META } from './schema.js';
 export {
@@ -163,8 +163,13 @@ import {
 } from './records.js';
 
 export function loadStore() {
-  const store = migrateStore(readRawStore());
-  initializeStorage(store);
+  const rawStore = readRawStore();
+  const store = migrateStore(rawStore);
+
+  if (!isFutureStorageVersion(rawStore)) {
+    initializeStorage(store);
+  }
+
   return store;
 }
 
@@ -241,8 +246,6 @@ export function getSettings() {
 export function setSettings(settings) {
   const store = loadStore();
   store.settings = createSettings(settings);
-  store.favorites = store.settings.favoriteExerciseIds;
-  store.customAudio = store.settings.customAudio;
   return saveStore(store).settings;
 }
 
@@ -252,8 +255,6 @@ export function saveSettings(settingsPatch) {
     ...store.settings,
     ...settingsPatch,
   });
-  store.favorites = store.settings.favoriteExerciseIds;
-  store.customAudio = store.settings.customAudio;
   return saveStore(store).settings;
 }
 
@@ -266,8 +267,6 @@ export function saveLastOpenedWorkout(id) {
     ...store.settings,
     lastOpenedWorkoutId: workout?.id || null,
   });
-  store.favorites = store.settings.favoriteExerciseIds;
-  store.customAudio = store.settings.customAudio;
 
   return saveStore(store).settings;
 }
@@ -362,8 +361,7 @@ export function deleteCustomExercise(id) {
   const store = loadStore();
   const initialLength = store.customExercises.length;
   store.customExercises = store.customExercises.filter((exercise) => exercise.id !== id);
-  store.favorites = store.favorites.filter((itemId) => itemId !== id);
-  store.settings.favoriteExerciseIds = store.favorites;
+  store.settings.favoriteExerciseIds = store.settings.favoriteExerciseIds.filter((itemId) => itemId !== id);
   saveStore(store);
   return store.customExercises.length !== initialLength;
 }
@@ -604,14 +602,16 @@ export function getHistoryByDate(dateString) {
 }
 
 export function getFavorites() {
-  return loadStore().favorites;
+  return loadStore().settings.favoriteExerciseIds;
 }
 
 export function setFavorites(favorites) {
   const store = loadStore();
-  store.favorites = uniqueStrings(favorites);
-  store.settings.favoriteExerciseIds = store.favorites;
-  return saveStore(store).favorites;
+  store.settings = createSettings({
+    ...store.settings,
+    favoriteExerciseIds: uniqueStrings(favorites),
+  });
+  return saveStore(store).settings.favoriteExerciseIds;
 }
 
 export function isFavoriteExercise(exerciseId) {
@@ -628,20 +628,24 @@ export function toggleFavoriteExercise(exerciseId) {
     favorites.add(exerciseId);
   }
 
-  store.favorites = Array.from(favorites);
-  store.settings.favoriteExerciseIds = store.favorites;
-  return saveStore(store).favorites;
+  store.settings = createSettings({
+    ...store.settings,
+    favoriteExerciseIds: Array.from(favorites),
+  });
+  return saveStore(store).settings.favoriteExerciseIds;
 }
 
 export function getCustomAudio() {
-  return loadStore().customAudio;
+  return loadStore().settings.customAudio;
 }
 
 export function setCustomAudio(customAudio) {
   const store = loadStore();
-  store.customAudio = sanitizeCustomAudio(customAudio);
-  store.settings.customAudio = store.customAudio;
-  return saveStore(store).customAudio;
+  store.settings = createSettings({
+    ...store.settings,
+    customAudio: sanitizeCustomAudio(customAudio),
+  });
+  return saveStore(store).settings.customAudio;
 }
 
 export function getActiveSession() {
@@ -686,11 +690,11 @@ function validateImportPayload(payload) {
 
   const source = isPlainObject(payload.data) ? payload.data : payload;
   const errors = [];
-  const allowedKeys = new Set(EXPORT_DATA_KEYS);
-  const presentKeys = EXPORT_DATA_KEYS.filter((key) => Object.prototype.hasOwnProperty.call(source, key));
+  const allowedKeys = new Set(IMPORT_DATA_KEYS);
+  const presentKeys = IMPORT_DATA_KEYS.filter((key) => Object.prototype.hasOwnProperty.call(source, key));
 
   if (presentKeys.length === 0) {
-    errors.push(`JSON должен содержать хотя бы один раздел: ${EXPORT_DATA_KEYS.join(', ')}.`);
+    errors.push(`JSON должен содержать хотя бы один раздел: ${IMPORT_DATA_KEYS.join(', ')}.`);
   }
 
   Object.keys(source).forEach((key) => {
@@ -747,7 +751,7 @@ function validateImportPayload(payload) {
     throwImportValidationError(errors);
   }
 
-  return EXPORT_DATA_KEYS.reduce((result, key) => {
+  return IMPORT_DATA_KEYS.reduce((result, key) => {
     if (Object.prototype.hasOwnProperty.call(source, key)) {
       result[key] = clone(source[key]);
     }
@@ -757,35 +761,15 @@ function validateImportPayload(payload) {
 }
 
 function createReplaceStore(payload) {
-  return syncDuplicatedSettingsFields({
+  return {
     ...DEFAULT_STORE,
-    ...payload,
-  });
+    ...withoutLegacyFields(payload),
+    settings: mergeImportedSettings(DEFAULT_STORE.settings, payload),
+  };
 }
 
 function createMergedStore(currentStore, payload) {
   const nextStore = clone(currentStore);
-
-  if (isPlainObject(payload.settings)) {
-    nextStore.settings = {
-      ...nextStore.settings,
-      ...payload.settings,
-    };
-
-    if (Array.isArray(payload.settings.favoriteExerciseIds)) {
-      nextStore.favorites = uniqueStrings([
-        ...nextStore.favorites,
-        ...payload.settings.favoriteExerciseIds,
-      ]);
-    }
-
-    if (isPlainObject(payload.settings.customAudio)) {
-      nextStore.customAudio = {
-        ...nextStore.customAudio,
-        ...payload.settings.customAudio,
-      };
-    }
-  }
 
   if (Array.isArray(payload.customExercises)) {
     nextStore.customExercises = mergeById(nextStore.customExercises, payload.customExercises);
@@ -799,43 +783,35 @@ function createMergedStore(currentStore, payload) {
     nextStore.history = mergeById(nextStore.history, payload.history);
   }
 
-  if (Array.isArray(payload.favorites)) {
-    nextStore.favorites = uniqueStrings([...nextStore.favorites, ...payload.favorites]);
-  }
-
-  if (isPlainObject(payload.customAudio)) {
-    nextStore.customAudio = {
-      ...nextStore.customAudio,
-      ...payload.customAudio,
-    };
-  }
-
-  nextStore.settings.favoriteExerciseIds = uniqueStrings([
-    ...nextStore.settings.favoriteExerciseIds,
-    ...nextStore.favorites,
-  ]);
-  nextStore.settings.customAudio = {
-    ...nextStore.settings.customAudio,
-    ...nextStore.customAudio,
-  };
+  nextStore.settings = mergeImportedSettings(nextStore.settings, payload);
 
   return nextStore;
 }
 
-function syncDuplicatedSettingsFields(store) {
-  const nextStore = clone(store);
+function mergeImportedSettings(currentSettings, payload) {
+  const importedSettings = isPlainObject(payload.settings) ? payload.settings : {};
 
-  if (isPlainObject(nextStore.settings)) {
-    if (!Array.isArray(nextStore.favorites) || nextStore.favorites.length === 0) {
-      nextStore.favorites = uniqueStrings(nextStore.settings.favoriteExerciseIds);
-    }
+  return createSettings({
+    ...currentSettings,
+    ...importedSettings,
+    favoriteExerciseIds: uniqueStrings([
+      ...uniqueStrings(currentSettings.favoriteExerciseIds),
+      ...uniqueStrings(importedSettings.favoriteExerciseIds),
+      ...uniqueStrings(payload.favorites),
+    ]),
+    customAudio: {
+      ...sanitizeCustomAudio(currentSettings.customAudio),
+      ...sanitizeCustomAudio(importedSettings.customAudio),
+      ...sanitizeCustomAudio(payload.customAudio),
+    },
+  });
+}
 
-    if (!isPlainObject(nextStore.customAudio) || Object.keys(nextStore.customAudio).length === 0) {
-      nextStore.customAudio = sanitizeCustomAudio(nextStore.settings.customAudio);
-    }
-  }
-
-  return nextStore;
+function withoutLegacyFields(payload) {
+  const nextPayload = clone(payload);
+  delete nextPayload.favorites;
+  delete nextPayload.customAudio;
+  return nextPayload;
 }
 
 function validateObjectArray(items, key, errors) {
@@ -863,10 +839,6 @@ function isValidImportAudioValue(value) {
   }
 
   return typeof value.dataUrl === 'string';
-}
-
-function migrateStore(store) {
-  return sanitizeStore(store);
 }
 
 function readRawStore() {
@@ -903,4 +875,3 @@ function hasLocalStorage() {
     return false;
   }
 }
-

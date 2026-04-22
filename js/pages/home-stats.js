@@ -1,6 +1,7 @@
 import { getStatsSummary } from '../features/history.js';
 import { t } from '../i18n/index.js';
 import { asArray, escapeHtml } from '../core/utils.js';
+import { selectLanguage } from '../core/selectors.js';
 
 export function renderHomeStat(state, value, labelKey) {
   return `
@@ -17,7 +18,7 @@ export function renderHomeActivityStats(state, stats) {
   const items = [
     ['homeStatsWeekWorkouts', stats.weekWorkouts],
     ['homeStatsMonthWorkouts', stats.monthWorkouts],
-    ['homeStatsTotalTime', formatCompactDuration(stats.totalDurationSec, state.settings.language)],
+    ['homeStatsTotalTime', formatCompactDuration(stats.totalDurationSec, selectLanguage(state))],
     ['homeStatsCompletedExercises', stats.totalExercisesCompleted],
     ['homeStatsActiveStreak', stats.activeDayStreak],
   ];
@@ -163,5 +164,4 @@ export function formatCompactDuration(totalSec, language = 'ru') {
 
   return `${hours} ${hourUnit} ${minutes} ${minuteUnit}`;
 }
-
 

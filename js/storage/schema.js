@@ -1,12 +1,19 @@
 export const STORAGE_KEY = 'workout-tracker:data';
-export const STORAGE_VERSION = 1;
+export const STORAGE_VERSION = 3;
+export const MIN_SUPPORTED_STORAGE_VERSION = 1;
 export const EXPORT_DATA_KEYS = [
   'settings',
   'customExercises',
   'workouts',
   'history',
+];
+export const LEGACY_IMPORT_DATA_KEYS = [
   'favorites',
   'customAudio',
+];
+export const IMPORT_DATA_KEYS = [
+  ...EXPORT_DATA_KEYS,
+  ...LEGACY_IMPORT_DATA_KEYS,
 ];
 
 export const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
@@ -52,8 +59,6 @@ export const DEFAULT_STORE = Object.freeze({
   customExercises: [],
   workouts: [],
   history: [],
-  favorites: [],
-  customAudio: {},
   activeSession: null,
 });
 

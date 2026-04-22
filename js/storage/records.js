@@ -181,33 +181,13 @@ export function validateWorkoutForSave(workout) {
 export function sanitizeStore(store) {
   const source = isPlainObject(store) ? store : {};
   const settings = createSettings(source.settings);
-  const favorites = Array.isArray(source.favorites)
-    ? uniqueStrings(source.favorites)
-    : uniqueStrings(settings.favoriteExerciseIds);
-  const customAudio = isPlainObject(source.customAudio)
-    ? sanitizeCustomAudio(source.customAudio)
-    : sanitizeCustomAudio(settings.customAudio);
-
-  if (Array.isArray(source.favorites) && source.favorites.length > 0) {
-    settings.favoriteExerciseIds = favorites;
-  }
-
-  if (isPlainObject(source.customAudio) && Object.keys(source.customAudio).length > 0) {
-    settings.customAudio = customAudio;
-  }
 
   return {
     version: STORAGE_VERSION,
-    settings: {
-      ...settings,
-      favoriteExerciseIds: favorites,
-      customAudio,
-    },
+    settings,
     customExercises: sortByUpdatedAtDesc(asArray(source.customExercises).map(sanitizeCustomExercise)),
     workouts: sortByUpdatedAtDesc(asArray(source.workouts).map(sanitizeWorkout)),
     history: sortHistoryEntries(asArray(source.history).map(sanitizeHistoryEntry)),
-    favorites,
-    customAudio,
     activeSession: sanitizeActiveSession(source.activeSession),
   };
 }
@@ -482,5 +462,4 @@ export function sanitizeActiveSession(session) {
     startedAt: normalizeIsoDate(session.startedAt, nowIso()),
   };
 }
-
 

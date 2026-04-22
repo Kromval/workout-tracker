@@ -38,7 +38,10 @@ function normalizeBuiltInExercises() {
 export function getExerciseCatalog(state) {
   const builtIns = asArray(state.exercises).map((exercise) => normalizeExerciseRecord(exercise, false));
   const builtInIds = new Set(builtIns.map((exercise) => exercise.id));
-  const customExercises = listCustomExercises()
+  const customSource = Array.isArray(state.store?.customExercises)
+    ? state.store.customExercises
+    : listCustomExercises();
+  const customExercises = customSource
     .map((exercise) => normalizeExerciseRecord(exercise, true))
     .filter((exercise) => !builtInIds.has(exercise.id));
 

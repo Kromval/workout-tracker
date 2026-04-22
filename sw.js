@@ -1,4 +1,4 @@
-const CACHE_NAME = 'workout-planner-v4';
+const CACHE_NAME = 'workout-planner-v8';
 
 const APP_SHELL = [
   "./",
@@ -11,6 +11,7 @@ const APP_SHELL = [
   "./js/app.js",
   "./js/core/pwa.js",
   "./js/core/router.js",
+  "./js/core/selectors.js",
   "./js/core/state.js",
   "./js/core/utils.js",
   "./js/features/audio.js",
@@ -39,6 +40,7 @@ const APP_SHELL = [
   "./js/session/utils.js",
   "./js/storage/core.js",
   "./js/storage/helpers.js",
+  "./js/storage/migrations.js",
   "./js/storage/records.js",
   "./js/storage/schema.js",
   "./js/ui/audio-file-utils.js",

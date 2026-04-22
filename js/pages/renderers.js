@@ -1,11 +1,21 @@
 import { renderProgressCalendar } from '../features/calendar.js';
 import { audioEvents } from '../features/audio.js';
-import { getExerciseCatalog } from '../features/exercises.js';
 import { getStatsSummary } from '../features/history.js';
 import { localizedText, t } from '../i18n/index.js';
 import { renderEmptyState, renderListItem } from './components.js';
-import { getPopularPresetWorkouts } from '../features/presets.js';
 import { getRouteParams } from '../core/router.js';
+import {
+  selectCustomExerciseCount,
+  selectExerciseCatalog,
+  selectFavoriteExerciseIdSet,
+  selectHistory,
+  selectLanguage,
+  selectLastOpenedWorkout,
+  selectPresetWorkouts,
+  selectUserWorkouts,
+  selectWorkoutById,
+  selectWorkouts,
+} from '../core/selectors.js';
 import {
   asArray,
   escapeAttribute,
@@ -17,7 +27,6 @@ import {
 import {
   calculateEstimatedWorkoutDuration,
   calculateWorkoutCaloriesEstimate,
-  getWorkouts,
 } from '../features/workouts.js';
 
 export { renderListItem } from './components.js';
@@ -50,12 +59,13 @@ function renderPlaceholder(state, titleKey) {
 }
 
 export function renderHomePage(state) {
-  const exercises = getExerciseCatalog(state);
-  const userWorkouts = getWorkouts().filter((workout) => !workout.isPreset);
-  const presetWorkouts = getPopularPresetWorkouts();
-  const customExerciseCount = state.store.customExercises.length;
-  const activityStats = getHomeActivityStats(state.store.history);
-  const lastOpenedWorkout = getLastOpenedWorkout(state, userWorkouts);
+  const exercises = selectExerciseCatalog(state);
+  const userWorkouts = selectUserWorkouts(state);
+  const presetWorkouts = selectPresetWorkouts();
+  const customExerciseCount = selectCustomExerciseCount(state);
+  const history = selectHistory(state);
+  const activityStats = getHomeActivityStats(history);
+  const lastOpenedWorkout = selectLastOpenedWorkout(state);
 
   return `
     <section class="page home-page">
@@ -88,7 +98,7 @@ export function renderHomePage(state) {
 
       ${renderHomeActivityStats(state, activityStats)}
 
-      ${renderProgressCalendar(state.store.history, { language: state.settings.language })}
+      ${renderProgressCalendar(history, { language: selectLanguage(state) })}
 
       <section class="home-section" aria-labelledby="user-workouts-heading">
         <div class="section-header">
@@ -124,19 +134,10 @@ export function renderHomePage(state) {
   `;
 }
 
-function getLastOpenedWorkout(state, workouts) {
-  const workoutId = state.settings.lastOpenedWorkoutId;
-
-  if (!workoutId) {
-    return null;
-  }
-
-  return workouts.find((workout) => workout.id === workoutId) || null;
-}
-
 export function renderExercisesPage(state) {
-  const language = state.settings.language;
-  const exercises = getExerciseCatalog(state);
+  const language = selectLanguage(state);
+  const exercises = selectExerciseCatalog(state);
+  const favoriteIds = selectFavoriteExerciseIdSet(state);
 
   // Подготовка фильтров
   const allMuscles = new Set();
@@ -163,7 +164,7 @@ export function renderExercisesPage(state) {
     const searchText = `${name} ${desc} ${exercise.muscles.join(' ')}`.toLowerCase();
     const typeText = localizedText(exercise.type, language).toLowerCase();
     const musclesText = exercise.muscles.join('|');
-    const isFavorite = state.store.favorites.includes(exercise.id);
+    const isFavorite = favoriteIds.has(exercise.id);
 
     return `
       <a class="exercise-card" href="#exercise-view/${encodeURIComponent(exercise.id)}"
@@ -224,9 +225,9 @@ export function renderExercisesPage(state) {
 }
 
 export function renderExerciseViewPage(state) {
-  const language = state.settings.language;
+  const language = selectLanguage(state);
   const { id } = getRouteParams();
-  const exercise = getExerciseCatalog(state).find((item) => item.id === id);
+  const exercise = selectExerciseCatalog(state).find((item) => item.id === id);
 
   if (!exercise) {
     return `
@@ -249,7 +250,7 @@ export function renderExerciseViewPage(state) {
   }
 
   const name = localizedText(exercise.name, language);
-  const isFavorite = state.store.favorites.includes(exercise.id);
+  const isFavorite = selectFavoriteExerciseIdSet(state).has(exercise.id);
   const customActions = exercise.isCustom ? `
     <button class="button" type="button" data-exercise-action="edit" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'editExercise')}</button>
     <button class="button button--danger" type="button" data-exercise-action="delete" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'deleteExercise')}</button>
@@ -302,7 +303,7 @@ export function renderExerciseCreatePage(state) {
 
 export function renderExerciseEditPage(state) {
   const { id } = getRouteParams();
-  const exercise = getExerciseCatalog(state).find((item) => item.id === id && item.isCustom);
+  const exercise = selectExerciseCatalog(state).find((item) => item.id === id && item.isCustom);
 
   return renderExerciseFormPage(state, exercise || null, id);
 }
@@ -313,18 +314,18 @@ export function renderWorkoutCreatePage(state) {
 
 export function renderWorkoutEditPage(state) {
   const { id } = getRouteParams();
-  const workout = getWorkouts().find((item) => item.id === id);
+  const workout = selectWorkoutById(state, id);
 
   return renderWorkoutFormPage(state, workout || null, id);
 }
 
 export function renderWorkoutViewPage(state) {
   const { id } = getRouteParams();           // id из хеша
-  const exercises = getExerciseCatalog(state);
+  const exercises = selectExerciseCatalog(state);
 
   // === Если ID нет — показываем список всех пользовательских тренировок ===
   if (!id) {
-    const userWorkouts = getWorkouts().filter((workout) => !workout.isPreset);
+    const userWorkouts = selectUserWorkouts(state);
 
     return `
       <section class="page">
@@ -343,7 +344,7 @@ export function renderWorkoutViewPage(state) {
   }
 
   // === Если ID есть — показываем детальную страницу тренировки (как было) ===
-  const workout = getWorkouts().find((item) => item.id === id);
+  const workout = selectWorkoutById(state, id);
 
   if (!workout) {
     return `
@@ -412,7 +413,7 @@ export function renderWorkoutViewPage(state) {
 
 export function renderWorkoutRunPage(state) {
   const { id } = getRouteParams();
-  const workout = getWorkouts().find((item) => item.id === id);
+  const workout = selectWorkoutById(state, id);
 
   if (!workout) {
     return `
@@ -601,4 +602,3 @@ export const pageRenderers = {
   'workout-run': renderWorkoutRunPage,
   settings: renderSettingsPage,
 };
-

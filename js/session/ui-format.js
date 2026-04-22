@@ -1,6 +1,7 @@
 import { localizedText, t } from '../i18n/index.js';
 import { SESSION_STATUSES } from './core.js';
 import { escapeHtml } from '../core/utils.js';
+import { selectLanguage } from '../core/selectors.js';
 
 export function renderFinishStat(label, value) {
   return `
@@ -106,7 +107,7 @@ export function getStepExerciseName(step, state) {
     return t(state, 'sessionFinished');
   }
 
-  return localizedText(step.exercise?.name, state.settings.language) || step.exerciseId || t(state, 'emptyValue');
+  return localizedText(step.exercise?.name, selectLanguage(state)) || step.exerciseId || t(state, 'emptyValue');
 }
 
 
@@ -185,5 +186,4 @@ export function getStatusLabel(status, state) {
 export function isTerminal(status) {
   return status === SESSION_STATUSES.COMPLETED || status === SESSION_STATUSES.ABORTED;
 }
-
 

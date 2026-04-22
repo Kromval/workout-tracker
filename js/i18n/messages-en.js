@@ -214,7 +214,7 @@ export const enMessages = {
   "audioEvent_exerciseComplete": "Exercise complete",
   "audioEvent_workoutComplete": "Workout complete",
   "dataSettings": "Import and export data",
-  "dataSettingsDescription": "JSON includes settings, customExercises, workouts, history, favorites, and customAudio.",
+  "dataSettingsDescription": "JSON includes settings, customExercises, workouts, and history.",
   "exportJson": "Export JSON",
   "importJson": "Import JSON",
   "importMode": "Import mode",

@@ -8,6 +8,7 @@ import {
   TICK_INTERVAL_MS,
 } from './model.js';
 import { normalizeWorkout } from '../features/workouts.js';
+import { playSignal, stopAll as stopAudioSignals } from '../features/audio.js';
 
 export { SESSION_PHASES, SESSION_STATUSES } from './model.js';
 export { buildWorkoutSteps } from './steps.js';

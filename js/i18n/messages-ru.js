@@ -214,7 +214,7 @@ export const ruMessages = {
   "audioEvent_exerciseComplete": "Упражнение завершено",
   "audioEvent_workoutComplete": "Тренировка завершена",
   "dataSettings": "Импорт и экспорт данных",
-  "dataSettingsDescription": "JSON включает settings, customExercises, workouts, history, favorites и customAudio.",
+  "dataSettingsDescription": "JSON включает settings, customExercises, workouts и history.",
   "exportJson": "Экспорт JSON",
   "importJson": "Импорт JSON",
   "importMode": "Режим импорта",
