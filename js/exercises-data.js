@@ -1,0 +1,3891 @@
+// Generated from data/exercises.json. Keep this module static so built-in exercises work without fetch or a server.
+export const builtInExerciseRecords = [
+  {
+    "id": "push-ups",
+    "name": {
+      "ru": "Отжимания",
+      "en": "Push-ups"
+    },
+    "shortDescription": {
+      "ru": "Базовое упражнение для груди, плеч и трицепсов.",
+      "en": "A basic chest, shoulder, and triceps exercise."
+    },
+    "instruction": {
+      "ru": "Держите корпус ровно и опускайтесь контролируемо.",
+      "en": "Keep the body straight and lower with control."
+    },
+    "effect": {
+      "ru": "Развивает силу верхней части тела.",
+      "en": "Builds upper body strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "squats",
+    "name": {
+      "ru": "Приседания",
+      "en": "Squats"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для ног и ягодиц.",
+      "en": "A lower-body exercise for legs and glutes."
+    },
+    "instruction": {
+      "ru": "Колени направлены по линии стоп, спина нейтральная.",
+      "en": "Track knees over feet and keep a neutral spine."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги и улучшает мобильность.",
+      "en": "Strengthens legs and improves mobility."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "plank",
+    "name": {
+      "ru": "Планка",
+      "en": "Plank"
+    },
+    "shortDescription": {
+      "ru": "Статическое упражнение для кора.",
+      "en": "A static core exercise."
+    },
+    "instruction": {
+      "ru": "Держите прямую линию от плеч до пяток.",
+      "en": "Hold a straight line from shoulders to heels."
+    },
+    "effect": {
+      "ru": "Укрепляет мышцы кора и стабилизацию.",
+      "en": "Improves core strength and stability."
+    },
+    "type": {
+      "ru": "статика",
+      "en": "static"
+    },
+    "muscles": [
+      "core",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "hold"
+    ],
+    "executionMode": "hold",
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "jumping-jacks",
+    "name": {
+      "ru": "Прыжки Jumping Jacks",
+      "en": "Jumping Jacks"
+    },
+    "shortDescription": {
+      "ru": "Кардио-разминка для всего тела.",
+      "en": "A full-body cardio warm-up."
+    },
+    "instruction": {
+      "ru": "Прыгайте мягко и сохраняйте ровный ритм.",
+      "en": "Land softly and keep a steady rhythm."
+    },
+    "effect": {
+      "ru": "Повышает пульс и разогревает мышцы.",
+      "en": "Raises heart rate and warms muscles."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "full-body"
+    ],
+    "tags": [
+      "warmup",
+      "cardio"
+    ],
+    "executionMode": "time",
+    "estimatedCalories": 9,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "lunges",
+    "name": {
+      "ru": "Выпады",
+      "en": "Lunges"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для ног, ягодиц и баланса.",
+      "en": "A lower-body exercise for legs, glutes, and balance."
+    },
+    "instruction": {
+      "ru": "Шагните вперед и опуститесь, пока оба колена не согнутся под 90 градусов.",
+      "en": "Step forward and lower until both knees are bent at 90 degrees."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги, ягодицы и улучшает координацию.",
+      "en": "Strengthens legs, glutes, and improves coordination."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "burpees",
+    "name": {
+      "ru": "Берпи",
+      "en": "Burpees"
+    },
+    "shortDescription": {
+      "ru": "Полнотелесное кардио-упражнение с отжиманием.",
+      "en": "A full-body cardio exercise with push-up."
+    },
+    "instruction": {
+      "ru": "Присядьте, отожмитесь, подпрыгните вверх и хлопните руками.",
+      "en": "Squat down, do a push-up, jump up and clap overhead."
+    },
+    "effect": {
+      "ru": "Развивает силу, выносливость и сжигает много калорий.",
+      "en": "Builds full-body strength, endurance, and burns lots of calories."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "full-body"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "cardio"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 10,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "mountain-climbers",
+    "name": {
+      "ru": "Скалолазы",
+      "en": "Mountain Climbers"
+    },
+    "shortDescription": {
+      "ru": "Динамическое упражнение для кора и кардио.",
+      "en": "Dynamic core and cardio exercise."
+    },
+    "instruction": {
+      "ru": "В положении планки поочередно подтягивайте колени к груди в быстром темпе.",
+      "en": "In plank position, alternately drive knees toward chest quickly."
+    },
+    "effect": {
+      "ru": "Укрепляет пресс, плечи и повышает пульс.",
+      "en": "Strengthens abs, shoulders, and raises heart rate."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "core",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "cardio"
+    ],
+    "executionMode": "time",
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "glute-bridge",
+    "name": {
+      "ru": "Ягодичный мостик",
+      "en": "Glute Bridge"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для ягодиц и задней цепи.",
+      "en": "Exercise for glutes and posterior chain."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, поднимите таз вверх, сжимая ягодицы.",
+      "en": "Lie on back, lift hips up while squeezing glutes."
+    },
+    "effect": {
+      "ru": "Укрепляет ягодицы, спину и улучшает осанку.",
+      "en": "Strengthens glutes, lower back, and improves posture."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "bicycle-crunches",
+    "name": {
+      "ru": "Велосипед",
+      "en": "Bicycle Crunches"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для пресса и косых мышц.",
+      "en": "Core exercise targeting abs and obliques."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, поочередно подтягивайте противоположное колено к локтю.",
+      "en": "Lie on back, alternately bring opposite knee to elbow."
+    },
+    "effect": {
+      "ru": "Развивает мышцы пресса и улучшает рельеф.",
+      "en": "Develops abs and improves definition."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "obliques"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "leg-raises",
+    "name": {
+      "ru": "Подъемы ног",
+      "en": "Leg Raises"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для нижнего пресса.",
+      "en": "Lower abs exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, поднимите прямые ноги вверх и медленно опустите.",
+      "en": "Lie on back, raise straight legs up and lower slowly."
+    },
+    "effect": {
+      "ru": "Укрепляет нижнюю часть пресса и стабилизаторы.",
+      "en": "Strengthens lower abs and stabilizers."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "superman",
+    "name": {
+      "ru": "Супермен",
+      "en": "Superman"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для спины и ягодиц.",
+      "en": "Back and glute exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на животе, одновременно поднимите руки, грудь и ноги.",
+      "en": "Lie face down, lift arms, chest, and legs simultaneously."
+    },
+    "effect": {
+      "ru": "Укрепляет мышцы спины и улучшает осанку.",
+      "en": "Strengthens back muscles and improves posture."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "glutes",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "high-knees",
+    "name": {
+      "ru": "Высокие колени",
+      "en": "High Knees"
+    },
+    "shortDescription": {
+      "ru": "Кардио-упражнение для ног и координации.",
+      "en": "Cardio exercise for legs and coordination."
+    },
+    "instruction": {
+      "ru": "Бегите на месте, высоко поднимая колени к груди.",
+      "en": "Run in place, lifting knees high toward chest."
+    },
+    "effect": {
+      "ru": "Повышает пульс, разогревает ноги и улучшает выносливость.",
+      "en": "Raises heart rate, warms legs, and builds endurance."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "full-body"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "cardio"
+    ],
+    "executionMode": "time",
+    "estimatedCalories": 9,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "russian-twists",
+    "name": {
+      "ru": "Русские скручивания",
+      "en": "Russian Twists"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для косых мышц живота.",
+      "en": "Obliques and core exercise."
+    },
+    "instruction": {
+      "ru": "Сидя, откиньтесь назад и поворачивайте корпус из стороны в сторону.",
+      "en": "Sit with knees bent, lean back, and rotate torso side to side."
+    },
+    "effect": {
+      "ru": "Укрепляет косые мышцы и улучшает ротационную силу.",
+      "en": "Strengthens obliques and improves rotational power."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "obliques"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "wall-sit",
+    "name": {
+      "ru": "Приседание у стены",
+      "en": "Wall Sit"
+    },
+    "shortDescription": {
+      "ru": "Статическое упражнение для ног и выносливости.",
+      "en": "Static leg endurance exercise."
+    },
+    "instruction": {
+      "ru": "Прислонитесь спиной к стене и опуститесь, как будто сидите на стуле.",
+      "en": "Lean back against wall and lower into a seated position."
+    },
+    "effect": {
+      "ru": "Укрепляет квадрицепсы и повышает выносливость ног.",
+      "en": "Strengthens quads and builds leg endurance."
+    },
+    "type": {
+      "ru": "статика",
+      "en": "static"
+    },
+    "muscles": [
+      "quads",
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "hold"
+    ],
+    "executionMode": "hold",
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "calf-raises",
+    "name": {
+      "ru": "Подъемы на носки",
+      "en": "Calf Raises"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для икроножных мышц.",
+      "en": "Calf muscle exercise."
+    },
+    "instruction": {
+      "ru": "Стоя, поднимитесь на носки и медленно опуститесь.",
+      "en": "Stand and rise onto toes, then lower slowly."
+    },
+    "effect": {
+      "ru": "Укрепляет икры и улучшает стабильность голеностопа.",
+      "en": "Strengthens calves and improves ankle stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "calves"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "side-plank",
+    "name": {
+      "ru": "Боковая планка",
+      "en": "Side Plank"
+    },
+    "shortDescription": {
+      "ru": "Статическое упражнение для бокового кора.",
+      "en": "Static side core exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на боку, поднимите таз и держите прямую линию.",
+      "en": "Lie on side, lift hips to form a straight line."
+    },
+    "effect": {
+      "ru": "Укрепляет косые мышцы и стабилизаторы.",
+      "en": "Strengthens obliques and stabilizers."
+    },
+    "type": {
+      "ru": "статика",
+      "en": "static"
+    },
+    "muscles": [
+      "core",
+      "obliques",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "hold"
+    ],
+    "executionMode": "hold",
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "diamond-push-ups",
+    "name": {
+      "ru": "Алмазные отжимания",
+      "en": "Diamond Push-ups"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для трицепсов и внутренней части груди.",
+      "en": "Triceps and inner chest exercise."
+    },
+    "instruction": {
+      "ru": "Сложите пальцы в форме алмаза под грудью и опускайтесь.",
+      "en": "Form a diamond with hands under chest and lower down."
+    },
+    "effect": {
+      "ru": "Максимально нагружает трицепсы и внутреннюю грудь.",
+      "en": "Maximally loads triceps and inner chest."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "triceps",
+      "chest"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "pike-push-ups",
+    "name": {
+      "ru": "Отжимания в пике",
+      "en": "Pike Push-ups"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для плеч и верхней части груди.",
+      "en": "Shoulder and upper chest exercise."
+    },
+    "instruction": {
+      "ru": "Поднимите таз вверх в позе «домика» и выполняйте отжимания.",
+      "en": "Lift hips up into pike position and perform push-ups."
+    },
+    "effect": {
+      "ru": "Развивает плечи и заменяет жим над головой.",
+      "en": "Develops shoulders and replaces overhead press."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders",
+      "triceps",
+      "chest"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "squat-jumps",
+    "name": {
+      "ru": "Приседания с прыжком",
+      "en": "Squat Jumps"
+    },
+    "shortDescription": {
+      "ru": "Взрывное упражнение для ног и ягодиц.",
+      "en": "Explosive leg and glute exercise."
+    },
+    "instruction": {
+      "ru": "Присядьте и мощно выпрыгните вверх, мягко приземляясь.",
+      "en": "Squat down and explode upward, landing softly."
+    },
+    "effect": {
+      "ru": "Развивает взрывную силу ног и сжигает калории.",
+      "en": "Builds explosive leg power and burns calories."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "calves"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "cardio"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 1,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 9,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "jump-lunges",
+    "name": {
+      "ru": "Выпады с прыжком",
+      "en": "Jump Lunges"
+    },
+    "shortDescription": {
+      "ru": "Динамические выпады для ног и кардио.",
+      "en": "Dynamic lunges for legs and cardio."
+    },
+    "instruction": {
+      "ru": "Сделайте выпад и в прыжке поменяйте ноги.",
+      "en": "Perform a lunge and switch legs in mid-air."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги, ягодицы и развивает координацию.",
+      "en": "Strengthens legs, glutes, and improves coordination."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "cardio"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 1,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "donkey-kicks",
+    "name": {
+      "ru": "Ослячьи удары",
+      "en": "Donkey Kicks"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для ягодиц и задней поверхности бедра.",
+      "en": "Glute and hamstring exercise."
+    },
+    "instruction": {
+      "ru": "На четвереньках поочередно поднимайте согнутую ногу вверх.",
+      "en": "On all fours, alternately lift bent leg upward."
+    },
+    "effect": {
+      "ru": "Целенаправленно прорабатывает ягодицы.",
+      "en": "Targets glutes specifically."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "fire-hydrants",
+    "name": {
+      "ru": "Пожарные гидранты",
+      "en": "Fire Hydrants"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для боковых ягодиц и стабилизаторов.",
+      "en": "Side glute and stabilizer exercise."
+    },
+    "instruction": {
+      "ru": "На четвереньках отводите согнутую ногу в сторону.",
+      "en": "On all fours, lift bent leg out to the side."
+    },
+    "effect": {
+      "ru": "Укрепляет средние ягодицы и улучшает стабильность.",
+      "en": "Strengthens glute medius and improves stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "bird-dog",
+    "name": {
+      "ru": "Птица-собака",
+      "en": "Bird Dog"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для спины, кора и баланса.",
+      "en": "Back, core, and balance exercise."
+    },
+    "instruction": {
+      "ru": "На четвереньках одновременно вытягивайте противоположные руку и ногу.",
+      "en": "On all fours, extend opposite arm and leg simultaneously."
+    },
+    "effect": {
+      "ru": "Улучшает стабильность и осанку.",
+      "en": "Improves stability and posture."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "back"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dead-bug",
+    "name": {
+      "ru": "Мёртвый жук",
+      "en": "Dead Bug"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для глубоких мышц кора.",
+      "en": "Deep core exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, поочередно опускайте противоположные руку и ногу.",
+      "en": "Lie on back, alternately lower opposite arm and leg."
+    },
+    "effect": {
+      "ru": "Укрепляет пресс без нагрузки на поясницу.",
+      "en": "Strengthens abs without stressing lower back."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "flutter-kicks",
+    "name": {
+      "ru": "Ножницы",
+      "en": "Flutter Kicks"
+    },
+    "shortDescription": {
+      "ru": "Динамическое упражнение для нижнего пресса.",
+      "en": "Lower abs dynamic exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, выполняйте быстрые перекрестные движения ногами.",
+      "en": "Lie on back and perform quick scissor-like kicks."
+    },
+    "effect": {
+      "ru": "Прорабатывает нижний пресс и повышает выносливость.",
+      "en": "Targets lower abs and builds endurance."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "time",
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "v-ups",
+    "name": {
+      "ru": "V-подъёмы",
+      "en": "V-ups"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для всего пресса.",
+      "en": "Full core exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, одновременно поднимайте руки и ноги, касаясь пальцами стоп.",
+      "en": "Lie on back, simultaneously raise arms and legs to touch toes."
+    },
+    "effect": {
+      "ru": "Развивает верхний и нижний пресс.",
+      "en": "Develops upper and lower abs."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "hollow-hold",
+    "name": {
+      "ru": "Пустая лодочка",
+      "en": "Hollow Hold"
+    },
+    "shortDescription": {
+      "ru": "Статическое упражнение для глубокого кора.",
+      "en": "Static deep core exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, оторвите плечи и ноги от пола, держите напряжение.",
+      "en": "Lie on back, lift shoulders and legs off floor and hold tension."
+    },
+    "effect": {
+      "ru": "Укрепляет весь кор и улучшает стабильность.",
+      "en": "Strengthens entire core and improves stability."
+    },
+    "type": {
+      "ru": "статика",
+      "en": "static"
+    },
+    "muscles": [
+      "core"
+    ],
+    "tags": [
+      "home",
+      "hold"
+    ],
+    "executionMode": "hold",
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "shoulder-taps",
+    "name": {
+      "ru": "Касания плеч в планке",
+      "en": "Shoulder Taps"
+    },
+    "shortDescription": {
+      "ru": "Динамическая планка для кора и плеч.",
+      "en": "Dynamic plank for core and shoulders."
+    },
+    "instruction": {
+      "ru": "В положении планки поочередно касайтесь противоположного плеча.",
+      "en": "In plank position, alternately tap opposite shoulder."
+    },
+    "effect": {
+      "ru": "Укрепляет кор и плечи, улучшает баланс.",
+      "en": "Strengthens core and shoulders, improves balance."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "time",
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "reverse-crunches",
+    "name": {
+      "ru": "Обратные скручивания",
+      "en": "Reverse Crunches"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для нижнего пресса.",
+      "en": "Lower abs exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, подтягивайте таз к груди, поднимая ноги.",
+      "en": "Lie on back, curl hips toward chest while lifting legs."
+    },
+    "effect": {
+      "ru": "Целенаправленно прорабатывает нижнюю часть пресса.",
+      "en": "Targets lower abs specifically."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "heel-touches",
+    "name": {
+      "ru": "Касания пяток",
+      "en": "Heel Touches"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для косых мышц живота.",
+      "en": "Obliques exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, поочередно касайтесь пяток руками, скручиваясь.",
+      "en": "Lie on back, alternately reach toward heels while crunching."
+    },
+    "effect": {
+      "ru": "Прорабатывает косые мышцы и улучшает рельеф.",
+      "en": "Works obliques and improves definition."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "obliques"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "single-leg-glute-bridge",
+    "name": {
+      "ru": "Ягодичный мостик на одной ноге",
+      "en": "Single-Leg Glute Bridge"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для ягодиц и стабилизации.",
+      "en": "Glute and stability exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, поднимите таз на одной ноге.",
+      "en": "Lie on back, lift hips using one leg."
+    },
+    "effect": {
+      "ru": "Укрепляет ягодицы и устраняет дисбаланс.",
+      "en": "Strengthens glutes and fixes imbalances."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "lateral-lunges",
+    "name": {
+      "ru": "Боковые выпады",
+      "en": "Lateral Lunges"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для внутренней поверхности бедер.",
+      "en": "Inner thigh and leg exercise."
+    },
+    "instruction": {
+      "ru": "Шагните в сторону и опуститесь в выпад, сохраняя спину прямой.",
+      "en": "Step sideways and lower into a lunge, keeping back straight."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги и улучшает подвижность.",
+      "en": "Strengthens legs and improves mobility."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "adductors"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "bear-crawls",
+    "name": {
+      "ru": "Медвежья ходьба",
+      "en": "Bear Crawls"
+    },
+    "shortDescription": {
+      "ru": "Полнотелесное динамическое упражнение.",
+      "en": "Full-body dynamic exercise."
+    },
+    "instruction": {
+      "ru": "На четвереньках двигайтесь вперед, сохраняя низкое положение.",
+      "en": "On all fours, crawl forward while keeping low."
+    },
+    "effect": {
+      "ru": "Развивает силу, координацию и кардио.",
+      "en": "Builds strength, coordination, and cardio."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "full-body"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "cardio"
+    ],
+    "executionMode": "time",
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "inchworm",
+    "name": {
+      "ru": "Гусеница",
+      "en": "Inchworm"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для всего тела и мобильности.",
+      "en": "Full-body and mobility exercise."
+    },
+    "instruction": {
+      "ru": "Наклонитесь, «шагайте» руками вперед в планку и обратно.",
+      "en": "Bend over, walk hands forward into plank, then back."
+    },
+    "effect": {
+      "ru": "Развивает гибкость, силу и кардио.",
+      "en": "Develops flexibility, strength, and cardio."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "full-body"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "tricep-dips",
+    "name": {
+      "ru": "Отжимания на трицепс",
+      "en": "Tricep Dips"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для трицепсов (на полу или стуле).",
+      "en": "Triceps exercise (floor or chair)."
+    },
+    "instruction": {
+      "ru": "Сидя на краю опоры, опускайте тело, сгибая локти.",
+      "en": "Sit on edge, lower body by bending elbows."
+    },
+    "effect": {
+      "ru": "Целенаправленно прорабатывает трицепсы.",
+      "en": "Targets triceps specifically."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "triceps"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "wide-push-ups",
+    "name": {
+      "ru": "Широкие отжимания",
+      "en": "Wide Push-ups"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для груди и плеч.",
+      "en": "Chest and shoulder exercise."
+    },
+    "instruction": {
+      "ru": "Руки шире плеч, опускайтесь, сохраняя корпус прямым.",
+      "en": "Hands wider than shoulders, lower while keeping body straight."
+    },
+    "effect": {
+      "ru": "Увеличивает нагрузку на грудные мышцы.",
+      "en": "Increases load on chest muscles."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-bench-press",
+    "name": {
+      "ru": "Жим гантелей лёжа",
+      "en": "Dumbbell Bench Press"
+    },
+    "shortDescription": {
+      "ru": "Классическое упражнение для груди, плеч и трицепсов.",
+      "en": "Classic chest, shoulder, and triceps exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, опускайте гантели к груди и выжимайте вверх, сохраняя контроль.",
+      "en": "Lie on your back, lower dumbbells to chest and press up with control."
+    },
+    "effect": {
+      "ru": "Развивает силу и объём грудных мышц.",
+      "en": "Builds chest strength and size."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-overhead-press",
+    "name": {
+      "ru": "Жим гантелей над головой",
+      "en": "Dumbbell Overhead Press"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для плеч и трицепсов.",
+      "en": "Shoulder and triceps exercise."
+    },
+    "instruction": {
+      "ru": "Стоя или сидя, выжимайте гантели вверх от уровня плеч.",
+      "en": "Standing or seated, press dumbbells overhead from shoulder level."
+    },
+    "effect": {
+      "ru": "Развивает дельтовидные мышцы и силу плечевого пояса.",
+      "en": "Develops deltoids and shoulder girdle strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "single-arm-dumbbell-row",
+    "name": {
+      "ru": "Тяга гантели одной рукой",
+      "en": "Single-Arm Dumbbell Row"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для спины и бицепсов.",
+      "en": "Back and biceps exercise."
+    },
+    "instruction": {
+      "ru": "В наклоне с опорой на скамью тяните гантель к бедру.",
+      "en": "In bent-over position with bench support, pull dumbbell toward hip."
+    },
+    "effect": {
+      "ru": "Укрепляет широчайшие мышцы спины и улучшает осанку.",
+      "en": "Strengthens lats and improves posture."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-romanian-deadlift",
+    "name": {
+      "ru": "Румынская тяга с гантелями",
+      "en": "Dumbbell Romanian Deadlift"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для задней цепи и ягодиц.",
+      "en": "Posterior chain and glute exercise."
+    },
+    "instruction": {
+      "ru": "С прямой спиной наклоняйтесь вперёд, опуская гантели вдоль ног.",
+      "en": "With straight back, hinge at hips and lower dumbbells along legs."
+    },
+    "effect": {
+      "ru": "Укрепляет бицепсы бедра, ягодицы и спину.",
+      "en": "Strengthens hamstrings, glutes, and lower back."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-lunges",
+    "name": {
+      "ru": "Выпады с гантелями",
+      "en": "Dumbbell Lunges"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для ног, ягодиц и баланса.",
+      "en": "Legs, glutes, and balance exercise."
+    },
+    "instruction": {
+      "ru": "Шагните вперёд с гантелями в руках и опуститесь в выпад.",
+      "en": "Step forward holding dumbbells and lower into a lunge."
+    },
+    "effect": {
+      "ru": "Укрепляет квадрицепсы, ягодицы и улучшает координацию.",
+      "en": "Strengthens quads, glutes, and improves coordination."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-bicep-curls",
+    "name": {
+      "ru": "Сгибания рук с гантелями",
+      "en": "Dumbbell Bicep Curls"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение для бицепсов.",
+      "en": "Isolation exercise for biceps."
+    },
+    "instruction": {
+      "ru": "Стоя, сгибайте руки с гантелями, не отводя локти назад.",
+      "en": "Standing, curl dumbbells up without moving elbows back."
+    },
+    "effect": {
+      "ru": "Развивает бицепсы и силу предплечий.",
+      "en": "Develops biceps and forearm strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "biceps"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-lateral-raises",
+    "name": {
+      "ru": "Махи гантелями в стороны",
+      "en": "Dumbbell Lateral Raises"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для средних пучков дельт.",
+      "en": "Middle deltoid exercise."
+    },
+    "instruction": {
+      "ru": "Стоя, разводите руки с гантелями в стороны до уровня плеч.",
+      "en": "Standing, raise arms with dumbbells out to sides to shoulder level."
+    },
+    "effect": {
+      "ru": "Создаёт ширину и округлость плеч.",
+      "en": "Creates shoulder width and roundness."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-chest-fly",
+    "name": {
+      "ru": "Разведения гантелей лёжа",
+      "en": "Dumbbell Chest Fly"
+    },
+    "shortDescription": {
+      "ru": "Изолирующее упражнение для груди.",
+      "en": "Chest isolation exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, разводите руки с гантелями в стороны и сводите перед грудью.",
+      "en": "Lying on back, open arms with dumbbells to sides then bring together."
+    },
+    "effect": {
+      "ru": "Растягивает и прорабатывает грудные мышцы.",
+      "en": "Stretches and targets pectorals."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "renegade-row",
+    "name": {
+      "ru": "Отжимания с тягой гантелей",
+      "en": "Renegade Row"
+    },
+    "shortDescription": {
+      "ru": "Комплексное упражнение для спины, груди и кора.",
+      "en": "Full-body back, chest, and core exercise."
+    },
+    "instruction": {
+      "ru": "В положении упора лёжа поочередно тяните гантели к поясу.",
+      "en": "In push-up position, alternately row dumbbells toward waist."
+    },
+    "effect": {
+      "ru": "Развивает силу спины, стабильность и кор.",
+      "en": "Builds back strength, stability, and core."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "core",
+      "chest"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 1,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-thrusters",
+    "name": {
+      "ru": "Трастеры с гантелями",
+      "en": "Dumbbell Thrusters"
+    },
+    "shortDescription": {
+      "ru": "Полнотелесное взрывное упражнение.",
+      "en": "Full-body explosive exercise."
+    },
+    "instruction": {
+      "ru": "Из приседания выжмите гантели вверх над головой.",
+      "en": "From squat, press dumbbells overhead explosively."
+    },
+    "effect": {
+      "ru": "Развивает силу ног, плеч и сжигает калории.",
+      "en": "Builds leg and shoulder power and burns calories."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 10,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "kettlebell-swing",
+    "name": {
+      "ru": "Махи гирей",
+      "en": "Kettlebell Swing"
+    },
+    "shortDescription": {
+      "ru": "Взрывное кардио-упражнение для задней цепи.",
+      "en": "Explosive cardio exercise for posterior chain."
+    },
+    "instruction": {
+      "ru": "Мощным движением бедрами забрасывайте гирю на уровень груди.",
+      "en": "Drive hips forward to swing kettlebell to chest height."
+    },
+    "effect": {
+      "ru": "Развивает взрывную силу, ягодицы и повышает выносливость.",
+      "en": "Builds explosive power, glutes, and endurance."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 1,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 12,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "kettlebell-goblet-squat",
+    "name": {
+      "ru": "Гоблет-приседания с гирей",
+      "en": "Kettlebell Goblet Squat"
+    },
+    "shortDescription": {
+      "ru": "Приседания с гирей у груди для ног и ягодиц.",
+      "en": "Squat with kettlebell at chest for legs and glutes."
+    },
+    "instruction": {
+      "ru": "Держа гирю у груди, приседайте, сохраняя спину прямой.",
+      "en": "Hold kettlebell at chest and squat while keeping back straight."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги, ягодицы и улучшает мобильность.",
+      "en": "Strengthens legs, glutes, and improves mobility."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "kettlebell-clean-and-press",
+    "name": {
+      "ru": "Взятие гири на грудь и жим",
+      "en": "Kettlebell Clean and Press"
+    },
+    "shortDescription": {
+      "ru": "Комплексное упражнение для всего тела.",
+      "en": "Full-body complex exercise."
+    },
+    "instruction": {
+      "ru": "Взрывным движением поднимите гирю на грудь и выжмите вверх.",
+      "en": "Explosively clean kettlebell to chest then press overhead."
+    },
+    "effect": {
+      "ru": "Развивает силу, координацию и мощь всего тела.",
+      "en": "Builds full-body power, coordination, and strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "full-body"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 9,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "turkish-get-up",
+    "name": {
+      "ru": "Турецкий подъём с гирей",
+      "en": "Turkish Get-Up"
+    },
+    "shortDescription": {
+      "ru": "Комплексное упражнение на стабильность и силу.",
+      "en": "Stability and strength complex exercise."
+    },
+    "instruction": {
+      "ru": "Лёжа поднимите гирю, встаньте и вернитесь в исходное положение.",
+      "en": "From lying position, lift kettlebell, stand up, and return to floor."
+    },
+    "effect": {
+      "ru": "Улучшает стабильность плеч, кор и координацию.",
+      "en": "Improves shoulder stability, core, and coordination."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders",
+      "core",
+      "full-body"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 3,
+      "pauseTop": 1,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "kettlebell-snatch",
+    "name": {
+      "ru": "Рывок гири",
+      "en": "Kettlebell Snatch"
+    },
+    "shortDescription": {
+      "ru": "Взрывное упражнение для плеч и спины.",
+      "en": "Explosive shoulder and back exercise."
+    },
+    "instruction": {
+      "ru": "Одним движением поднимите гирю над головой из виса.",
+      "en": "In one motion, snatch kettlebell overhead from hang position."
+    },
+    "effect": {
+      "ru": "Развивает взрывную силу и выносливость.",
+      "en": "Develops explosive power and endurance."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "shoulders",
+      "back",
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 1,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 11,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "kettlebell-windmill",
+    "name": {
+      "ru": "Мельница с гирей",
+      "en": "Kettlebell Windmill"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для косых мышц и мобильности.",
+      "en": "Obliques and mobility exercise."
+    },
+    "instruction": {
+      "ru": "С гирей над головой наклоняйтесь в сторону, касаясь пола другой рукой.",
+      "en": "With kettlebell overhead, hinge and reach toward floor with opposite hand."
+    },
+    "effect": {
+      "ru": "Укрепляет косые мышцы, плечи и улучшает гибкость.",
+      "en": "Strengthens obliques, shoulders, and improves flexibility."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "obliques",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 2,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "kettlebell-halo",
+    "name": {
+      "ru": "Круговая мельница гири",
+      "en": "Kettlebell Halo"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для мобильности плеч и кора.",
+      "en": "Shoulder mobility and core exercise."
+    },
+    "instruction": {
+      "ru": "Вращайте гирю вокруг головы по кругу.",
+      "en": "Circle the kettlebell around your head."
+    },
+    "effect": {
+      "ru": "Улучшает подвижность плечевого сустава и стабилизацию.",
+      "en": "Improves shoulder joint mobility and stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 2,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "farmer-carry",
+    "name": {
+      "ru": "Фермерская прогулка",
+      "en": "Farmer Carry"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для хвата, кора и осанки.",
+      "en": "Grip, core, and posture exercise."
+    },
+    "instruction": {
+      "ru": "Идите с тяжёлыми гантелями или гирями в руках.",
+      "en": "Walk while holding heavy dumbbells or kettlebells."
+    },
+    "effect": {
+      "ru": "Укрепляет хват, кор и улучшает осанку.",
+      "en": "Strengthens grip, core, and posture."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "forearms"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "single-arm-kettlebell-row",
+    "name": {
+      "ru": "Тяга гири одной рукой",
+      "en": "Single-Arm Kettlebell Row"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для спины и бицепсов.",
+      "en": "Back and biceps exercise."
+    },
+    "instruction": {
+      "ru": "В наклоне тяните гирю к поясу одной рукой.",
+      "en": "In bent-over position, row kettlebell toward waist with one arm."
+    },
+    "effect": {
+      "ru": "Укрепляет широчайшие и улучшает баланс.",
+      "en": "Strengthens lats and improves balance."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-arnold-press",
+    "name": {
+      "ru": "Жим Арнольда",
+      "en": "Dumbbell Arnold Press"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для всех пучков дельт.",
+      "en": "All deltoid heads exercise."
+    },
+    "instruction": {
+      "ru": "Из положения перед грудью разворачивайте и выжимайте гантели вверх.",
+      "en": "From chest level, rotate and press dumbbells overhead."
+    },
+    "effect": {
+      "ru": "Прорабатывает передние, средние и задние пучки плеч.",
+      "en": "Targets front, middle, and rear deltoids."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-hip-thrust",
+    "name": {
+      "ru": "Ягодичный мостик с гантелей",
+      "en": "Dumbbell Hip Thrust"
+    },
+    "shortDescription": {
+      "ru": "Классическое упражнение для округлых ягодиц и задней цепи.",
+      "en": "Classic exercise for round glutes and posterior chain."
+    },
+    "instruction": {
+      "ru": "Лежа верхней частью спины на скамье или полу, поднимите таз вверх, сжимая ягодицы.",
+      "en": "Lie with upper back on bench or floor, thrust hips up while squeezing glutes."
+    },
+    "effect": {
+      "ru": "Формирует подъём и округлость ягодиц, укрепляет заднюю поверхность бедра.",
+      "en": "Builds glute lift and roundness, strengthens hamstrings."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "banded-glute-bridge",
+    "name": {
+      "ru": "Ягодичный мостик с резинкой",
+      "en": "Banded Glute Bridge"
+    },
+    "shortDescription": {
+      "ru": "Упражнение с резинкой для активации и роста ягодиц.",
+      "en": "Resistance band exercise for glute activation and growth."
+    },
+    "instruction": {
+      "ru": "Резинка выше колен, лежа на спине поднимите таз вверх, разводя колени.",
+      "en": "Band above knees, lie on back and thrust hips up while pushing knees apart."
+    },
+    "effect": {
+      "ru": "Создаёт округлые и упругие ягодицы, улучшает форму бёдер.",
+      "en": "Creates round and firm glutes, improves hip shape."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "home",
+      "resistance-band"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "banded-donkey-kicks",
+    "name": {
+      "ru": "Ослячьи удары с резинкой",
+      "en": "Banded Donkey Kicks"
+    },
+    "shortDescription": {
+      "ru": "Целевое упражнение для верхней части ягодиц.",
+      "en": "Targeted upper glute exercise."
+    },
+    "instruction": {
+      "ru": "На четвереньках с резинкой выше колен поочередно поднимайте согнутую ногу вверх.",
+      "en": "On all fours with band above knees, alternately kick one bent leg upward."
+    },
+    "effect": {
+      "ru": "Поднимает и округляет ягодицы, придаёт женственный силуэт.",
+      "en": "Lifts and rounds glutes for a feminine silhouette."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "resistance-band"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "banded-fire-hydrants",
+    "name": {
+      "ru": "Пожарные гидранты с резинкой",
+      "en": "Banded Fire Hydrants"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для боковых ягодиц и формы бёдер.",
+      "en": "Side glute and hip shaping exercise."
+    },
+    "instruction": {
+      "ru": "На четвереньках с резинкой отводите согнутую ногу в сторону.",
+      "en": "On all fours with band, lift bent leg out to the side."
+    },
+    "effect": {
+      "ru": "Укрепляет средние ягодицы, создаёт округлые и женственные бёдра.",
+      "en": "Strengthens glute medius for round, feminine hips."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "resistance-band"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "banded-lateral-walks",
+    "name": {
+      "ru": "Боковые шаги с резинкой",
+      "en": "Banded Lateral Walks"
+    },
+    "shortDescription": {
+      "ru": "Динамическое упражнение для внешней поверхности бедра.",
+      "en": "Dynamic exercise for outer thighs and glutes."
+    },
+    "instruction": {
+      "ru": "Резинка выше колен, в полуприседе делайте шаги в сторону.",
+      "en": "Band above knees, in mini-squat position step side to side."
+    },
+    "effect": {
+      "ru": "Формирует красивые округлые бёдра и укрепляет ягодицы.",
+      "en": "Shapes beautiful rounded hips and strengthens glutes."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "quads"
+    ],
+    "tags": [
+      "home",
+      "resistance-band"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "banded-clamshells",
+    "name": {
+      "ru": "Ракушки с резинкой",
+      "en": "Banded Clamshells"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение для средних ягодиц.",
+      "en": "Isolation exercise for glute medius."
+    },
+    "instruction": {
+      "ru": "Лежа на боку с резинкой выше колен разводите колени, не отрывая стопы.",
+      "en": "Lie on side with band above knees, open knees while keeping feet together."
+    },
+    "effect": {
+      "ru": "Улучшает форму бёдер и создаёт женственные изгибы.",
+      "en": "Improves hip shape and creates feminine curves."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "resistance-band"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "goblet-sumo-squat",
+    "name": {
+      "ru": "Гоблет-приседания сумо с гирей",
+      "en": "Goblet Sumo Squat"
+    },
+    "shortDescription": {
+      "ru": "Приседания для внутренней поверхности бедер и ягодиц.",
+      "en": "Squat for inner thighs and glutes."
+    },
+    "instruction": {
+      "ru": "Широкая постановка ног, держите гирю у груди и приседайте.",
+      "en": "Wide stance, hold kettlebell at chest and squat down."
+    },
+    "effect": {
+      "ru": "Формирует женственные бёдра и подтянутые ягодицы.",
+      "en": "Shapes feminine thighs and lifted glutes."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "quads",
+      "adductors"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-curtsy-lunge",
+    "name": {
+      "ru": "Выпады-реверанс с гантелями",
+      "en": "Dumbbell Curtsy Lunge"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для ягодиц и формы ног.",
+      "en": "Exercise for glutes and leg shape."
+    },
+    "instruction": {
+      "ru": "С гантелями в руках шагните назад по диагонали и опуститесь в выпад.",
+      "en": "Holding dumbbells, step one foot back diagonally and lower into lunge."
+    },
+    "effect": {
+      "ru": "Подчёркивает женственные изгибы ягодиц и бёдер.",
+      "en": "Highlights feminine glute and hip curves."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "quads"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-bulgarian-split-squat",
+    "name": {
+      "ru": "Болгарские выпады с гантелями",
+      "en": "Dumbbell Bulgarian Split Squat"
+    },
+    "shortDescription": {
+      "ru": "Одноногое упражнение для ягодиц и ног.",
+      "en": "Single-leg exercise for glutes and legs."
+    },
+    "instruction": {
+      "ru": "Задняя нога на возвышении, с гантелями опуститесь в выпад.",
+      "en": "Rear foot elevated, holding dumbbells lower into lunge."
+    },
+    "effect": {
+      "ru": "Укрепляет и округляет ягодицы, улучшает баланс.",
+      "en": "Strengthens and rounds glutes, improves balance."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "quads"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "kettlebell-swing",
+    "name": {
+      "ru": "Махи гирей",
+      "en": "Kettlebell Swing"
+    },
+    "shortDescription": {
+      "ru": "Взрывное упражнение для ягодиц и кардио.",
+      "en": "Explosive glute and cardio exercise."
+    },
+    "instruction": {
+      "ru": "Мощным толчком бёдер забрасывайте гирю до уровня груди.",
+      "en": "Drive hips forward to swing kettlebell to chest height."
+    },
+    "effect": {
+      "ru": "Развивает подъём ягодиц и сжигает жир для красивого рельефа.",
+      "en": "Develops glute lift and burns fat for beautiful definition."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "kettlebell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 1,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 10,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "banded-standing-kickback",
+    "name": {
+      "ru": "Отведения ноги назад с резинкой",
+      "en": "Banded Standing Kickback"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для подъёма ягодиц.",
+      "en": "Exercise for glute lift."
+    },
+    "instruction": {
+      "ru": "Стоя с резинкой на щиколотках, отводите одну ногу назад.",
+      "en": "Standing with band around ankles, kick one leg backward."
+    },
+    "effect": {
+      "ru": "Подчёркивает верхнюю часть ягодиц и создаёт женственный силуэт.",
+      "en": "Highlights upper glutes and creates feminine silhouette."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "resistance-band"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "single-leg-glute-bridge",
+    "name": {
+      "ru": "Ягодичный мостик на одной ноге",
+      "en": "Single-Leg Glute Bridge"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для симметрии и формы ягодиц.",
+      "en": "Exercise for symmetry and glute shape."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, поднимите таз на одной ноге, вторая согнута в воздухе.",
+      "en": "Lie on back, thrust hips up using one leg, other leg bent in air."
+    },
+    "effect": {
+      "ru": "Устраняет дисбаланс и формирует округлые ягодицы.",
+      "en": "Fixes imbalances and shapes round glutes."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "bird-dog",
+    "name": {
+      "ru": "Птица-собака",
+      "en": "Bird Dog"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для кора и осанки.",
+      "en": "Core and posture exercise."
+    },
+    "instruction": {
+      "ru": "На четвереньках одновременно вытягивайте противоположные руку и ногу.",
+      "en": "On all fours, extend opposite arm and leg simultaneously."
+    },
+    "effect": {
+      "ru": "Укрепляет глубокий кор, улучшает осанку и талию.",
+      "en": "Strengthens deep core, improves posture and waistline."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "back"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dead-bug",
+    "name": {
+      "ru": "Мёртвый жук",
+      "en": "Dead Bug"
+    },
+    "shortDescription": {
+      "ru": "Безопасное упражнение для плоского живота.",
+      "en": "Safe exercise for flat stomach."
+    },
+    "instruction": {
+      "ru": "Лежа на спине поочередно опускайте противоположные руку и ногу.",
+      "en": "Lie on back, alternately lower opposite arm and leg."
+    },
+    "effect": {
+      "ru": "Формирует тонкую талию и укрепляет глубокий кор.",
+      "en": "Creates a slim waist and strengthens deep core."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "banded-pull-apart",
+    "name": {
+      "ru": "Разведения рук с резинкой",
+      "en": "Banded Pull-Aparts"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для осанки и красивых плеч.",
+      "en": "Posture and shoulder exercise."
+    },
+    "instruction": {
+      "ru": "Держите резинку перед собой и разводите руки в стороны.",
+      "en": "Hold band in front and pull arms apart."
+    },
+    "effect": {
+      "ru": "Улучшает осанку, подтягивает верх спины без перекачки плеч.",
+      "en": "Improves posture and tones upper back without bulking shoulders."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "resistance-band"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "side-plank-hip-dip",
+    "name": {
+      "ru": "Боковая планка с опусканием таза",
+      "en": "Side Plank Hip Dip"
+    },
+    "shortDescription": {
+      "ru": "Динамическое упражнение для талии и косых мышц.",
+      "en": "Dynamic exercise for waist and obliques."
+    },
+    "instruction": {
+      "ru": "В боковой планке опускайте и поднимайте таз контролируемо.",
+      "en": "In side plank, dip and lift hips with control."
+    },
+    "effect": {
+      "ru": "Уменьшает талию и подчёркивает женственные изгибы.",
+      "en": "Cinches the waist and highlights feminine curves."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "obliques"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-romanian-deadlift",
+    "name": {
+      "ru": "Румынская тяга с гантелями",
+      "en": "Dumbbell Romanian Deadlift"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для задней поверхности бедра и ягодиц.",
+      "en": "Exercise for hamstrings and glutes."
+    },
+    "instruction": {
+      "ru": "С прямой спиной наклоняйтесь вперёд, опуская гантели.",
+      "en": "With straight back hinge at hips and lower dumbbells."
+    },
+    "effect": {
+      "ru": "Подтягивает ягодицы и создаёт красивый переход к талии.",
+      "en": "Lifts glutes and creates beautiful waist-to-hip transition."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "banded-seated-row",
+    "name": {
+      "ru": "Тяга резинки сидя",
+      "en": "Banded Seated Row"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для спины и осанки.",
+      "en": "Back and posture exercise."
+    },
+    "instruction": {
+      "ru": "Сидя с вытянутыми ногами тяните резинку к животу.",
+      "en": "Seated with legs extended, pull band toward torso."
+    },
+    "effect": {
+      "ru": "Улучшает осанку и создаёт красивую V-форму спины.",
+      "en": "Improves posture and creates beautiful V-shaped back."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back"
+    ],
+    "tags": [
+      "home",
+      "resistance-band"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "frog-pumps",
+    "name": {
+      "ru": "Лягушачьи качания",
+      "en": "Frog Pumps"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение для ягодиц.",
+      "en": "Glute isolation exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, стопы вместе, колени в стороны — поднимайте таз.",
+      "en": "Lie on back, soles together, knees out — thrust hips up."
+    },
+    "effect": {
+      "ru": "Максимально прорабатывает ягодицы для максимальной округлости.",
+      "en": "Maximally targets glutes for ultimate roundness."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "bodyweight"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "dumbbell-lateral-lunge",
+    "name": {
+      "ru": "Боковые выпады с гантелями",
+      "en": "Dumbbell Lateral Lunge"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для внутренней и внешней поверхности бедер.",
+      "en": "Exercise for inner and outer thighs."
+    },
+    "instruction": {
+      "ru": "С гантелями шагните в сторону и опуститесь в выпад.",
+      "en": "Holding dumbbells, step sideways and lower into lunge."
+    },
+    "effect": {
+      "ru": "Формирует стройные и женственные ноги.",
+      "en": "Shapes slim and feminine legs."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "adductors"
+    ],
+    "tags": [
+      "home",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "downward-facing-dog",
+    "name": {
+      "ru": "Собака мордой вниз",
+      "en": "Downward-Facing Dog"
+    },
+    "shortDescription": {
+      "ru": "Классическая перевернутая поза для растяжки и укрепления всего тела.",
+      "en": "Classic inverted pose for full-body stretch and strengthening."
+    },
+    "instruction": {
+      "ru": "Из планки поднимите таз вверх, выпрямите ноги и руки, образуя перевернутую V. Стопы и ладони на ширине плеч.",
+      "en": "From plank, lift hips up, straighten legs and arms to form an inverted V. Feet and hands shoulder-width apart."
+    },
+    "effect": {
+      "ru": "Улучшает гибкость задней цепи, укрепляет плечи, руки и ноги, снимает напряжение.",
+      "en": "Improves posterior chain flexibility, strengthens shoulders, arms and legs, relieves tension."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "full-body",
+      "hamstrings",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "cat-cow",
+    "name": {
+      "ru": "Кошка-Корова",
+      "en": "Cat-Cow Pose"
+    },
+    "shortDescription": {
+      "ru": "Динамическое упражнение для мобильности позвоночника.",
+      "en": "Dynamic exercise for spinal mobility."
+    },
+    "instruction": {
+      "ru": "На четвереньках чередуйте прогиб спины вверх (кошка) и вниз (корова) в ритме дыхания.",
+      "en": "On all fours, alternate arching the back up (cat) and dipping it down (cow) with breath rhythm."
+    },
+    "effect": {
+      "ru": "Снимает напряжение в спине, улучшает осанку и подвижность позвоночника.",
+      "en": "Releases back tension, improves posture and spinal mobility."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "back",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 2,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 3,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "childs-pose",
+    "name": {
+      "ru": "Поза ребёнка",
+      "en": "Child's Pose"
+    },
+    "shortDescription": {
+      "ru": "Поза отдыха и расслабления для всего тела.",
+      "en": "Resting and relaxation pose for the whole body."
+    },
+    "instruction": {
+      "ru": "Сидя на пятках, вытяните руки вперёд и опустите лоб на коврик.",
+      "en": "From knees, sit back on heels, extend arms forward and lower forehead to mat."
+    },
+    "effect": {
+      "ru": "Снимает стресс, растягивает спину и бёдра, успокаивает нервную систему.",
+      "en": "Reduces stress, stretches back and hips, calms the nervous system."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "back",
+      "hips"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 60
+    },
+    "estimatedCalories": 2,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "mountain-pose",
+    "name": {
+      "ru": "Поза горы",
+      "en": "Mountain Pose"
+    },
+    "shortDescription": {
+      "ru": "Базовая стоячая поза для осанки и баланса.",
+      "en": "Basic standing pose for posture and balance."
+    },
+    "instruction": {
+      "ru": "Стоя прямо, стопы вместе, руки вдоль тела, вытяните макушку вверх.",
+      "en": "Stand tall, feet together, arms by sides, lift crown of head upward."
+    },
+    "effect": {
+      "ru": "Улучшает осанку, укрепляет ноги и учит правильному выравниванию тела.",
+      "en": "Improves posture, strengthens legs and teaches proper body alignment."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "full-body",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 3,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "warrior-i",
+    "name": {
+      "ru": "Воин I",
+      "en": "Warrior I"
+    },
+    "shortDescription": {
+      "ru": "Силовая стоячая поза для ног и концентрации.",
+      "en": "Powerful standing pose for legs and focus."
+    },
+    "instruction": {
+      "ru": "Шагните одной ногой назад, согните переднее колено под 90°, поднимите руки вверх.",
+      "en": "Step one foot back, bend front knee to 90°, raise arms overhead."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги, открывает бёдра и грудь, развивает выносливость.",
+      "en": "Strengthens legs, opens hips and chest, builds endurance."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "warrior-ii",
+    "name": {
+      "ru": "Воин II",
+      "en": "Warrior II"
+    },
+    "shortDescription": {
+      "ru": "Поза для силы ног и раскрытия бёдер.",
+      "en": "Pose for leg strength and hip opening."
+    },
+    "instruction": {
+      "ru": "Широкая стойка, передняя нога согнута, руки в стороны, взгляд на переднюю руку.",
+      "en": "Wide stance, front leg bent, arms out to sides, gaze over front hand."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги и ягодицы, улучшает концентрацию и гибкость бёдер.",
+      "en": "Strengthens legs and glutes, improves focus and hip flexibility."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "triangle-pose",
+    "name": {
+      "ru": "Поза треугольника",
+      "en": "Triangle Pose"
+    },
+    "shortDescription": {
+      "ru": "Поза для бокового растяжения и баланса.",
+      "en": "Side stretch and balance pose."
+    },
+    "instruction": {
+      "ru": "Широкая стойка, наклон в сторону, одна рука вверх, другая — на голень.",
+      "en": "Wide stance, side bend, one hand up, other on shin."
+    },
+    "effect": {
+      "ru": "Растягивает бока, ноги и позвоночник, улучшает равновесие.",
+      "en": "Stretches sides, legs and spine, improves balance."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "obliques",
+      "hamstrings",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "tree-pose",
+    "name": {
+      "ru": "Поза дерева",
+      "en": "Tree Pose"
+    },
+    "shortDescription": {
+      "ru": "Поза баланса для концентрации и стабильности.",
+      "en": "Balance pose for focus and stability."
+    },
+    "instruction": {
+      "ru": "Стоя на одной ноге, поставьте стопу второй ноги на внутреннюю поверхность бедра, руки вверх.",
+      "en": "Stand on one leg, place other foot on inner thigh, arms overhead."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги, улучшает баланс и концентрацию ума.",
+      "en": "Strengthens legs, improves balance and mental focus."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "core",
+      "quads"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "cobra-pose",
+    "name": {
+      "ru": "Поза кобры",
+      "en": "Cobra Pose"
+    },
+    "shortDescription": {
+      "ru": "Прогиб назад для укрепления спины.",
+      "en": "Backbend for spine strengthening."
+    },
+    "instruction": {
+      "ru": "Лежа на животе, поднимите грудь, опираясь на руки, локти прижаты к телу.",
+      "en": "Lying on stomach, lift chest using hands, elbows close to body."
+    },
+    "effect": {
+      "ru": "Укрепляет спину, открывает грудь и улучшает осанку.",
+      "en": "Strengthens back, opens chest and improves posture."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "back",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 20
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "bridge-pose",
+    "name": {
+      "ru": "Поза моста",
+      "en": "Bridge Pose"
+    },
+    "shortDescription": {
+      "ru": "Прогиб для ягодиц и раскрытия плеч.",
+      "en": "Backbend for glutes and shoulder opening."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, поднимите таз вверх, опираясь на стопы и плечи.",
+      "en": "Lying on back, lift hips up using feet and shoulders."
+    },
+    "effect": {
+      "ru": "Укрепляет ягодицы и спину, растягивает грудь и плечи.",
+      "en": "Strengthens glutes and back, stretches chest and shoulders."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "glutes",
+      "back",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "boat-pose",
+    "name": {
+      "ru": "Поза лодки",
+      "en": "Boat Pose"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для глубокого кора и баланса.",
+      "en": "Deep core and balance exercise."
+    },
+    "instruction": {
+      "ru": "Сидя, откиньтесь назад и поднимите прямые ноги и корпус, балансируя на седалищных костях.",
+      "en": "Seated, lean back and lift straight legs and torso, balancing on sit bones."
+    },
+    "effect": {
+      "ru": "Укрепляет пресс, улучшает баланс и выносливость кора.",
+      "en": "Strengthens abs, improves core balance and endurance."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "core"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 20
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "pigeon-pose",
+    "name": {
+      "ru": "Поза голубя",
+      "en": "Pigeon Pose"
+    },
+    "shortDescription": {
+      "ru": "Глубокое раскрытие бёдер и ягодиц.",
+      "en": "Deep hip and glute opener."
+    },
+    "instruction": {
+      "ru": "Из положения на четвереньках вынесите одну ногу вперёд, вторую вытяните назад и опуститесь.",
+      "en": "From all fours, bring one leg forward, extend other back and lower down."
+    },
+    "effect": {
+      "ru": "Растягивает глубокие мышцы бёдер, снимает напряжение в ягодицах.",
+      "en": "Stretches deep hip muscles, releases glute tension."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "glutes",
+      "hips"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 45
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "seated-forward-bend",
+    "name": {
+      "ru": "Наклон вперёд сидя",
+      "en": "Seated Forward Bend"
+    },
+    "shortDescription": {
+      "ru": "Поза для растяжки задней поверхности тела.",
+      "en": "Pose for posterior chain stretch."
+    },
+    "instruction": {
+      "ru": "Сидя с прямыми ногами, наклонитесь вперёд от таза, тянитесь к стопам.",
+      "en": "Seated with straight legs, hinge forward from hips and reach toward feet."
+    },
+    "effect": {
+      "ru": "Растягивает hamstring'ы, спину и улучшает гибкость позвоночника.",
+      "en": "Stretches hamstrings, back and improves spinal flexibility."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "hamstrings",
+      "back"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 45
+    },
+    "estimatedCalories": 3,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "eagle-pose",
+    "name": {
+      "ru": "Поза орла",
+      "en": "Eagle Pose"
+    },
+    "shortDescription": {
+      "ru": "Скручивание и баланс для плеч и бёдер.",
+      "en": "Twist and balance for shoulders and hips."
+    },
+    "instruction": {
+      "ru": "Обвейте одну ногу вокруг другой, руки скрестите перед собой.",
+      "en": "Wrap one leg around the other, cross arms in front."
+    },
+    "effect": {
+      "ru": "Улучшает баланс, раскрывает плечи и бёдра, снимает напряжение.",
+      "en": "Improves balance, opens shoulders and hips, releases tension."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "core",
+      "shoulders",
+      "hips"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 20
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "chair-pose",
+    "name": {
+      "ru": "Поза стула",
+      "en": "Chair Pose"
+    },
+    "shortDescription": {
+      "ru": "Силовая поза для ног и выносливости.",
+      "en": "Strength pose for legs and endurance."
+    },
+    "instruction": {
+      "ru": "Присядьте, как на стул, руки вверх, спина прямая.",
+      "en": "Squat as if sitting in a chair, arms up, back straight."
+    },
+    "effect": {
+      "ru": "Укрепляет бёдра, ягодицы и спину, развивает выносливость.",
+      "en": "Strengthens thighs, glutes and back, builds endurance."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "locust-pose",
+    "name": {
+      "ru": "Поза саранчи",
+      "en": "Locust Pose"
+    },
+    "shortDescription": {
+      "ru": "Прогиб для укрепления спины.",
+      "en": "Backbend for spine strengthening."
+    },
+    "instruction": {
+      "ru": "Лежа на животе, поднимите ноги, грудь и руки вверх.",
+      "en": "Lying on stomach, lift legs, chest and arms up."
+    },
+    "effect": {
+      "ru": "Укрепляет всю заднюю цепь тела и улучшает осанку.",
+      "en": "Strengthens entire posterior chain and improves posture."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "back",
+      "glutes",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 20
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "camel-pose",
+    "name": {
+      "ru": "Поза верблюда",
+      "en": "Camel Pose"
+    },
+    "shortDescription": {
+      "ru": "Глубокий прогиб назад для грудного отдела.",
+      "en": "Deep backbend for thoracic spine."
+    },
+    "instruction": {
+      "ru": "Стоя на коленях, прогнитесь назад и возьмитесь за пятки.",
+      "en": "Kneeling, bend back and reach for heels."
+    },
+    "effect": {
+      "ru": "Открывает грудь, укрепляет спину и улучшает гибкость.",
+      "en": "Opens chest, strengthens back and improves flexibility."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "back",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 20
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "supine-twist",
+    "name": {
+      "ru": "Лежачий скрут",
+      "en": "Supine Twist"
+    },
+    "shortDescription": {
+      "ru": "Скрут для детокса и гибкости позвоночника.",
+      "en": "Twist for detox and spinal flexibility."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, подтяните одно колено к груди и скрутитесь в сторону.",
+      "en": "Lying on back, pull one knee to chest and twist to the side."
+    },
+    "effect": {
+      "ru": "Массирует органы, снимает напряжение в спине и улучшает пищеварение.",
+      "en": "Massages organs, releases back tension and aids digestion."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "core",
+      "obliques"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 30
+    },
+    "estimatedCalories": 3,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "corpse-pose",
+    "name": {
+      "ru": "Поза трупа",
+      "en": "Corpse Pose"
+    },
+    "shortDescription": {
+      "ru": "Поза полного расслабления в конце практики.",
+      "en": "Complete relaxation pose at the end of practice."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, руки и ноги расслаблены, глаза закрыты, дышите глубоко.",
+      "en": "Lying on back, arms and legs relaxed, eyes closed, breathe deeply."
+    },
+    "effect": {
+      "ru": "Восстанавливает энергию, снижает стресс и интегрирует практику.",
+      "en": "Restores energy, reduces stress and integrates the practice."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "full-body"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "hold",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 300
+    },
+    "estimatedCalories": 1,
+    "image": "",
+    "isCustom": false
+  },
+  {
+    "id": "sun-salutation",
+    "name": {
+      "ru": "Приветствие солнцу",
+      "en": "Sun Salutation"
+    },
+    "shortDescription": {
+      "ru": "Динамическая последовательность для разминки всего тела.",
+      "en": "Dynamic sequence for full-body warm-up."
+    },
+    "instruction": {
+      "ru": "Плавно переходите через позы: гора → наклон → планка → кобра → собака вниз и обратно.",
+      "en": "Flow smoothly through poses: mountain → forward fold → plank → cobra → downward dog and back."
+    },
+    "effect": {
+      "ru": "Разогревает тело, повышает энергию и улучшает подвижность.",
+      "en": "Warms the body, boosts energy and improves mobility."
+    },
+    "type": {
+      "ru": "йога",
+      "en": "yoga"
+    },
+    "muscles": [
+      "full-body"
+    ],
+    "tags": [
+      "home",
+      "yoga"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 2,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false
+  }
+];

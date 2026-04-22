@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workout Planner</title>
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/fixes.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <a class="brand" href="#home" id="app-brand-link" aria-label="Workout Planner">
+          <span class="brand__mark" id="app-brand-mark" aria-hidden="true">WP</span>
+          <span class="brand__text" id="app-brand-text">Workout Planner</span>
+        </a>
+
+        <button class="icon-button nav-toggle" type="button" id="nav-toggle" aria-controls="app-nav" aria-expanded="false" aria-label="Open navigation">☰</button>
+        <nav class="nav" id="app-nav" aria-label="Main navigation"></nav>
+
+        <div class="header-actions">
+          <button class="icon-button" type="button" id="theme-toggle" aria-label="Toggle theme">◐</button>
+          <button class="button button--ghost" type="button" id="language-toggle" aria-label="Switch language">RU</button>
+        </div>
+      </header>
+
+      <main class="main-content" id="app" tabindex="-1"></main>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

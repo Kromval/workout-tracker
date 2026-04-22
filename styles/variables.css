@@ -1,0 +1,49 @@
+:root {
+  /* Основная палитра */
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  
+  /* Акцент — яркий циан (очень модно в 2026) */
+  --color-accent: #00d4ff;
+  --color-accent-strong: #00a8cc;
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+  
+  /* Тени и эффекты */
+  --shadow-sm: 0 10px 15px -3px rgb(0 212 255 / 0.12);
+  --shadow-md: 0 25px 50px -12px rgb(0 212 255 / 0.18);
+  --shadow-lg: 0 35px 60px -15px rgb(0 212 255 / 0.25);
+  
+  /* Радиусы */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  
+  /* Отступы */
+  --space-1: 6px;
+  --space-2: 12px;
+  --space-3: 18px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  
+  /* Шрифты */
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #0a0a0a;
+  --color-surface: #111111;
+  --color-surface-muted: #1a1a1a;
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-border: #27272a;
+  --color-accent: #00f0ff;
+  --shadow-sm: 0 10px 15px -3px rgb(0 240 255 / 0.15);
+  --shadow-md: 0 25px 50px -12px rgb(0 240 255 / 0.25);
+}
