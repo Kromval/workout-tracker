@@ -20,6 +20,22 @@ const EQUIPMENT_TAGS = new Set([
 ]);
 
 const DIFFICULTY_TAGS = new Set(['beginner', 'intermediate', 'advanced']);
+const CONTRAINDICATION_TAGS = new Set([
+  'joint-wrist-pain',
+  'joint-elbow-irritation',
+  'joint-shoulder-pain',
+  'joint-shoulder-irritation',
+  'joint-shoulder-impingement',
+  'joint-hip-pain',
+  'joint-knee-pain',
+  'joint-knee-instability',
+  'joint-ankle-pain',
+  'joint-ankle-instability',
+  'region-lower-back-pain',
+  'region-back-severe-pain',
+  'region-neck-pain',
+  'cardio-high-blood-pressure',
+]);
 const EQUIPMENT_ALIASES = new Map([
   ['resistance-band', 'bands'],
 ]);
@@ -63,6 +79,12 @@ describe('exercise data tags', () => {
       if (explicitDifficulty && !DIFFICULTY_TAGS.has(explicitDifficulty)) {
         errors.push(`${exercise.id || index}: unsupported difficulty "${explicitDifficulty}"`);
       }
+
+      (Array.isArray(exercise.contraindications) ? exercise.contraindications : []).forEach((item) => {
+        if (!CONTRAINDICATION_TAGS.has(item)) {
+          errors.push(`${exercise.id || index}: unsupported contraindication "${item}"`);
+        }
+      });
     });
 
     expect(errors).toEqual([]);

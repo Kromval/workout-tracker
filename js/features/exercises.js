@@ -7,6 +7,7 @@ import {
   normalizeString,
   uniqueStrings,
 } from '../core/utils.js';
+import { normalizeContraindicationTags } from './contraindications.js';
 
 const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
 const TEMPO_FIELDS = ['eccentric', 'concentric', 'pauseTop', 'pauseBottom'];
@@ -78,7 +79,7 @@ function normalizeExerciseRecord(exercise, isCustom) {
     muscleGroups: normalizeMuscleGroups(source.muscleGroups),
     difficulty: normalizeDifficulty(source.difficulty),
     equipment: normalizeEquipment(source.equipment),
-    contraindications: uniqueStrings(source.contraindications),
+    contraindications: normalizeContraindicationTags(source.contraindications),
     intensityProfile: normalizeIntensityProfile(source.intensityProfile),
     isCustom,
   };

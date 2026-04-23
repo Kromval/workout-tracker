@@ -1,6 +1,6 @@
 import { asArray, isPlainObject, normalizeString } from '../core/utils.js';
 import { BODY_FOCUS_MUSCLE_GROUPS } from './body-focus.js';
-import { filterExercisesForRecommendations } from './recommendations.js';
+import { filterExercisesForRecommendations, rankExercisesForRecommendations } from './recommendations.js';
 
 const LEVEL_RANKS = Object.freeze({
   beginner: 1,
@@ -28,31 +28,38 @@ export const DEFAULT_SCORING_WEIGHTS = Object.freeze({
 });
 
 export function rankRecommendedExercises(options = {}) {
-  const filteringResult = filterExercisesForRecommendations(options);
-  const weights = normalizeWeights(options.weights);
-  const user = normalizeScoringUser(options.profile, options.equipment);
-  const context = normalizeScoringContext(options.context);
-
-  const scoredExercises = filteringResult.eligibleExercises
-    .map((entry) => {
-      const score = scoreExercise(user, entry.exercise, context, weights);
-
-      return {
-        exercise: entry.exercise,
-        metadata: entry.metadata,
-        total: score.total,
-        excluded: score.excluded,
-        parts: score.parts,
-        penalties: score.penalties,
-        reasons: entry.reasons,
-      };
-    })
-    .sort((left, right) => right.total - left.total);
+  const rankingResult = rankExercisesForRecommendations(options);
+  const scoredExercises = rankingResult.rankedExercises.map((entry) => ({
+    exercise: entry.exercise,
+    metadata: entry.metadata,
+    total: entry.score,
+    excluded: false,
+    parts: {
+      goalAlignment: entry.parts.goalAlignment,
+      levelMatch: entry.parts.difficultyFit,
+      preference: entry.parts.preferenceFit,
+      recovery: entry.parts.recoveryFit,
+      safety: entry.parts.contraindicationsFit,
+      variety: entry.parts.movementVariety,
+      timeFit: entry.parts.timeFit,
+      equipmentFit: entry.parts.equipmentFit,
+      movementFocus: entry.parts.movementFocus,
+    },
+    penalties: {
+      fatiguePenalty: clampUnit(1 - entry.parts.movementVariety),
+      contraindicationRisk: clampUnit(1 - entry.parts.contraindicationsFit),
+      explanationPenalties: entry.penalties,
+    },
+    reasons: entry.reasons,
+    matchedSignals: entry.matchedSignals,
+  }));
 
   return {
-    ...filteringResult,
+    eligibleExercises: rankingResult.eligibleExercises,
+    excludedExercises: rankingResult.excludedExercises,
+    summary: rankingResult.summary,
     scoredExercises,
-    weights,
+    weights: rankingResult.weights,
   };
 }
 

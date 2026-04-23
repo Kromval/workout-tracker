@@ -3,6 +3,12 @@ import {
   buildExerciseRecommendationMetadata,
   filterExercisesForRecommendations,
   getExerciseGoalIds,
+  rankExercisesForRecommendations,
+  scoreContraindications,
+  scoreDifficultyFit,
+  scoreExercise,
+  scoreGoalAlignment,
+  scoreMovementVariety,
 } from '../../js/features/recommendations.js';
 
 describe('recommendation exercise filtering', () => {
@@ -115,5 +121,171 @@ describe('recommendation exercise filtering', () => {
       difficulty: 'intermediate',
       tags: ['dumbbells', 'intermediate'],
     })).toEqual(expect.arrayContaining(['strength', 'hypertrophy', 'general-fitness']));
+  });
+
+  test('scores goal alignment from intensity profile instead of binary goal match', () => {
+    const score = scoreGoalAlignment(
+      {
+        type: { en: 'strength' },
+        tags: ['compound'],
+        intensityProfile: {
+          strength: 'high',
+          cardio: 'low',
+          endurance: 'medium',
+          impact: 'low',
+        },
+      },
+      {
+        goal: 'strength',
+        goals: {
+          strength: 1,
+          hypertrophy: 0,
+          endurance: 0,
+          fatLoss: 0,
+          mobility: 0,
+          generalFitness: 0,
+        },
+      },
+    );
+
+    expect(score).toBeGreaterThan(0.8);
+  });
+
+  test('prefers same-level exercise and penalizes lower-level match slightly', () => {
+    expect(scoreDifficultyFit(
+      { difficulty: 'intermediate' },
+      { trainingLevel: 'intermediate' },
+    )).toBe(1);
+
+    expect(scoreDifficultyFit(
+      { difficulty: 'beginner' },
+      { trainingLevel: 'intermediate' },
+    )).toBeLessThan(1);
+  });
+
+  test('applies contraindication penalty when profile limitations overlap exercise contraindications', () => {
+    expect(scoreContraindications(
+      { contraindications: ['joint-wrist-pain', 'joint-elbow-irritation'] },
+      { limitations: ['joint-wrist'] },
+    )).toBe(0);
+  });
+
+  test('penalizes repeated movement patterns from recent history', () => {
+    const score = scoreMovementVariety(
+      { id: 'diamond-push-ups', movementPatterns: ['horizontal-push'] },
+      {
+        recentHistory: {
+          performedExerciseIds: ['push-ups'],
+          performedMovementPatterns: {
+            'horizontal-push': 3,
+          },
+        },
+      },
+    );
+
+    expect(score).toBeLessThan(0.65);
+  });
+
+  test('returns explanation payload with matched signals and penalties', () => {
+    const result = scoreExercise(
+      {
+        id: 'diamond-push-ups',
+        type: { en: 'strength' },
+        tags: ['bodyweight', 'compound'],
+        difficulty: 'intermediate',
+        equipment: ['bodyweight'],
+        movementPatterns: ['horizontal-push'],
+        muscleGroups: { primary: ['triceps', 'chest'], secondary: [] },
+        contraindications: [],
+        intensityProfile: {
+          strength: 'high',
+          cardio: 'low',
+          endurance: 'medium',
+          impact: 'low',
+        },
+      },
+      {
+        trainingLevel: 'intermediate',
+        goals: {
+          strength: 1,
+          hypertrophy: 0,
+          endurance: 0,
+          fatLoss: 0,
+          mobility: 0,
+          generalFitness: 0,
+        },
+        likedTags: ['compound'],
+        recentHistory: {
+          performedExerciseIds: [],
+          performedMovementPatterns: {},
+        },
+      },
+      {
+        selectedEquipmentIds: ['bodyweight'],
+        targetDurationMin: 30,
+      },
+    );
+
+    expect(result.score).toBeGreaterThan(0);
+    expect(result.matchedSignals).toEqual(expect.arrayContaining([
+      'goal-strength',
+      'equipment-bodyweight',
+    ]));
+    expect(result.reasons.length).toBeGreaterThan(0);
+  });
+
+  test('sorts ranked recommendations by score after hard filters', () => {
+    const result = rankExercisesForRecommendations({
+      exercises: [
+        {
+          id: 'diamond-push-ups',
+          type: { en: 'strength' },
+          tags: ['bodyweight', 'compound'],
+          difficulty: 'intermediate',
+          equipment: ['bodyweight'],
+          movementPatterns: ['horizontal-push'],
+          muscleGroups: { primary: ['triceps', 'chest'], secondary: [] },
+          contraindications: [],
+          intensityProfile: {
+            strength: 'high',
+            cardio: 'low',
+            endurance: 'medium',
+            impact: 'low',
+          },
+        },
+        {
+          id: 'jumping-jacks',
+          type: { en: 'cardio' },
+          tags: ['bodyweight', 'cardio'],
+          difficulty: 'beginner',
+          equipment: ['bodyweight'],
+          movementPatterns: ['full-body'],
+          muscleGroups: { primary: ['legs'], secondary: [] },
+          contraindications: [],
+          intensityProfile: {
+            strength: 'low',
+            cardio: 'high',
+            endurance: 'high',
+            impact: 'medium',
+          },
+        },
+      ],
+      profile: {
+        trainingLevel: 'intermediate',
+        goals: {
+          strength: 1,
+          hypertrophy: 0,
+          endurance: 0,
+          fatLoss: 0,
+          mobility: 0,
+          generalFitness: 0,
+        },
+      },
+      equipment: { selectedIds: ['bodyweight'] },
+      equipmentCatalog: [{ id: 'bodyweight' }],
+    });
+
+    expect(result.rankedExercises[0].exercise.id).toBe('diamond-push-ups');
+    expect(result.rankedExercises[0].score).toBeGreaterThan(result.rankedExercises[1].score);
   });
 });

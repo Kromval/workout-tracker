@@ -60,8 +60,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain",
-      "shoulder impingement"
+      "joint-wrist-pain",
+      "joint-shoulder-impingement"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -130,8 +130,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain",
-      "lower back issues"
+      "joint-knee-pain",
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -192,8 +192,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain",
-      "shoulder issues"
+      "region-lower-back-pain",
+      "joint-shoulder-irritation"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -252,7 +252,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "ankle/knee issues"
+      "joint-ankle-instability",
+      "joint-knee-instability"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -320,8 +321,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain",
-      "ankle issues"
+      "joint-knee-pain",
+      "joint-ankle-instability"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -388,9 +389,9 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain",
-      "knee pain",
-      "shoulder issues"
+      "joint-wrist-pain",
+      "joint-knee-pain",
+      "joint-shoulder-irritation"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -452,8 +453,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain",
-      "shoulder issues"
+      "joint-wrist-pain",
+      "joint-shoulder-irritation"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -521,7 +522,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -586,7 +587,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "neck pain"
+      "region-neck-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -649,7 +650,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -718,7 +719,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -777,7 +778,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee/ankle issues"
+      "joint-knee-instability",
+      "joint-ankle-instability"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -842,7 +844,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -904,7 +906,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -967,7 +969,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "ankle pain"
+      "joint-ankle-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -1030,8 +1032,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "shoulder pain",
-      "wrist pain"
+      "joint-shoulder-pain",
+      "joint-wrist-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -1096,8 +1098,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain",
-      "elbow issues"
+      "joint-wrist-pain",
+      "joint-elbow-irritation"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -1165,8 +1167,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "shoulder impingement",
-      "wrist pain"
+      "joint-shoulder-impingement",
+      "joint-wrist-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -1236,8 +1238,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain",
-      "ankle issues"
+      "joint-knee-pain",
+      "joint-ankle-instability"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -1307,8 +1309,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain",
-      "ankle issues"
+      "joint-knee-pain",
+      "joint-ankle-instability"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -1374,7 +1376,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -1437,7 +1439,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -1502,8 +1504,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain",
-      "wrist pain"
+      "region-lower-back-pain",
+      "joint-wrist-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -1566,7 +1568,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "neck pain"
+      "region-neck-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -1623,7 +1625,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -1686,7 +1688,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -1744,7 +1746,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -1804,8 +1806,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain",
-      "shoulder issues"
+      "joint-wrist-pain",
+      "joint-shoulder-irritation"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -1868,7 +1870,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -1933,7 +1935,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "neck pain"
+      "region-neck-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2001,7 +2003,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2069,7 +2071,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2130,7 +2132,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain"
+      "joint-wrist-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2193,7 +2195,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain"
+      "joint-wrist-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2258,7 +2260,7 @@ export const builtInExerciseRecords = [
       "bench"
     ],
     "contraindications": [
-      "shoulder pain"
+      "joint-shoulder-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2324,8 +2326,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain",
-      "shoulder impingement"
+      "joint-wrist-pain",
+      "joint-shoulder-impingement"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2395,7 +2397,7 @@ export const builtInExerciseRecords = [
       "bench"
     ],
     "contraindications": [
-      "shoulder pain"
+      "joint-shoulder-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -2461,7 +2463,7 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "shoulder impingement"
+      "joint-shoulder-impingement"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -2528,7 +2530,7 @@ export const builtInExerciseRecords = [
       "bench"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2596,7 +2598,7 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -2664,7 +2666,7 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2788,7 +2790,7 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "shoulder impingement"
+      "joint-shoulder-impingement"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2853,7 +2855,7 @@ export const builtInExerciseRecords = [
       "bench"
     ],
     "contraindications": [
-      "shoulder pain"
+      "joint-shoulder-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -2922,8 +2924,8 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "wrist pain",
-      "lower back pain"
+      "joint-wrist-pain",
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -2991,8 +2993,8 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "shoulder pain",
-      "knee pain"
+      "joint-shoulder-pain",
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -3061,7 +3063,7 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -3129,7 +3131,7 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -3193,8 +3195,8 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "shoulder pain",
-      "lower back pain"
+      "joint-shoulder-pain",
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -3262,8 +3264,8 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "shoulder pain",
-      "lower back pain"
+      "joint-shoulder-pain",
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -3332,7 +3334,7 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "shoulder pain"
+      "joint-shoulder-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -3400,7 +3402,7 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -3466,7 +3468,7 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "shoulder pain"
+      "joint-shoulder-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -3533,7 +3535,7 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -3599,7 +3601,7 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -3662,7 +3664,7 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "shoulder impingement"
+      "joint-shoulder-impingement"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -3732,7 +3734,7 @@ export const builtInExerciseRecords = [
       "bench"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -3798,7 +3800,7 @@ export const builtInExerciseRecords = [
       "resistance-band"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -3861,7 +3863,7 @@ export const builtInExerciseRecords = [
       "resistance-band"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -3924,7 +3926,7 @@ export const builtInExerciseRecords = [
       "resistance-band"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -3990,7 +3992,7 @@ export const builtInExerciseRecords = [
       "resistance-band"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -4053,7 +4055,7 @@ export const builtInExerciseRecords = [
       "resistance-band"
     ],
     "contraindications": [
-      "hip pain"
+      "joint-hip-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -4121,7 +4123,7 @@ export const builtInExerciseRecords = [
       "kettlebell"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -4187,7 +4189,7 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -4255,7 +4257,7 @@ export const builtInExerciseRecords = [
       "bench"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "high",
@@ -4318,7 +4320,7 @@ export const builtInExerciseRecords = [
       "resistance-band"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -4447,7 +4449,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "shoulder pain"
+      "joint-shoulder-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -4571,7 +4573,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -4639,7 +4641,7 @@ export const builtInExerciseRecords = [
       "dumbbells"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -4709,9 +4711,9 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain",
-      "shoulder issues",
-      "high blood pressure"
+      "joint-wrist-pain",
+      "joint-shoulder-irritation",
+      "cardio-high-blood-pressure"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -4778,7 +4780,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "severe back pain"
+      "region-back-severe-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -4977,7 +4979,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -5047,7 +5049,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -5116,7 +5118,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "neck pain"
+      "region-neck-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5183,7 +5185,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "ankle pain"
+      "joint-ankle-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5250,7 +5252,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5319,7 +5321,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5383,7 +5385,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -5449,7 +5451,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5516,7 +5518,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5585,8 +5587,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "shoulder pain",
-      "knee pain"
+      "joint-shoulder-pain",
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5655,7 +5657,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "knee pain"
+      "joint-knee-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
@@ -5724,7 +5726,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain"
+      "region-lower-back-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5791,8 +5793,8 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "lower back pain",
-      "neck pain"
+      "region-lower-back-pain",
+      "region-neck-pain"
     ],
     "intensityProfile": {
       "strength": "low",
@@ -5982,7 +5984,7 @@ export const builtInExerciseRecords = [
       "bodyweight"
     ],
     "contraindications": [
-      "wrist pain"
+      "joint-wrist-pain"
     ],
     "intensityProfile": {
       "strength": "medium",
