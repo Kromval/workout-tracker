@@ -1,32 +1,38 @@
 # Workout Planner
 
-Workout Planner is a framework-free web app for building, running, and tracking personal workouts. It includes an exercise catalog, custom workouts, workout timers, history, progress calendar, themes, localization, and local data import/export.
+Workout Planner is a framework-free PWA for building workouts, running guided sessions, tracking history, and ranking exercises against a user profile.
 
-## Features
+## Current State
+
+The app already includes:
 
 - Exercise catalog with search, filters, favorites, and custom exercises.
-- Workout builder with editable exercise order, sets, reps, durations, rest timers, and notes.
-- Workout session screen with timers, pause/resume, skip, and time adjustment controls.
+- Workout builder with exercise ordering, sets, reps, durations, rest timers, and notes.
+- Workout run screen with timers, pause/resume, skip, time adjustment, finish form, and active session recovery.
+- User profile with anthropometrics, training level, goals, body-focus priorities, recovery profile, limitations, preferred tags, disliked exercises, session duration, and weekly frequency.
+- Equipment management with built-in equipment plus user-defined items.
+- Exercise recommendations page powered by:
+  - hard filtering by equipment and difficulty
+  - scoring by goals, body-focus, level, recovery, safety, variety, preferences, and time fit
 - Workout history with notes, ratings, estimated calories, and progress calendar.
 - Preset workouts that can be copied and edited.
+- Russian and English localization.
 - Light, dark, and system themes.
-- Russian and English interface localization.
 - Custom audio signals for workout events.
-- Import and export of user data as JSON.
-- Local persistence through `localStorage`, including unfinished session recovery.
-- Progressive Web App support with installable metadata and offline app shell caching.
+- JSON import/export with schema migrations.
+- Local persistence in `localStorage`.
+- PWA shell with service worker and offline app shell caching.
 
 ## Tech Stack
 
 - HTML
 - CSS
 - JavaScript ES modules
-- `localStorage` for user data
-- Static JSON source for built-in exercises
+- `localStorage`
+- Static exercise source in `data/exercises.json`
+- Jest for tests
 
-No frontend framework, bundler, or package manager is required for the app itself.
-
-Jest is used for storage and data-normalization tests.
+No framework or bundler is required for the app itself.
 
 ## Project Structure
 
@@ -48,22 +54,23 @@ Jest is used for storage and data-normalization tests.
 │   └── ui/
 ├── scripts/
 │   └── generate-exercises-data.js
-└── styles/
-    ├── variables.css
-    ├── base.css
-    ├── layout.css
-    ├── components.css
-    └── fixes.css
+├── styles/
+├── sw.js
+└── manifest.webmanifest
 ```
 
 ## Getting Started
 
-Clone the repository and run it with any static file server.
+Run the app from any static file server:
 
 ```bash
-git clone <repository-url>
-cd workout-tracker
 python -m http.server 8000
+```
+
+or:
+
+```bash
+npx serve .
 ```
 
 Then open:
@@ -72,95 +79,124 @@ Then open:
 http://localhost:8000
 ```
 
-You can also use another static server, for example:
-
-```bash
-npx serve .
-```
-
-Because the app uses ES modules, running it through a local HTTP server is recommended.
+Because the app uses ES modules and a service worker, use `localhost` or HTTPS.
 
 ## Tests
 
-Install development dependencies and run the Jest suite:
+Install dependencies and run:
 
 ```bash
 npm install
 npm test
 ```
 
-The current tests cover storage import/export behavior, schema migrations, and normalizers/sanitizers.
+Current tests cover:
+
+- storage schema migrations
+- store sanitizers and normalizers
+- import/export merge behavior
+- exercise compatibility
+- recommendation filtering
+- exercise scoring
+- selector-level recommendation flow
 
 ## Exercise Data
 
-Built-in exercises are stored in:
+Built-in exercises are authored in:
 
 ```text
 data/exercises.json
 ```
 
-The browser app imports a generated module:
+The browser uses the generated module:
 
 ```text
 js/features/exercises-data.js
 ```
 
-After changing `data/exercises.json`, regenerate the module:
+After editing `data/exercises.json`, regenerate it:
 
 ```bash
 node scripts/generate-exercises-data.js
 ```
 
-## Data Storage
+## Storage
 
-User data is stored locally in the browser under the app storage key. It includes:
+Storage schema metadata lives in `js/storage/schema.js`. The current schema is:
 
-- settings
-- custom exercises
-- workouts
-- workout history
-- active workout session
+- `STORAGE_VERSION = 6`
+- `settings`
+- `profile`
+- `equipment`
+- `customExercises`
+- `workouts`
+- `history`
+- `activeSession`
 
-Favorites and custom audio signals are stored inside `settings` so persisted data has a single source of truth for user preferences.
+Notable profile fields:
 
-The app supports JSON export and import from the Settings page. Export is useful for backups or moving data to another browser.
+- anthropometrics
+- `trainingLevel`
+- legacy `goal`
+- weighted `goals`
+- weighted `bodyFocusGoals`
+- `limitations`
+- `dislikedExercises`
+- `likedTags`
+- `sessionDurationMin`
+- `frequencyPerWeek`
+- `recoveryProfile`
+- `recentHistory`
 
-Storage schema metadata lives in `js/storage/schema.js`; version-to-version migrations live in `js/storage/migrations.js`. When changing persisted data shape, bump `STORAGE_VERSION`, add a migration, and run:
+Version migrations live in:
 
-```bash
-node scripts/check-storage-migrations.js
+```text
+js/storage/migrations.js
 ```
 
-Derived state selectors live in `js/core/selectors.js`. They keep UI modules away from raw persisted shape and memoize by stable state references. Check them with:
+## Recommendations
 
-```bash
-node scripts/check-selectors.js
-```
+Recommendations are currently exercise-level, not full workout-plan generation.
 
-## Progressive Web App
+Flow:
 
-The app includes:
+1. Filter incompatible exercises by equipment, difficulty, duplicates, and optional goal mode.
+2. Score eligible exercises.
+3. Rank and display top-N results on `#recommendations`.
 
-- `manifest.webmanifest` for install metadata.
-- `sw.js` for offline caching of the application shell.
-- SVG and PNG icons in `assets/icons/`.
+Main modules:
 
-PWA features require HTTPS or `localhost`. GitHub Pages provides HTTPS, so the app can be installed from the browser after deployment.
+- `js/features/recommendations.js`
+- `js/features/exercise-scoring.js`
+- `js/features/body-focus.js`
+- `js/core/selectors.js`
 
 ## Main Routes
 
-The app uses hash-based routing:
+The app uses hash routing:
 
-- `#home` - dashboard
-- `#exercises` - exercise catalog
-- `#exercise-create` - create exercise
-- `#exercise-view/<id>` - exercise details
-- `#exercise-edit/<id>` - edit custom exercise
-- `#workout-create` - create workout
-- `#workout-view/<id>` - workout details
-- `#workout-edit/<id>` - edit workout
-- `#workout-run/<id>` - run workout
-- `#settings` - settings, audio, import/export
+- `#home`
+- `#exercises`
+- `#recommendations`
+- `#exercise-create`
+- `#exercise-view/<id>`
+- `#exercise-edit/<id>`
+- `#workout-create`
+- `#workout-view/<id>`
+- `#workout-edit/<id>`
+- `#workout-run/<id>`
+- `#settings`
+
+## PWA
+
+The app includes:
+
+- `manifest.webmanifest`
+- `sw.js`
+- install icons in `assets/icons/`
+- offline caching of the app shell
+
+PWA installability requires `localhost` or HTTPS.
 
 ## Browser Support
 
@@ -168,12 +204,13 @@ Use a modern browser with support for:
 
 - ES modules
 - `localStorage`
+- service workers
 - Web Audio API
-- File API for JSON/audio import
+- File API
 
 ## Documentation
 
-The original product requirements are in:
+Original requirements:
 
 ```text
 docs/Техническое задание.md
@@ -181,4 +218,4 @@ docs/Техническое задание.md
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+MIT. See [LICENSE](LICENSE).
