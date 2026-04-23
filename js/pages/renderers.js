@@ -1,5 +1,6 @@
 import { renderProgressCalendar } from '../features/calendar.js';
 import { audioEvents } from '../features/audio.js';
+import { BODY_FOCUS_MUSCLE_GROUPS } from '../features/body-focus.js';
 import {
   getExerciseEquipmentIds,
   getExerciseProfileLevel,
@@ -21,6 +22,7 @@ import {
   selectLastOpenedWorkout,
   selectProfile,
   selectPresetWorkouts,
+  selectRecommendedExercises,
   selectUserWorkouts,
   selectWorkoutById,
   selectWorkouts,
@@ -45,6 +47,7 @@ import { getHomeActivityStats, renderHomeActivityStats, renderHomeStat } from '.
 import { renderWorkoutDraftItem, renderWorkoutFormPage, renderExerciseFormPage } from './form-renderers.js';
 import { renderCustomAudioRow } from './settings-renderers.js';
 import {
+  capitalize,
   formatTempo,
   renderChips,
   renderDetail,
@@ -59,6 +62,9 @@ const PROFILE_SELECT_OPTIONS = {
   trainingLevel: ['', 'beginner', 'intermediate', 'advanced'],
   goal: ['', 'strength', 'hypertrophy', 'endurance', 'fat-loss', 'general-fitness'],
 };
+const PROFILE_GOAL_FIELDS = ['strength', 'hypertrophy', 'endurance', 'fatLoss', 'mobility'];
+const PROFILE_BODY_FOCUS_FIELDS = ['upperBody', 'lowerBody', 'vTaper', 'core', 'arms', 'glutes'];
+const PROFILE_RECOVERY_FIELDS = ['chest', 'back', 'legs', 'shoulders', 'arms', 'core'];
 
 function renderPlaceholder(state, titleKey) {
   return `
@@ -74,208 +80,44 @@ function renderPlaceholder(state, titleKey) {
 }
 
 export function renderHomePage(state) {
-  const exercises = selectExerciseCatalog(state);
-  const userWorkouts = selectUserWorkouts(state);
-  const presetWorkouts = selectPresetWorkouts();
-  const customExerciseCount = selectCustomExerciseCount(state);
-  const history = selectHistory(state);
-  const activityStats = getHomeActivityStats(history);
-  const lastOpenedWorkout = selectLastOpenedWorkout(state);
-
   return `
-    <section class="page home-page">
-      <div class="home-stats">
-        ${renderHomeStat(state, userWorkouts.length, 'totalWorkouts')}
-        ${renderHomeStat(state, exercises.length, 'exercisesTitle')}
-        ${renderHomeStat(state, customExerciseCount, 'customExercises')}
+    <section class="page home-page" data-page-route="home">
+      <div data-page-region="home-overview">
+        ${renderHomeOverviewRegion(state)}
       </div>
-
-      <div class="quick-actions" aria-label="${t(state, 'quickActions')}">
-        <a class="quick-action quick-action--primary" href="#workout-create">
-          <span class="quick-action__icon">🏋️</span>
-          <span>${t(state, 'quickActionNewTrain')}</span>
-        </a>
-        ${lastOpenedWorkout ? `
-          <a class="quick-action" href="#workout-view/${encodeURIComponent(lastOpenedWorkout.id)}" aria-label="${escapeAttribute(`${t(state, 'returnToLastWorkout')}: ${lastOpenedWorkout.title}`)}">
-            <span class="quick-action__icon">↩</span>
-            <span>${t(state, 'returnToLastWorkout')}</span>
-          </a>
-        ` : ''}
-        <a class="quick-action" href="#exercises">
-          <span class="quick-action__icon">📋</span>
-          <span>${t(state, 'quickActionExercises')}</span>
-        </a>
-        <a class="quick-action" href="#settings">
-          <span class="quick-action__icon">⚙️</span>
-          <span>${t(state, 'quickActionSettings')}</span>
-        </a>
+      <div data-page-region="home-activity">
+        ${renderHomeActivityRegion(state)}
       </div>
-
-      ${renderHomeActivityStats(state, activityStats)}
-
-      ${renderProgressCalendar(history, { language: selectLanguage(state) })}
-
-      <section class="home-section" aria-labelledby="user-workouts-heading">
-        <div class="section-header">
-          <div>
-            <h2 id="user-workouts-heading">${t(state, 'workoutsTitle')}</h2>
-            <p class="muted">${t(state, 'userWorkoutsHint')}</p>
-          </div>
-          <a class="button button--primary" href="#workout-create"><span>${t(state, 'quickActionCreate')}</span></a>
-        </div>
-
-        ${userWorkouts.length
-          ? `<div class="workout-card-grid">${userWorkouts.map((workout) => renderWorkoutCard(state, workout, exercises)).join('')}</div>`
-          : renderEmptyState(state, 'emptyWorkoutsTitle', 'emptyWorkoutsDescription', 'createWorkout', '#workout-create')}
-      </section>
-
-      <section class="home-section" aria-labelledby="preset-workouts-heading">
-        <div class="section-header">
-          <div>
-            <h2 id="preset-workouts-heading">${t(state, 'presetWorkoutsTitle')}</h2>
-            <p class="muted">${t(state, 'presetWorkoutsHint')}</p>
-          </div>
-        </div>
-
-        ${presetWorkouts.length
-          ? `<div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none;">
-              ${presetWorkouts.map((workout) =>
-                renderWorkoutCard(state, workout, exercises, { isPresetCard: true })
-              ).join('')}
-            </div>`
-          : renderEmptyState(state, 'emptyPresetsTitle', 'emptyPresetsDescription', 'createWorkout', '#workout-create')}
-      </section>
+      <div data-page-region="home-user-workouts">
+        ${renderHomeUserWorkoutsRegion(state)}
+      </div>
+      <div data-page-region="home-preset-workouts">
+        ${renderHomePresetWorkoutsRegion(state)}
+      </div>
     </section>
   `;
 }
 
 export function renderExercisesPage(state) {
-  const language = selectLanguage(state);
-  const exercises = selectExerciseCatalog(state);
-  const equipmentCatalog = selectEquipmentCatalog(state);
-  const selectedEquipmentIds = selectEquipmentSelectedIdSet(state);
-  const profile = selectProfile(state);
-  const knownEquipmentIds = equipmentCatalog.map((item) => item.id);
-  const favoriteIds = selectFavoriteExerciseIdSet(state);
-
-  // Подготовка фильтров
-  const allMuscles = new Set();
-  const allTypes = new Set();
-
-  exercises.forEach(ex => {
-    ex.muscles?.forEach(m => allMuscles.add(m));
-    const typeName = localizedText(ex.type, language);
-    if (typeName) allTypes.add(typeName);
-  });
-
-  const muscleOptions = Array.from(allMuscles).sort().map(m => 
-    `<option value="${escapeAttribute(m)}">${escapeHtml(m)}</option>`
-  ).join('');
-
-  const typeOptions = Array.from(allTypes).sort().map(t => 
-    `<option value="${escapeAttribute(t.toLowerCase())}">${escapeHtml(t)}</option>`
-  ).join('');
-  const equipmentOptions = equipmentCatalog.map((item) => {
-    const itemName = localizedText(item.name, language) || item.id;
-    return `<option value="${escapeAttribute(item.id)}">${escapeHtml(itemName)}</option>`;
-  }).join('');
-
-  // Карточки упражнений
-  const exerciseCardsHTML = exercises.map(exercise => {
-    const name = localizedText(exercise.name, language);
-    const desc = localizedText(exercise.shortDescription, language);
-    const searchText = `${name} ${desc} ${exercise.muscles.join(' ')}`.toLowerCase();
-    const typeText = localizedText(exercise.type, language).toLowerCase();
-    const musclesText = exercise.muscles.join('|');
-    const exerciseEquipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
-    const exerciseProfileLevel = getExerciseProfileLevel(exercise);
-    const equipmentAvailable = isExerciseAvailableForSelectedEquipment(exercise, Array.from(selectedEquipmentIds), knownEquipmentIds);
-    const profileCompatible = isExerciseCompatibleWithProfileLevel(exercise, profile.trainingLevel);
-    const isFavorite = favoriteIds.has(exercise.id);
-
-    return `
-      <a class="exercise-card" href="#exercise-view/${encodeURIComponent(exercise.id)}"
-         data-exercise-search="${escapeHtml(searchText)}"
-         data-exercise-type="${escapeAttribute(typeText)}"
-         data-exercise-muscles="${escapeAttribute(musclesText)}"
-         data-exercise-equipment="${escapeAttribute(exerciseEquipmentIds.join('|'))}"
-         data-exercise-profile-level="${escapeAttribute(exerciseProfileLevel)}"
-         data-exercise-equipment-available="${equipmentAvailable ? 'true' : 'false'}"
-         data-exercise-profile-compatible="${profileCompatible ? 'true' : 'false'}">
-        <div class="exercise-card__content">
-          <div class="exercise-card__header">
-            <h3>${escapeHtml(name)}</h3>
-            ${isFavorite ? `<span class="badge badge--favorite">★</span>` : ''}
-          </div>
-          <p class="muted">${escapeHtml(desc || t(state, 'emptyValue'))}</p>
-          <div class="exercise-card__meta">
-            <span class="badge">${escapeHtml(localizedText(exercise.type, language) || exercise.executionMode)}</span>
-          </div>
-        </div>
-      </a>
-    `;
-  }).join('');
-
   return `
-    <section class="page exercises-page">
+    <section class="page exercises-page" data-page-route="exercises">
       <div class="page-header">
         <h1>${t(state, 'exercisesTitle')}</h1>
         <a class="button button--primary" href="#exercise-create">${t(state, 'createExercise')}</a>
       </div>
-
-      <div class="exercise-filters">
-        <label class="field">
-          <span>${t(state, 'exerciseSearchLabel')}</span>
-          <input type="text" id="exercises-search" data-exercises-search placeholder="${t(state, 'exerciseSearchPlaceholder')}" autocomplete="off">
-        </label>
-
-        <label class="field">
-          <span>${t(state, 'exerciseTypeLabel')}</span>
-          <select id="exercises-type-filter" data-exercises-type-filter>
-            <option value="">${t(state, 'filterAll')}</option>
-            ${typeOptions}
-          </select>
-        </label>
-
-        <label class="field">
-          <span>${t(state, 'exerciseMusclesLabel')}</span>
-          <select id="exercises-muscle-filter" data-exercises-muscle-filter>
-            <option value="">${t(state, 'filterAll')}</option>
-            ${muscleOptions}
-          </select>
-        </label>
-
-        <label class="field">
-          <span>${t(state, 'exerciseEquipmentFilterLabel')}</span>
-          <select id="exercises-equipment-filter" data-exercises-equipment-filter>
-            <option value="">${t(state, 'filterAll')}</option>
-            <option value="available">${t(state, 'exerciseEquipmentFilterAvailable')}</option>
-            ${equipmentOptions}
-          </select>
-        </label>
-
-        <label class="field">
-          <span>${t(state, 'exerciseProfileLevelFilterLabel')}</span>
-          <select id="exercises-profile-level-filter" data-exercises-profile-level-filter>
-            <option value="">${t(state, 'filterAll')}</option>
-            <option value="profile">${t(state, 'exerciseProfileLevelFilterProfile')}</option>
-            <option value="beginner">${t(state, 'trainingLevelOptionBeginner')}</option>
-            <option value="intermediate">${t(state, 'trainingLevelOptionIntermediate')}</option>
-            <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
-          </select>
-        </label>
+      <div data-page-region="exercises-catalog">
+        ${renderExercisesCatalogRegion(state)}
       </div>
+    </section>
+  `;
+}
 
-      <div
-        class="exercise-list"
-        data-exercise-list
-        data-selected-equipment-ids="${escapeAttribute(Array.from(selectedEquipmentIds).join('|'))}"
-        data-profile-training-level="${escapeAttribute(profile.trainingLevel || '')}"
-      >
-        ${exerciseCardsHTML || `<p class="muted" role="status">${t(state, 'emptyExercises')}</p>`}
+export function renderRecommendationsPage(state) {
+  return `
+    <section class="page" data-page-route="recommendations">
+      <div data-page-region="recommendations-content">
+        ${renderRecommendationsContentRegion(state)}
       </div>
-
-      <p class="muted exercise-no-results" data-exercise-no-results role="status" aria-live="polite" hidden>${t(state, 'exerciseFilterNoResults')}</p>
     </section>
   `;
 }
@@ -376,92 +218,10 @@ export function renderWorkoutEditPage(state) {
 }
 
 export function renderWorkoutViewPage(state) {
-  const { id } = getRouteParams();           // id из хеша
-  const exercises = selectExerciseCatalog(state);
-
-  // === Если ID нет — показываем список всех пользовательских тренировок ===
-  if (!id) {
-    const userWorkouts = selectUserWorkouts(state);
-
-    return `
-      <section class="page">
-        <div class="page-header">
-          <h1>${t(state, 'workoutsTitle')}</h1>
-          <a class="button button--primary" href="#workout-create">${t(state, 'createWorkout')}</a>
-        </div>
-
-        <p class="muted">${t(state, 'userWorkoutsHint')}</p>
-
-        ${userWorkouts.length
-          ? `<div class="workout-card-grid">${userWorkouts.map((workout) => renderWorkoutCard(state, workout, exercises)).join('')}</div>`
-          : renderEmptyState(state, 'emptyWorkoutsTitle', 'emptyWorkoutsDescription', 'createWorkout', '#workout-create')}
-      </section>
-    `;
-  }
-
-  // === Если ID есть — показываем детальную страницу тренировки (как было) ===
-  const workout = selectWorkoutById(state, id);
-
-  if (!workout) {
-    return `
-      <section class="page">
-        <div class="page-header">
-          <h1>${t(state, 'workoutViewTitle')}</h1>
-        </div>
-        <article class="empty-state">
-          <div class="empty-state__icon" aria-hidden="true">!</div>
-          <div>
-            <h3>${t(state, 'workoutNotFound')}</h3>
-            <p class="muted">${t(state, 'workoutNotFoundHint')}</p>
-          </div>
-          <div class="toolbar">
-            <a class="button" href="#workout-view">${t(state, 'workoutsTitle')}</a>
-            <a class="button button--primary" href="#workout-create">${t(state, 'createWorkout')}</a>
-          </div>
-        </article>
-      </section>
-    `;
-  }
-
-  const durationSec = calculateEstimatedWorkoutDuration(workout, exercises);
-  const calories = calculateWorkoutCaloriesEstimate(workout, exercises);
-
   return `
-    <section class="page">
-      <div class="page-header">
-        <div>
-          <a class="back-link" href="#workout-view">← ${t(state, 'workoutsTitle')}</a>
-          <h1>${escapeHtml(workout.title || t(state, 'workoutViewTitle'))}</h1>
-          <p class="muted">${escapeHtml(workout.description || t(state, 'emptyValue'))}</p>
-        </div>
-      </div>
-
-      ${workout.items.length ? '' : renderEmptyState(state, 'workoutEmptyViewTitle', 'workoutEmptyViewDescription', 'editWorkout', `#workout-edit/${encodeURIComponent(workout.id)}`)}
-
-      <article class="card workout-summary">
-        <div class="stat">
-          <span class="stat__value">${escapeHtml(formatDuration(durationSec))}</span>
-          <span class="muted">${t(state, 'workoutEstimatedDuration')}</span>
-        </div>
-        <div class="stat">
-          <span class="stat__value">${escapeHtml(formatCalories(calories))}</span>
-          <span class="muted">${t(state, 'workoutEstimatedCalories')}</span>
-        </div>
-        <div class="stat">
-          <span class="stat__value">${workout.items.length}</span>
-          <span class="muted">${t(state, 'workoutExerciseCount')}</span>
-        </div>
-      </article>
-
-      <div class="workout-view-list">
-        ${workout.items.map((item, index) => renderWorkoutViewItem(state, item, exercises.find(e => e.id === item.exerciseId), index)).join('')}
-      </div>
-
-      <div class="toolbar">
-        <a class="button button--primary" href="#workout-run/${encodeURIComponent(workout.id)}" ${workout.items.length ? '' : 'aria-disabled="true" tabindex="-1"'}>${t(state, 'startWorkout')}</a>
-        <a class="button" href="#workout-edit/${encodeURIComponent(workout.id)}">${t(state, 'editWorkout')}</a>
-        <button class="button" type="button" data-workout-action="duplicate" data-workout-id="${escapeAttribute(workout.id)}">${t(state, 'duplicateWorkout')}</button>
-        <button class="button button--danger" type="button" data-workout-action="delete" data-workout-id="${escapeAttribute(workout.id)}">${t(state, 'deleteWorkout')}</button>
+    <section class="page" data-page-route="workout-view">
+      <div data-page-region="workout-view-content">
+        ${renderWorkoutViewContentRegion(state)}
       </div>
     </section>
   `;
@@ -555,130 +315,22 @@ export function renderWorkoutRunPage(state) {
 }
 
 export function renderSettingsPage(state) {
-  const { settings } = state;
-  const profile = selectProfile(state);
-  const equipment = selectEquipmentCatalog(state);
-  const selectedEquipmentIds = selectEquipmentSelectedIdSet(state);
-  const volumePercent = Math.round(settings.volume * 100);
-
   return `
-    <section class="page">
+    <section class="page" data-page-route="settings">
       <div class="page-header">
         <h1>${t(state, 'settingsTitle')}</h1>
       </div>
 
-      <article class="card settings-panel">
-        <div class="settings-panel__header">
-          <h3>${t(state, 'interfaceSettings')}</h3>
-          <p class="muted">${t(state, 'interfaceSettingsDescription')}</p>
-        </div>
-
-        <div class="settings-grid">
-          <label class="field" for="setting-theme">
-            <span>${t(state, 'themeLabel')}</span>
-            <select id="setting-theme" data-setting="theme">
-              <option value="light" ${settings.theme === 'light' ? 'selected' : ''}>${t(state, 'themeLight')}</option>
-              <option value="dark" ${settings.theme === 'dark' ? 'selected' : ''}>${t(state, 'themeDark')}</option>
-              <option value="system" ${settings.theme === 'system' ? 'selected' : ''}>${t(state, 'themeSystem')}</option>
-            </select>
-          </label>
-
-          <label class="field" for="setting-language">
-            <span>${t(state, 'languageLabel')}</span>
-            <select id="setting-language" data-setting="language">
-              <option value="ru" ${settings.language === 'ru' ? 'selected' : ''}>${t(state, 'languageRu')}</option>
-              <option value="en" ${settings.language === 'en' ? 'selected' : ''}>${t(state, 'languageEn')}</option>
-            </select>
-          </label>
-
-          <div class="field">
-            <span>${t(state, 'soundLabel')}</span>
-            <label class="checkbox-field">
-              <input type="checkbox" data-setting="soundEnabled" ${settings.soundEnabled ? 'checked' : ''}>
-              <span>${t(state, 'soundEnabled')}</span>
-            </label>
-          </div>
-
-          <label class="field" for="setting-volume">
-            <span>${t(state, 'volumeLabel')}: <output id="setting-volume-value">${volumePercent}%</output></span>
-            <input id="setting-volume" type="range" min="0" max="1" step="0.01" value="${settings.volume}" data-setting="volume">
-          </label>
-        </div>
-      </article>
-
-      <article class="card settings-panel">
-        <div class="settings-panel__header">
-          <h3>${t(state, 'profileSettings')}</h3>
-          <p class="muted">${t(state, 'profileSettingsDescription')}</p>
-        </div>
-
-        <div class="settings-grid">
-          ${renderProfileNumberField(state, 'age', 'profileAge', profile.age, { min: 0, step: 1 })}
-          ${renderProfileSelectField(state, 'sex', 'profileSex', profile.sex, PROFILE_SELECT_OPTIONS.sex)}
-          ${renderProfileNumberField(state, 'weightKg', 'profileWeight', profile.weightKg, { min: 0, step: 0.1 })}
-          ${renderProfileNumberField(state, 'heightCm', 'profileHeight', profile.heightCm, { min: 0, step: 0.1 })}
-          ${renderProfileNumberField(state, 'bodyFatPercent', 'profileBodyFat', profile.bodyFatPercent, { min: 0, max: 100, step: 0.1 })}
-          ${renderProfileNumberField(state, 'wristCm', 'profileWrist', profile.wristCm, { min: 0, step: 0.1 })}
-          ${renderProfileNumberField(state, 'waistCm', 'profileWaist', profile.waistCm, { min: 0, step: 0.1 })}
-          ${renderProfileNumberField(state, 'neckCm', 'profileNeck', profile.neckCm, { min: 0, step: 0.1 })}
-          ${renderProfileNumberField(state, 'chestCm', 'profileChest', profile.chestCm, { min: 0, step: 0.1 })}
-          ${renderProfileNumberField(state, 'hipsCm', 'profileHips', profile.hipsCm, { min: 0, step: 0.1 })}
-          ${renderProfileNumberField(state, 'forearmCm', 'profileForearm', profile.forearmCm, { min: 0, step: 0.1 })}
-          ${renderProfileNumberField(state, 'calfCm', 'profileCalf', profile.calfCm, { min: 0, step: 0.1 })}
-          ${renderProfileSelectField(state, 'trainingLevel', 'profileTrainingLevel', profile.trainingLevel, PROFILE_SELECT_OPTIONS.trainingLevel)}
-          ${renderProfileSelectField(state, 'goal', 'profileGoal', profile.goal, PROFILE_SELECT_OPTIONS.goal)}
-          <label class="field settings-grid__wide" for="profile-limitations">
-            <span>${t(state, 'profileLimitations')}</span>
-            <textarea
-              id="profile-limitations"
-              rows="3"
-              data-profile-field="limitations"
-              placeholder="${escapeAttribute(t(state, 'profileLimitationsPlaceholder'))}"
-            >${escapeHtml(profile.limitations || '')}</textarea>
-          </label>
-        </div>
-
-        <p class="notice" id="profile-status" role="status" aria-live="polite"></p>
-      </article>
-
-      <article class="card settings-panel">
-        <div class="settings-panel__header">
-          <h3>${t(state, 'equipmentSettings')}</h3>
-          <p class="muted">${t(state, 'equipmentSettingsDescription')}</p>
-        </div>
-
-        <div class="inline-control">
-          <label class="field settings-inline-field" for="equipment-custom-name">
-            <span>${t(state, 'equipmentCustomLabel')}</span>
-            <input
-              id="equipment-custom-name"
-              type="text"
-              data-equipment-custom-input
-              placeholder="${escapeAttribute(t(state, 'equipmentCustomPlaceholder'))}"
-            >
-          </label>
-          <button class="button button--primary" type="button" data-equipment-add>${t(state, 'equipmentAdd')}</button>
-        </div>
-
-        <div class="settings-checkbox-list" data-equipment-list>
-          ${equipment.map((item) => renderEquipmentOption(state, item, selectedEquipmentIds.has(item.id))).join('')}
-        </div>
-
-        <p class="notice" id="equipment-status" role="status" aria-live="polite"></p>
-      </article>
-
-      <article class="card settings-panel">
-        <div class="settings-panel__header">
-          <h3>${t(state, 'customAudioSettings')}</h3>
-          <p class="muted">${t(state, 'customAudioDescription')}</p>
-        </div>
-
-        <div class="custom-audio-list">
-          ${audioEvents.map((eventName) => renderCustomAudioRow(state, eventName, settings.customAudio?.[eventName])).join('')}
-        </div>
-
-        <p class="notice" id="custom-audio-status" role="status" aria-live="polite"></p>
-      </article>
+      ${renderSettingsInterfaceRegion(state)}
+      <div data-page-region="settings-profile">
+        ${renderSettingsProfileRegion(state)}
+      </div>
+      <div data-page-region="settings-equipment">
+        ${renderSettingsEquipmentRegion(state)}
+      </div>
+      <div data-page-region="settings-audio">
+        ${renderSettingsAudioRegion(state)}
+      </div>
 
       <article class="card settings-panel">
         <div class="settings-panel__header">
@@ -713,6 +365,7 @@ export function renderSettingsPage(state) {
 export const pageRenderers = {
   home: renderHomePage,
   exercises: renderExercisesPage,
+  recommendations: renderRecommendationsPage,
   'exercise-create': renderExerciseCreatePage,
   'exercise-edit': renderExerciseEditPage,
   'exercise-view': renderExerciseViewPage,
@@ -722,6 +375,589 @@ export const pageRenderers = {
   'workout-run': renderWorkoutRunPage,
   settings: renderSettingsPage,
 };
+
+export function renderRecommendationsContentRegion(state) {
+  const language = selectLanguage(state);
+  const recommendations = selectRecommendedExercises(state);
+  const profile = selectProfile(state);
+  const topExercises = recommendations.topExercises || [];
+  const selectedEquipmentCount = Array.isArray(state?.store?.equipment?.selectedIds) ? state.store.equipment.selectedIds.length : 0;
+  const exclusionEntries = Object.entries(recommendations.summary?.excludedByReason || {});
+  const scoreParts = [
+    ['goalAlignment', 'recommendationsPartGoalAlignment'],
+    ['levelMatch', 'recommendationsPartLevelMatch'],
+    ['preference', 'recommendationsPartPreference'],
+    ['recovery', 'recommendationsPartRecovery'],
+    ['safety', 'recommendationsPartSafety'],
+    ['variety', 'recommendationsPartVariety'],
+    ['timeFit', 'recommendationsPartTimeFit'],
+  ];
+
+  if (topExercises.length === 0) {
+    return `
+      <div class="page-header">
+        <div>
+          <h1>${t(state, 'recommendationsTitle')}</h1>
+          <p class="muted">${t(state, 'recommendationsDescription')}</p>
+        </div>
+      </div>
+
+      <article class="card">
+        <div class="chip-list">
+          <span class="chip">${t(state, 'recommendationsSummaryEligible')}: 0</span>
+          <span class="chip">${t(state, 'recommendationsSummaryExcluded')}: ${recommendations.summary?.excludedCount || 0}</span>
+          <span class="chip">${t(state, 'recommendationsSummaryEquipment')}: ${selectedEquipmentCount}</span>
+          <span class="chip">${t(state, 'recommendationsSummarySessionDuration')}: ${profile.sessionDurationMin || 0} ${t(state, 'recommendationsMinutesShort')}</span>
+        </div>
+      </article>
+
+      ${renderEmptyState(state, 'recommendationsEmptyTitle', 'recommendationsEmptyDescription', 'navSettings', '#settings')}
+    `;
+  }
+
+  return `
+    <div class="page-header">
+      <div>
+        <h1>${t(state, 'recommendationsTitle')}</h1>
+        <p class="muted">${t(state, 'recommendationsDescription')}</p>
+      </div>
+      <a class="button" href="#settings">${t(state, 'recommendationsAdjustProfile')}</a>
+    </div>
+
+    <article class="card">
+      <div class="chip-list">
+        <span class="chip">${t(state, 'recommendationsSummaryEligible')}: ${recommendations.summary?.eligibleCount || 0}</span>
+        <span class="chip">${t(state, 'recommendationsSummaryExcluded')}: ${recommendations.summary?.excludedCount || 0}</span>
+        <span class="chip">${t(state, 'recommendationsSummaryEquipment')}: ${selectedEquipmentCount}</span>
+        <span class="chip">${t(state, 'recommendationsSummarySessionDuration')}: ${profile.sessionDurationMin || 0} ${t(state, 'recommendationsMinutesShort')}</span>
+      </div>
+      ${exclusionEntries.length ? `
+        <div class="chip-list" style="margin-top: 12px;">
+          ${exclusionEntries.map(([reason, count]) => `<span class="chip">${t(state, getRecommendationReasonMessageKey(reason))}: ${count}</span>`).join('')}
+        </div>
+      ` : ''}
+    </article>
+
+    <section class="workout-view-list" aria-label="${escapeAttribute(t(state, 'recommendationsTitle'))}">
+      ${topExercises.map((entry, index) => {
+        const exercise = entry.exercise;
+        const name = localizedText(exercise.name, language) || exercise.id;
+        const shortDescription = localizedText(exercise.shortDescription, language) || t(state, 'emptyValue');
+        const partsHtml = scoreParts
+          .map(([partId, labelKey]) => {
+            const value = entry.parts?.[partId];
+            return typeof value === 'number'
+              ? `<span class="chip">${t(state, labelKey)}: ${formatRecommendationScore(value)}</span>`
+              : '';
+          })
+          .filter(Boolean)
+          .join('');
+
+        return `
+          <article class="card">
+            <div class="section-header">
+              <div>
+                <p class="muted">${t(state, 'recommendationsRankLabel')} ${index + 1}</p>
+                <h3>${escapeHtml(name)}</h3>
+                <p class="muted">${escapeHtml(shortDescription)}</p>
+              </div>
+              <div class="stat">
+                <span class="stat__value">${formatRecommendationScore(entry.total)}</span>
+                <span class="muted">${t(state, 'recommendationsTotalScore')}</span>
+              </div>
+            </div>
+
+            <div class="chip-list">
+              <span class="chip">${t(state, 'recommendationsDifficulty')}: ${escapeHtml(exercise.difficulty || t(state, 'emptyValue'))}</span>
+              <span class="chip">${t(state, 'recommendationsEquipment')}: ${escapeHtml((entry.metadata?.requiredEquipmentIds || []).join(', ') || t(state, 'emptyValue'))}</span>
+              <span class="chip">${t(state, 'recommendationsExerciseGoals')}: ${escapeHtml((entry.metadata?.goalIds || []).join(', ') || t(state, 'emptyValue'))}</span>
+              <span class="chip">${t(state, 'recommendationsProfileFocus')}: ${escapeHtml(getRecommendationFocusSummary(state, profile, exercise) || t(state, 'recommendationsNoStrongFocusMatch'))}</span>
+            </div>
+
+            <div class="chip-list" style="margin-top: 12px;">
+              ${partsHtml}
+            </div>
+
+            <div class="toolbar" style="margin-top: 16px;">
+              <a class="button button--primary" href="#exercise-view/${encodeURIComponent(exercise.id)}">${t(state, 'openExerciseRecommendation')}</a>
+              <button class="button" type="button" data-exercise-action="add-to-workout" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'addToWorkout')}</button>
+            </div>
+          </article>
+        `;
+      }).join('')}
+    </section>
+  `;
+}
+
+export function renderExercisesCatalogRegion(state) {
+  const language = selectLanguage(state);
+  const exercises = selectExerciseCatalog(state);
+  const equipmentCatalog = selectEquipmentCatalog(state);
+  const selectedEquipmentIds = selectEquipmentSelectedIdSet(state);
+  const profile = selectProfile(state);
+  const knownEquipmentIds = equipmentCatalog.map((item) => item.id);
+  const favoriteIds = selectFavoriteExerciseIdSet(state);
+  const allMuscles = new Set();
+  const allTypes = new Set();
+
+  exercises.forEach((exercise) => {
+    exercise.muscles?.forEach((muscle) => allMuscles.add(muscle));
+    const typeName = localizedText(exercise.type, language);
+    if (typeName) {
+      allTypes.add(typeName);
+    }
+  });
+
+  const muscleOptions = Array.from(allMuscles).sort().map((muscle) =>
+    `<option value="${escapeAttribute(muscle)}">${escapeHtml(muscle)}</option>`
+  ).join('');
+  const typeOptions = Array.from(allTypes).sort().map((type) =>
+    `<option value="${escapeAttribute(type.toLowerCase())}">${escapeHtml(type)}</option>`
+  ).join('');
+  const equipmentOptions = equipmentCatalog.map((item) => {
+    const itemName = localizedText(item.name, language) || item.id;
+    return `<option value="${escapeAttribute(item.id)}">${escapeHtml(itemName)}</option>`;
+  }).join('');
+  const exerciseCardsHTML = exercises.map((exercise) => {
+    const name = localizedText(exercise.name, language);
+    const desc = localizedText(exercise.shortDescription, language);
+    const searchText = `${name} ${desc} ${exercise.muscles.join(' ')}`.toLowerCase();
+    const typeText = localizedText(exercise.type, language).toLowerCase();
+    const musclesText = exercise.muscles.join('|');
+    const exerciseEquipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
+    const exerciseProfileLevel = getExerciseProfileLevel(exercise);
+    const equipmentAvailable = isExerciseAvailableForSelectedEquipment(exercise, Array.from(selectedEquipmentIds), knownEquipmentIds);
+    const profileCompatible = isExerciseCompatibleWithProfileLevel(exercise, profile.trainingLevel);
+    const isFavorite = favoriteIds.has(exercise.id);
+
+    return `
+      <a class="exercise-card" href="#exercise-view/${encodeURIComponent(exercise.id)}"
+         data-exercise-search="${escapeHtml(searchText)}"
+         data-exercise-type="${escapeAttribute(typeText)}"
+         data-exercise-muscles="${escapeAttribute(musclesText)}"
+         data-exercise-equipment="${escapeAttribute(exerciseEquipmentIds.join('|'))}"
+         data-exercise-profile-level="${escapeAttribute(exerciseProfileLevel)}"
+         data-exercise-equipment-available="${equipmentAvailable ? 'true' : 'false'}"
+         data-exercise-profile-compatible="${profileCompatible ? 'true' : 'false'}">
+        <div class="exercise-card__content">
+          <div class="exercise-card__header">
+            <h3>${escapeHtml(name)}</h3>
+            ${isFavorite ? `<span class="badge badge--favorite">★</span>` : ''}
+          </div>
+          <p class="muted">${escapeHtml(desc || t(state, 'emptyValue'))}</p>
+          <div class="exercise-card__meta">
+            <span class="badge">${escapeHtml(localizedText(exercise.type, language) || exercise.executionMode)}</span>
+          </div>
+        </div>
+      </a>
+    `;
+  }).join('');
+
+  return `
+    <div class="exercise-filters">
+      <label class="field">
+        <span>${t(state, 'exerciseSearchLabel')}</span>
+        <input type="text" id="exercises-search" data-exercises-search placeholder="${t(state, 'exerciseSearchPlaceholder')}" autocomplete="off">
+      </label>
+
+      <label class="field">
+        <span>${t(state, 'exerciseTypeLabel')}</span>
+        <select id="exercises-type-filter" data-exercises-type-filter>
+          <option value="">${t(state, 'filterAll')}</option>
+          ${typeOptions}
+        </select>
+      </label>
+
+      <label class="field">
+        <span>${t(state, 'exerciseMusclesLabel')}</span>
+        <select id="exercises-muscle-filter" data-exercises-muscle-filter>
+          <option value="">${t(state, 'filterAll')}</option>
+          ${muscleOptions}
+        </select>
+      </label>
+
+      <label class="field">
+        <span>${t(state, 'exerciseEquipmentFilterLabel')}</span>
+        <select id="exercises-equipment-filter" data-exercises-equipment-filter>
+          <option value="">${t(state, 'filterAll')}</option>
+          <option value="available">${t(state, 'exerciseEquipmentFilterAvailable')}</option>
+          ${equipmentOptions}
+        </select>
+      </label>
+
+      <label class="field">
+        <span>${t(state, 'exerciseProfileLevelFilterLabel')}</span>
+        <select id="exercises-profile-level-filter" data-exercises-profile-level-filter>
+          <option value="">${t(state, 'filterAll')}</option>
+          <option value="profile">${t(state, 'exerciseProfileLevelFilterProfile')}</option>
+          <option value="beginner">${t(state, 'trainingLevelOptionBeginner')}</option>
+          <option value="intermediate">${t(state, 'trainingLevelOptionIntermediate')}</option>
+          <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
+        </select>
+      </label>
+    </div>
+
+    <div
+      class="exercise-list"
+      data-exercise-list
+      data-selected-equipment-ids="${escapeAttribute(Array.from(selectedEquipmentIds).join('|'))}"
+      data-profile-training-level="${escapeAttribute(profile.trainingLevel || '')}"
+    >
+      ${exerciseCardsHTML || `<p class="muted" role="status">${t(state, 'emptyExercises')}</p>`}
+    </div>
+
+    <p class="muted exercise-no-results" data-exercise-no-results role="status" aria-live="polite" hidden>${t(state, 'exerciseFilterNoResults')}</p>
+  `;
+}
+
+export function renderHomeOverviewRegion(state) {
+  const exercises = selectExerciseCatalog(state);
+  const userWorkouts = selectUserWorkouts(state);
+  const customExerciseCount = selectCustomExerciseCount(state);
+  const lastOpenedWorkout = selectLastOpenedWorkout(state);
+
+  return `
+    <div class="home-stats">
+      ${renderHomeStat(state, userWorkouts.length, 'totalWorkouts')}
+      ${renderHomeStat(state, exercises.length, 'exercisesTitle')}
+      ${renderHomeStat(state, customExerciseCount, 'customExercises')}
+    </div>
+
+    <div class="quick-actions" aria-label="${t(state, 'quickActions')}">
+      <a class="quick-action quick-action--primary" href="#workout-create">
+        <span class="quick-action__icon">🏋️</span>
+        <span>${t(state, 'quickActionNewTrain')}</span>
+      </a>
+      ${lastOpenedWorkout ? `
+        <a class="quick-action" href="#workout-view/${encodeURIComponent(lastOpenedWorkout.id)}" aria-label="${escapeAttribute(`${t(state, 'returnToLastWorkout')}: ${lastOpenedWorkout.title}`)}">
+          <span class="quick-action__icon">↩</span>
+          <span>${t(state, 'returnToLastWorkout')}</span>
+        </a>
+      ` : ''}
+      <a class="quick-action" href="#exercises">
+        <span class="quick-action__icon">📋</span>
+        <span>${t(state, 'quickActionExercises')}</span>
+      </a>
+      <a class="quick-action" href="#settings">
+        <span class="quick-action__icon">⚙️</span>
+        <span>${t(state, 'quickActionSettings')}</span>
+      </a>
+    </div>
+  `;
+}
+
+export function renderHomeActivityRegion(state) {
+  const history = selectHistory(state);
+  const activityStats = getHomeActivityStats(history);
+
+  return `
+    ${renderHomeActivityStats(state, activityStats)}
+    ${renderProgressCalendar(history, { language: selectLanguage(state) })}
+  `;
+}
+
+export function renderHomeUserWorkoutsRegion(state) {
+  const exercises = selectExerciseCatalog(state);
+  const userWorkouts = selectUserWorkouts(state);
+
+  return `
+    <section class="home-section" aria-labelledby="user-workouts-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="user-workouts-heading">${t(state, 'workoutsTitle')}</h2>
+          <p class="muted">${t(state, 'userWorkoutsHint')}</p>
+        </div>
+        <a class="button button--primary" href="#workout-create"><span>${t(state, 'quickActionCreate')}</span></a>
+      </div>
+
+      ${userWorkouts.length
+        ? `<div class="workout-card-grid">${userWorkouts.map((workout) => renderWorkoutCard(state, workout, exercises)).join('')}</div>`
+        : renderEmptyState(state, 'emptyWorkoutsTitle', 'emptyWorkoutsDescription', 'createWorkout', '#workout-create')}
+    </section>
+  `;
+}
+
+export function renderHomePresetWorkoutsRegion(state) {
+  const exercises = selectExerciseCatalog(state);
+  const presetWorkouts = selectPresetWorkouts();
+
+  return `
+    <section class="home-section" aria-labelledby="preset-workouts-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="preset-workouts-heading">${t(state, 'presetWorkoutsTitle')}</h2>
+          <p class="muted">${t(state, 'presetWorkoutsHint')}</p>
+        </div>
+      </div>
+
+      ${presetWorkouts.length
+        ? `<div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none;">
+            ${presetWorkouts.map((workout) =>
+              renderWorkoutCard(state, workout, exercises, { isPresetCard: true })
+            ).join('')}
+          </div>`
+        : renderEmptyState(state, 'emptyPresetsTitle', 'emptyPresetsDescription', 'createWorkout', '#workout-create')}
+    </section>
+  `;
+}
+
+export function renderWorkoutViewContentRegion(state) {
+  const { id } = getRouteParams();
+  const exercises = selectExerciseCatalog(state);
+
+  if (!id) {
+    const userWorkouts = selectUserWorkouts(state);
+
+    return `
+      <div class="page-header">
+        <h1>${t(state, 'workoutsTitle')}</h1>
+        <a class="button button--primary" href="#workout-create">${t(state, 'createWorkout')}</a>
+      </div>
+
+      <p class="muted">${t(state, 'userWorkoutsHint')}</p>
+
+      ${userWorkouts.length
+        ? `<div class="workout-card-grid">${userWorkouts.map((workout) => renderWorkoutCard(state, workout, exercises)).join('')}</div>`
+        : renderEmptyState(state, 'emptyWorkoutsTitle', 'emptyWorkoutsDescription', 'createWorkout', '#workout-create')}
+    `;
+  }
+
+  const workout = selectWorkoutById(state, id);
+
+  if (!workout) {
+    return `
+      <div class="page-header">
+        <h1>${t(state, 'workoutViewTitle')}</h1>
+      </div>
+      <article class="empty-state">
+        <div class="empty-state__icon" aria-hidden="true">!</div>
+        <div>
+          <h3>${t(state, 'workoutNotFound')}</h3>
+          <p class="muted">${t(state, 'workoutNotFoundHint')}</p>
+        </div>
+        <div class="toolbar">
+          <a class="button" href="#workout-view">${t(state, 'workoutsTitle')}</a>
+          <a class="button button--primary" href="#workout-create">${t(state, 'createWorkout')}</a>
+        </div>
+      </article>
+    `;
+  }
+
+  const durationSec = calculateEstimatedWorkoutDuration(workout, exercises);
+  const calories = calculateWorkoutCaloriesEstimate(workout, exercises);
+
+  return `
+    <div class="page-header">
+      <div>
+        <a class="back-link" href="#workout-view">← ${t(state, 'workoutsTitle')}</a>
+        <h1>${escapeHtml(workout.title || t(state, 'workoutViewTitle'))}</h1>
+        <p class="muted">${escapeHtml(workout.description || t(state, 'emptyValue'))}</p>
+      </div>
+    </div>
+
+    ${workout.items.length ? '' : renderEmptyState(state, 'workoutEmptyViewTitle', 'workoutEmptyViewDescription', 'editWorkout', `#workout-edit/${encodeURIComponent(workout.id)}`)}
+
+    <article class="card workout-summary">
+      <div class="stat">
+        <span class="stat__value">${escapeHtml(formatDuration(durationSec))}</span>
+        <span class="muted">${t(state, 'workoutEstimatedDuration')}</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">${escapeHtml(formatCalories(calories))}</span>
+        <span class="muted">${t(state, 'workoutEstimatedCalories')}</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">${workout.items.length}</span>
+        <span class="muted">${t(state, 'workoutExerciseCount')}</span>
+      </div>
+    </article>
+
+    <div class="workout-view-list">
+      ${workout.items.map((item, index) => renderWorkoutViewItem(state, item, exercises.find((exercise) => exercise.id === item.exerciseId), index)).join('')}
+    </div>
+
+    <div class="toolbar">
+      <a class="button button--primary" href="#workout-run/${encodeURIComponent(workout.id)}" ${workout.items.length ? '' : 'aria-disabled="true" tabindex="-1"'}>${t(state, 'startWorkout')}</a>
+      <a class="button" href="#workout-edit/${encodeURIComponent(workout.id)}">${t(state, 'editWorkout')}</a>
+      <button class="button" type="button" data-workout-action="duplicate" data-workout-id="${escapeAttribute(workout.id)}">${t(state, 'duplicateWorkout')}</button>
+      <button class="button button--danger" type="button" data-workout-action="delete" data-workout-id="${escapeAttribute(workout.id)}">${t(state, 'deleteWorkout')}</button>
+    </div>
+  `;
+}
+
+export function renderSettingsInterfaceRegion(state) {
+  const { settings } = state;
+  const volumePercent = Math.round(settings.volume * 100);
+
+  return `
+    <article class="card settings-panel">
+      <div class="settings-panel__header">
+        <h3>${t(state, 'interfaceSettings')}</h3>
+        <p class="muted">${t(state, 'interfaceSettingsDescription')}</p>
+      </div>
+
+      <div class="settings-grid">
+        <label class="field" for="setting-theme">
+          <span>${t(state, 'themeLabel')}</span>
+          <select id="setting-theme" data-setting="theme">
+            <option value="light" ${settings.theme === 'light' ? 'selected' : ''}>${t(state, 'themeLight')}</option>
+            <option value="dark" ${settings.theme === 'dark' ? 'selected' : ''}>${t(state, 'themeDark')}</option>
+            <option value="system" ${settings.theme === 'system' ? 'selected' : ''}>${t(state, 'themeSystem')}</option>
+          </select>
+        </label>
+
+        <label class="field" for="setting-language">
+          <span>${t(state, 'languageLabel')}</span>
+          <select id="setting-language" data-setting="language">
+            <option value="ru" ${settings.language === 'ru' ? 'selected' : ''}>${t(state, 'languageRu')}</option>
+            <option value="en" ${settings.language === 'en' ? 'selected' : ''}>${t(state, 'languageEn')}</option>
+          </select>
+        </label>
+
+        <div class="field">
+          <span>${t(state, 'soundLabel')}</span>
+          <label class="checkbox-field">
+            <input type="checkbox" data-setting="soundEnabled" ${settings.soundEnabled ? 'checked' : ''}>
+            <span>${t(state, 'soundEnabled')}</span>
+          </label>
+        </div>
+
+        <label class="field" for="setting-volume">
+          <span>${t(state, 'volumeLabel')}: <output id="setting-volume-value">${volumePercent}%</output></span>
+          <input id="setting-volume" type="range" min="0" max="1" step="0.01" value="${settings.volume}" data-setting="volume">
+        </label>
+      </div>
+    </article>
+  `;
+}
+
+export function renderSettingsProfileRegion(state) {
+  const profile = selectProfile(state);
+  const limitationsValue = (profile.limitations || []).join(', ');
+  const dislikedExercisesValue = (profile.dislikedExercises || []).join(', ');
+  const likedTagsValue = (profile.likedTags || []).join(', ');
+
+  return `
+    <article class="card settings-panel">
+      <div class="settings-panel__header">
+        <h3>${t(state, 'profileSettings')}</h3>
+        <p class="muted">${t(state, 'profileSettingsDescription')}</p>
+      </div>
+
+      <div class="settings-grid">
+        ${renderProfileNumberField(state, 'age', 'profileAge', profile.age, { min: 0, step: 1 })}
+        ${renderProfileSelectField(state, 'sex', 'profileSex', profile.sex, PROFILE_SELECT_OPTIONS.sex)}
+        ${renderProfileNumberField(state, 'weightKg', 'profileWeight', profile.weightKg, { min: 0, step: 0.1 })}
+        ${renderProfileNumberField(state, 'heightCm', 'profileHeight', profile.heightCm, { min: 0, step: 0.1 })}
+        ${renderProfileNumberField(state, 'bodyFatPercent', 'profileBodyFat', profile.bodyFatPercent, { min: 0, max: 100, step: 0.1 })}
+        ${renderProfileNumberField(state, 'wristCm', 'profileWrist', profile.wristCm, { min: 0, step: 0.1 })}
+        ${renderProfileNumberField(state, 'waistCm', 'profileWaist', profile.waistCm, { min: 0, step: 0.1 })}
+        ${renderProfileNumberField(state, 'neckCm', 'profileNeck', profile.neckCm, { min: 0, step: 0.1 })}
+        ${renderProfileNumberField(state, 'chestCm', 'profileChest', profile.chestCm, { min: 0, step: 0.1 })}
+        ${renderProfileNumberField(state, 'hipsCm', 'profileHips', profile.hipsCm, { min: 0, step: 0.1 })}
+        ${renderProfileNumberField(state, 'forearmCm', 'profileForearm', profile.forearmCm, { min: 0, step: 0.1 })}
+        ${renderProfileNumberField(state, 'calfCm', 'profileCalf', profile.calfCm, { min: 0, step: 0.1 })}
+        ${renderProfileSelectField(state, 'trainingLevel', 'profileTrainingLevel', profile.trainingLevel, PROFILE_SELECT_OPTIONS.trainingLevel)}
+        ${renderProfileSelectField(state, 'goal', 'profileGoal', profile.goal, PROFILE_SELECT_OPTIONS.goal)}
+        ${renderProfileNumberField(state, 'sessionDurationMin', 'profileSessionDuration', profile.sessionDurationMin, { min: 0, step: 1 })}
+        ${renderProfileNumberField(state, 'frequencyPerWeek', 'profileFrequencyPerWeek', profile.frequencyPerWeek, { min: 0, step: 1 })}
+        <div class="field settings-grid__wide">
+          <span>${t(state, 'profileGoalsWeighted')}</span>
+          <div class="settings-grid">
+            ${PROFILE_GOAL_FIELDS.map((goalId) => renderProfileNumberField(
+              state,
+              `goals.${goalId}`,
+              `profileGoalWeight${capitalize(goalId)}`,
+              profile.goals?.[goalId],
+              { min: 0, max: 1, step: 0.1 }
+            )).join('')}
+          </div>
+        </div>
+        <div class="field settings-grid__wide">
+          <span>${t(state, 'profileBodyFocusGoals')}</span>
+          <div class="settings-grid">
+            ${PROFILE_BODY_FOCUS_FIELDS.map((goalId) => renderProfileNumberField(
+              state,
+              `bodyFocusGoals.${goalId}`,
+              `profileBodyFocus${capitalize(goalId)}`,
+              profile.bodyFocusGoals?.[goalId],
+              { min: 0, max: 1, step: 0.1 }
+            )).join('')}
+          </div>
+        </div>
+        <div class="field settings-grid__wide">
+          <span>${t(state, 'profileRecoveryProfile')}</span>
+          <div class="settings-grid">
+            ${PROFILE_RECOVERY_FIELDS.map((areaId) => renderProfileNumberField(
+              state,
+              `recoveryProfile.${areaId}`,
+              `profileRecovery${capitalize(areaId)}`,
+              profile.recoveryProfile?.[areaId],
+              { min: 0, max: 1, step: 0.1 }
+            )).join('')}
+          </div>
+        </div>
+        ${renderProfileTextareaField(state, 'limitations', 'profileLimitations', limitationsValue, 'profileLimitationsPlaceholder')}
+        ${renderProfileTextareaField(state, 'dislikedExercises', 'profileDislikedExercises', dislikedExercisesValue, 'profileDislikedExercisesPlaceholder')}
+        ${renderProfileTextareaField(state, 'likedTags', 'profileLikedTags', likedTagsValue, 'profileLikedTagsPlaceholder')}
+      </div>
+
+      <p class="notice" id="profile-status" role="status" aria-live="polite"></p>
+    </article>
+  `;
+}
+
+export function renderSettingsEquipmentRegion(state) {
+  const equipment = selectEquipmentCatalog(state);
+  const selectedEquipmentIds = selectEquipmentSelectedIdSet(state);
+
+  return `
+    <article class="card settings-panel">
+      <div class="settings-panel__header">
+        <h3>${t(state, 'equipmentSettings')}</h3>
+        <p class="muted">${t(state, 'equipmentSettingsDescription')}</p>
+      </div>
+
+      <div class="inline-control">
+        <label class="field settings-inline-field" for="equipment-custom-name">
+          <span>${t(state, 'equipmentCustomLabel')}</span>
+          <input
+            id="equipment-custom-name"
+            type="text"
+            data-equipment-custom-input
+            placeholder="${escapeAttribute(t(state, 'equipmentCustomPlaceholder'))}"
+          >
+        </label>
+        <button class="button button--primary" type="button" data-equipment-add>${t(state, 'equipmentAdd')}</button>
+      </div>
+
+      <div class="settings-checkbox-list" data-equipment-list>
+        ${equipment.map((item) => renderEquipmentOption(state, item, selectedEquipmentIds.has(item.id))).join('')}
+      </div>
+
+      <p class="notice" id="equipment-status" role="status" aria-live="polite"></p>
+    </article>
+  `;
+}
+
+export function renderSettingsAudioRegion(state) {
+  const { settings } = state;
+
+  return `
+    <article class="card settings-panel">
+      <div class="settings-panel__header">
+        <h3>${t(state, 'customAudioSettings')}</h3>
+        <p class="muted">${t(state, 'customAudioDescription')}</p>
+      </div>
+
+      <div class="custom-audio-list">
+        ${audioEvents.map((eventName) => renderCustomAudioRow(state, eventName, settings.customAudio?.[eventName])).join('')}
+      </div>
+
+      <p class="notice" id="custom-audio-status" role="status" aria-live="polite"></p>
+    </article>
+  `;
+}
 
 function renderProfileNumberField(state, fieldName, labelKey, value, options = {}) {
   const id = `profile-${fieldName}`;
@@ -760,6 +996,22 @@ function renderProfileSelectField(state, fieldName, labelKey, value, optionValue
   `;
 }
 
+function renderProfileTextareaField(state, fieldName, labelKey, value, placeholderKey) {
+  const id = `profile-${fieldName}`;
+
+  return `
+    <label class="field settings-grid__wide" for="${id}">
+      <span>${t(state, labelKey)}</span>
+      <textarea
+        id="${id}"
+        rows="3"
+        data-profile-field="${fieldName}"
+        placeholder="${escapeAttribute(t(state, placeholderKey))}"
+      >${escapeHtml(value || '')}</textarea>
+    </label>
+  `;
+}
+
 function buildProfileOptionMessageKey(fieldName, optionValue) {
   if (!optionValue) {
     return `${fieldName}OptionEmpty`;
@@ -771,6 +1023,51 @@ function buildProfileOptionMessageKey(fieldName, optionValue) {
     .join('');
 
   return `${fieldName}Option${normalized}`;
+}
+
+function getRecommendationReasonMessageKey(reason) {
+  const normalized = String(reason || '')
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
+
+  return `recommendationsReason${normalized}`;
+}
+
+function formatRecommendationScore(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(2) : '0.00';
+}
+
+function getRecommendationFocusSummary(state, profile, exercise) {
+  const bodyFocusGoals = profile?.bodyFocusGoals || {};
+  const primaryMuscles = new Set(asArray(exercise?.muscleGroups?.primary));
+  const activeMatches = Object.entries(bodyFocusGoals)
+    .filter(([, weight]) => Number(weight) > 0)
+    .map(([goalId, weight]) => {
+      const targetMuscles = BODY_FOCUS_MUSCLE_GROUPS[goalId] || [];
+      const hasMatch = targetMuscles.some((muscleId) => primaryMuscles.has(muscleId));
+
+      if (!hasMatch) {
+        return null;
+      }
+
+      return {
+        goalId,
+        weight: Number(weight) || 0,
+      };
+    })
+    .filter(Boolean)
+    .sort((left, right) => right.weight - left.weight);
+
+  if (!activeMatches.length) {
+    return '';
+  }
+
+  return activeMatches
+    .slice(0, 2)
+    .map(({ goalId }) => t(state, `bodyFocus${capitalize(goalId)}`))
+    .join(', ');
 }
 
 function renderEquipmentOption(state, item, isSelected) {

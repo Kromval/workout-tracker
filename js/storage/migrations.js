@@ -16,6 +16,8 @@ const MIGRATIONS = Object.freeze({
   1: migrateV1ToV2,
   2: migrateV2ToV3,
   3: migrateV3ToV4,
+  4: migrateV4ToV5,
+  5: migrateV5ToV6,
 });
 
 export function migrateStore(store) {
@@ -131,4 +133,86 @@ function migrateV3ToV4(store) {
     ...clone(store),
     version: 4,
   };
+}
+
+function migrateV4ToV5(store) {
+  const nextStore = {
+    ...clone(DEFAULT_STORE),
+    ...clone(store),
+    version: 5,
+  };
+  const profile = isPlainObject(nextStore.profile) ? nextStore.profile : {};
+
+  nextStore.profile = {
+    ...clone(DEFAULT_STORE.profile),
+    ...profile,
+    goals: migrateLegacyGoals(profile.goal),
+    limitations: migrateLegacyLimitations(profile.limitations),
+  };
+
+  return nextStore;
+}
+
+function migrateV5ToV6(store) {
+  const nextStore = {
+    ...clone(DEFAULT_STORE),
+    ...clone(store),
+    version: 6,
+  };
+  const profile = isPlainObject(nextStore.profile) ? nextStore.profile : {};
+
+  nextStore.profile = {
+    ...clone(DEFAULT_STORE.profile),
+    ...profile,
+    bodyFocusGoals: {
+      ...clone(DEFAULT_STORE.profile.bodyFocusGoals),
+      ...(isPlainObject(profile.bodyFocusGoals) ? profile.bodyFocusGoals : {}),
+    },
+  };
+
+  return nextStore;
+}
+
+function migrateLegacyGoals(goal) {
+  const base = clone(DEFAULT_STORE.profile.goals);
+  const normalizedGoal = normalizeString(goal);
+
+  if (!normalizedGoal) {
+    return base;
+  }
+
+  if (normalizedGoal === 'general-fitness') {
+    return {
+      ...base,
+      strength: 0.5,
+      hypertrophy: 0.4,
+      endurance: 0.5,
+      fatLoss: 0.4,
+      mobility: 0.4,
+    };
+  }
+
+  if (normalizedGoal === 'fat-loss') {
+    return {
+      ...base,
+      fatLoss: 1,
+    };
+  }
+
+  if (Object.prototype.hasOwnProperty.call(base, normalizedGoal)) {
+    return {
+      ...base,
+      [normalizedGoal]: 1,
+    };
+  }
+
+  return base;
+}
+
+function migrateLegacyLimitations(limitations) {
+  if (Array.isArray(limitations)) {
+    return limitations;
+  }
+
+  return uniqueStrings(normalizeString(limitations).split(/[\n,;]+/));
 }

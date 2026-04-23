@@ -8,6 +8,9 @@ import {
   HISTORY_STATUSES,
   LANGUAGES,
   PROFILE_GOALS,
+  PROFILE_BODY_FOCUS_GOALS,
+  PROFILE_RECOVERY_AREAS,
+  PROFILE_SCORING_GOALS,
   PROFILE_SEXES,
   PROFILE_TRAINING_LEVELS,
   STORAGE_VERSION,
@@ -252,6 +255,9 @@ export function sanitizeSettings(settings) {
 
 export function sanitizeProfile(profile) {
   const source = isPlainObject(profile) ? profile : {};
+  const goals = sanitizeProfileGoals(source.goals, source.goal);
+  const bodyFocusGoals = sanitizeBodyFocusGoals(source.bodyFocusGoals);
+  const trainingLevel = PROFILE_TRAINING_LEVELS.includes(source.trainingLevel) ? source.trainingLevel : '';
 
   return {
     age: optionalNonNegativeInteger(source.age),
@@ -268,9 +274,17 @@ export function sanitizeProfile(profile) {
     hipsCm: optionalNonNegativeNumber(source.hipsCm),
     forearmCm: optionalNonNegativeNumber(source.forearmCm),
     calfCm: optionalNonNegativeNumber(source.calfCm),
-    trainingLevel: PROFILE_TRAINING_LEVELS.includes(source.trainingLevel) ? source.trainingLevel : '',
-    goal: PROFILE_GOALS.includes(source.goal) ? source.goal : '',
-    limitations: normalizeString(source.limitations),
+    trainingLevel,
+    goal: sanitizeLegacyGoal(source.goal, goals),
+    goals,
+    bodyFocusGoals,
+    limitations: sanitizeProfileTokenList(source.limitations),
+    dislikedExercises: uniqueStrings(source.dislikedExercises),
+    likedTags: sanitizeProfileTokenList(source.likedTags),
+    sessionDurationMin: optionalNonNegativeInteger(source.sessionDurationMin),
+    frequencyPerWeek: optionalNonNegativeInteger(source.frequencyPerWeek),
+    recoveryProfile: sanitizeRecoveryProfile(source.recoveryProfile),
+    recentHistory: sanitizeRecentHistory(source.recentHistory),
   };
 }
 
@@ -544,5 +558,116 @@ export function sanitizeActiveSession(session) {
     remainingSec,
     elapsedSec: nonNegativeInteger(session.elapsedSec, 0),
     startedAt: normalizeIsoDate(session.startedAt, nowIso()),
+  };
+}
+
+function sanitizeProfileGoals(goals, legacyGoal) {
+  const source = isPlainObject(goals) ? goals : {};
+  const result = PROFILE_SCORING_GOALS.reduce((accumulator, goalId) => ({
+    ...accumulator,
+    [goalId]: clampNumber(source[goalId], 0, 1, 0),
+  }), {});
+
+  if (PROFILE_SCORING_GOALS.some((goalId) => result[goalId] > 0)) {
+    return result;
+  }
+
+  const legacyWeights = getLegacyGoalWeights(legacyGoal);
+  return {
+    ...result,
+    ...legacyWeights,
+  };
+}
+
+function sanitizeBodyFocusGoals(bodyFocusGoals) {
+  const source = isPlainObject(bodyFocusGoals) ? bodyFocusGoals : {};
+
+  return PROFILE_BODY_FOCUS_GOALS.reduce((result, goalId) => ({
+    ...result,
+    [goalId]: clampNumber(source[goalId], 0, 1, 0),
+  }), {});
+}
+
+function getLegacyGoalWeights(goal) {
+  const normalizedGoal = normalizeString(goal);
+
+  if (normalizedGoal === 'general-fitness') {
+    return {
+      strength: 0.5,
+      hypertrophy: 0.4,
+      endurance: 0.5,
+      fatLoss: 0.4,
+      mobility: 0.4,
+    };
+  }
+
+  if (normalizedGoal === 'fat-loss') {
+    return { fatLoss: 1 };
+  }
+
+  if (PROFILE_SCORING_GOALS.includes(normalizedGoal)) {
+    return { [normalizedGoal]: 1 };
+  }
+
+  return {};
+}
+
+function sanitizeLegacyGoal(goal, goals) {
+  const normalizedGoal = normalizeString(goal);
+
+  if (PROFILE_GOALS.includes(normalizedGoal)) {
+    return normalizedGoal;
+  }
+
+  const rankedGoals = Object.entries(goals)
+    .filter(([, weight]) => weight > 0)
+    .sort((left, right) => right[1] - left[1]);
+  const topGoal = rankedGoals[0]?.[0] || '';
+
+  if (!topGoal) {
+    return '';
+  }
+
+  if (topGoal === 'fatLoss') {
+    return 'fat-loss';
+  }
+
+  return PROFILE_GOALS.includes(topGoal) ? topGoal : 'general-fitness';
+}
+
+function sanitizeProfileTokenList(value) {
+  return uniqueStrings(
+    (Array.isArray(value) ? value : normalizeString(value).split(/[\n,;]+/))
+      .map((item) => normalizeString(item).toLowerCase().replaceAll(' ', '-'))
+  );
+}
+
+function sanitizeRecoveryProfile(recoveryProfile) {
+  const source = isPlainObject(recoveryProfile) ? recoveryProfile : {};
+
+  return PROFILE_RECOVERY_AREAS.reduce((result, area) => ({
+    ...result,
+    [area]: clampNumber(source[area], 0, 1, 0),
+  }), {});
+}
+
+function sanitizeRecentHistory(recentHistory) {
+  const source = isPlainObject(recentHistory) ? recentHistory : {};
+  const performedMovementPatterns = isPlainObject(source.performedMovementPatterns)
+    ? Object.entries(source.performedMovementPatterns).reduce((result, [pattern, count]) => {
+      const normalizedPattern = normalizeString(pattern).toLowerCase().replaceAll(' ', '-');
+
+      if (!normalizedPattern) {
+        return result;
+      }
+
+      result[normalizedPattern] = nonNegativeInteger(count, 0);
+      return result;
+    }, {})
+    : {};
+
+  return {
+    performedExerciseIds: uniqueStrings(source.performedExerciseIds),
+    performedMovementPatterns,
   };
 }

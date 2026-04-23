@@ -92,7 +92,14 @@ describe('storage core', () => {
   });
 
   test('importStore merges legacy fields and exportStore excludes duplicate fields', () => {
-    saveSettings({ language: 'en', favoriteExerciseIds: ['current'] });
+    saveStore({
+      settings: { language: 'en', favoriteExerciseIds: ['current'] },
+      profile: {
+        goals: { endurance: 0.2 },
+        bodyFocusGoals: { core: 0.6 },
+        recentHistory: { performedExerciseIds: ['plank'] },
+      },
+    });
 
     const imported = importStore(JSON.stringify({
       app: 'workout-tracker',
@@ -106,6 +113,16 @@ describe('storage core', () => {
       profile: {
         age: 29,
         goal: 'strength',
+        goals: {
+          strength: 0.9,
+          hypertrophy: 0.4,
+        },
+        bodyFocusGoals: {
+          upperBody: 0.8,
+        },
+        recentHistory: {
+          performedExerciseIds: ['squat'],
+        },
       },
       equipment: {
         selectedIds: ['bodyweight', 'sled'],
@@ -133,6 +150,25 @@ describe('storage core', () => {
     expect(imported.profile).toMatchObject({
       age: 29,
       goal: 'strength',
+      goals: {
+        strength: 0.9,
+        hypertrophy: 0.4,
+        endurance: 0.2,
+        fatLoss: 0,
+        mobility: 0,
+      },
+      bodyFocusGoals: {
+        upperBody: 0.8,
+        lowerBody: 0,
+        vTaper: 0,
+        core: 0.6,
+        arms: 0,
+        glutes: 0,
+      },
+      recentHistory: {
+        performedExerciseIds: ['plank', 'squat'],
+        performedMovementPatterns: {},
+      },
     });
     expect(imported.equipment.selectedIds).toEqual(['bodyweight', 'sled']);
     expect(imported.equipment.customItems[0]).toMatchObject({

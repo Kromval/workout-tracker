@@ -1,7 +1,7 @@
 import { preview as previewAudio, setVolume, stopAll } from '../features/audio.js';
 import { t } from '../i18n/index.js';
 import { refreshStore, updateEquipment, updateProfile, updateSettings } from '../core/state.js';
-import { selectCustomAudio, selectEquipment, selectEquipmentSelectedIdSet } from '../core/selectors.js';
+import { selectCustomAudio, selectEquipment, selectEquipmentSelectedIdSet, selectProfile } from '../core/selectors.js';
 import {
   createCustomEquipmentRecord,
   createEquipment,
@@ -50,13 +50,19 @@ export function handleProfileChange(input, state) {
     return;
   }
 
+  const currentProfile = selectProfile(state);
   let value = input.value;
 
   if (input instanceof HTMLInputElement && input.type === 'number') {
     value = value === '' ? null : Number(value);
   }
 
-  updateProfile({ [fieldName]: value });
+  if (input instanceof HTMLTextAreaElement && ['limitations', 'dislikedExercises', 'likedTags'].includes(fieldName)) {
+    value = parseCommaSeparatedList(value);
+  }
+
+  const profilePatch = buildProfilePatch(currentProfile, fieldName, value);
+  updateProfile(profilePatch);
   setProfileStatus(t(state, 'settingsSaved'));
 }
 
@@ -273,4 +279,29 @@ function setEquipmentStatus(message, type = 'success') {
   } else {
     delete status.dataset.type;
   }
+}
+
+function buildProfilePatch(currentProfile, fieldName, value) {
+  if (!fieldName.includes('.')) {
+    return { [fieldName]: value };
+  }
+
+  const [rootKey, leafKey] = fieldName.split('.');
+  const currentGroup = currentProfile?.[rootKey] && typeof currentProfile[rootKey] === 'object'
+    ? currentProfile[rootKey]
+    : {};
+
+  return {
+    [rootKey]: {
+      ...currentGroup,
+      [leafKey]: value,
+    },
+  };
+}
+
+function parseCommaSeparatedList(value) {
+  return normalizeString(value)
+    .split(/[\n,;]+/)
+    .map((item) => normalizeString(item).toLowerCase().replaceAll(' ', '-'))
+    .filter(Boolean);
 }

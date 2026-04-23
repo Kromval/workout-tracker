@@ -3,15 +3,18 @@ import { asArray, normalizeString } from '../core/utils.js';
 const PROFILE_LEVELS = ['beginner', 'intermediate', 'advanced'];
 
 export function getExerciseEquipmentIds(exercise, knownEquipmentIds = []) {
+  const equipment = asArray(exercise?.equipment).map(normalizeEquipmentId);
   const tags = asArray(exercise?.tags).map(normalizeTag);
   const knownIds = new Set(asArray(knownEquipmentIds).map(normalizeTag));
+  const source = equipment.length > 0 ? equipment : tags;
 
-  return Array.from(new Set(tags.filter((tag) => knownIds.has(tag))));
+  return Array.from(new Set(source.filter((tag) => knownIds.has(tag))));
 }
 
 export function getExerciseProfileLevel(exercise) {
+  const difficulty = normalizeDifficulty(exercise?.difficulty);
   const tags = asArray(exercise?.tags).map(normalizeTag);
-  return PROFILE_LEVELS.find((level) => tags.includes(level)) || '';
+  return difficulty || PROFILE_LEVELS.find((level) => tags.includes(level)) || '';
 }
 
 export function isExerciseAvailableForSelectedEquipment(exercise, selectedEquipmentIds, knownEquipmentIds = []) {
@@ -38,4 +41,19 @@ export function isExerciseCompatibleWithProfileLevel(exercise, trainingLevel) {
 
 function normalizeTag(value) {
   return normalizeString(value).toLowerCase().replaceAll(' ', '-');
+}
+
+function normalizeEquipmentId(value) {
+  const normalized = normalizeTag(value);
+
+  if (normalized === 'resistance-band') {
+    return 'bands';
+  }
+
+  return normalized;
+}
+
+function normalizeDifficulty(value) {
+  const normalized = normalizeTag(value);
+  return PROFILE_LEVELS.includes(normalized) ? normalized : '';
 }

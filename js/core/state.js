@@ -35,45 +35,45 @@ export function subscribe(listener) {
   return () => listeners.delete(listener);
 }
 
-export function notify() {
-  listeners.forEach((listener) => listener(state));
+export function notify(meta = {}) {
+  listeners.forEach((listener) => listener(state, meta));
 }
 
 export function setRoute(route, params = {}) {
   state.route = route;
   syncLastOpenedWorkout(route, params.id);
-  notify();
+  notify({ type: 'route', route, params });
 }
 
 export function setExercises(exercises) {
   state.exercises = exercises;
-  notify();
+  notify({ type: 'exercises' });
 }
 
 export function refreshStore() {
   state.store = loadStore();
   state.settings = state.store.settings;
-  notify();
+  notify({ type: 'store' });
 }
 
 export function updateSettings(settingsPatch) {
   state.settings = saveSettings(settingsPatch);
   state.store = loadStore();
-  notify();
+  notify({ type: 'settings', changedKeys: Object.keys(settingsPatch) });
 }
 
 export function updateProfile(profilePatch) {
   saveProfile(profilePatch);
   state.store = loadStore();
   state.settings = state.store.settings;
-  notify();
+  notify({ type: 'profile', changedKeys: Object.keys(profilePatch) });
 }
 
 export function updateEquipment(equipment) {
   saveEquipment(equipment);
   state.store = loadStore();
   state.settings = state.store.settings;
-  notify();
+  notify({ type: 'equipment' });
 }
 
 function syncLastOpenedWorkout(route, workoutId) {

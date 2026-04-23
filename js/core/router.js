@@ -3,6 +3,7 @@ import { setRoute } from './state.js';
 export const routes = [
   'home',
   'exercises',
+  'recommendations',
   'exercise-create',
   'exercise-edit',
   'exercise-view',

@@ -12,11 +12,15 @@ describe('recommendation exercise filtering', () => {
         {
           id: 'push-ups',
           type: { en: 'strength' },
+          equipment: ['bodyweight'],
+          difficulty: 'beginner',
           tags: ['bodyweight', 'beginner'],
         },
         {
           id: 'kettlebell-snatch',
           type: { en: 'cardio' },
+          equipment: ['kettlebell'],
+          difficulty: 'advanced',
           tags: ['kettlebell', 'advanced'],
         },
       ],
@@ -46,8 +50,8 @@ describe('recommendation exercise filtering', () => {
   test('deduplicates repeated exercise ids inside recommendation pool', () => {
     const result = filterExercisesForRecommendations({
       exercises: [
-        { id: 'bird-dog', type: { en: 'strength' }, tags: ['bodyweight', 'beginner'] },
-        { id: 'bird-dog', type: { en: 'strength' }, tags: ['bodyweight', 'beginner'] },
+        { id: 'bird-dog', type: { en: 'strength' }, equipment: ['bodyweight'], difficulty: 'beginner', tags: ['bodyweight', 'beginner'] },
+        { id: 'bird-dog', type: { en: 'strength' }, equipment: ['bodyweight'], difficulty: 'beginner', tags: ['bodyweight', 'beginner'] },
       ],
       profile: {},
       equipment: { selectedIds: ['bodyweight'] },
@@ -64,8 +68,8 @@ describe('recommendation exercise filtering', () => {
   test('supports strict goal filtering and goal affinity metadata', () => {
     const result = filterExercisesForRecommendations({
       exercises: [
-        { id: 'push-ups', type: { en: 'strength' }, tags: ['bodyweight', 'beginner'] },
-        { id: 'jumping-jacks', type: { en: 'cardio' }, tags: ['bodyweight', 'beginner', 'cardio'] },
+        { id: 'push-ups', type: { en: 'strength' }, equipment: ['bodyweight'], difficulty: 'beginner', tags: ['bodyweight', 'beginner'] },
+        { id: 'jumping-jacks', type: { en: 'cardio' }, equipment: ['bodyweight'], difficulty: 'beginner', tags: ['bodyweight', 'beginner', 'cardio'] },
       ],
       profile: {
         goal: 'fat-loss',
@@ -87,6 +91,8 @@ describe('recommendation exercise filtering', () => {
       {
         id: 'sun-salutation',
         type: { en: 'yoga' },
+        equipment: ['bodyweight'],
+        difficulty: 'intermediate',
         tags: ['bodyweight', 'intermediate', 'yoga'],
       },
       {
@@ -105,6 +111,8 @@ describe('recommendation exercise filtering', () => {
 
     expect(getExerciseGoalIds({
       type: { en: 'strength' },
+      equipment: ['dumbbells'],
+      difficulty: 'intermediate',
       tags: ['dumbbells', 'intermediate'],
     })).toEqual(expect.arrayContaining(['strength', 'hypertrophy', 'general-fitness']));
   });

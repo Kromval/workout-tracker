@@ -41,7 +41,34 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest",
+        "triceps"
+      ],
+      "secondary": [
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain",
+      "shoulder impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "squats",
@@ -84,7 +111,34 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "squat"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain",
+      "lower back issues"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "plank",
@@ -121,7 +175,32 @@ export const builtInExerciseRecords = [
     "executionMode": "hold",
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain",
+      "shoulder issues"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "jumping-jacks",
@@ -157,7 +236,30 @@ export const builtInExerciseRecords = [
     "executionMode": "time",
     "estimatedCalories": 9,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "cardio",
+      "full-body-dynamic"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "ankle/knee issues"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
   },
   {
     "id": "lunges",
@@ -200,7 +302,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain",
+      "ankle issues"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "burpees",
@@ -242,7 +370,34 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 10,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "full-body-dynamic",
+      "cardio"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain",
+      "knee pain",
+      "shoulder issues"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "high"
+    }
   },
   {
     "id": "mountain-climbers",
@@ -279,7 +434,33 @@ export const builtInExerciseRecords = [
     "executionMode": "time",
     "estimatedCalories": 8,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension",
+      "cardio"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain",
+      "shoulder issues"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
   },
   {
     "id": "glute-bridge",
@@ -322,7 +503,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "bicycle-crunches",
@@ -364,7 +570,30 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "neck pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "leg-raises",
@@ -405,7 +634,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "superman",
@@ -448,7 +699,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension",
+      "back-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back",
+        "glutes"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "high-knees",
@@ -484,7 +761,30 @@ export const builtInExerciseRecords = [
     "executionMode": "time",
     "estimatedCalories": 9,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "cardio",
+      "full-body-dynamic"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee/ankle issues"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "high"
+    }
   },
   {
     "id": "russian-twists",
@@ -526,7 +826,30 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "wall-sit",
@@ -563,7 +886,32 @@ export const builtInExerciseRecords = [
     "executionMode": "hold",
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "squat",
+      "isometric"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads"
+      ],
+      "secondary": [
+        "glutes"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "calf-raises",
@@ -604,7 +952,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "calf-raise"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "calves"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "ankle pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "side-plank",
@@ -642,7 +1012,33 @@ export const builtInExerciseRecords = [
     "executionMode": "hold",
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-lateral-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "shoulder pain",
+      "wrist pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "diamond-push-ups",
@@ -684,7 +1080,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "triceps",
+        "chest"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain",
+      "elbow issues"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "pike-push-ups",
@@ -727,7 +1147,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders"
+      ],
+      "secondary": [
+        "triceps",
+        "chest"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "shoulder impingement",
+      "wrist pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "squat-jumps",
@@ -771,7 +1217,34 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 9,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "squat",
+      "plyometric"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "calves"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain",
+      "ankle issues"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "high"
+    }
   },
   {
     "id": "jump-lunges",
@@ -815,7 +1288,34 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 8,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge",
+      "plyometric"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain",
+      "ankle issues"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "high"
+    }
   },
   {
     "id": "donkey-kicks",
@@ -857,7 +1357,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "fire-hydrants",
@@ -898,7 +1422,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-abduction"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "bird-dog",
@@ -940,7 +1486,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "back"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain",
+      "wrist pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "dead-bug",
@@ -981,7 +1551,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "neck pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "flutter-kicks",
@@ -1016,7 +1608,29 @@ export const builtInExerciseRecords = [
     "executionMode": "time",
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "v-ups",
@@ -1057,7 +1671,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "hollow-hold",
@@ -1093,7 +1729,29 @@ export const builtInExerciseRecords = [
     "executionMode": "hold",
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "shoulder-taps",
@@ -1129,7 +1787,32 @@ export const builtInExerciseRecords = [
     "executionMode": "time",
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain",
+      "shoulder issues"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "reverse-crunches",
@@ -1170,7 +1853,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "heel-touches",
@@ -1212,7 +1917,30 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "neck pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "single-leg-glute-bridge",
@@ -1255,7 +1983,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "lateral-lunges",
@@ -1298,7 +2051,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "adductors"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "bear-crawls",
@@ -1334,7 +2112,32 @@ export const builtInExerciseRecords = [
     "executionMode": "time",
     "estimatedCalories": 8,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "full-body-dynamic",
+      "gait"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
   },
   {
     "id": "inchworm",
@@ -1375,7 +2178,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "full-body-dynamic"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "tricep-dips",
@@ -1417,7 +2242,30 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "triceps"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight",
+      "bench"
+    ],
+    "contraindications": [
+      "shoulder pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "wide-push-ups",
@@ -1459,7 +2307,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain",
+      "shoulder impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-bench-press",
@@ -1503,7 +2376,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest"
+      ],
+      "secondary": [
+        "shoulders",
+        "triceps"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells",
+      "bench"
+    ],
+    "contraindications": [
+      "shoulder pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-overhead-press",
@@ -1545,7 +2444,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders"
+      ],
+      "secondary": [
+        "triceps"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "shoulder impingement"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "single-arm-dumbbell-row",
@@ -1587,7 +2510,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "biceps"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells",
+      "bench"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-romanian-deadlift",
@@ -1630,7 +2578,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "hamstrings",
+        "glutes"
+      ],
+      "secondary": [
+        "back"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-lunges",
@@ -1673,7 +2646,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-bicep-curls",
@@ -1714,7 +2712,27 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "elbow-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "biceps"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-lateral-raises",
@@ -1755,7 +2773,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "shoulder-abduction"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "shoulder impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-chest-fly",
@@ -1797,7 +2837,30 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-adduction"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells",
+      "bench"
+    ],
+    "contraindications": [
+      "shoulder pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "renegade-row",
@@ -1840,7 +2903,34 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 8,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull",
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back",
+        "core"
+      ],
+      "secondary": [
+        "chest"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "wrist pain",
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "medium"
+    }
   },
   {
     "id": "dumbbell-thrusters",
@@ -1883,7 +2973,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 10,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "squat",
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes",
+        "shoulders"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "shoulder pain",
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
   },
   {
     "id": "kettlebell-swing",
@@ -1926,7 +3042,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 12,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hinge",
+      "cardio"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes",
+        "hamstrings"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
   },
   {
     "id": "kettlebell-goblet-squat",
@@ -1969,7 +3111,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "squat"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "kettlebell-clean-and-press",
@@ -2010,7 +3177,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 9,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hinge",
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": []
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "shoulder pain",
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "medium"
+    }
   },
   {
     "id": "turkish-get-up",
@@ -2053,7 +3244,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "full-body-dynamic"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders",
+        "core"
+      ],
+      "secondary": [
+        "full-body"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "shoulder pain",
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "kettlebell-snatch",
@@ -2096,7 +3313,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 11,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-pull",
+      "cardio"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders",
+        "back"
+      ],
+      "secondary": [
+        "glutes"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "shoulder pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
   },
   {
     "id": "kettlebell-windmill",
@@ -2139,7 +3382,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "kettlebell-halo",
@@ -2181,7 +3449,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "shoulder-mobility"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "shoulder pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "farmer-carry",
@@ -2223,7 +3515,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 8,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "carry"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": [
+        "forearms"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells",
+      "kettlebell"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "single-arm-kettlebell-row",
@@ -2265,7 +3582,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "biceps"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-arnold-press",
@@ -2306,7 +3647,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "shoulder impingement"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-hip-thrust",
@@ -2350,7 +3713,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells",
+      "bench"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "banded-glute-bridge",
@@ -2392,7 +3781,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "banded-donkey-kicks",
@@ -2433,7 +3846,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "banded-fire-hydrants",
@@ -2474,7 +3909,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-abduction"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "banded-lateral-walks",
@@ -2516,7 +3973,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "gait"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "quads"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "banded-clamshells",
@@ -2557,7 +4038,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-abduction"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [
+      "hip pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "goblet-sumo-squat",
@@ -2600,7 +4103,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "squat"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes",
+        "quads"
+      ],
+      "secondary": [
+        "adductors"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "kettlebell"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-curtsy-lunge",
@@ -2642,7 +4170,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "quads"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-bulgarian-split-squat",
@@ -2685,50 +4237,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 7,
     "image": "",
-    "isCustom": false
-  },
-  {
-    "id": "kettlebell-swing",
-    "name": {
-      "ru": "Махи гирей",
-      "en": "Kettlebell Swing"
-    },
-    "shortDescription": {
-      "ru": "Взрывное упражнение для ягодиц и кардио.",
-      "en": "Explosive glute and cardio exercise."
-    },
-    "instruction": {
-      "ru": "Мощным толчком бёдер забрасывайте гирю до уровня груди.",
-      "en": "Drive hips forward to swing kettlebell to chest height."
-    },
-    "effect": {
-      "ru": "Развивает подъём ягодиц и сжигает жир для красивого рельефа.",
-      "en": "Develops glute lift and burns fat for beautiful definition."
-    },
-    "type": {
-      "ru": "кардио",
-      "en": "cardio"
-    },
-    "muscles": [
-      "glutes",
-      "hamstrings",
-      "core"
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge"
     ],
-    "tags": [
-      "home",
-      "kettlebell",
-      "intermediate"
-    ],
-    "executionMode": "reps",
-    "tempo": {
-      "eccentric": 1,
-      "concentric": 1,
-      "pauseTop": 0,
-      "pauseBottom": 0
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "quads"
+      ]
     },
-    "estimatedCalories": 10,
-    "image": "",
-    "isCustom": false
+    "difficulty": "advanced",
+    "equipment": [
+      "dumbbells",
+      "bench"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "banded-standing-kickback",
@@ -2769,133 +4303,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
-  },
-  {
-    "id": "single-leg-glute-bridge",
-    "name": {
-      "ru": "Ягодичный мостик на одной ноге",
-      "en": "Single-Leg Glute Bridge"
-    },
-    "shortDescription": {
-      "ru": "Упражнение для симметрии и формы ягодиц.",
-      "en": "Exercise for symmetry and glute shape."
-    },
-    "instruction": {
-      "ru": "Лежа на спине, поднимите таз на одной ноге, вторая согнута в воздухе.",
-      "en": "Lie on back, thrust hips up using one leg, other leg bent in air."
-    },
-    "effect": {
-      "ru": "Устраняет дисбаланс и формирует округлые ягодицы.",
-      "en": "Fixes imbalances and shapes round glutes."
-    },
-    "type": {
-      "ru": "силовое",
-      "en": "strength"
-    },
-    "muscles": [
-      "glutes",
-      "hamstrings",
-      "core"
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-extension"
     ],
-    "tags": [
-      "home",
-      "bodyweight",
-      "intermediate"
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
     ],
-    "executionMode": "reps",
-    "tempo": {
-      "eccentric": 2,
-      "concentric": 1,
-      "pauseTop": 1,
-      "pauseBottom": 0
-    },
-    "estimatedCalories": 5,
-    "image": "",
-    "isCustom": false
-  },
-  {
-    "id": "bird-dog",
-    "name": {
-      "ru": "Птица-собака",
-      "en": "Bird Dog"
-    },
-    "shortDescription": {
-      "ru": "Упражнение для кора и осанки.",
-      "en": "Core and posture exercise."
-    },
-    "instruction": {
-      "ru": "На четвереньках одновременно вытягивайте противоположные руку и ногу.",
-      "en": "On all fours, extend opposite arm and leg simultaneously."
-    },
-    "effect": {
-      "ru": "Укрепляет глубокий кор, улучшает осанку и талию.",
-      "en": "Strengthens deep core, improves posture and waistline."
-    },
-    "type": {
-      "ru": "силовое",
-      "en": "strength"
-    },
-    "muscles": [
-      "core",
-      "back"
+    "contraindications": [
+      "lower back pain"
     ],
-    "tags": [
-      "home",
-      "bodyweight",
-      "beginner"
-    ],
-    "executionMode": "reps",
-    "tempo": {
-      "eccentric": 2,
-      "concentric": 1,
-      "pauseTop": 1,
-      "pauseBottom": 1
-    },
-    "estimatedCalories": 4,
-    "image": "",
-    "isCustom": false
-  },
-  {
-    "id": "dead-bug",
-    "name": {
-      "ru": "Мёртвый жук",
-      "en": "Dead Bug"
-    },
-    "shortDescription": {
-      "ru": "Безопасное упражнение для плоского живота.",
-      "en": "Safe exercise for flat stomach."
-    },
-    "instruction": {
-      "ru": "Лежа на спине поочередно опускайте противоположные руку и ногу.",
-      "en": "Lie on back, alternately lower opposite arm and leg."
-    },
-    "effect": {
-      "ru": "Формирует тонкую талию и укрепляет глубокий кор.",
-      "en": "Creates a slim waist and strengthens deep core."
-    },
-    "type": {
-      "ru": "силовое",
-      "en": "strength"
-    },
-    "muscles": [
-      "core"
-    ],
-    "tags": [
-      "home",
-      "bodyweight",
-      "beginner"
-    ],
-    "executionMode": "reps",
-    "tempo": {
-      "eccentric": 2,
-      "concentric": 1,
-      "pauseTop": 0,
-      "pauseBottom": 0
-    },
-    "estimatedCalories": 4,
-    "image": "",
-    "isCustom": false
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "banded-pull-apart",
@@ -2937,7 +4367,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "side-plank-hip-dip",
@@ -2979,50 +4431,30 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
-  },
-  {
-    "id": "dumbbell-romanian-deadlift",
-    "name": {
-      "ru": "Румынская тяга с гантелями",
-      "en": "Dumbbell Romanian Deadlift"
-    },
-    "shortDescription": {
-      "ru": "Упражнение для задней поверхности бедра и ягодиц.",
-      "en": "Exercise for hamstrings and glutes."
-    },
-    "instruction": {
-      "ru": "С прямой спиной наклоняйтесь вперёд, опуская гантели.",
-      "en": "With straight back hinge at hips and lower dumbbells."
-    },
-    "effect": {
-      "ru": "Подтягивает ягодицы и создаёт красивый переход к талии.",
-      "en": "Lifts glutes and creates beautiful waist-to-hip transition."
-    },
-    "type": {
-      "ru": "силовое",
-      "en": "strength"
-    },
-    "muscles": [
-      "hamstrings",
-      "glutes",
-      "back"
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-lateral-flexion"
     ],
-    "tags": [
-      "home",
-      "dumbbells",
-      "beginner"
-    ],
-    "executionMode": "reps",
-    "tempo": {
-      "eccentric": 3,
-      "concentric": 1,
-      "pauseTop": 0,
-      "pauseBottom": 1
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": []
     },
-    "estimatedCalories": 6,
-    "image": "",
-    "isCustom": false
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "shoulder pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "banded-seated-row",
@@ -3063,7 +4495,27 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "frog-pumps",
@@ -3104,7 +4556,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "dumbbell-lateral-lunge",
@@ -3147,7 +4621,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "adductors"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "downward-facing-dog",
@@ -3191,7 +4690,35 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "inversion",
+      "stretch"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": [
+        "hamstrings",
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain",
+      "shoulder issues",
+      "high blood pressure"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "cat-cow",
@@ -3234,7 +4761,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 3,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "spinal-mobility"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "severe back pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "childs-pose",
@@ -3277,7 +4828,28 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 2,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "stretch"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back",
+        "hips"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "mountain-pose",
@@ -3320,7 +4892,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 3,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "balance"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": [
+        "full-body"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "warrior-i",
@@ -3364,7 +4958,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge",
+      "balance"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "warrior-ii",
@@ -3408,7 +5028,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge",
+      "balance"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "triangle-pose",
@@ -3452,7 +5098,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "lateral-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "obliques"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "neck pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "tree-pose",
@@ -3495,7 +5166,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "balance"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": [
+        "quads"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "ankle pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "cobra-pose",
@@ -3538,7 +5233,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "back-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "bridge-pose",
@@ -3582,7 +5301,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "back-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes",
+        "back"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "boat-pose",
@@ -3624,7 +5368,29 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "pigeon-pose",
@@ -3667,7 +5433,30 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-opener"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes",
+        "hips"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "seated-forward-bend",
@@ -3710,7 +5499,31 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 3,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "stretch"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "hamstrings"
+      ],
+      "secondary": [
+        "back"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "eagle-pose",
@@ -3754,7 +5567,33 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "balance"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core"
+      ],
+      "secondary": [
+        "shoulders",
+        "hips"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "shoulder pain",
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "chair-pose",
@@ -3798,7 +5637,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 5,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "squat"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "knee pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
   },
   {
     "id": "locust-pose",
@@ -3842,7 +5706,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "back-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "glutes",
+        "shoulders"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "camel-pose",
@@ -3885,7 +5774,32 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 4,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "back-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "lower back pain",
+      "neck pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
   },
   {
     "id": "supine-twist",
@@ -3928,7 +5842,28 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 3,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "core-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "corpse-pose",
@@ -3970,7 +5905,27 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 1,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "relaxation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
   },
   {
     "id": "sun-salutation",
@@ -4012,6 +5967,28 @@ export const builtInExerciseRecords = [
     },
     "estimatedCalories": 6,
     "image": "",
-    "isCustom": false
+    "isCustom": false,
+    "movementPatterns": [
+      "full-body-dynamic"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "full-body"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "wrist pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "medium"
+    }
   }
 ];

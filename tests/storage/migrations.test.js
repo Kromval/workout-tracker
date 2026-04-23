@@ -104,11 +104,86 @@ describe('storage migrations', () => {
       calfCm: null,
       trainingLevel: '',
       goal: '',
-      limitations: '',
+      goals: {
+        strength: 0,
+        hypertrophy: 0,
+        endurance: 0,
+        fatLoss: 0,
+        mobility: 0,
+      },
+      bodyFocusGoals: {
+        upperBody: 0,
+        lowerBody: 0,
+        vTaper: 0,
+        core: 0,
+        arms: 0,
+        glutes: 0,
+      },
+      limitations: [],
+      dislikedExercises: [],
+      likedTags: [],
+      sessionDurationMin: null,
+      frequencyPerWeek: null,
+      recoveryProfile: {
+        chest: 0,
+        back: 0,
+        legs: 0,
+        shoulders: 0,
+        arms: 0,
+        core: 0,
+      },
+      recentHistory: {
+        performedExerciseIds: [],
+        performedMovementPatterns: {},
+      },
     });
     expect(migrated.equipment).toEqual({
       selectedIds: [],
       customItems: [],
+    });
+  });
+
+  test('migrates v4 profile into scoring-ready shape', () => {
+    const migrated = migrateStore({
+      version: 4,
+      profile: {
+        trainingLevel: 'beginner',
+        goal: 'fat-loss',
+        limitations: 'no jumping, protect shoulder',
+      },
+    });
+
+    expect(migrated.version).toBe(STORAGE_VERSION);
+    expect(migrated.profile.trainingLevel).toBe('beginner');
+    expect(migrated.profile.goal).toBe('fat-loss');
+    expect(migrated.profile.goals).toMatchObject({
+      fatLoss: 1,
+    });
+    expect(migrated.profile.limitations).toEqual(['no-jumping', 'protect-shoulder']);
+  });
+
+  test('migrates v5 profile by adding body focus defaults', () => {
+    const migrated = migrateStore({
+      version: 5,
+      profile: {
+        trainingLevel: 'beginner',
+        goals: {
+          strength: 0.7,
+        },
+      },
+    });
+
+    expect(migrated.version).toBe(STORAGE_VERSION);
+    expect(migrated.profile.goals).toMatchObject({
+      strength: 0.7,
+    });
+    expect(migrated.profile.bodyFocusGoals).toEqual({
+      upperBody: 0,
+      lowerBody: 0,
+      vTaper: 0,
+      core: 0,
+      arms: 0,
+      glutes: 0,
     });
   });
 

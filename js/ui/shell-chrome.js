@@ -4,7 +4,9 @@ import { selectLanguage, selectRoute, selectTheme } from '../core/selectors.js';
 import { updateSettings } from '../core/state.js';
 import { navRoutes, routeLabels } from './navigation.js';
 
-const themeQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+const themeQuery = typeof window !== 'undefined'
+  ? window.matchMedia?.('(prefers-color-scheme: dark)')
+  : null;
 
 export function renderNav(state) {
   const nav = document.querySelector('#app-nav');

@@ -10,6 +10,7 @@ import {
 
 const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
 const TEMPO_FIELDS = ['eccentric', 'concentric', 'pauseTop', 'pauseBottom'];
+const DIFFICULTY_LEVELS = ['beginner', 'intermediate', 'advanced'];
 
 let builtInExercises = normalizeBuiltInExercises();
 let builtInExercisesPromise = null;
@@ -73,6 +74,12 @@ function normalizeExerciseRecord(exercise, isCustom) {
     tempo: normalizeTempo(source.tempo),
     estimatedCalories: nonNegativeNumber(source.estimatedCalories),
     image: normalizeString(source.image),
+    movementPatterns: uniqueStrings(source.movementPatterns),
+    muscleGroups: normalizeMuscleGroups(source.muscleGroups),
+    difficulty: normalizeDifficulty(source.difficulty),
+    equipment: normalizeEquipment(source.equipment),
+    contraindications: uniqueStrings(source.contraindications),
+    intensityProfile: normalizeIntensityProfile(source.intensityProfile),
     isCustom,
   };
 }
@@ -100,5 +107,44 @@ function normalizeTempo(tempo) {
     ...result,
     [field]: nonNegativeNumber(tempo[field]),
   }), {});
+}
+
+function normalizeDifficulty(value) {
+  const difficulty = normalizeString(value).toLowerCase();
+  return DIFFICULTY_LEVELS.includes(difficulty) ? difficulty : '';
+}
+
+function normalizeEquipment(value) {
+  return uniqueStrings(asArray(value).map(normalizeEquipmentId));
+}
+
+function normalizeEquipmentId(value) {
+  const normalized = normalizeString(value).toLowerCase().replaceAll(' ', '-');
+
+  if (normalized === 'resistance-band') {
+    return 'bands';
+  }
+
+  return normalized;
+}
+
+function normalizeMuscleGroups(value) {
+  const source = isPlainObject(value) ? value : {};
+
+  return {
+    primary: uniqueStrings(source.primary),
+    secondary: uniqueStrings(source.secondary),
+  };
+}
+
+function normalizeIntensityProfile(value) {
+  const source = isPlainObject(value) ? value : {};
+
+  return {
+    strength: normalizeString(source.strength).toLowerCase(),
+    cardio: normalizeString(source.cardio).toLowerCase(),
+    endurance: normalizeString(source.endurance).toLowerCase(),
+    impact: normalizeString(source.impact).toLowerCase(),
+  };
 }
 

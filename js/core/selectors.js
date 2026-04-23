@@ -1,10 +1,12 @@
 import { getExerciseCatalog } from '../features/exercises.js';
 import { getEquipmentCatalog } from '../features/equipment.js';
+import { rankRecommendedExercises } from '../features/exercise-scoring.js';
 import { getWorkouts } from '../features/workouts.js';
 import { getPopularPresetWorkouts } from '../features/presets.js';
 
 const EMPTY_ARRAY = Object.freeze([]);
 const EMPTY_OBJECT = Object.freeze({});
+export const DEFAULT_RECOMMENDATION_LIMIT = 12;
 
 export function selectRoute(state) {
   return state?.route || 'home';
@@ -51,6 +53,24 @@ const selectUserWorkoutsByStore = memoizeByRefs((store) => (store.workouts || EM
   .filter((workout) => !workout.isPreset));
 
 const selectWorkoutsByStore = memoizeByRefs((store) => getWorkouts(store));
+const selectExerciseRecommendationsByRefs = memoizeByRefs((exerciseCatalog, profile, equipment, equipmentCatalog, limit) => {
+  const normalizedLimit = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : DEFAULT_RECOMMENDATION_LIMIT;
+  const result = rankRecommendedExercises({
+    exercises: exerciseCatalog,
+    profile,
+    equipment,
+    equipmentCatalog,
+    context: {
+      targetDurationMin: profile?.sessionDurationMin,
+    },
+  });
+
+  return {
+    ...result,
+    topExercises: result.scoredExercises.slice(0, normalizedLimit),
+    limit: normalizedLimit,
+  };
+});
 
 export const selectPresetWorkouts = memoizeByRefs(() => getPopularPresetWorkouts());
 
@@ -66,6 +86,16 @@ export function selectFavoriteExerciseIdSet(state) {
 
 export function selectExerciseCatalog(state) {
   return selectExerciseCatalogByRefs(state?.exercises || EMPTY_ARRAY, selectStore(state));
+}
+
+export function selectRecommendedExercises(state, options = {}) {
+  return selectExerciseRecommendationsByRefs(
+    selectExerciseCatalog(state),
+    selectProfile(state),
+    selectEquipment(state),
+    selectEquipmentCatalog(state),
+    options.limit
+  );
 }
 
 export function selectEquipmentCatalog(state) {

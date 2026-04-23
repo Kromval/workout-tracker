@@ -1,6 +1,7 @@
 export const routeLabels = {
   home: 'navHome',
   exercises: 'navExercises',
+  recommendations: 'navRecommendations',
   'exercise-create': 'createExercise',
   'exercise-view': 'navExerciseView',
   'workout-create': 'navWorkoutCreate',
@@ -13,8 +14,8 @@ export const routeLabels = {
 export const navRoutes = [
   'home',
   'exercises',
+  'recommendations',
   'workout-create',
-  'workout-edit',
   'workout-view',
   'workout-run',
   'settings',

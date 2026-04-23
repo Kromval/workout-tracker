@@ -90,7 +90,30 @@ describe('storage normalizers', () => {
       bodyFatPercent: 140,
       trainingLevel: 'advanced',
       goal: 'fat-loss',
-      limitations: ' no jumping ',
+      goals: {
+        strength: 0.6,
+        fatLoss: 2,
+      },
+      bodyFocusGoals: {
+        upperBody: 0.8,
+        vTaper: 1.4,
+      },
+      limitations: ' no jumping, mild knee pain ',
+      dislikedExercises: [' burpee ', 'burpee'],
+      likedTags: ' dumbbells, compound ',
+      sessionDurationMin: '45',
+      frequencyPerWeek: '4',
+      recoveryProfile: {
+        chest: 0.8,
+        legs: 1.5,
+      },
+      recentHistory: {
+        performedExerciseIds: [' squat ', 'push-up', 'squat'],
+        performedMovementPatterns: {
+          'horizontal push': 2,
+          squat: 3,
+        },
+      },
     });
     const equipment = createEquipment({
       selectedIds: ['bodyweight', ' custom-bench ', 'bodyweight'],
@@ -108,7 +131,41 @@ describe('storage normalizers', () => {
       bodyFatPercent: 100,
       trainingLevel: 'advanced',
       goal: 'fat-loss',
-      limitations: 'no jumping',
+      goals: {
+        strength: 0.6,
+        hypertrophy: 0,
+        endurance: 0,
+        fatLoss: 1,
+        mobility: 0,
+      },
+      bodyFocusGoals: {
+        upperBody: 0.8,
+        lowerBody: 0,
+        vTaper: 1,
+        core: 0,
+        arms: 0,
+        glutes: 0,
+      },
+      limitations: ['no-jumping', 'mild-knee-pain'],
+      dislikedExercises: ['burpee'],
+      likedTags: ['dumbbells', 'compound'],
+      sessionDurationMin: 45,
+      frequencyPerWeek: 4,
+      recoveryProfile: {
+        chest: 0.8,
+        back: 0,
+        legs: 1,
+        shoulders: 0,
+        arms: 0,
+        core: 0,
+      },
+      recentHistory: {
+        performedExerciseIds: ['squat', 'push-up'],
+        performedMovementPatterns: {
+          'horizontal-push': 2,
+          squat: 3,
+        },
+      },
     });
     expect(equipment.selectedIds).toEqual(['bodyweight', 'custom-bench']);
     expect(equipment.customItems).toHaveLength(1);

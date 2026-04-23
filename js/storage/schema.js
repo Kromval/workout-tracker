@@ -1,5 +1,5 @@
 export const STORAGE_KEY = 'workout-tracker:data';
-export const STORAGE_VERSION = 4;
+export const STORAGE_VERSION = 6;
 export const MIN_SUPPORTED_STORAGE_VERSION = 1;
 export const EXPORT_DATA_KEYS = [
   'settings',
@@ -26,6 +26,9 @@ export const CALENDAR_VIEW_MODES = ['month', 'week'];
 export const PROFILE_SEXES = ['male', 'female'];
 export const PROFILE_TRAINING_LEVELS = ['beginner', 'intermediate', 'advanced'];
 export const PROFILE_GOALS = ['strength', 'hypertrophy', 'endurance', 'fat-loss', 'general-fitness'];
+export const PROFILE_SCORING_GOALS = ['strength', 'hypertrophy', 'endurance', 'fatLoss', 'mobility'];
+export const PROFILE_BODY_FOCUS_GOALS = ['upperBody', 'lowerBody', 'vTaper', 'core', 'arms', 'glutes'];
+export const PROFILE_RECOVERY_AREAS = ['chest', 'back', 'legs', 'shoulders', 'arms', 'core'];
 
 export const AUDIO_EVENTS = [
   'tick',
@@ -73,7 +76,38 @@ export const DEFAULT_PROFILE = Object.freeze({
   calfCm: null,
   trainingLevel: '',
   goal: '',
-  limitations: '',
+  goals: Object.freeze({
+    strength: 0,
+    hypertrophy: 0,
+    endurance: 0,
+    fatLoss: 0,
+    mobility: 0,
+  }),
+  bodyFocusGoals: Object.freeze({
+    upperBody: 0,
+    lowerBody: 0,
+    vTaper: 0,
+    core: 0,
+    arms: 0,
+    glutes: 0,
+  }),
+  limitations: [],
+  dislikedExercises: [],
+  likedTags: [],
+  sessionDurationMin: null,
+  frequencyPerWeek: null,
+  recoveryProfile: Object.freeze({
+    chest: 0,
+    back: 0,
+    legs: 0,
+    shoulders: 0,
+    arms: 0,
+    core: 0,
+  }),
+  recentHistory: Object.freeze({
+    performedExerciseIds: [],
+    performedMovementPatterns: {},
+  }),
 });
 
 export const DEFAULT_EQUIPMENT = Object.freeze({

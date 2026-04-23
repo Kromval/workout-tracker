@@ -116,6 +116,7 @@
  *   calfCm: number | null,
  *   trainingLevel: '' | 'beginner' | 'intermediate' | 'advanced',
  *   goal: '' | 'strength' | 'hypertrophy' | 'endurance' | 'fat-loss' | 'general-fitness',
+ *   bodyFocusGoals: Record<string, number>,
  *   limitations: string
  * }} UserProfile
  *
@@ -951,9 +952,39 @@ function withoutLegacyFields(payload) {
 }
 
 function mergeImportedProfile(currentProfile, payload) {
+  const importedProfile = isPlainObject(payload.profile) ? payload.profile : {};
+
   return createProfile({
     ...currentProfile,
-    ...(isPlainObject(payload.profile) ? payload.profile : {}),
+    ...importedProfile,
+    goals: {
+      ...(isPlainObject(currentProfile.goals) ? currentProfile.goals : {}),
+      ...(isPlainObject(importedProfile.goals) ? importedProfile.goals : {}),
+    },
+    bodyFocusGoals: {
+      ...(isPlainObject(currentProfile.bodyFocusGoals) ? currentProfile.bodyFocusGoals : {}),
+      ...(isPlainObject(importedProfile.bodyFocusGoals) ? importedProfile.bodyFocusGoals : {}),
+    },
+    recoveryProfile: {
+      ...(isPlainObject(currentProfile.recoveryProfile) ? currentProfile.recoveryProfile : {}),
+      ...(isPlainObject(importedProfile.recoveryProfile) ? importedProfile.recoveryProfile : {}),
+    },
+    recentHistory: {
+      ...(isPlainObject(currentProfile.recentHistory) ? currentProfile.recentHistory : {}),
+      ...(isPlainObject(importedProfile.recentHistory) ? importedProfile.recentHistory : {}),
+      performedExerciseIds: uniqueStrings([
+        ...uniqueStrings(currentProfile.recentHistory?.performedExerciseIds),
+        ...uniqueStrings(importedProfile.recentHistory?.performedExerciseIds),
+      ]),
+      performedMovementPatterns: {
+        ...(isPlainObject(currentProfile.recentHistory?.performedMovementPatterns)
+          ? currentProfile.recentHistory.performedMovementPatterns
+          : {}),
+        ...(isPlainObject(importedProfile.recentHistory?.performedMovementPatterns)
+          ? importedProfile.recentHistory.performedMovementPatterns
+          : {}),
+      },
+    },
   });
 }
 

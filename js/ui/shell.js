@@ -4,6 +4,7 @@ import { initWorkoutRunUi } from '../session/ui.js';
 import { selectRoute, selectTheme } from '../core/selectors.js';
 import { bindShellEvents } from './event-bindings.js';
 import { renderPendingNotice } from './notices.js';
+import { updateCurrentPage } from './page-updates.js';
 import {
   applyTheme,
   bindHeaderControls,
@@ -13,6 +14,8 @@ import {
   updateHeaderControls,
   updateShellLabels,
 } from './shell-chrome.js';
+
+let mountedRoute = '';
 
 /**
  * Initializes persistent shell behavior that survives route re-renders.
@@ -31,7 +34,7 @@ export function initShell(state) {
 /**
  * Renders the current route into #app and runs page-specific initializers.
  */
-export function renderApp(state) {
+export function renderApp(state, meta = {}) {
   renderNav(state);
   updateHeaderControls(state);
   updateShellLabels(state);
@@ -42,9 +45,15 @@ export function renderApp(state) {
   if (!app) return;
 
   const route = selectRoute(state);
-  const renderPage = pageRenderers[route] || pageRenderers[defaultRoute];
-  app.innerHTML = renderPage(state);
-  renderPendingNotice(app);
-  app.focus({ preventScroll: true });
-  initWorkoutRunUi(state);
+  const routeChanged = route !== mountedRoute;
+
+  if (routeChanged || !updateCurrentPage(state, meta)) {
+    const renderPage = pageRenderers[route] || pageRenderers[defaultRoute];
+    app.innerHTML = renderPage(state);
+    renderPendingNotice(app);
+    app.focus({ preventScroll: true });
+    initWorkoutRunUi(state);
+  }
+
+  mountedRoute = route;
 }
