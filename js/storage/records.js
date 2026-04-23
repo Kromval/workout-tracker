@@ -1,10 +1,15 @@
 import {
+  DEFAULT_EQUIPMENT,
+  DEFAULT_PROFILE,
   AUDIO_EVENTS,
   CALENDAR_VIEW_MODES,
   DEFAULT_SETTINGS,
   EXECUTION_MODES,
   HISTORY_STATUSES,
   LANGUAGES,
+  PROFILE_GOALS,
+  PROFILE_SEXES,
+  PROFILE_TRAINING_LEVELS,
   STORAGE_VERSION,
   THEMES,
 } from './schema.js';
@@ -139,6 +144,33 @@ export function createSettings(overrides = {}) {
   });
 }
 
+export function createProfile(overrides = {}) {
+  return sanitizeProfile({
+    ...DEFAULT_PROFILE,
+    ...overrides,
+  });
+}
+
+export function createEquipmentItem(overrides = {}) {
+  const now = nowIso();
+
+  return sanitizeEquipmentItem({
+    id: createId('equipment'),
+    name: '',
+    createdAt: now,
+    updatedAt: now,
+    isCustom: true,
+    ...overrides,
+  });
+}
+
+export function createEquipment(overrides = {}) {
+  return sanitizeEquipment({
+    ...DEFAULT_EQUIPMENT,
+    ...overrides,
+  });
+}
+
 
 
 export function validateWorkoutForSave(workout) {
@@ -185,6 +217,8 @@ export function sanitizeStore(store) {
   return {
     version: STORAGE_VERSION,
     settings,
+    profile: createProfile(source.profile),
+    equipment: createEquipment(source.equipment),
     customExercises: sortByUpdatedAtDesc(asArray(source.customExercises).map(sanitizeCustomExercise)),
     workouts: sortByUpdatedAtDesc(asArray(source.workouts).map(sanitizeWorkout)),
     history: sortHistoryEntries(asArray(source.history).map(sanitizeHistoryEntry)),
@@ -213,6 +247,56 @@ export function sanitizeSettings(settings) {
     favoriteExerciseIds: uniqueStrings(source.favoriteExerciseIds),
     calendarViewMode,
     lastOpenedWorkoutId: source.lastOpenedWorkoutId ? normalizeString(source.lastOpenedWorkoutId) : null,
+  };
+}
+
+export function sanitizeProfile(profile) {
+  const source = isPlainObject(profile) ? profile : {};
+
+  return {
+    age: optionalNonNegativeInteger(source.age),
+    sex: PROFILE_SEXES.includes(source.sex) ? source.sex : '',
+    weightKg: optionalNonNegativeNumber(source.weightKg),
+    heightCm: optionalNonNegativeNumber(source.heightCm),
+    bodyFatPercent: source.bodyFatPercent === null || source.bodyFatPercent === undefined || source.bodyFatPercent === ''
+      ? null
+      : clampNumber(source.bodyFatPercent, 0, 100, null),
+    wristCm: optionalNonNegativeNumber(source.wristCm),
+    waistCm: optionalNonNegativeNumber(source.waistCm),
+    neckCm: optionalNonNegativeNumber(source.neckCm),
+    chestCm: optionalNonNegativeNumber(source.chestCm),
+    hipsCm: optionalNonNegativeNumber(source.hipsCm),
+    forearmCm: optionalNonNegativeNumber(source.forearmCm),
+    calfCm: optionalNonNegativeNumber(source.calfCm),
+    trainingLevel: PROFILE_TRAINING_LEVELS.includes(source.trainingLevel) ? source.trainingLevel : '',
+    goal: PROFILE_GOALS.includes(source.goal) ? source.goal : '',
+    limitations: normalizeString(source.limitations),
+  };
+}
+
+export function sanitizeEquipment(equipment) {
+  const source = isPlainObject(equipment) ? equipment : {};
+
+  return {
+    selectedIds: uniqueStrings(source.selectedIds),
+    customItems: sortByUpdatedAtDesc(
+      asArray(source.customItems)
+        .map(sanitizeEquipmentItem)
+        .filter((item) => Boolean(item.name))
+    ),
+  };
+}
+
+export function sanitizeEquipmentItem(item) {
+  const source = isPlainObject(item) ? item : {};
+  const createdAt = normalizeIsoDate(source.createdAt, nowIso());
+
+  return {
+    id: normalizeString(source.id) || createId('equipment'),
+    name: normalizeString(source.name),
+    createdAt,
+    updatedAt: normalizeIsoDate(source.updatedAt, createdAt),
+    isCustom: source.isCustom !== false,
   };
 }
 
@@ -462,4 +546,3 @@ export function sanitizeActiveSession(session) {
     startedAt: normalizeIsoDate(session.startedAt, nowIso()),
   };
 }
-

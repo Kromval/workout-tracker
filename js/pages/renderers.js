@@ -1,16 +1,25 @@
 import { renderProgressCalendar } from '../features/calendar.js';
 import { audioEvents } from '../features/audio.js';
+import {
+  getExerciseEquipmentIds,
+  getExerciseProfileLevel,
+  isExerciseAvailableForSelectedEquipment,
+  isExerciseCompatibleWithProfileLevel,
+} from '../features/exercise-compatibility.js';
 import { getStatsSummary } from '../features/history.js';
 import { localizedText, t } from '../i18n/index.js';
 import { renderEmptyState, renderListItem } from './components.js';
 import { getRouteParams } from '../core/router.js';
 import {
   selectCustomExerciseCount,
+  selectEquipmentCatalog,
+  selectEquipmentSelectedIdSet,
   selectExerciseCatalog,
   selectFavoriteExerciseIdSet,
   selectHistory,
   selectLanguage,
   selectLastOpenedWorkout,
+  selectProfile,
   selectPresetWorkouts,
   selectUserWorkouts,
   selectWorkoutById,
@@ -44,6 +53,12 @@ import {
   renderWorkoutExerciseSidebar,
   renderWorkoutViewItem,
 } from './workout-renderers.js';
+
+const PROFILE_SELECT_OPTIONS = {
+  sex: ['', 'male', 'female'],
+  trainingLevel: ['', 'beginner', 'intermediate', 'advanced'],
+  goal: ['', 'strength', 'hypertrophy', 'endurance', 'fat-loss', 'general-fitness'],
+};
 
 function renderPlaceholder(state, titleKey) {
   return `
@@ -137,6 +152,10 @@ export function renderHomePage(state) {
 export function renderExercisesPage(state) {
   const language = selectLanguage(state);
   const exercises = selectExerciseCatalog(state);
+  const equipmentCatalog = selectEquipmentCatalog(state);
+  const selectedEquipmentIds = selectEquipmentSelectedIdSet(state);
+  const profile = selectProfile(state);
+  const knownEquipmentIds = equipmentCatalog.map((item) => item.id);
   const favoriteIds = selectFavoriteExerciseIdSet(state);
 
   // Подготовка фильтров
@@ -156,6 +175,10 @@ export function renderExercisesPage(state) {
   const typeOptions = Array.from(allTypes).sort().map(t => 
     `<option value="${escapeAttribute(t.toLowerCase())}">${escapeHtml(t)}</option>`
   ).join('');
+  const equipmentOptions = equipmentCatalog.map((item) => {
+    const itemName = localizedText(item.name, language) || item.id;
+    return `<option value="${escapeAttribute(item.id)}">${escapeHtml(itemName)}</option>`;
+  }).join('');
 
   // Карточки упражнений
   const exerciseCardsHTML = exercises.map(exercise => {
@@ -164,13 +187,21 @@ export function renderExercisesPage(state) {
     const searchText = `${name} ${desc} ${exercise.muscles.join(' ')}`.toLowerCase();
     const typeText = localizedText(exercise.type, language).toLowerCase();
     const musclesText = exercise.muscles.join('|');
+    const exerciseEquipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
+    const exerciseProfileLevel = getExerciseProfileLevel(exercise);
+    const equipmentAvailable = isExerciseAvailableForSelectedEquipment(exercise, Array.from(selectedEquipmentIds), knownEquipmentIds);
+    const profileCompatible = isExerciseCompatibleWithProfileLevel(exercise, profile.trainingLevel);
     const isFavorite = favoriteIds.has(exercise.id);
 
     return `
       <a class="exercise-card" href="#exercise-view/${encodeURIComponent(exercise.id)}"
          data-exercise-search="${escapeHtml(searchText)}"
          data-exercise-type="${escapeAttribute(typeText)}"
-         data-exercise-muscles="${escapeAttribute(musclesText)}">
+         data-exercise-muscles="${escapeAttribute(musclesText)}"
+         data-exercise-equipment="${escapeAttribute(exerciseEquipmentIds.join('|'))}"
+         data-exercise-profile-level="${escapeAttribute(exerciseProfileLevel)}"
+         data-exercise-equipment-available="${equipmentAvailable ? 'true' : 'false'}"
+         data-exercise-profile-compatible="${profileCompatible ? 'true' : 'false'}">
         <div class="exercise-card__content">
           <div class="exercise-card__header">
             <h3>${escapeHtml(name)}</h3>
@@ -213,9 +244,34 @@ export function renderExercisesPage(state) {
             ${muscleOptions}
           </select>
         </label>
+
+        <label class="field">
+          <span>${t(state, 'exerciseEquipmentFilterLabel')}</span>
+          <select id="exercises-equipment-filter" data-exercises-equipment-filter>
+            <option value="">${t(state, 'filterAll')}</option>
+            <option value="available">${t(state, 'exerciseEquipmentFilterAvailable')}</option>
+            ${equipmentOptions}
+          </select>
+        </label>
+
+        <label class="field">
+          <span>${t(state, 'exerciseProfileLevelFilterLabel')}</span>
+          <select id="exercises-profile-level-filter" data-exercises-profile-level-filter>
+            <option value="">${t(state, 'filterAll')}</option>
+            <option value="profile">${t(state, 'exerciseProfileLevelFilterProfile')}</option>
+            <option value="beginner">${t(state, 'trainingLevelOptionBeginner')}</option>
+            <option value="intermediate">${t(state, 'trainingLevelOptionIntermediate')}</option>
+            <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
+          </select>
+        </label>
       </div>
 
-      <div class="exercise-list" data-exercise-list>
+      <div
+        class="exercise-list"
+        data-exercise-list
+        data-selected-equipment-ids="${escapeAttribute(Array.from(selectedEquipmentIds).join('|'))}"
+        data-profile-training-level="${escapeAttribute(profile.trainingLevel || '')}"
+      >
         ${exerciseCardsHTML || `<p class="muted" role="status">${t(state, 'emptyExercises')}</p>`}
       </div>
 
@@ -500,6 +556,9 @@ export function renderWorkoutRunPage(state) {
 
 export function renderSettingsPage(state) {
   const { settings } = state;
+  const profile = selectProfile(state);
+  const equipment = selectEquipmentCatalog(state);
+  const selectedEquipmentIds = selectEquipmentSelectedIdSet(state);
   const volumePercent = Math.round(settings.volume * 100);
 
   return `
@@ -545,6 +604,67 @@ export function renderSettingsPage(state) {
             <input id="setting-volume" type="range" min="0" max="1" step="0.01" value="${settings.volume}" data-setting="volume">
           </label>
         </div>
+      </article>
+
+      <article class="card settings-panel">
+        <div class="settings-panel__header">
+          <h3>${t(state, 'profileSettings')}</h3>
+          <p class="muted">${t(state, 'profileSettingsDescription')}</p>
+        </div>
+
+        <div class="settings-grid">
+          ${renderProfileNumberField(state, 'age', 'profileAge', profile.age, { min: 0, step: 1 })}
+          ${renderProfileSelectField(state, 'sex', 'profileSex', profile.sex, PROFILE_SELECT_OPTIONS.sex)}
+          ${renderProfileNumberField(state, 'weightKg', 'profileWeight', profile.weightKg, { min: 0, step: 0.1 })}
+          ${renderProfileNumberField(state, 'heightCm', 'profileHeight', profile.heightCm, { min: 0, step: 0.1 })}
+          ${renderProfileNumberField(state, 'bodyFatPercent', 'profileBodyFat', profile.bodyFatPercent, { min: 0, max: 100, step: 0.1 })}
+          ${renderProfileNumberField(state, 'wristCm', 'profileWrist', profile.wristCm, { min: 0, step: 0.1 })}
+          ${renderProfileNumberField(state, 'waistCm', 'profileWaist', profile.waistCm, { min: 0, step: 0.1 })}
+          ${renderProfileNumberField(state, 'neckCm', 'profileNeck', profile.neckCm, { min: 0, step: 0.1 })}
+          ${renderProfileNumberField(state, 'chestCm', 'profileChest', profile.chestCm, { min: 0, step: 0.1 })}
+          ${renderProfileNumberField(state, 'hipsCm', 'profileHips', profile.hipsCm, { min: 0, step: 0.1 })}
+          ${renderProfileNumberField(state, 'forearmCm', 'profileForearm', profile.forearmCm, { min: 0, step: 0.1 })}
+          ${renderProfileNumberField(state, 'calfCm', 'profileCalf', profile.calfCm, { min: 0, step: 0.1 })}
+          ${renderProfileSelectField(state, 'trainingLevel', 'profileTrainingLevel', profile.trainingLevel, PROFILE_SELECT_OPTIONS.trainingLevel)}
+          ${renderProfileSelectField(state, 'goal', 'profileGoal', profile.goal, PROFILE_SELECT_OPTIONS.goal)}
+          <label class="field settings-grid__wide" for="profile-limitations">
+            <span>${t(state, 'profileLimitations')}</span>
+            <textarea
+              id="profile-limitations"
+              rows="3"
+              data-profile-field="limitations"
+              placeholder="${escapeAttribute(t(state, 'profileLimitationsPlaceholder'))}"
+            >${escapeHtml(profile.limitations || '')}</textarea>
+          </label>
+        </div>
+
+        <p class="notice" id="profile-status" role="status" aria-live="polite"></p>
+      </article>
+
+      <article class="card settings-panel">
+        <div class="settings-panel__header">
+          <h3>${t(state, 'equipmentSettings')}</h3>
+          <p class="muted">${t(state, 'equipmentSettingsDescription')}</p>
+        </div>
+
+        <div class="inline-control">
+          <label class="field settings-inline-field" for="equipment-custom-name">
+            <span>${t(state, 'equipmentCustomLabel')}</span>
+            <input
+              id="equipment-custom-name"
+              type="text"
+              data-equipment-custom-input
+              placeholder="${escapeAttribute(t(state, 'equipmentCustomPlaceholder'))}"
+            >
+          </label>
+          <button class="button button--primary" type="button" data-equipment-add>${t(state, 'equipmentAdd')}</button>
+        </div>
+
+        <div class="settings-checkbox-list" data-equipment-list>
+          ${equipment.map((item) => renderEquipmentOption(state, item, selectedEquipmentIds.has(item.id))).join('')}
+        </div>
+
+        <p class="notice" id="equipment-status" role="status" aria-live="polite"></p>
       </article>
 
       <article class="card settings-panel">
@@ -602,3 +722,68 @@ export const pageRenderers = {
   'workout-run': renderWorkoutRunPage,
   settings: renderSettingsPage,
 };
+
+function renderProfileNumberField(state, fieldName, labelKey, value, options = {}) {
+  const id = `profile-${fieldName}`;
+  const { min = 0, max = '', step = 1 } = options;
+
+  return `
+    <label class="field" for="${id}">
+      <span>${t(state, labelKey)}</span>
+      <input
+        id="${id}"
+        type="number"
+        min="${escapeAttribute(min)}"
+        ${max !== '' ? `max="${escapeAttribute(max)}"` : ''}
+        step="${escapeAttribute(step)}"
+        inputmode="decimal"
+        data-profile-field="${fieldName}"
+        value="${escapeAttribute(value ?? '')}"
+      >
+    </label>
+  `;
+}
+
+function renderProfileSelectField(state, fieldName, labelKey, value, optionValues) {
+  const id = `profile-${fieldName}`;
+
+  return `
+    <label class="field" for="${id}">
+      <span>${t(state, labelKey)}</span>
+      <select id="${id}" data-profile-field="${fieldName}">
+        ${optionValues.map((optionValue) => {
+          const messageKey = buildProfileOptionMessageKey(fieldName, optionValue);
+          return `<option value="${escapeAttribute(optionValue)}" ${optionValue === value ? 'selected' : ''}>${t(state, messageKey)}</option>`;
+        }).join('')}
+      </select>
+    </label>
+  `;
+}
+
+function buildProfileOptionMessageKey(fieldName, optionValue) {
+  if (!optionValue) {
+    return `${fieldName}OptionEmpty`;
+  }
+
+  const normalized = optionValue
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
+
+  return `${fieldName}Option${normalized}`;
+}
+
+function renderEquipmentOption(state, item, isSelected) {
+  const language = selectLanguage(state);
+  const itemName = localizedText(item.name, language) || item.id || t(state, 'emptyValue');
+
+  return `
+    <div class="settings-checkbox-item">
+      <label class="settings-checkbox-item__main">
+        <input type="checkbox" data-equipment-toggle="${escapeAttribute(item.id)}" ${isSelected ? 'checked' : ''}>
+        <span>${escapeHtml(itemName)}</span>
+      </label>
+      ${item.isCustom ? `<button class="button button--ghost settings-checkbox-item__remove" type="button" data-equipment-remove="${escapeAttribute(item.id)}">${t(state, 'deleteEquipment')}</button>` : ''}
+    </div>
+  `;
+}

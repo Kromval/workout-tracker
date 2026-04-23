@@ -1,8 +1,14 @@
 import { preview as previewAudio, setVolume, stopAll } from '../features/audio.js';
 import { t } from '../i18n/index.js';
-import { refreshStore, updateSettings } from '../core/state.js';
-import { selectCustomAudio } from '../core/selectors.js';
-import { exportStore, importStore, IMPORT_MODES } from '../storage/core.js';
+import { refreshStore, updateEquipment, updateProfile, updateSettings } from '../core/state.js';
+import { selectCustomAudio, selectEquipment, selectEquipmentSelectedIdSet } from '../core/selectors.js';
+import {
+  createCustomEquipmentRecord,
+  createEquipment,
+  exportStore,
+  importStore,
+  IMPORT_MODES,
+} from '../storage/core.js';
 import {
   getAudioMimeFromName,
   isSupportedAudioFile,
@@ -10,6 +16,7 @@ import {
   readFileAsDataUrl,
 } from './audio-file-utils.js';
 import { setPendingNotice } from './notices.js';
+import { normalizeString } from '../core/utils.js';
 
 const CUSTOM_AUDIO_MAX_BYTES = 512 * 1024;
 
@@ -34,6 +41,80 @@ export function handleSettingChange(input, state) {
 
   setPendingNotice(t(state, 'settingsSaved'));
   updateSettings(settingsPatch);
+}
+
+export function handleProfileChange(input, state) {
+  const fieldName = input.dataset.profileField;
+
+  if (!fieldName) {
+    return;
+  }
+
+  let value = input.value;
+
+  if (input instanceof HTMLInputElement && input.type === 'number') {
+    value = value === '' ? null : Number(value);
+  }
+
+  updateProfile({ [fieldName]: value });
+  setProfileStatus(t(state, 'settingsSaved'));
+}
+
+export function handleEquipmentToggle(input, state) {
+  const equipmentId = input.dataset.equipmentToggle;
+
+  if (!equipmentId) {
+    return;
+  }
+
+  const selectedIds = new Set(selectEquipmentSelectedIdSet(state));
+
+  if (input.checked) {
+    selectedIds.add(equipmentId);
+  } else {
+    selectedIds.delete(equipmentId);
+  }
+
+  updateEquipment(createEquipment({
+    ...selectEquipment(state),
+    selectedIds: Array.from(selectedIds),
+  }));
+  setEquipmentStatus(t(state, 'settingsSaved'));
+}
+
+export function handleEquipmentAdd(state) {
+  const input = document.querySelector('[data-equipment-custom-input]');
+  const name = normalizeString(input?.value);
+
+  if (!name) {
+    setEquipmentStatus(t(state, 'equipmentNameRequired'), 'error');
+    return;
+  }
+
+  const { equipment } = createCustomEquipmentRecord(name);
+  updateEquipment(equipment);
+
+  if (input) {
+    input.value = '';
+  }
+
+  setEquipmentStatus(t(state, 'equipmentAdded'));
+}
+
+export function handleEquipmentRemove(button, state) {
+  const equipmentId = button.dataset.equipmentRemove;
+
+  if (!equipmentId) {
+    return;
+  }
+
+  const currentEquipment = selectEquipment(state);
+  updateEquipment(createEquipment({
+    ...currentEquipment,
+    customItems: currentEquipment.customItems.filter((item) => item.id !== equipmentId),
+    selectedIds: currentEquipment.selectedIds.filter((itemId) => itemId !== equipmentId),
+  }));
+  setEquipmentStatus(t(state, 'equipmentRemoved'));
 }
 
 export function updateVolumeOutput(volume) {
@@ -160,6 +241,30 @@ function setCustomAudioStatus(message, type = 'success') {
 
 function setImportExportStatus(message, type = 'success') {
   const status = document.querySelector('#import-export-status');
+  if (!status) return;
+
+  status.textContent = message;
+  if (message) {
+    status.dataset.type = type;
+  } else {
+    delete status.dataset.type;
+  }
+}
+
+function setProfileStatus(message, type = 'success') {
+  const status = document.querySelector('#profile-status');
+  if (!status) return;
+
+  status.textContent = message;
+  if (message) {
+    status.dataset.type = type;
+  } else {
+    delete status.dataset.type;
+  }
+}
+
+function setEquipmentStatus(message, type = 'success') {
+  const status = document.querySelector('#equipment-status');
   if (!status) return;
 
   status.textContent = message;

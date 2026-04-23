@@ -1,6 +1,18 @@
 import { localizedText, t } from '../i18n/index.js';
 import { escapeAttribute, escapeHtml, formatCalories, formatDuration, uniqueStrings } from '../core/utils.js';
-import { selectFavoriteExerciseIdSet, selectLanguage } from '../core/selectors.js';
+import {
+  selectEquipmentCatalog,
+  selectEquipmentSelectedIdSet,
+  selectFavoriteExerciseIdSet,
+  selectLanguage,
+  selectProfile,
+} from '../core/selectors.js';
+import {
+  getExerciseEquipmentIds,
+  getExerciseProfileLevel,
+  isExerciseAvailableForSelectedEquipment,
+  isExerciseCompatibleWithProfileLevel,
+} from '../features/exercise-compatibility.js';
 import { calculateEstimatedWorkoutDuration, calculateWorkoutCaloriesEstimate } from '../features/workouts.js';
 
 export function renderWorkoutViewItem(state, item, exercise, index) {
@@ -88,6 +100,10 @@ export function renderWorkoutCard(state, workout, exercises, options = {}) {
 
 export function renderWorkoutExerciseSidebar(state, exercises) {
   const language = selectLanguage(state);
+  const profile = selectProfile(state);
+  const equipmentCatalog = selectEquipmentCatalog(state);
+  const selectedEquipmentIds = Array.from(selectEquipmentSelectedIdSet(state));
+  const knownEquipmentIds = equipmentCatalog.map((item) => item.id);
   const favoriteIds = selectFavoriteExerciseIdSet(state);
   const sortedExercises = [...exercises].sort((left, right) => {
     const favoriteDelta = Number(favoriteIds.has(right.id)) - Number(favoriteIds.has(left.id));
@@ -99,9 +115,17 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
     .sort((left, right) => left.localeCompare(right));
   const muscleOptions = uniqueStrings(exercises.flatMap((exercise) => exercise.muscles || []))
     .sort((left, right) => left.localeCompare(right));
+  const equipmentOptions = equipmentCatalog
+    .map((item) => `<option value="${escapeAttribute(item.id)}">${escapeHtml(localizedText(item.name, language) || item.id)}</option>`)
+    .join('');
 
   return `
-    <aside class="workout-exercise-sidebar" data-workout-exercise-sidebar>
+    <aside
+      class="workout-exercise-sidebar"
+      data-workout-exercise-sidebar
+      data-selected-equipment-ids="${escapeAttribute(selectedEquipmentIds.join('|'))}"
+      data-profile-training-level="${escapeAttribute(profile.trainingLevel || '')}"
+    >
       <div class="workout-exercise-sidebar__header">
         <h3>${t(state, 'workoutExercisePickerTitle')}</h3>
         <p class="muted">${t(state, 'workoutExercisePickerHint')}</p>
@@ -128,10 +152,37 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
             ${muscleOptions.map((muscle) => `<option value="${escapeAttribute(muscle.toLowerCase())}">${escapeHtml(muscle)}</option>`).join('')}
           </select>
         </label>
+
+        <label class="field" for="workout-exercise-equipment-filter">
+          <span>${t(state, 'exerciseEquipmentFilterLabel')}</span>
+          <select id="workout-exercise-equipment-filter" data-workout-exercise-equipment-filter ${exercises.length ? '' : 'disabled'}>
+            <option value="">${t(state, 'filterAll')}</option>
+            <option value="available">${t(state, 'exerciseEquipmentFilterAvailable')}</option>
+            ${equipmentOptions}
+          </select>
+        </label>
+
+        <label class="field" for="workout-exercise-profile-level-filter">
+          <span>${t(state, 'exerciseProfileLevelFilterLabel')}</span>
+          <select id="workout-exercise-profile-level-filter" data-workout-exercise-profile-level-filter ${exercises.length ? '' : 'disabled'}>
+            <option value="">${t(state, 'filterAll')}</option>
+            <option value="profile">${t(state, 'exerciseProfileLevelFilterProfile')}</option>
+            <option value="beginner">${t(state, 'trainingLevelOptionBeginner')}</option>
+            <option value="intermediate">${t(state, 'trainingLevelOptionIntermediate')}</option>
+            <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
+          </select>
+        </label>
       </div>
 
       <div class="workout-exercise-results" data-workout-exercise-results>
-        ${sortedExercises.map((exercise) => renderWorkoutExerciseOption(state, exercise, favoriteIds.has(exercise.id))).join('')}
+        ${sortedExercises.map((exercise) => renderWorkoutExerciseOption(
+          state,
+          exercise,
+          favoriteIds.has(exercise.id),
+          knownEquipmentIds,
+          selectedEquipmentIds,
+          profile.trainingLevel
+        )).join('')}
         <p class="muted" data-workout-exercise-no-results ${exercises.length ? 'hidden' : ''}>${exercises.length ? t(state, 'exerciseFilterNoResults') : t(state, 'emptyExercises')}</p>
       </div>
     </aside>
@@ -140,12 +191,16 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
 
 
 
-export function renderWorkoutExerciseOption(state, exercise, isFavorite) {
+export function renderWorkoutExerciseOption(state, exercise, isFavorite, knownEquipmentIds = [], selectedEquipmentIds = [], profileTrainingLevel = '') {
   const language = selectLanguage(state);
   const name = getExerciseDisplayName(exercise, language);
   const type = getExerciseTypeLabel(exercise, language);
   const description = localizedText(exercise.shortDescription, language) || t(state, 'emptyValue');
   const muscles = exercise.muscles || [];
+  const equipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
+  const exerciseProfileLevel = getExerciseProfileLevel(exercise);
+  const equipmentAvailable = isExerciseAvailableForSelectedEquipment(exercise, selectedEquipmentIds, knownEquipmentIds);
+  const profileCompatible = isExerciseCompatibleWithProfileLevel(exercise, profileTrainingLevel);
   const searchableText = [
     name,
     localizedText(exercise.name, 'ru'),
@@ -166,6 +221,10 @@ export function renderWorkoutExerciseOption(state, exercise, isFavorite) {
       data-exercise-id="${escapeAttribute(exercise.id)}"
       data-exercise-type="${escapeAttribute(type.toLowerCase())}"
       data-exercise-muscles="${escapeAttribute(muscles.join('|').toLowerCase())}"
+      data-exercise-equipment="${escapeAttribute(equipmentIds.join('|'))}"
+      data-exercise-profile-level="${escapeAttribute(exerciseProfileLevel)}"
+      data-exercise-equipment-available="${equipmentAvailable ? 'true' : 'false'}"
+      data-exercise-profile-compatible="${profileCompatible ? 'true' : 'false'}"
       data-exercise-search="${escapeAttribute(searchableText)}"
     >
       <div class="workout-exercise-option__body">

@@ -15,6 +15,7 @@ import { sanitizeCustomAudio, sanitizeStore } from './records.js';
 const MIGRATIONS = Object.freeze({
   1: migrateV1ToV2,
   2: migrateV2ToV3,
+  3: migrateV3ToV4,
 });
 
 export function migrateStore(store) {
@@ -121,5 +122,13 @@ function migrateV1ActiveSession(session) {
     status: normalizeString(session.status),
     currentStepIndex: nonNegativeInteger(session.currentStepIndex, -1),
     remainingSec: nonNegativeInteger(remainingSec, -1),
+  };
+}
+
+function migrateV3ToV4(store) {
+  return {
+    ...clone(DEFAULT_STORE),
+    ...clone(store),
+    version: 4,
   };
 }

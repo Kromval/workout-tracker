@@ -103,6 +103,17 @@ describe('storage core', () => {
       },
       favorites: ['legacy-favorite'],
       customAudio: { restEnd: 'data:audio/wav;base64,BBBB' },
+      profile: {
+        age: 29,
+        goal: 'strength',
+      },
+      equipment: {
+        selectedIds: ['bodyweight', 'sled'],
+        customItems: [{
+          id: 'sled',
+          name: 'Sled',
+        }],
+      },
       workouts: [{
         id: 'workout-a',
         title: 'Workout A',
@@ -119,6 +130,15 @@ describe('storage core', () => {
       restStart: 'data:audio/wav;base64,AAAA',
       restEnd: 'data:audio/wav;base64,BBBB',
     });
+    expect(imported.profile).toMatchObject({
+      age: 29,
+      goal: 'strength',
+    });
+    expect(imported.equipment.selectedIds).toEqual(['bodyweight', 'sled']);
+    expect(imported.equipment.customItems[0]).toMatchObject({
+      id: 'sled',
+      name: 'Sled',
+    });
     expect(imported.workouts).toHaveLength(1);
     expect(imported).not.toHaveProperty('favorites');
     expect(imported).not.toHaveProperty('customAudio');
@@ -128,6 +148,8 @@ describe('storage core', () => {
     expect(exported).not.toHaveProperty('favorites');
     expect(exported).not.toHaveProperty('customAudio');
     expect(exported).toHaveProperty('settings');
+    expect(exported).toHaveProperty('profile');
+    expect(exported).toHaveProperty('equipment');
     expect(exported).toHaveProperty('customExercises');
     expect(exported).toHaveProperty('workouts');
     expect(exported).toHaveProperty('history');
@@ -137,6 +159,7 @@ describe('storage core', () => {
     expect(() => importStore('not-json')).toThrow(/корректный JSON/);
     expect(() => importStore(JSON.stringify({ unknown: [] }))).toThrow(/Неизвестный раздел/);
     expect(() => importStore(JSON.stringify({ favorites: [123] }))).toThrow(/favorites\[0\]/);
+    expect(() => importStore(JSON.stringify({ equipment: { selectedIds: [123] } }))).toThrow(/equipment\.selectedIds\[0\]/);
     expect(() => importStore(JSON.stringify({ customAudio: { bad: 'data:audio/wav;base64,AAAA' } })))
       .toThrow(/неизвестное событие/);
   });

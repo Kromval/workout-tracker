@@ -14,8 +14,12 @@ import {
   handleAudioPreview,
   handleCustomAudioReset,
   handleCustomAudioUpload,
+  handleEquipmentAdd,
+  handleEquipmentRemove,
+  handleEquipmentToggle,
   handleExportData,
   handleImportData,
+  handleProfileChange,
   handleSettingChange,
   updateVolumeOutput,
 } from './settings-actions.js';
@@ -119,6 +123,23 @@ export function bindShellEvents(state, renderApp) {
 
     if (event.target?.id === 'import-data-button') {
       document.querySelector('#import-data-file')?.click();
+      return;
+    }
+
+    const equipmentAddButton = event.target?.closest?.('[data-equipment-add]');
+    if (equipmentAddButton) {
+      handleEquipmentAdd(state);
+      return;
+    }
+
+    const equipmentRemoveButton = event.target?.closest?.('[data-equipment-remove]');
+    if (equipmentRemoveButton) {
+      if (!window.confirm(t(state, 'removeListItemConfirm'))) {
+        return;
+      }
+
+      handleEquipmentRemove(equipmentRemoveButton, state);
+      return;
     }
 
     const audioPreviewButton = event.target?.closest?.('[data-custom-audio-preview]');
@@ -159,6 +180,18 @@ export function bindShellEvents(state, renderApp) {
       return;
     }
 
+    const profileField = event.target?.dataset?.profileField;
+    if (profileField) {
+      handleProfileChange(event.target, state);
+      return;
+    }
+
+    const equipmentToggle = event.target?.dataset?.equipmentToggle;
+    if (equipmentToggle) {
+      handleEquipmentToggle(event.target, state);
+      return;
+    }
+
     const settingName = event.target?.dataset?.setting;
     if (settingName) {
       handleSettingChange(event.target, state);
@@ -195,7 +228,7 @@ export function bindShellEvents(state, renderApp) {
   });
 
   document.addEventListener('change', (event) => {
-    if (event.target?.matches?.('[data-workout-exercise-type-filter], [data-workout-exercise-muscle-filter]')) {
+    if (event.target?.matches?.('[data-workout-exercise-type-filter], [data-workout-exercise-muscle-filter], [data-workout-exercise-equipment-filter], [data-workout-exercise-profile-level-filter]')) {
       const sidebar = event.target.closest('[data-workout-exercise-sidebar]');
       if (sidebar) applyWorkoutExerciseFilters(sidebar);
     }
@@ -239,6 +272,12 @@ export function bindShellEvents(state, renderApp) {
         .closest(`[data-editable-list="${listName}"]`)
         ?.querySelector(`[data-list-add="${listName}"]`)
         ?.click();
+      return;
+    }
+
+    if (event.key === 'Enter' && event.target?.matches?.('[data-equipment-custom-input]')) {
+      event.preventDefault();
+      handleEquipmentAdd(state);
     }
   });
 
@@ -249,7 +288,7 @@ export function bindShellEvents(state, renderApp) {
   });
 
   document.addEventListener('change', (event) => {
-    if (event.target?.matches?.('[data-exercises-type-filter], [data-exercises-muscle-filter]')) {
+    if (event.target?.matches?.('[data-exercises-type-filter], [data-exercises-muscle-filter], [data-exercises-equipment-filter], [data-exercises-profile-level-filter]')) {
       applyExerciseCatalogFilters();
     }
   });

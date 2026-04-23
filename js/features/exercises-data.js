@@ -29,7 +29,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -71,7 +72,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -112,7 +114,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "hold"
+      "hold",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "estimatedCalories": 4,
@@ -146,7 +150,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "warmup",
-      "cardio"
+      "cardio",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "time",
     "estimatedCalories": 9,
@@ -182,7 +188,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -223,7 +230,8 @@ export const builtInExerciseRecords = [
     "tags": [
       "home",
       "bodyweight",
-      "cardio"
+      "cardio",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -265,7 +273,8 @@ export const builtInExerciseRecords = [
     "tags": [
       "home",
       "bodyweight",
-      "cardio"
+      "cardio",
+      "beginner"
     ],
     "executionMode": "time",
     "estimatedCalories": 8,
@@ -301,7 +310,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -342,7 +352,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -382,7 +393,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -424,7 +436,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -465,7 +478,8 @@ export const builtInExerciseRecords = [
     "tags": [
       "home",
       "bodyweight",
-      "cardio"
+      "cardio",
+      "beginner"
     ],
     "executionMode": "time",
     "estimatedCalories": 9,
@@ -500,7 +514,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -541,7 +556,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "hold"
+      "hold",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "estimatedCalories": 5,
@@ -575,7 +592,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -617,7 +635,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "hold"
+      "hold",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "hold",
     "estimatedCalories": 4,
@@ -652,7 +672,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -694,7 +715,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -737,7 +759,8 @@ export const builtInExerciseRecords = [
     "tags": [
       "home",
       "bodyweight",
-      "cardio"
+      "cardio",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -780,7 +803,8 @@ export const builtInExerciseRecords = [
     "tags": [
       "home",
       "bodyweight",
-      "cardio"
+      "cardio",
+      "advanced"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -821,7 +845,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -861,7 +886,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -902,7 +928,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -942,7 +969,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -982,7 +1010,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "time",
     "estimatedCalories": 5,
@@ -1016,7 +1045,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1056,7 +1086,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "hold"
+      "hold",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "hold",
     "estimatedCalories": 4,
@@ -1091,7 +1123,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "time",
     "estimatedCalories": 6,
@@ -1125,7 +1158,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1166,7 +1200,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1208,7 +1243,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1250,7 +1286,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1291,7 +1328,8 @@ export const builtInExerciseRecords = [
     "tags": [
       "home",
       "bodyweight",
-      "cardio"
+      "cardio",
+      "intermediate"
     ],
     "executionMode": "time",
     "estimatedCalories": 8,
@@ -1325,7 +1363,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1365,7 +1404,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "bench",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1406,7 +1447,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1448,7 +1490,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "bench",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1489,7 +1533,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1530,7 +1575,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1572,7 +1618,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1614,7 +1661,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1654,7 +1702,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1694,7 +1743,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1734,7 +1784,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "bench",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1776,7 +1828,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "advanced"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1818,7 +1871,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1860,7 +1914,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1902,7 +1957,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1942,7 +1998,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "advanced"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -1984,7 +2041,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "advanced"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2026,7 +2084,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "advanced"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2068,7 +2127,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "advanced"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2109,7 +2169,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2150,7 +2211,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "beginner"
     ],
     "executionMode": "time",
     "tempo": {
@@ -2191,7 +2253,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2231,7 +2294,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2273,7 +2337,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "bench",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2314,7 +2380,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "resistance-band"
+      "bands",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2354,7 +2421,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "resistance-band"
+      "bands",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2394,7 +2462,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "resistance-band"
+      "bands",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2435,7 +2504,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "resistance-band"
+      "bands",
+      "beginner"
     ],
     "executionMode": "time",
     "tempo": {
@@ -2475,7 +2545,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "resistance-band"
+      "bands",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2517,7 +2588,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2558,7 +2630,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2599,7 +2672,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "bench",
+      "advanced"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2641,7 +2716,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "kettlebell"
+      "kettlebell",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2681,7 +2757,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "resistance-band"
+      "bands",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2723,7 +2800,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2764,7 +2842,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2804,7 +2883,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2845,7 +2925,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "resistance-band"
+      "bands",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2886,7 +2967,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2928,7 +3010,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -2968,7 +3051,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "resistance-band"
+      "bands",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -3008,7 +3092,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "bodyweight"
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -3050,7 +3135,8 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "dumbbell"
+      "dumbbells",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -3092,7 +3178,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3133,7 +3221,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "reps",
     "tempo": {
@@ -3174,7 +3264,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3215,7 +3307,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3257,7 +3351,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3299,7 +3395,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3341,7 +3439,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3382,7 +3482,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3423,7 +3525,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3465,7 +3569,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3505,7 +3611,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3546,7 +3654,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3587,7 +3697,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3629,7 +3741,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3671,7 +3785,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3713,7 +3829,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3754,7 +3872,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3795,7 +3915,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3835,7 +3957,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "beginner"
     ],
     "executionMode": "hold",
     "tempo": {
@@ -3875,7 +3999,9 @@ export const builtInExerciseRecords = [
     ],
     "tags": [
       "home",
-      "yoga"
+      "yoga",
+      "bodyweight",
+      "intermediate"
     ],
     "executionMode": "reps",
     "tempo": {

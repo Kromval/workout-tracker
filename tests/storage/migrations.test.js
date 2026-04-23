@@ -79,6 +79,39 @@ describe('storage migrations', () => {
     expect(migrated).not.toHaveProperty('customAudio');
   });
 
+  test('migrates v3 store by adding profile and equipment defaults', () => {
+    const migrated = migrateStore({
+      version: 3,
+      settings: { language: 'en' },
+      workouts: [],
+      history: [],
+      customExercises: [],
+    });
+
+    expect(migrated.version).toBe(STORAGE_VERSION);
+    expect(migrated.profile).toEqual({
+      age: null,
+      sex: '',
+      weightKg: null,
+      heightCm: null,
+      bodyFatPercent: null,
+      wristCm: null,
+      waistCm: null,
+      neckCm: null,
+      chestCm: null,
+      hipsCm: null,
+      forearmCm: null,
+      calfCm: null,
+      trainingLevel: '',
+      goal: '',
+      limitations: '',
+    });
+    expect(migrated.equipment).toEqual({
+      selectedIds: [],
+      customItems: [],
+    });
+  });
+
   test('normalizes missing and future versions predictably', () => {
     expect(getStorageVersion(undefined)).toBe(MIN_SUPPORTED_STORAGE_VERSION);
     expect(isFutureStorageVersion({ version: STORAGE_VERSION + 1 })).toBe(true);

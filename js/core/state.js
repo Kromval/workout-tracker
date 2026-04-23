@@ -1,4 +1,11 @@
-import { getDefaultStore, loadStore, saveLastOpenedWorkout, saveSettings } from '../storage/core.js';
+import {
+  getDefaultStore,
+  loadStore,
+  saveEquipment,
+  saveLastOpenedWorkout,
+  saveProfile,
+  saveSettings,
+} from '../storage/core.js';
 
 const listeners = new Set();
 
@@ -52,6 +59,20 @@ export function refreshStore() {
 export function updateSettings(settingsPatch) {
   state.settings = saveSettings(settingsPatch);
   state.store = loadStore();
+  notify();
+}
+
+export function updateProfile(profilePatch) {
+  saveProfile(profilePatch);
+  state.store = loadStore();
+  state.settings = state.store.settings;
+  notify();
+}
+
+export function updateEquipment(equipment) {
+  saveEquipment(equipment);
+  state.store = loadStore();
+  state.settings = state.store.settings;
   notify();
 }
 

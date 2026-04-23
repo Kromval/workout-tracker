@@ -102,8 +102,41 @@
  * }} Settings
  *
  * @typedef {{
+ *   age: number | null,
+ *   sex: '' | 'male' | 'female',
+ *   weightKg: number | null,
+ *   heightCm: number | null,
+ *   bodyFatPercent: number | null,
+ *   wristCm: number | null,
+ *   waistCm: number | null,
+ *   neckCm: number | null,
+ *   chestCm: number | null,
+ *   hipsCm: number | null,
+ *   forearmCm: number | null,
+ *   calfCm: number | null,
+ *   trainingLevel: '' | 'beginner' | 'intermediate' | 'advanced',
+ *   goal: '' | 'strength' | 'hypertrophy' | 'endurance' | 'fat-loss' | 'general-fitness',
+ *   limitations: string
+ * }} UserProfile
+ *
+ * @typedef {{
+ *   id: string,
+ *   name: string,
+ *   createdAt: string,
+ *   updatedAt: string,
+ *   isCustom: boolean
+ * }} EquipmentItem
+ *
+ * @typedef {{
+ *   selectedIds: string[],
+ *   customItems: EquipmentItem[]
+ * }} EquipmentState
+ *
+ * @typedef {{
  *   version: number,
  *   settings: Settings,
+ *   profile: UserProfile,
+ *   equipment: EquipmentState,
  *   customExercises: Exercise[],
  *   workouts: Workout[],
  *   history: HistoryEntry[],
@@ -125,11 +158,15 @@ import { isFutureStorageVersion, migrateStore } from './migrations.js';
 export { DEFAULT_SETTINGS, DEFAULT_STORE, IMPORT_MODES, STORAGE_META } from './schema.js';
 export {
   createLocalizedText,
+  createProfile,
+  createEquipment,
+  createEquipmentItem,
   createExercise,
   createWorkoutItem,
   createWorkout,
   createHistoryEntry,
   createSettings,
+  sanitizeEquipment,
   validateWorkoutForSave,
 } from './records.js';
 
@@ -149,9 +186,13 @@ import {
   upsertById,
 } from './helpers.js';
 import {
+  createEquipment,
+  createEquipmentItem,
   createExercise,
   createHistoryEntry,
+  createProfile,
   createSettings,
+  sanitizeEquipment,
   createWorkout,
   createWorkoutItem,
   sanitizeCustomAudio,
@@ -241,6 +282,67 @@ export function generateUniqueId(prefix = 'id', existingIds = []) {
 
 export function getSettings() {
   return loadStore().settings;
+}
+
+export function getProfile() {
+  return loadStore().profile;
+}
+
+export function saveProfile(profilePatch) {
+  const store = loadStore();
+  store.profile = createProfile({
+    ...store.profile,
+    ...profilePatch,
+  });
+  return saveStore(store).profile;
+}
+
+export function getEquipment() {
+  return loadStore().equipment;
+}
+
+export function saveEquipment(equipment) {
+  const store = loadStore();
+  store.equipment = createEquipment(equipment);
+  return saveStore(store).equipment;
+}
+
+export function createCustomEquipmentRecord(name) {
+  const store = loadStore();
+  const item = createEquipmentItem({
+    name,
+    id: generateUniqueId('equipment', store.equipment.customItems.map((entry) => entry.id)),
+  });
+  const customItems = [...store.equipment.customItems, item];
+  const selectedIds = uniqueStrings([...store.equipment.selectedIds, item.id]);
+
+  store.equipment = createEquipment({
+    ...store.equipment,
+    customItems,
+    selectedIds,
+  });
+
+  return {
+    equipment: saveStore(store).equipment,
+    item,
+  };
+}
+
+export function deleteCustomEquipmentRecord(id) {
+  const store = loadStore();
+  const nextCustomItems = store.equipment.customItems.filter((item) => item.id !== id);
+
+  if (nextCustomItems.length === store.equipment.customItems.length) {
+    return false;
+  }
+
+  store.equipment = createEquipment({
+    ...store.equipment,
+    customItems: nextCustomItems,
+    selectedIds: store.equipment.selectedIds.filter((itemId) => itemId !== id),
+  });
+  saveStore(store);
+  return true;
 }
 
 export function setSettings(settings) {
@@ -707,6 +809,14 @@ function validateImportPayload(payload) {
     errors.push('Раздел settings должен быть объектом.');
   }
 
+  if (Object.prototype.hasOwnProperty.call(source, 'profile') && !isPlainObject(source.profile)) {
+    errors.push('Раздел profile должен быть объектом.');
+  }
+
+  if (Object.prototype.hasOwnProperty.call(source, 'equipment') && !isPlainObject(source.equipment)) {
+    errors.push('Раздел equipment должен быть объектом.');
+  }
+
   ['customExercises', 'workouts', 'history', 'favorites'].forEach((key) => {
     if (Object.prototype.hasOwnProperty.call(source, key) && !Array.isArray(source[key])) {
       errors.push(`Раздел ${key} должен быть массивом.`);
@@ -737,6 +847,28 @@ function validateImportPayload(payload) {
     });
   }
 
+  if (isPlainObject(source.equipment)) {
+    if (Object.prototype.hasOwnProperty.call(source.equipment, 'selectedIds') && !Array.isArray(source.equipment.selectedIds)) {
+      errors.push('equipment.selectedIds должен быть массивом.');
+    }
+
+    if (Object.prototype.hasOwnProperty.call(source.equipment, 'customItems') && !Array.isArray(source.equipment.customItems)) {
+      errors.push('equipment.customItems должен быть массивом.');
+    }
+
+    if (Array.isArray(source.equipment?.selectedIds)) {
+      source.equipment.selectedIds.forEach((item, index) => {
+        if (typeof item !== 'string') {
+          errors.push(`equipment.selectedIds[${index}] должен быть строкой.`);
+        }
+      });
+    }
+
+    if (Array.isArray(source.equipment?.customItems)) {
+      validateObjectArray(source.equipment.customItems, 'equipment.customItems', errors);
+    }
+  }
+
   if (isPlainObject(source.customAudio)) {
     Object.keys(source.customAudio).forEach((eventName) => {
       if (!AUDIO_EVENTS.includes(eventName)) {
@@ -765,6 +897,8 @@ function createReplaceStore(payload) {
     ...DEFAULT_STORE,
     ...withoutLegacyFields(payload),
     settings: mergeImportedSettings(DEFAULT_STORE.settings, payload),
+    profile: createProfile(payload.profile),
+    equipment: createEquipment(payload.equipment),
   };
 }
 
@@ -784,6 +918,8 @@ function createMergedStore(currentStore, payload) {
   }
 
   nextStore.settings = mergeImportedSettings(nextStore.settings, payload);
+  nextStore.profile = mergeImportedProfile(nextStore.profile, payload);
+  nextStore.equipment = mergeImportedEquipment(nextStore.equipment, payload);
 
   return nextStore;
 }
@@ -812,6 +948,30 @@ function withoutLegacyFields(payload) {
   delete nextPayload.favorites;
   delete nextPayload.customAudio;
   return nextPayload;
+}
+
+function mergeImportedProfile(currentProfile, payload) {
+  return createProfile({
+    ...currentProfile,
+    ...(isPlainObject(payload.profile) ? payload.profile : {}),
+  });
+}
+
+function mergeImportedEquipment(currentEquipment, payload) {
+  const importedEquipment = isPlainObject(payload.equipment) ? payload.equipment : {};
+
+  return createEquipment({
+    ...currentEquipment,
+    ...importedEquipment,
+    selectedIds: uniqueStrings([
+      ...uniqueStrings(currentEquipment.selectedIds),
+      ...uniqueStrings(importedEquipment.selectedIds),
+    ]),
+    customItems: mergeById(
+      sanitizeEquipment(currentEquipment).customItems,
+      Array.isArray(importedEquipment.customItems) ? importedEquipment.customItems : []
+    ),
+  });
 }
 
 function validateObjectArray(items, key, errors) {

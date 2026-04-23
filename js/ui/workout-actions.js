@@ -146,6 +146,13 @@ export function applyWorkoutExerciseFilters(sidebar) {
   const muscle = normalizeFormString(
     sidebar.querySelector('[data-workout-exercise-muscle-filter]')?.value
   ).toLowerCase();
+  const equipmentFilter = normalizeFormString(
+    sidebar.querySelector('[data-workout-exercise-equipment-filter]')?.value
+  ).toLowerCase();
+  const profileLevelFilter = normalizeFormString(
+    sidebar.querySelector('[data-workout-exercise-profile-level-filter]')?.value
+  ).toLowerCase();
+  const currentProfileLevel = normalizeFormString(sidebar.dataset.profileTrainingLevel).toLowerCase();
 
   const options = Array.from(sidebar.querySelectorAll('.workout-exercise-option'));
   let visibleCount = 0;
@@ -154,12 +161,22 @@ export function applyWorkoutExerciseFilters(sidebar) {
     const searchText = (option.dataset.exerciseSearch || '').toLowerCase();
     const optionType = (option.dataset.exerciseType || '').toLowerCase();
     const muscles = option.dataset.exerciseMuscles ? option.dataset.exerciseMuscles.split('|') : [];
+    const equipmentIds = option.dataset.exerciseEquipment ? option.dataset.exerciseEquipment.split('|') : [];
+    const profileLevel = (option.dataset.exerciseProfileLevel || '').toLowerCase();
+    const equipmentAvailable = option.dataset.exerciseEquipmentAvailable === 'true';
+    const profileCompatible = option.dataset.exerciseProfileCompatible === 'true';
 
     const matchesQuery = !query || searchText.includes(query);
     const matchesType = !type || optionType === type;
     const matchesMuscle = !muscle || muscles.includes(muscle);
+    const matchesEquipment = !equipmentFilter
+      || (equipmentFilter === 'available' ? equipmentAvailable : equipmentIds.includes(equipmentFilter));
+    const matchesProfileLevel = !profileLevelFilter
+      || (profileLevelFilter === 'profile'
+        ? (!currentProfileLevel || profileCompatible)
+        : profileLevel === profileLevelFilter);
 
-    const isVisible = matchesQuery && matchesType && matchesMuscle;
+    const isVisible = matchesQuery && matchesType && matchesMuscle && matchesEquipment && matchesProfileLevel;
 
     option.style.display = isVisible ? 'grid' : 'none';
 

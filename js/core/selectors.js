@@ -1,4 +1,5 @@
 import { getExerciseCatalog } from '../features/exercises.js';
+import { getEquipmentCatalog } from '../features/equipment.js';
 import { getWorkouts } from '../features/workouts.js';
 import { getPopularPresetWorkouts } from '../features/presets.js';
 
@@ -25,6 +26,14 @@ export function selectTheme(state) {
   return selectSettings(state).theme || 'system';
 }
 
+export function selectProfile(state) {
+  return selectStore(state).profile || EMPTY_OBJECT;
+}
+
+export function selectEquipment(state) {
+  return selectStore(state).equipment || EMPTY_OBJECT;
+}
+
 export function selectCustomAudio(state) {
   return selectSettings(state).customAudio || EMPTY_OBJECT;
 }
@@ -35,6 +44,8 @@ const selectExerciseCatalogByRefs = memoizeByRefs((exercises, store) => getExerc
   exercises,
   store,
 }));
+const selectEquipmentCatalogByStore = memoizeByRefs((store) => getEquipmentCatalog({ store }));
+const selectEquipmentSelectedIdSetByStore = memoizeByRefs((store) => new Set(store.equipment?.selectedIds || EMPTY_ARRAY));
 
 const selectUserWorkoutsByStore = memoizeByRefs((store) => (store.workouts || EMPTY_ARRAY)
   .filter((workout) => !workout.isPreset));
@@ -55,6 +66,14 @@ export function selectFavoriteExerciseIdSet(state) {
 
 export function selectExerciseCatalog(state) {
   return selectExerciseCatalogByRefs(state?.exercises || EMPTY_ARRAY, selectStore(state));
+}
+
+export function selectEquipmentCatalog(state) {
+  return selectEquipmentCatalogByStore(selectStore(state));
+}
+
+export function selectEquipmentSelectedIdSet(state) {
+  return selectEquipmentSelectedIdSetByStore(selectStore(state));
 }
 
 export function selectUserWorkouts(state) {

@@ -1,4 +1,6 @@
 import {
+  createEquipment,
+  createProfile,
   createSettings,
   createWorkout,
   createWorkoutItem,
@@ -77,6 +79,44 @@ describe('storage normalizers', () => {
       dataUrl: 'data:audio/wav;base64,AAAA',
     });
     expect(settings.customAudio).not.toHaveProperty('restEnd');
+  });
+
+  test('profile and equipment sanitizers normalize user metadata', () => {
+    const profile = createProfile({
+      age: '31',
+      sex: 'other',
+      weightKg: '82.4',
+      heightCm: '180',
+      bodyFatPercent: 140,
+      trainingLevel: 'advanced',
+      goal: 'fat-loss',
+      limitations: ' no jumping ',
+    });
+    const equipment = createEquipment({
+      selectedIds: ['bodyweight', ' custom-bench ', 'bodyweight'],
+      customItems: [
+        { id: 'custom-bench', name: ' Adjustable bench ', updatedAt: '2026-01-03T00:00:00.000Z' },
+        { id: '', name: ' ' },
+      ],
+    });
+
+    expect(profile).toMatchObject({
+      age: 31,
+      sex: '',
+      weightKg: 82.4,
+      heightCm: 180,
+      bodyFatPercent: 100,
+      trainingLevel: 'advanced',
+      goal: 'fat-loss',
+      limitations: 'no jumping',
+    });
+    expect(equipment.selectedIds).toEqual(['bodyweight', 'custom-bench']);
+    expect(equipment.customItems).toHaveLength(1);
+    expect(equipment.customItems[0]).toMatchObject({
+      id: 'custom-bench',
+      name: 'Adjustable bench',
+      isCustom: true,
+    });
   });
 
   test('workout normalizer orders items and validates executable workout contract', () => {
