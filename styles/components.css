@@ -570,6 +570,21 @@
   flex: 1 1 auto;
 }
 
+.priority-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.priority-field__range {
+  width: 100%;
+}
+
+.priority-field__number {
+  text-align: right;
+}
+
 .checkbox-field {
   display: flex;
   align-items: center;
@@ -718,6 +733,10 @@
 
   .custom-audio-row__actions {
     justify-content: flex-start;
+  }
+
+  .priority-field {
+    grid-template-columns: 1fr;
   }
 
   .settings-checkbox-item {

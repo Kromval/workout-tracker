@@ -864,7 +864,7 @@ export function renderSettingsProfileRegion(state) {
         <div class="field settings-grid__wide">
           <span>${t(state, 'profileGoalsWeighted')}</span>
           <div class="settings-grid">
-            ${PROFILE_GOAL_FIELDS.map((goalId) => renderProfileNumberField(
+            ${PROFILE_GOAL_FIELDS.map((goalId) => renderProfilePriorityField(
               state,
               `goals.${goalId}`,
               `profileGoalWeight${capitalize(goalId)}`,
@@ -876,7 +876,7 @@ export function renderSettingsProfileRegion(state) {
         <div class="field settings-grid__wide">
           <span>${t(state, 'profileBodyFocusGoals')}</span>
           <div class="settings-grid">
-            ${PROFILE_BODY_FOCUS_FIELDS.map((goalId) => renderProfileNumberField(
+            ${PROFILE_BODY_FOCUS_FIELDS.map((goalId) => renderProfilePriorityField(
               state,
               `bodyFocusGoals.${goalId}`,
               `profileBodyFocus${capitalize(goalId)}`,
@@ -888,7 +888,7 @@ export function renderSettingsProfileRegion(state) {
         <div class="field settings-grid__wide">
           <span>${t(state, 'profileRecoveryProfile')}</span>
           <div class="settings-grid">
-            ${PROFILE_RECOVERY_FIELDS.map((areaId) => renderProfileNumberField(
+            ${PROFILE_RECOVERY_FIELDS.map((areaId) => renderProfilePriorityField(
               state,
               `recoveryProfile.${areaId}`,
               `profileRecovery${capitalize(areaId)}`,
@@ -976,6 +976,43 @@ function renderProfileNumberField(state, fieldName, labelKey, value, options = {
         data-profile-field="${fieldName}"
         value="${escapeAttribute(value ?? '')}"
       >
+    </label>
+  `;
+}
+
+function renderProfilePriorityField(state, fieldName, labelKey, value, options = {}) {
+  const id = `profile-${fieldName}`;
+  const numberValue = value ?? 0;
+  const { min = 0, max = 1, step = 0.1 } = options;
+
+  return `
+    <label class="field" for="${id}-number">
+      <span>${t(state, labelKey)}</span>
+      <div class="priority-field">
+        <input
+          id="${id}-range"
+          class="priority-field__range"
+          type="range"
+          min="${escapeAttribute(min)}"
+          max="${escapeAttribute(max)}"
+          step="${escapeAttribute(step)}"
+          data-profile-field="${fieldName}"
+          data-profile-input-type="priority-range"
+          value="${escapeAttribute(numberValue)}"
+        >
+        <input
+          id="${id}-number"
+          class="priority-field__number"
+          type="number"
+          min="${escapeAttribute(min)}"
+          max="${escapeAttribute(max)}"
+          step="${escapeAttribute(step)}"
+          inputmode="decimal"
+          data-profile-field="${fieldName}"
+          data-profile-input-type="priority-number"
+          value="${escapeAttribute(numberValue)}"
+        >
+      </div>
     </label>
   `;
 }

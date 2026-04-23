@@ -53,7 +53,7 @@ export function handleProfileChange(input, state) {
   const currentProfile = selectProfile(state);
   let value = input.value;
 
-  if (input instanceof HTMLInputElement && input.type === 'number') {
+  if (input instanceof HTMLInputElement && ['number', 'range'].includes(input.type)) {
     value = value === '' ? null : Number(value);
   }
 
@@ -62,6 +62,7 @@ export function handleProfileChange(input, state) {
   }
 
   const profilePatch = buildProfilePatch(currentProfile, fieldName, value);
+  syncProfileFieldInputs(fieldName, input.value, input);
   updateProfile(profilePatch);
   setProfileStatus(t(state, 'settingsSaved'));
 }
@@ -304,4 +305,14 @@ function parseCommaSeparatedList(value) {
     .split(/[\n,;]+/)
     .map((item) => normalizeString(item).toLowerCase().replaceAll(' ', '-'))
     .filter(Boolean);
+}
+
+function syncProfileFieldInputs(fieldName, rawValue, sourceInput) {
+  document.querySelectorAll(`[data-profile-field="${fieldName}"]`).forEach((element) => {
+    if (element === sourceInput) {
+      return;
+    }
+
+    element.value = rawValue;
+  });
 }
