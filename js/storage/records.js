@@ -3,6 +3,7 @@ import {
   DEFAULT_PROFILE,
   AUDIO_EVENTS,
   CALENDAR_VIEW_MODES,
+  DENSITIES,
   DEFAULT_SETTINGS,
   EXECUTION_MODES,
   HISTORY_STATUSES,
@@ -235,6 +236,7 @@ export function sanitizeSettings(settings) {
   const source = isPlainObject(settings) ? settings : {};
   const language = LANGUAGES.includes(source.language) ? source.language : DEFAULT_SETTINGS.language;
   const theme = THEMES.includes(source.theme) ? source.theme : DEFAULT_SETTINGS.theme;
+  const density = DENSITIES.includes(source.density) ? source.density : DEFAULT_SETTINGS.density;
   const calendarViewMode = CALENDAR_VIEW_MODES.includes(source.calendarViewMode)
     ? source.calendarViewMode
     : DEFAULT_SETTINGS.calendarViewMode;
@@ -242,6 +244,7 @@ export function sanitizeSettings(settings) {
   return {
     language,
     theme,
+    density,
     soundEnabled: typeof source.soundEnabled === 'boolean'
       ? source.soundEnabled
       : DEFAULT_SETTINGS.soundEnabled,

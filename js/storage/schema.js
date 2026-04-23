@@ -22,6 +22,7 @@ export const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
 export const HISTORY_STATUSES = ['completed', 'aborted', 'interrupted'];
 export const LANGUAGES = ['ru', 'en'];
 export const THEMES = ['light', 'dark', 'system'];
+export const DENSITIES = ['comfortable', 'compact'];
 export const CALENDAR_VIEW_MODES = ['month', 'week'];
 export const PROFILE_SEXES = ['male', 'female'];
 export const PROFILE_TRAINING_LEVELS = ['beginner', 'intermediate', 'advanced'];
@@ -53,6 +54,7 @@ export const IMPORT_MODES = Object.freeze({
 export const DEFAULT_SETTINGS = Object.freeze({
   language: 'ru',
   theme: 'system',
+  density: 'comfortable',
   soundEnabled: true,
   volume: 0.7,
   customAudio: {},

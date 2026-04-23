@@ -18,6 +18,7 @@ The app already includes:
 - Preset workouts that can be copied and edited.
 - Russian and English localization.
 - Light, dark, and system themes.
+- Comfortable/compact interface density toggle.
 - Custom audio signals for workout events.
 - JSON import/export with schema migrations.
 - Local persistence in `localStorage`.
@@ -147,6 +148,14 @@ Notable profile fields:
 - `frequencyPerWeek`
 - `recoveryProfile`
 - `recentHistory`
+
+Notable settings fields:
+
+- `language`
+- `theme`
+- `density`
+- `soundEnabled`
+- `volume`
 
 Version migrations live in:
 

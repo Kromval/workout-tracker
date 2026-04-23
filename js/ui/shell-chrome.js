@@ -97,6 +97,10 @@ export function applyTheme(theme) {
   document.documentElement.dataset.theme = getResolvedTheme(theme);
 }
 
+export function applyDensity(density) {
+  document.documentElement.dataset.density = density === 'compact' ? 'compact' : 'comfortable';
+}
+
 export function getResolvedTheme(theme) {
   return theme === 'system'
     ? (themeQuery?.matches ? 'dark' : 'light')

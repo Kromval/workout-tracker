@@ -33,7 +33,7 @@ export function handleSettingChange(input, state) {
     settingsPatch.volume = Number(input.value);
     setVolume(settingsPatch.volume);
     updateVolumeOutput(settingsPatch.volume);
-  } else if (settingName === 'theme' || settingName === 'language') {
+  } else if (settingName === 'theme' || settingName === 'language' || settingName === 'density') {
     settingsPatch[settingName] = input.value;
   } else {
     return;

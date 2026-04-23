@@ -1,11 +1,12 @@
 import { pageRenderers } from '../pages/renderers.js';
 import { defaultRoute } from '../core/router.js';
 import { initWorkoutRunUi } from '../session/ui.js';
-import { selectRoute, selectTheme } from '../core/selectors.js';
+import { selectDensity, selectRoute, selectTheme } from '../core/selectors.js';
 import { bindShellEvents } from './event-bindings.js';
 import { renderPendingNotice } from './notices.js';
 import { updateCurrentPage } from './page-updates.js';
 import {
+  applyDensity,
   applyTheme,
   bindHeaderControls,
   bindSystemThemeListener,
@@ -27,6 +28,7 @@ export function initShell(state) {
   bindHeaderControls(state);
   bindShellEvents(state, renderApp);
   applyTheme(selectTheme(state));
+  applyDensity(selectDensity(state));
   syncDocumentLanguage(state);
   bindSystemThemeListener(state);
 }
@@ -39,6 +41,7 @@ export function renderApp(state, meta = {}) {
   updateHeaderControls(state);
   updateShellLabels(state);
   applyTheme(selectTheme(state));
+  applyDensity(selectDensity(state));
   syncDocumentLanguage(state);
 
   const app = document.querySelector('#app');

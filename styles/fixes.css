@@ -1,4 +1,14 @@
-/* Accessible visual refresh: calm surfaces, clearer hierarchy, less motion. */
+/* Minimal, clean UI layer without motion-based hover effects. */
+
+body {
+  background: var(--color-bg);
+}
+
+.app-header {
+  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--color-border) 90%, var(--color-text) 10%);
+}
 
 .button,
 .icon-button,
@@ -11,23 +21,75 @@
 .workout-exercise-option,
 .progress-calendar__day,
 .session-metric {
-  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.nav {
+  padding: 2px;
+  border: 1px solid color-mix(in srgb, var(--color-border) 92%, var(--color-text) 8%);
+  border-radius: 999px;
+  background: var(--color-surface);
+}
+
+.nav__link {
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.nav__link:hover {
+  color: var(--color-text);
+  background: var(--color-surface-muted);
+}
+
+.nav__link[aria-current="page"] {
+  color: var(--color-text);
+  border-color: color-mix(in srgb, var(--color-border) 78%, var(--color-accent) 22%);
+  background: color-mix(in srgb, var(--color-surface-muted) 80%, #fff 20%);
 }
 
 .button,
 .icon-button {
-  font-weight: 600;
   border-width: 1px;
+  border-radius: 10px;
+  border-color: color-mix(in srgb, var(--color-border) 88%, var(--color-text) 12%);
+  box-shadow: none;
 }
 
 .button {
-  min-height: 42px;
+  min-height: 40px;
+  font-weight: 600;
+}
+
+:root[data-density="compact"] .button,
+:root[data-density="compact"] .icon-button {
+  min-height: 36px;
+}
+
+:root[data-density="compact"] .quick-action {
+  min-height: 48px;
+}
+
+:root[data-density="compact"] .progress-calendar__day {
+  min-height: 46px;
 }
 
 .button--primary {
   color: #fff;
-  background: linear-gradient(180deg, var(--color-accent), var(--color-accent-strong));
+  background: var(--color-accent);
   border-color: var(--color-accent-strong);
+}
+
+.button--primary:hover {
+  background: var(--color-accent-strong);
+}
+
+.button--ghost:hover,
+.icon-button:hover {
+  background: var(--color-surface-muted);
+  border-color: color-mix(in srgb, var(--color-border) 68%, var(--color-accent) 32%);
 }
 
 .card,
@@ -41,9 +103,33 @@
 .progress-calendar__details,
 .home-hero__content,
 .home-stats,
-.empty-state {
-  border-color: color-mix(in srgb, var(--color-border) 88%, var(--color-text) 12%);
+.empty-state,
+.session-panel,
+.session-finish {
+  border-color: color-mix(in srgb, var(--color-border) 90%, var(--color-text) 10%);
   box-shadow: var(--shadow-sm);
+}
+
+.card:hover,
+.exercise-card:hover,
+.workout-card:hover,
+.workout-item:hover,
+.workout-exercise-option:hover,
+.quick-action:hover {
+  border-color: color-mix(in srgb, var(--color-border) 68%, var(--color-accent) 32%);
+  box-shadow: var(--shadow-md);
+}
+
+.quick-action {
+  min-height: 56px;
+  font-weight: 600;
+}
+
+.quick-action__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  font-size: 0.9rem;
 }
 
 .muted {
@@ -53,21 +139,22 @@
 
 .page-header h1 {
   margin: 0;
-  letter-spacing: -0.02em;
-  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  letter-spacing: -0.015em;
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
   line-height: 1.2;
 }
 
 .page-header p,
 .section-header p {
   max-width: 72ch;
-  line-height: 1.6;
+  line-height: 1.55;
 }
 
 .field input,
 .field select,
 .field textarea {
   min-height: 42px;
+  border-color: color-mix(in srgb, var(--color-border) 86%, var(--color-text) 14%);
   background: var(--color-surface);
 }
 
@@ -83,24 +170,14 @@
 .nav__link:focus-visible,
 .workout-item__drag-handle:focus-visible,
 .session-rating__option:focus-within {
-  outline: 3px solid color-mix(in srgb, var(--color-accent) 60%, #ffffff 40%);
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 72%, #fff 28%);
   outline-offset: 1px;
   border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 24%, transparent);
 }
 
 .quick-actions {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.quick-action {
-  min-height: 56px;
-  font-weight: 650;
-}
-
-.quick-action__icon {
-  width: 32px;
-  height: 32px;
-  font-size: 1rem;
 }
 
 .exercise-filters,
@@ -108,10 +185,27 @@
   gap: var(--space-2);
 }
 
+.workout-exercise-sidebar {
+  grid-template-rows: auto auto minmax(0, 1fr);
+  height: calc(100vh - 120px);
+  min-height: 0;
+}
+
+.workout-exercise-results {
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 .chip,
 .badge {
-  font-size: 0.86rem;
-  min-height: 26px;
+  min-height: 28px;
+  font-size: 0.82rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-surface-muted) 84%, #fff 16%);
 }
 
 .chip-list--spaced {
@@ -150,7 +244,7 @@
 }
 
 .progress-calendar__day--has-workout {
-  background: color-mix(in srgb, var(--color-accent) 16%, var(--color-surface));
+  background: color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
 }
 
 .session-progress__track span {
@@ -166,6 +260,7 @@
 
   .workout-exercise-sidebar {
     position: static;
+    height: auto;
     max-height: none;
   }
 
@@ -248,7 +343,7 @@ body.modal-open {
   display: none;
   place-items: center;
   padding: var(--space-4);
-  background: rgb(15 23 42 / 0.52);
+  background: rgb(15 23 42 / 0.45);
 }
 
 .profile-picker-modal[data-open="true"] {

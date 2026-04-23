@@ -93,6 +93,7 @@
  * @typedef {{
  *   language: 'ru' | 'en',
  *   theme: 'light' | 'dark' | 'system',
+ *   density: 'comfortable' | 'compact',
  *   soundEnabled: boolean,
  *   volume: number,
  *   customAudio: Record<string, string | CustomAudioEntry>,

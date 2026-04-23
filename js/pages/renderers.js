@@ -632,21 +632,17 @@ export function renderHomeOverviewRegion(state) {
 
     <div class="quick-actions" aria-label="${t(state, 'quickActions')}">
       <a class="quick-action quick-action--primary" href="#workout-create">
-        <span class="quick-action__icon">🏋️</span>
         <span>${t(state, 'quickActionNewTrain')}</span>
       </a>
       ${lastOpenedWorkout ? `
         <a class="quick-action" href="#workout-view/${encodeURIComponent(lastOpenedWorkout.id)}" aria-label="${escapeAttribute(`${t(state, 'returnToLastWorkout')}: ${lastOpenedWorkout.title}`)}">
-          <span class="quick-action__icon">↩</span>
           <span>${t(state, 'returnToLastWorkout')}</span>
         </a>
       ` : ''}
       <a class="quick-action" href="#exercises">
-        <span class="quick-action__icon">📋</span>
         <span>${t(state, 'quickActionExercises')}</span>
       </a>
       <a class="quick-action" href="#settings">
-        <span class="quick-action__icon">⚙️</span>
         <span>${t(state, 'quickActionSettings')}</span>
       </a>
     </div>
@@ -818,6 +814,14 @@ export function renderSettingsInterfaceRegion(state) {
           <select id="setting-language" data-setting="language">
             <option value="ru" ${settings.language === 'ru' ? 'selected' : ''}>${t(state, 'languageRu')}</option>
             <option value="en" ${settings.language === 'en' ? 'selected' : ''}>${t(state, 'languageEn')}</option>
+          </select>
+        </label>
+
+        <label class="field" for="setting-density">
+          <span>${t(state, 'densityLabel')}</span>
+          <select id="setting-density" data-setting="density">
+            <option value="comfortable" ${settings.density !== 'compact' ? 'selected' : ''}>${t(state, 'densityComfortable')}</option>
+            <option value="compact" ${settings.density === 'compact' ? 'selected' : ''}>${t(state, 'densityCompact')}</option>
           </select>
         </label>
 

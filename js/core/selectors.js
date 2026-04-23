@@ -28,6 +28,10 @@ export function selectTheme(state) {
   return selectSettings(state).theme || 'system';
 }
 
+export function selectDensity(state) {
+  return selectSettings(state).density || 'comfortable';
+}
+
 export function selectProfile(state) {
   return selectStore(state).profile || EMPTY_OBJECT;
 }

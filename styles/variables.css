@@ -1,27 +1,27 @@
 :root {
-  /* Основная палитра */
-  --color-bg: #f4f6fb;
+  /* Tailwind-like neutral palette */
+  --color-bg: #f8fafc;
   --color-surface: #ffffff;
-  --color-surface-muted: #eef2f7;
-  --color-text: #1f2937;
-  --color-text-muted: #596579;
-  --color-border: #d7deea;
+  --color-surface-muted: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #e2e8f0;
 
-  /* Спокойный акцент */
-  --color-accent: #2f6fed;
-  --color-accent-strong: #1f5ad0;
+  /* Accent */
+  --color-accent: #2563eb;
+  --color-accent-strong: #1d4ed8;
   --color-success: #22c55e;
   --color-danger: #dc2626;
 
-  /* Тени и эффекты */
-  --shadow-sm: 0 4px 12px rgb(31 41 55 / 0.08);
-  --shadow-md: 0 10px 24px rgb(31 41 55 / 0.12);
-  --shadow-lg: 0 18px 40px rgb(31 41 55 / 0.16);
+  /* Tailwind-like shadows */
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.08);
+  --shadow-md: 0 10px 15px -3px rgb(15 23 42 / 0.1), 0 4px 6px -4px rgb(15 23 42 / 0.1);
+  --shadow-lg: 0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.12);
 
-  /* Радиусы */
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 
   /* Отступы */
   --space-1: 8px;
@@ -36,16 +36,28 @@
   --font-display: 'Manrope', 'Inter', 'Segoe UI', 'Noto Sans', sans-serif;
 }
 
+:root[data-density="compact"] {
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 14px;
+  --space-4: 20px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
 :root[data-theme="dark"] {
-  --color-bg: #0f1725;
-  --color-surface: #172132;
-  --color-surface-muted: #223147;
-  --color-text: #e9eef7;
-  --color-text-muted: #a9b8cf;
-  --color-border: #30425d;
-  --color-accent: #6da2ff;
-  --color-accent-strong: #8fb7ff;
-  --shadow-sm: 0 6px 18px rgb(2 8 23 / 0.35);
-  --shadow-md: 0 14px 30px rgb(2 8 23 / 0.45);
-  --shadow-lg: 0 24px 50px rgb(2 8 23 / 0.55);
+  --color-bg: #020617;
+  --color-surface: #0f172a;
+  --color-surface-muted: #1e293b;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-border: #334155;
+  --color-accent: #3b82f6;
+  --color-accent-strong: #60a5fa;
+  --shadow-sm: 0 1px 2px rgb(2 6 23 / 0.5);
+  --shadow-md: 0 10px 15px -3px rgb(2 6 23 / 0.5), 0 4px 6px -4px rgb(2 6 23 / 0.45);
+  --shadow-lg: 0 20px 25px -5px rgb(2 6 23 / 0.55), 0 8px 10px -6px rgb(2 6 23 / 0.5);
 }
