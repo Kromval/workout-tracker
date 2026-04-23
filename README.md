@@ -171,6 +171,34 @@ Main modules:
 - `js/features/body-focus.js`
 - `js/core/selectors.js`
 
+Public API (see JSDoc in source):
+
+- `filterExercisesForRecommendations(options)`
+- `rankExercisesForRecommendations(options)`
+- `scoreExercise(exercise, profile, context, weights)` in `js/features/recommendations.js`
+- `buildExerciseRecommendationMetadata(exercise, context)`
+- `getExerciseGoalIds(exercise)`
+- `rankRecommendedExercises(options)`
+- `scoreExercise(user, exercise, context, weights)` in `js/features/exercise-scoring.js`
+- `scoreGoalAlignment(...)`
+- `scoreLevelMatch(...)`
+- `scorePreferences(...)`
+- `scoreRecovery(...)`
+- `scoreSafety(...)`
+- `scoreVariety(...)`
+- `scoreTimeFit(...)`
+- `scoreFatiguePenalty(...)`
+- `scoreContraindicationRisk(...)`
+- `normalizeContraindicationTag(value)` and `normalizeContraindicationTags(values)`
+- `getContraindicationDefinition(tag)`
+- `getContraindicationRelatedMuscles(tag)`
+- `getContraindicationRelatedJoints(tag)`
+
+Notes:
+
+- `js/features/exercises-data.js` is generated from `data/exercises.json`.
+- After changing exercise source data, run `node scripts/generate-exercises-data.js`.
+
 ## Main Routes
 
 The app uses hash routing:

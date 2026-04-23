@@ -1,4 +1,8 @@
-// Generated from data/exercises.json. Keep this module static so built-in exercises work without fetch or a server.
+/**
+ * Generated from `data/exercises.json`.
+ * Keep this module static so built-in exercises work without fetch or a server.
+ * @type {Array<object>}
+ */
 export const builtInExerciseRecords = [
   {
     "id": "push-ups",

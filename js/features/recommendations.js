@@ -13,6 +13,10 @@ import {
   normalizeContraindicationTags,
 } from './contraindications.js';
 
+/**
+ * Stable reason codes for exercises excluded from recommendation results.
+ * @readonly
+ */
 export const RECOMMENDATION_EXCLUSION_REASONS = Object.freeze({
   DUPLICATE_EXERCISE_ID: 'duplicate-exercise-id',
   MISSING_REQUIRED_EQUIPMENT: 'missing-required-equipment',
@@ -22,6 +26,11 @@ export const RECOMMENDATION_EXCLUSION_REASONS = Object.freeze({
   EXCLUDED_EXERCISE: 'excluded-exercise',
 });
 
+/**
+ * Default weighted parts used by recommendation scoring.
+ * Sum is expected to be near `1`.
+ * @readonly
+ */
 export const DEFAULT_RECOMMENDATION_WEIGHTS = Object.freeze({
   goalAlignment: 0.32,
   difficultyFit: 0.14,
@@ -60,6 +69,20 @@ const TYPE_GOALS_BY_TYPE = Object.freeze({
   yoga: ['endurance', 'general-fitness'],
 });
 
+/**
+ * Applies hard eligibility checks before scoring recommendations.
+ * @param {object} [options={}] recommendation options
+ * @returns {{
+ *   eligibleExercises: Array<object>,
+ *   excludedExercises: Array<object>,
+ *   summary: {
+ *     totalExercises:number,
+ *     eligibleCount:number,
+ *     excludedCount:number,
+ *     excludedByReason:Record<string, number>
+ *   }
+ * }}
+ */
 export function filterExercisesForRecommendations(options = {}) {
   const exercises = asArray(options.exercises);
   const profile = normalizeProfile(options.profile);
@@ -141,6 +164,17 @@ export function filterExercisesForRecommendations(options = {}) {
   };
 }
 
+/**
+ * Filters and scores exercises, then sorts eligible entries by descending score.
+ * @param {object} [options={}] recommendation options
+ * @returns {{
+ *   eligibleExercises: Array<object>,
+ *   excludedExercises: Array<object>,
+ *   rankedExercises: Array<object>,
+ *   summary: object,
+ *   weights: object
+ * }} ranking result
+ */
 export function rankExercisesForRecommendations(options = {}) {
   const filteringResult = filterExercisesForRecommendations(options);
   const profile = normalizeProfile(options.profile);
@@ -173,6 +207,14 @@ export function rankExercisesForRecommendations(options = {}) {
   };
 }
 
+/**
+ * Scores a single exercise against normalized user profile and context.
+ * @param {object} exercise exercise record
+ * @param {object} profile user profile input
+ * @param {object} [context={}] recommendation context
+ * @param {object} [weights=DEFAULT_RECOMMENDATION_WEIGHTS] part weights
+ * @returns {{score:number,reasons:string[],matchedSignals:string[],penalties:string[],parts:object}}
+ */
 export function scoreExercise(exercise, profile, context = {}, weights = DEFAULT_RECOMMENDATION_WEIGHTS) {
   const normalizedProfile = normalizeProfile(profile);
   const normalizedContext = normalizeRecommendationContext(context, normalizedProfile);
@@ -213,6 +255,19 @@ export function scoreExercise(exercise, profile, context = {}, weights = DEFAULT
   };
 }
 
+/**
+ * Builds filtering metadata used for recommendation eligibility checks.
+ * @param {object} exercise exercise record
+ * @param {object} [context={}] profile/equipment context
+ * @returns {{
+ *   requiredEquipmentIds:string[],
+ *   profileLevel:string,
+ *   goalIds:string[],
+ *   hasRequiredEquipment:boolean,
+ *   isCompatibleWithProfileLevel:boolean,
+ *   matchesGoal:boolean
+ * }}
+ */
 export function buildExerciseRecommendationMetadata(exercise, context = {}) {
   const profile = normalizeProfile(context.profile);
   const knownEquipmentIds = asArray(context.knownEquipmentIds);
@@ -229,6 +284,11 @@ export function buildExerciseRecommendationMetadata(exercise, context = {}) {
   };
 }
 
+/**
+ * Derives goal IDs supported by exercise tags and type.
+ * @param {object} exercise exercise record
+ * @returns {string[]} normalized goal IDs
+ */
 export function getExerciseGoalIds(exercise) {
   const tags = asArray(exercise?.tags).map(normalizeTag);
   const goals = new Set();
@@ -249,6 +309,13 @@ export function getExerciseGoalIds(exercise) {
   return Array.from(goals);
 }
 
+/**
+ * Scores how well the exercise matches active goal weights.
+ * @param {object} exercise exercise record
+ * @param {object} profile normalized or raw profile
+ * @param {object} [context={}] reserved context for forward compatibility
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreGoalAlignment(exercise, profile, context = {}) {
   const normalizedProfile = normalizeProfile(profile);
   const goals = getNormalizedGoalWeights(normalizedProfile);
@@ -280,6 +347,12 @@ export function scoreGoalAlignment(exercise, profile, context = {}) {
   return clampUnit(weightedScore / totalWeight);
 }
 
+/**
+ * Scores compatibility of exercise difficulty against user level.
+ * @param {object} exercise exercise record
+ * @param {object} profile user profile
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreDifficultyFit(exercise, profile) {
   const userLevel = LEVEL_RANKS[normalizeToken(profile?.trainingLevel || profile?.level)] || 1;
   const exerciseLevel = LEVEL_RANKS[normalizeToken(exercise?.difficulty)] || 1;
@@ -296,6 +369,12 @@ export function scoreDifficultyFit(exercise, profile) {
   return clampUnit(0.35 - ((difference - 1) * 0.2));
 }
 
+/**
+ * Scores whether selected equipment can satisfy exercise requirements.
+ * @param {object} exercise exercise record
+ * @param {object} [context={}] recommendation context
+ * @returns {number} `1` when equipment is compatible, else `0`
+ */
 export function scoreEquipmentFit(exercise, context = {}) {
   const selectedEquipmentIds = new Set(asArray(context?.selectedEquipmentIds).map(normalizeToken));
   const requiredEquipmentIds = asArray(exercise?.equipment).map(normalizeToken);
@@ -307,6 +386,12 @@ export function scoreEquipmentFit(exercise, context = {}) {
   return requiredEquipmentIds.every((equipmentId) => selectedEquipmentIds.has(equipmentId)) ? 1 : 0;
 }
 
+/**
+ * Scores alignment between body-focus goals and target muscle groups.
+ * @param {object} exercise exercise record
+ * @param {object} profile user profile
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreMovementFocus(exercise, profile) {
   const bodyFocusGoals = isPlainObject(profile?.bodyFocusGoals) ? profile.bodyFocusGoals : {};
   const primaryMuscles = new Set(asArray(exercise?.muscleGroups?.primary).map(normalizeToken));
@@ -335,6 +420,12 @@ export function scoreMovementFocus(exercise, profile) {
   return totalWeight > 0 ? clampUnit(weightedScore / totalWeight) : 0.5;
 }
 
+/**
+ * Penalizes repeated movements from recent history and rewards novelty.
+ * @param {object} exercise exercise record
+ * @param {object} [context={}] recommendation context
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreMovementVariety(exercise, context = {}) {
   const recentHistory = normalizeRecentHistory(context?.recentHistory);
   const exerciseId = normalizeToken(exercise?.id);
@@ -358,10 +449,22 @@ export function scoreMovementVariety(exercise, context = {}) {
   return clampUnit(score);
 }
 
+/**
+ * Returns safety score from contraindication overlap (`0` or `1`).
+ * @param {object} exercise exercise record
+ * @param {object} profile user profile
+ * @returns {number} safety score
+ */
 export function scoreContraindications(exercise, profile) {
   return hasContraindicationMatch(profile?.limitations, exercise?.contraindications) ? 0 : 1;
 }
 
+/**
+ * Scores tag/equipment preference fit including disliked exercise IDs.
+ * @param {object} exercise exercise record
+ * @param {object} profile user profile
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scorePreferenceFit(exercise, profile) {
   const dislikedExercises = new Set(asArray(profile?.dislikedExercises).map(normalizeToken));
   const likedTags = asArray(profile?.likedTags).map(normalizeToken);
@@ -382,6 +485,12 @@ export function scorePreferenceFit(exercise, profile) {
   return clampUnit(score);
 }
 
+/**
+ * Scores exercise fit against recovery readiness for primary muscles.
+ * @param {object} exercise exercise record
+ * @param {object} profile user profile
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreRecoveryFit(exercise, profile) {
   const recoveryProfile = isPlainObject(profile?.recoveryProfile) ? profile.recoveryProfile : {};
   const muscles = asArray(exercise?.muscleGroups?.primary).map(normalizeToken);
@@ -394,6 +503,13 @@ export function scoreRecoveryFit(exercise, profile) {
   return clampUnit(average);
 }
 
+/**
+ * Scores estimated exercise duration against target session duration.
+ * @param {object} exercise exercise record
+ * @param {object} profile user profile
+ * @param {object} [context={}] recommendation context
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreTimeFit(exercise, profile, context = {}) {
   const targetDurationMin = nonNegativeNumber(context.targetDurationMin ?? profile?.sessionDurationMin);
 

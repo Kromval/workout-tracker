@@ -19,6 +19,10 @@ const LEGACY_CONTRAINDICATION_ALIASES = Object.freeze({
   'wrist-pain': ['joint-wrist-pain'],
 });
 
+/**
+ * Canonical contraindication definitions used across filtering and scoring.
+ * @readonly
+ */
 export const CONTRAINDICATION_DEFINITIONS = Object.freeze({
   'joint-wrist-pain': Object.freeze({
     jointTags: Object.freeze(['joint-wrist']),
@@ -78,8 +82,17 @@ export const CONTRAINDICATION_DEFINITIONS = Object.freeze({
   }),
 });
 
+/**
+ * All supported canonical contraindication tags.
+ * @readonly
+ */
 export const SUPPORTED_CONTRAINDICATION_TAGS = Object.freeze(Object.keys(CONTRAINDICATION_DEFINITIONS));
 
+/**
+ * Normalizes one raw contraindication token to canonical tags.
+ * @param {unknown} value raw value from user/profile/exercise
+ * @returns {string[]} canonical contraindication tags
+ */
 export function normalizeContraindicationTag(value) {
   const normalized = toToken(value);
   if (!normalized) {
@@ -93,21 +106,41 @@ export function normalizeContraindicationTag(value) {
   return CONTRAINDICATION_DEFINITIONS[normalized] ? [normalized] : [];
 }
 
+/**
+ * Normalizes multiple contraindication values and deduplicates output.
+ * @param {unknown[]|unknown} values raw contraindication values
+ * @returns {string[]} canonical contraindication tags
+ */
 export function normalizeContraindicationTags(values) {
   return uniqueStrings(
     asArray(values).flatMap((value) => normalizeContraindicationTag(value))
   );
 }
 
+/**
+ * Returns definition for a canonical contraindication tag.
+ * @param {unknown} tag contraindication tag
+ * @returns {{jointTags:readonly string[], muscleTags:readonly string[]} | null}
+ */
 export function getContraindicationDefinition(tag) {
   const normalized = toToken(tag);
   return CONTRAINDICATION_DEFINITIONS[normalized] || null;
 }
 
+/**
+ * Gets muscle signals related to a contraindication.
+ * @param {unknown} tag contraindication tag
+ * @returns {string[]} related muscle tags
+ */
 export function getContraindicationRelatedMuscles(tag) {
   return [...(getContraindicationDefinition(tag)?.muscleTags || [])];
 }
 
+/**
+ * Gets joint signals related to a contraindication.
+ * @param {unknown} tag contraindication tag
+ * @returns {string[]} related joint tags
+ */
 export function getContraindicationRelatedJoints(tag) {
   return [...(getContraindicationDefinition(tag)?.jointTags || [])];
 }

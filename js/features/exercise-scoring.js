@@ -15,6 +15,10 @@ const INTENSITY_VALUES = Object.freeze({
   high: 1,
 });
 
+/**
+ * Default weights for compatibility scoring parts and risk penalties.
+ * @readonly
+ */
 export const DEFAULT_SCORING_WEIGHTS = Object.freeze({
   goalAlignment: 0.3,
   levelMatch: 0.12,
@@ -27,6 +31,17 @@ export const DEFAULT_SCORING_WEIGHTS = Object.freeze({
   contraindicationRisk: 0,
 });
 
+/**
+ * Ranks exercises using recommendation pipeline and maps result to scoring schema.
+ * @param {object} [options={}] scoring/recommendation options
+ * @returns {{
+ *   eligibleExercises:Array<object>,
+ *   excludedExercises:Array<object>,
+ *   summary:object,
+ *   scoredExercises:Array<object>,
+ *   weights:object
+ * }}
+ */
 export function rankRecommendedExercises(options = {}) {
   const rankingResult = rankExercisesForRecommendations(options);
   const scoredExercises = rankingResult.rankedExercises.map((entry) => ({
@@ -63,6 +78,14 @@ export function rankRecommendedExercises(options = {}) {
   };
 }
 
+/**
+ * Scores one exercise against user state and optional context overrides.
+ * @param {object} user profile-like user object
+ * @param {object} exercise exercise record
+ * @param {object} [context={}] scoring context
+ * @param {object} [weights=DEFAULT_SCORING_WEIGHTS] scoring weights
+ * @returns {{total:number,excluded:boolean,parts:object,penalties:object}}
+ */
 export function scoreExercise(user, exercise, context = {}, weights = DEFAULT_SCORING_WEIGHTS) {
   const normalizedWeights = normalizeWeights(weights);
   const normalizedUser = normalizeScoringUser(user);
@@ -101,6 +124,12 @@ export function scoreExercise(user, exercise, context = {}, weights = DEFAULT_SC
   };
 }
 
+/**
+ * Scores functional and body-focus goal alignment.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreGoalAlignment(user, exercise) {
   const goals = isPlainObject(user?.goals) ? user.goals : {};
   const bodyFocusGoals = isPlainObject(user?.bodyFocusGoals) ? user.bodyFocusGoals : {};
@@ -126,6 +155,12 @@ export function scoreGoalAlignment(user, exercise) {
   return functionalScore;
 }
 
+/**
+ * Scores user level vs exercise difficulty compatibility.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreLevelMatch(user, exercise) {
   const userLevel = LEVEL_RANKS[normalizeToken(user?.trainingLevel || user?.level)] || 1;
   const exerciseLevel = LEVEL_RANKS[normalizeToken(exercise?.difficulty)] || 1;
@@ -134,6 +169,12 @@ export function scoreLevelMatch(user, exercise) {
   return clampUnit(1 - difference * 0.35);
 }
 
+/**
+ * Scores user preferences using liked tags and disliked exercises.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scorePreferences(user, exercise) {
   let score = 0.5;
   const dislikedExercises = new Set(asArray(user?.dislikedExercises).map(normalizeToken));
@@ -154,6 +195,12 @@ export function scorePreferences(user, exercise) {
   return clampUnit(score);
 }
 
+/**
+ * Scores readiness based on per-muscle recovery state.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreRecovery(user, exercise) {
   const recovery = isPlainObject(user?.recoveryProfile) ? user.recoveryProfile : {};
   const muscles = asArray(exercise?.muscleGroups?.primary).map(normalizeToken);
@@ -166,6 +213,12 @@ export function scoreRecovery(user, exercise) {
   return clampUnit(average);
 }
 
+/**
+ * Scores contraindication safety with direct and fuzzy matches.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreSafety(user, exercise) {
   const limitations = new Set(asArray(user?.limitations).map(normalizeToken));
   const contraindications = asArray(exercise?.contraindications).map(normalizeToken);
@@ -178,6 +231,12 @@ export function scoreSafety(user, exercise) {
   return clampUnit(1 - overlapCount * 0.25);
 }
 
+/**
+ * Scores novelty and movement-pattern diversity from recent history.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreVariety(user, exercise) {
   const recentExerciseIds = new Set(asArray(user?.recentHistory?.performedExerciseIds).map(normalizeToken));
   const recentPatterns = isPlainObject(user?.recentHistory?.performedMovementPatterns)
@@ -193,6 +252,13 @@ export function scoreVariety(user, exercise) {
   return clampUnit(Math.max(0.2, 1 - repetitionCount * 0.2));
 }
 
+/**
+ * Scores estimated exercise duration against target session duration.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @param {object} [context={}] scoring context
+ * @returns {number} normalized score in range `[0, 1]`
+ */
 export function scoreTimeFit(user, exercise, context = {}) {
   const sessionDurationMin = nonNegativeNumber(context.targetDurationMin ?? user?.sessionDurationMin);
   if (sessionDurationMin <= 0) {
@@ -204,6 +270,12 @@ export function scoreTimeFit(user, exercise, context = {}) {
   return clampUnit(1 - differenceRatio);
 }
 
+/**
+ * Penalty for repeated exercise IDs and overloaded movement patterns.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @returns {number} normalized penalty in range `[0, 1]`
+ */
 export function scoreFatiguePenalty(user, exercise) {
   const recentExerciseIds = new Set(asArray(user?.recentHistory?.performedExerciseIds).map(normalizeToken));
   const recentPatterns = isPlainObject(user?.recentHistory?.performedMovementPatterns)
@@ -218,6 +290,12 @@ export function scoreFatiguePenalty(user, exercise) {
   return clampUnit(penalty);
 }
 
+/**
+ * Risk penalty from contraindication overlap with user limitations.
+ * @param {object} user normalized or raw user profile
+ * @param {object} exercise exercise record
+ * @returns {number} normalized penalty in range `[0, 1]`
+ */
 export function scoreContraindicationRisk(user, exercise) {
   const limitations = new Set(asArray(user?.limitations).map(normalizeToken));
   const contraindications = asArray(exercise?.contraindications).map(normalizeToken);
