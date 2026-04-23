@@ -11,6 +11,9 @@ import {
   handleExerciseFormSubmit,
 } from './exercise-actions.js';
 import {
+  applyProfilePicker,
+  closeOpenedProfilePicker,
+  closeProfilePicker,
   handleAudioPreview,
   handleCustomAudioReset,
   handleCustomAudioUpload,
@@ -19,6 +22,7 @@ import {
   handleEquipmentToggle,
   handleExportData,
   handleImportData,
+  openProfilePicker,
   handleProfileChange,
   handleSettingChange,
   updateVolumeOutput,
@@ -114,6 +118,30 @@ export function bindShellEvents(state, renderApp) {
     const workoutMoveButton = event.target?.closest?.('[data-workout-move]');
     if (workoutMoveButton) {
       handleWorkoutItemMove(workoutMoveButton);
+      return;
+    }
+
+    const profilePickerOpenButton = event.target?.closest?.('[data-profile-picker-open]');
+    if (profilePickerOpenButton) {
+      openProfilePicker(profilePickerOpenButton, state);
+      return;
+    }
+
+    const profilePickerApplyButton = event.target?.closest?.('[data-profile-picker-apply]');
+    if (profilePickerApplyButton) {
+      applyProfilePicker(profilePickerApplyButton, state);
+      return;
+    }
+
+    const profilePickerCloseButton = event.target?.closest?.('[data-profile-picker-close]');
+    if (profilePickerCloseButton) {
+      closeProfilePicker(profilePickerCloseButton);
+      return;
+    }
+
+    const profilePickerBackdrop = event.target?.closest?.('[data-profile-picker-modal]');
+    if (profilePickerBackdrop && event.target === profilePickerBackdrop) {
+      closeProfilePicker(profilePickerBackdrop);
       return;
     }
 
@@ -263,6 +291,7 @@ export function bindShellEvents(state, renderApp) {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeNavMenu();
+      closeOpenedProfilePicker();
     }
 
     const listName = event.target?.dataset?.listEntry;

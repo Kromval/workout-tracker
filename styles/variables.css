@@ -1,49 +1,51 @@
 :root {
   /* Основная палитра */
-  --color-bg: #f8fafc;
+  --color-bg: #f4f6fb;
   --color-surface: #ffffff;
-  --color-surface-muted: #f1f5f9;
-  --color-text: #0f172a;
-  --color-text-muted: #64748b;
-  --color-border: #e2e8f0;
-  
-  /* Акцент — яркий циан (очень модно в 2026) */
-  --color-accent: #00d4ff;
-  --color-accent-strong: #00a8cc;
+  --color-surface-muted: #eef2f7;
+  --color-text: #1f2937;
+  --color-text-muted: #596579;
+  --color-border: #d7deea;
+
+  /* Спокойный акцент */
+  --color-accent: #2f6fed;
+  --color-accent-strong: #1f5ad0;
   --color-success: #22c55e;
-  --color-danger: #ef4444;
-  
+  --color-danger: #dc2626;
+
   /* Тени и эффекты */
-  --shadow-sm: 0 10px 15px -3px rgb(0 212 255 / 0.12);
-  --shadow-md: 0 25px 50px -12px rgb(0 212 255 / 0.18);
-  --shadow-lg: 0 35px 60px -15px rgb(0 212 255 / 0.25);
-  
+  --shadow-sm: 0 4px 12px rgb(31 41 55 / 0.08);
+  --shadow-md: 0 10px 24px rgb(31 41 55 / 0.12);
+  --shadow-lg: 0 18px 40px rgb(31 41 55 / 0.16);
+
   /* Радиусы */
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-lg: 28px;
-  
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
   /* Отступы */
-  --space-1: 6px;
+  --space-1: 8px;
   --space-2: 12px;
-  --space-3: 18px;
+  --space-3: 16px;
   --space-4: 24px;
-  --space-5: 32px;
-  --space-6: 48px;
-  
+  --space-5: 30px;
+  --space-6: 40px;
+
   /* Шрифты */
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Manrope', 'Inter', 'Segoe UI', 'Noto Sans', sans-serif;
+  --font-display: 'Manrope', 'Inter', 'Segoe UI', 'Noto Sans', sans-serif;
 }
 
 :root[data-theme="dark"] {
-  --color-bg: #0a0a0a;
-  --color-surface: #111111;
-  --color-surface-muted: #1a1a1a;
-  --color-text: #f8fafc;
-  --color-text-muted: #94a3b8;
-  --color-border: #27272a;
-  --color-accent: #00f0ff;
-  --shadow-sm: 0 10px 15px -3px rgb(0 240 255 / 0.15);
-  --shadow-md: 0 25px 50px -12px rgb(0 240 255 / 0.25);
+  --color-bg: #0f1725;
+  --color-surface: #172132;
+  --color-surface-muted: #223147;
+  --color-text: #e9eef7;
+  --color-text-muted: #a9b8cf;
+  --color-border: #30425d;
+  --color-accent: #6da2ff;
+  --color-accent-strong: #8fb7ff;
+  --shadow-sm: 0 6px 18px rgb(2 8 23 / 0.35);
+  --shadow-md: 0 14px 30px rgb(2 8 23 / 0.45);
+  --shadow-lg: 0 24px 50px rgb(2 8 23 / 0.55);
 }

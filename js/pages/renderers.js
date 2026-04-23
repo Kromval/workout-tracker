@@ -1,6 +1,7 @@
 import { renderProgressCalendar } from '../features/calendar.js';
 import { audioEvents } from '../features/audio.js';
 import { BODY_FOCUS_MUSCLE_GROUPS } from '../features/body-focus.js';
+import { SUPPORTED_CONTRAINDICATION_TAGS } from '../features/contraindications.js';
 import {
   getExerciseEquipmentIds,
   getExerciseProfileLevel,
@@ -33,6 +34,7 @@ import {
   escapeHtml,
   formatCalories,
   formatDuration,
+  normalizeString,
   uniqueStrings,
 } from '../core/utils.js';
 import {
@@ -149,6 +151,8 @@ export function renderExerciseViewPage(state) {
 
   const name = localizedText(exercise.name, language);
   const isFavorite = selectFavoriteExerciseIdSet(state).has(exercise.id);
+  const dislikedExerciseIds = new Set(asArray(selectProfile(state)?.dislikedExercises).map((item) => normalizeString(item)));
+  const isDisliked = dislikedExerciseIds.has(exercise.id);
   const customActions = exercise.isCustom ? `
     <button class="button" type="button" data-exercise-action="edit" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'editExercise')}</button>
     <button class="button button--danger" type="button" data-exercise-action="delete" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'deleteExercise')}</button>
@@ -174,6 +178,9 @@ export function renderExerciseViewPage(state) {
           <div class="toolbar">
             <button class="button ${isFavorite ? '' : 'button--primary'}" type="button" data-exercise-action="favorite" data-exercise-id="${escapeAttribute(exercise.id)}">
               ${isFavorite ? t(state, 'removeFromFavorites') : t(state, 'addToFavorites')}
+            </button>
+            <button class="button" type="button" data-exercise-action="dislike" data-exercise-id="${escapeAttribute(exercise.id)}">
+              ${isDisliked ? t(state, 'removeFromDisliked') : t(state, 'addToDisliked')}
             </button>
             <button class="button" type="button" data-exercise-action="add-to-workout" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'addToWorkout')}</button>
             ${customActions}
@@ -432,7 +439,7 @@ export function renderRecommendationsContentRegion(state) {
         <span class="chip">${t(state, 'recommendationsSummarySessionDuration')}: ${profile.sessionDurationMin || 0} ${t(state, 'recommendationsMinutesShort')}</span>
       </div>
       ${exclusionEntries.length ? `
-        <div class="chip-list" style="margin-top: 12px;">
+        <div class="chip-list chip-list--spaced">
           ${exclusionEntries.map(([reason, count]) => `<span class="chip">${t(state, getRecommendationReasonMessageKey(reason))}: ${count}</span>`).join('')}
         </div>
       ` : ''}
@@ -474,11 +481,11 @@ export function renderRecommendationsContentRegion(state) {
               <span class="chip">${t(state, 'recommendationsProfileFocus')}: ${escapeHtml(getRecommendationFocusSummary(state, profile, exercise) || t(state, 'recommendationsNoStrongFocusMatch'))}</span>
             </div>
 
-            <div class="chip-list" style="margin-top: 12px;">
+            <div class="chip-list chip-list--spaced">
               ${partsHtml}
             </div>
 
-            <div class="toolbar" style="margin-top: 16px;">
+            <div class="toolbar toolbar--spaced">
               <a class="button button--primary" href="#exercise-view/${encodeURIComponent(exercise.id)}">${t(state, 'openExerciseRecommendation')}</a>
               <button class="button" type="button" data-exercise-action="add-to-workout" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'addToWorkout')}</button>
             </div>
@@ -691,7 +698,7 @@ export function renderHomePresetWorkoutsRegion(state) {
       </div>
 
       ${presetWorkouts.length
-        ? `<div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none;">
+        ? `<div class="preset-workouts-strip">
             ${presetWorkouts.map((workout) =>
               renderWorkoutCard(state, workout, exercises, { isPresetCard: true })
             ).join('')}
@@ -833,9 +840,15 @@ export function renderSettingsInterfaceRegion(state) {
 
 export function renderSettingsProfileRegion(state) {
   const profile = selectProfile(state);
-  const limitationsValue = (profile.limitations || []).join(', ');
-  const dislikedExercisesValue = (profile.dislikedExercises || []).join(', ');
-  const likedTagsValue = (profile.likedTags || []).join(', ');
+  const language = selectLanguage(state);
+  const exercises = selectExerciseCatalog(state);
+  const equipmentCatalog = selectEquipmentCatalog(state);
+  const profilePickers = buildProfilePickerConfigs(state, {
+    profile,
+    language,
+    exercises,
+    equipmentCatalog,
+  });
 
   return `
     <article class="card settings-panel">
@@ -897,9 +910,9 @@ export function renderSettingsProfileRegion(state) {
             )).join('')}
           </div>
         </div>
-        ${renderProfileTextareaField(state, 'limitations', 'profileLimitations', limitationsValue, 'profileLimitationsPlaceholder')}
-        ${renderProfileTextareaField(state, 'dislikedExercises', 'profileDislikedExercises', dislikedExercisesValue, 'profileDislikedExercisesPlaceholder')}
-        ${renderProfileTextareaField(state, 'likedTags', 'profileLikedTags', likedTagsValue, 'profileLikedTagsPlaceholder')}
+        ${renderProfilePickerField(state, profilePickers.limitations)}
+        ${renderProfilePickerField(state, profilePickers.dislikedExercises)}
+        ${renderProfilePickerField(state, profilePickers.likedTags)}
       </div>
 
       <p class="notice" id="profile-status" role="status" aria-live="polite"></p>
@@ -1033,22 +1046,6 @@ function renderProfileSelectField(state, fieldName, labelKey, value, optionValue
   `;
 }
 
-function renderProfileTextareaField(state, fieldName, labelKey, value, placeholderKey) {
-  const id = `profile-${fieldName}`;
-
-  return `
-    <label class="field settings-grid__wide" for="${id}">
-      <span>${t(state, labelKey)}</span>
-      <textarea
-        id="${id}"
-        rows="3"
-        data-profile-field="${fieldName}"
-        placeholder="${escapeAttribute(t(state, placeholderKey))}"
-      >${escapeHtml(value || '')}</textarea>
-    </label>
-  `;
-}
-
 function buildProfileOptionMessageKey(fieldName, optionValue) {
   if (!optionValue) {
     return `${fieldName}OptionEmpty`;
@@ -1060,6 +1057,262 @@ function buildProfileOptionMessageKey(fieldName, optionValue) {
     .join('');
 
   return `${fieldName}Option${normalized}`;
+}
+
+function renderProfilePickerField(state, config) {
+  const selectedValues = asArray(config.selectedValues);
+  const selectedLabels = selectedValues.slice(0, 6).map((value) => config.optionLabelByValue.get(value) || humanizeToken(value));
+
+  return `
+    <div class="field settings-grid__wide profile-picker-field">
+      <span>${t(state, config.labelKey)}</span>
+      <input type="hidden" data-profile-field="${config.fieldName}" value="${escapeAttribute(selectedValues.join(', '))}">
+      <button
+        class="button profile-picker-field__trigger"
+        type="button"
+        data-profile-picker-open="${config.fieldName}"
+        aria-haspopup="dialog"
+        aria-controls="profile-picker-${config.fieldName}"
+      >
+        ${t(state, 'profilePickerOpen')}
+      </button>
+      <div class="chip-list profile-picker-field__summary">
+        ${selectedLabels.length
+          ? selectedLabels.map((label) => `<span class="chip">${escapeHtml(label)}</span>`).join('')
+          : `<span class="muted">${t(state, 'profilePickerEmpty')}</span>`
+        }
+      </div>
+      <p class="muted">${t(state, 'profilePickerSelectedCount')}: ${selectedValues.length}</p>
+      ${renderProfilePickerModal(state, config)}
+    </div>
+  `;
+}
+
+function renderProfilePickerModal(state, config) {
+  return `
+    <div
+      class="profile-picker-modal"
+      id="profile-picker-${config.fieldName}"
+      data-profile-picker-modal="${config.fieldName}"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="profile-picker-title-${config.fieldName}"
+      hidden
+    >
+      <div class="profile-picker-modal__panel" role="document">
+        <div class="profile-picker-modal__header">
+          <div>
+            <h3 id="profile-picker-title-${config.fieldName}">${t(state, config.titleKey)}</h3>
+            <p class="muted">${t(state, config.hintKey)}</p>
+          </div>
+          <button class="icon-button" type="button" data-profile-picker-close aria-label="${escapeAttribute(t(state, 'profilePickerCancel'))}">x</button>
+        </div>
+
+        <div class="profile-picker-modal__groups">
+          ${config.groups.map((group) => `
+            <section class="profile-picker-group" aria-label="${escapeAttribute(group.label)}">
+              <h4>${escapeHtml(group.label)}</h4>
+              <div class="profile-picker-options">
+                ${group.options.map((option) => `
+                  <label class="profile-picker-option">
+                    <input
+                      type="checkbox"
+                      data-profile-picker-option
+                      value="${escapeAttribute(option.value)}"
+                      ${selectedValueIncludes(config.selectedValues, option.value) ? 'checked' : ''}
+                    >
+                    <span>${escapeHtml(option.label)}</span>
+                    ${option.description ? `<small class="muted">${escapeHtml(option.description)}</small>` : ''}
+                  </label>
+                `).join('')}
+              </div>
+            </section>
+          `).join('')}
+        </div>
+
+        <div class="toolbar profile-picker-modal__actions">
+          <button class="button" type="button" data-profile-picker-close>${t(state, 'profilePickerCancel')}</button>
+          <button class="button button--primary" type="button" data-profile-picker-apply>${t(state, 'profilePickerApply')}</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function buildProfilePickerConfigs(state, context) {
+  const limitationsGroups = buildLimitationsPickerGroups(state);
+  const dislikedExerciseGroups = buildDislikedExercisePickerGroups(context.exercises, context.language);
+  const preferredTagGroups = buildPreferredTagsPickerGroups(state, context.exercises, context.equipmentCatalog);
+
+  return {
+    limitations: buildProfilePickerConfig({
+      fieldName: 'limitations',
+      labelKey: 'profileLimitations',
+      titleKey: 'profilePickerLimitationsTitle',
+      hintKey: 'profilePickerLimitationsHint',
+      selectedValues: context.profile.limitations,
+      groups: limitationsGroups,
+    }),
+    dislikedExercises: buildProfilePickerConfig({
+      fieldName: 'dislikedExercises',
+      labelKey: 'profileDislikedExercises',
+      titleKey: 'profilePickerDislikedExercisesTitle',
+      hintKey: 'profilePickerDislikedExercisesHint',
+      selectedValues: context.profile.dislikedExercises,
+      groups: dislikedExerciseGroups,
+    }),
+    likedTags: buildProfilePickerConfig({
+      fieldName: 'likedTags',
+      labelKey: 'profileLikedTags',
+      titleKey: 'profilePickerPreferredTagsTitle',
+      hintKey: 'profilePickerPreferredTagsHint',
+      selectedValues: context.profile.likedTags,
+      groups: preferredTagGroups,
+    }),
+  };
+}
+
+function buildProfilePickerConfig(config) {
+  const selectedValues = uniqueStrings(asArray(config.selectedValues).map((item) => normalizeString(item).toLowerCase()));
+  const groups = asArray(config.groups)
+    .map((group) => ({
+      ...group,
+      options: asArray(group.options)
+        .map((option) => ({
+          value: normalizeString(option.value).toLowerCase(),
+          label: normalizeString(option.label) || humanizeToken(option.value),
+          description: normalizeString(option.description),
+        }))
+        .filter((option) => option.value),
+    }))
+    .filter((group) => group.options.length > 0);
+  const optionLabelByValue = new Map();
+
+  groups.forEach((group) => {
+    group.options.forEach((option) => {
+      optionLabelByValue.set(option.value, option.label);
+    });
+  });
+
+  return {
+    ...config,
+    selectedValues,
+    groups,
+    optionLabelByValue,
+  };
+}
+
+function buildLimitationsPickerGroups(state) {
+  const groups = new Map([
+    ['joint', { label: t(state, 'profilePickerGroupJoints'), options: [] }],
+    ['region', { label: t(state, 'profilePickerGroupRegions'), options: [] }],
+    ['cardio', { label: t(state, 'profilePickerGroupCardio'), options: [] }],
+    ['other', { label: t(state, 'profilePickerGroupOther'), options: [] }],
+  ]);
+
+  SUPPORTED_CONTRAINDICATION_TAGS.forEach((value) => {
+    const prefix = normalizeString(value).split('-')[0];
+    const groupKey = groups.has(prefix) ? prefix : 'other';
+    groups.get(groupKey).options.push({
+      value,
+      label: humanizeToken(value),
+    });
+  });
+
+  return Array.from(groups.values());
+}
+
+function buildDislikedExercisePickerGroups(exercises, language) {
+  const groupMap = new Map();
+
+  asArray(exercises).forEach((exercise) => {
+    const typeLabel = localizedText(exercise.type, language) || humanizeToken(exercise.type?.en || exercise.type) || 'Other';
+    const exerciseName = localizedText(exercise.name, language) || exercise.id;
+
+    if (!exercise.id || !exerciseName) {
+      return;
+    }
+
+    if (!groupMap.has(typeLabel)) {
+      groupMap.set(typeLabel, []);
+    }
+
+    groupMap.get(typeLabel).push({
+      value: exercise.id,
+      label: exerciseName,
+    });
+  });
+
+  return Array.from(groupMap.entries())
+    .sort((left, right) => left[0].localeCompare(right[0]))
+    .map(([label, options]) => ({
+      label,
+      options: options.sort((left, right) => left.label.localeCompare(right.label)),
+    }));
+}
+
+function buildPreferredTagsPickerGroups(state, exercises, equipmentCatalog) {
+  const equipmentIds = new Set(asArray(equipmentCatalog).map((item) => normalizeString(item.id).toLowerCase()).filter(Boolean));
+  const tagGroups = new Map([
+    ['goal', { label: t(state, 'profilePickerGroupGoal'), options: [] }],
+    ['equipment', { label: t(state, 'profilePickerGroupEquipment'), options: [] }],
+    ['context', { label: t(state, 'profilePickerGroupContext'), options: [] }],
+    ['movement', { label: t(state, 'profilePickerGroupMovement'), options: [] }],
+  ]);
+
+  const goalTags = new Set(['strength', 'hypertrophy', 'endurance', 'fat-loss', 'general-fitness', 'cardio', 'yoga', 'compound', 'conditioning', 'mobility', 'static', 'hold']);
+  const contextTags = new Set(['beginner', 'intermediate', 'advanced', 'home', 'warmup', 'cooldown', 'recovery']);
+  const allTags = uniqueStrings(
+    asArray(exercises).flatMap((exercise) => asArray(exercise.tags).map((tag) => normalizeString(tag).toLowerCase()))
+  );
+
+  allTags.forEach((tag) => {
+    if (!tag) {
+      return;
+    }
+
+    let groupKey = 'movement';
+
+    if (equipmentIds.has(tag) || tag.includes('dumbbell') || tag.includes('kettlebell') || tag.includes('barbell')) {
+      groupKey = 'equipment';
+    } else if (goalTags.has(tag)) {
+      groupKey = 'goal';
+    } else if (contextTags.has(tag)) {
+      groupKey = 'context';
+    }
+
+    tagGroups.get(groupKey).options.push({
+      value: tag,
+      label: humanizeToken(tag),
+    });
+  });
+
+  return Array.from(tagGroups.values())
+    .map((group) => ({
+      ...group,
+      options: group.options.sort((left, right) => left.label.localeCompare(right.label)),
+    }))
+    .filter((group) => group.options.length > 0);
+}
+
+function selectedValueIncludes(selectedValues, value) {
+  return asArray(selectedValues).includes(value);
+}
+
+function humanizeToken(value) {
+  const normalized = normalizeString(value);
+
+  if (!normalized) {
+    return '';
+  }
+
+  return normalized
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((part) => (part.length <= 3
+      ? part.toUpperCase()
+      : part.charAt(0).toUpperCase() + part.slice(1)))
+    .join(' ');
 }
 
 function getRecommendationReasonMessageKey(reason) {

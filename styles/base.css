@@ -7,6 +7,9 @@ html {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -28,6 +31,15 @@ button {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-accent) 60%, #ffffff 40%);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 28%, white 72%);
 }
 
 ul {

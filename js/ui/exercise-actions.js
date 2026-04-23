@@ -1,6 +1,6 @@
 import { localizedText, t } from '../i18n/index.js';
-import { refreshStore } from '../core/state.js';
-import { selectExerciseCatalog, selectLanguage } from '../core/selectors.js';
+import { refreshStore, updateProfile } from '../core/state.js';
+import { selectExerciseCatalog, selectLanguage, selectProfile } from '../core/selectors.js';
 import {
   createCustomExercise,
   createWorkoutItem,
@@ -32,6 +32,24 @@ export function handleExerciseAction(button, state) {
   if (action === 'favorite') {
     toggleFavoriteExercise(exercise.id);
     refreshStore();
+    return;
+  }
+
+  if (action === 'dislike') {
+    const profile = selectProfile(state);
+    const dislikedExercises = new Set(profile?.dislikedExercises || []);
+
+    if (dislikedExercises.has(exercise.id)) {
+      dislikedExercises.delete(exercise.id);
+      setPendingNotice(t(state, 'dislikedExerciseRemoved'));
+    } else {
+      dislikedExercises.add(exercise.id);
+      setPendingNotice(t(state, 'dislikedExerciseAdded'));
+    }
+
+    updateProfile({
+      dislikedExercises: Array.from(dislikedExercises),
+    });
     return;
   }
 

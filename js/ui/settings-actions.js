@@ -16,7 +16,7 @@ import {
   readFileAsDataUrl,
 } from './audio-file-utils.js';
 import { setPendingNotice } from './notices.js';
-import { normalizeString } from '../core/utils.js';
+import { asArray, normalizeString } from '../core/utils.js';
 
 const CUSTOM_AUDIO_MAX_BYTES = 512 * 1024;
 
@@ -57,7 +57,7 @@ export function handleProfileChange(input, state) {
     value = value === '' ? null : Number(value);
   }
 
-  if (input instanceof HTMLTextAreaElement && ['limitations', 'dislikedExercises', 'likedTags'].includes(fieldName)) {
+  if (['limitations', 'dislikedExercises', 'likedTags'].includes(fieldName)) {
     value = parseCommaSeparatedList(value);
   }
 
@@ -65,6 +65,76 @@ export function handleProfileChange(input, state) {
   syncProfileFieldInputs(fieldName, input.value, input);
   updateProfile(profilePatch);
   setProfileStatus(t(state, 'settingsSaved'));
+}
+
+export function openProfilePicker(button, state) {
+  const fieldName = normalizeString(button?.dataset?.profilePickerOpen);
+
+  if (!fieldName) {
+    return;
+  }
+
+  const modal = getProfilePickerModal(fieldName);
+  if (!modal) {
+    return;
+  }
+
+  syncProfilePickerSelections(modal, state);
+  modal.hidden = false;
+  modal.dataset.open = 'true';
+  document.body.classList.add('modal-open');
+
+  const firstInput = modal.querySelector('input[type="checkbox"]');
+  if (firstInput instanceof HTMLElement) {
+    firstInput.focus();
+  }
+}
+
+export function closeProfilePicker(source = null) {
+  let modal = null;
+
+  if (source instanceof HTMLElement) {
+    modal = source.closest('[data-profile-picker-modal]');
+  } else if (source instanceof EventTarget) {
+    modal = source instanceof HTMLElement ? source.closest('[data-profile-picker-modal]') : null;
+  }
+
+  if (!modal) {
+    modal = document.querySelector('[data-profile-picker-modal][data-open="true"]');
+  }
+
+  if (!modal) {
+    return;
+  }
+
+  modal.hidden = true;
+  delete modal.dataset.open;
+
+  if (!document.querySelector('[data-profile-picker-modal][data-open="true"]')) {
+    document.body.classList.remove('modal-open');
+  }
+}
+
+export function applyProfilePicker(button, state) {
+  const modal = button?.closest?.('[data-profile-picker-modal]');
+  const fieldName = normalizeString(modal?.dataset?.profilePickerModal);
+
+  if (!modal || !fieldName) {
+    return;
+  }
+
+  const selectedValues = Array.from(
+    modal.querySelectorAll('[data-profile-picker-option]:checked')
+  ).map((input) => normalizeString(input.value).toLowerCase()).filter(Boolean);
+  const profilePatch = buildProfilePatch(selectProfile(state), fieldName, selectedValues);
+
+  updateProfile(profilePatch);
+  setProfileStatus(t(state, 'settingsSaved'));
+  closeProfilePicker(modal);
+}
+
+export function closeOpenedProfilePicker() {
+  closeProfilePicker();
 }
 
 export function handleEquipmentToggle(input, state) {
@@ -305,6 +375,19 @@ function parseCommaSeparatedList(value) {
     .split(/[\n,;]+/)
     .map((item) => normalizeString(item).toLowerCase().replaceAll(' ', '-'))
     .filter(Boolean);
+}
+
+function getProfilePickerModal(fieldName) {
+  return document.querySelector(`[data-profile-picker-modal="${fieldName}"]`);
+}
+
+function syncProfilePickerSelections(modal, state) {
+  const fieldName = normalizeString(modal?.dataset?.profilePickerModal);
+  const selectedValues = new Set(asArray(selectProfile(state)?.[fieldName]));
+
+  modal.querySelectorAll('[data-profile-picker-option]').forEach((input) => {
+    input.checked = selectedValues.has(input.value);
+  });
 }
 
 function syncProfileFieldInputs(fieldName, rawValue, sourceInput) {
