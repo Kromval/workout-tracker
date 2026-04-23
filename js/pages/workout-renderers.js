@@ -131,48 +131,51 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
         <p class="muted">${t(state, 'workoutExercisePickerHint')}</p>
       </div>
 
-      <div class="workout-exercise-filters">
-        <label class="field" for="workout-exercise-search">
-          <span>${t(state, 'exerciseSearchLabel')}</span>
-          <input id="workout-exercise-search" type="search" data-workout-exercise-search placeholder="${escapeAttribute(t(state, 'exerciseSearchPlaceholder'))}" ${exercises.length ? '' : 'disabled'}>
-        </label>
+      <details class="workout-exercise-disclosure">
+        <summary class="workout-exercise-disclosure__summary">Search & filters</summary>
+        <div class="workout-exercise-filters">
+          <label class="field" for="workout-exercise-search">
+            <span>${t(state, 'exerciseSearchLabel')}</span>
+            <input id="workout-exercise-search" type="search" data-workout-exercise-search placeholder="${escapeAttribute(t(state, 'exerciseSearchPlaceholder'))}" ${exercises.length ? '' : 'disabled'}>
+          </label>
 
-        <label class="field" for="workout-exercise-type-filter">
-          <span>${t(state, 'exerciseType')}</span>
-          <select id="workout-exercise-type-filter" data-workout-exercise-type-filter ${exercises.length ? '' : 'disabled'}>
-            <option value="">${t(state, 'filterAll')}</option>
-            ${typeOptions.map((type) => `<option value="${escapeAttribute(type.toLowerCase())}">${escapeHtml(type)}</option>`).join('')}
-          </select>
-        </label>
+          <label class="field" for="workout-exercise-type-filter">
+            <span>${t(state, 'exerciseType')}</span>
+            <select id="workout-exercise-type-filter" data-workout-exercise-type-filter ${exercises.length ? '' : 'disabled'}>
+              <option value="">${t(state, 'filterAll')}</option>
+              ${typeOptions.map((type) => `<option value="${escapeAttribute(type.toLowerCase())}">${escapeHtml(type)}</option>`).join('')}
+            </select>
+          </label>
 
-        <label class="field" for="workout-exercise-muscle-filter">
-          <span>${t(state, 'exerciseMuscles')}</span>
-          <select id="workout-exercise-muscle-filter" data-workout-exercise-muscle-filter ${exercises.length ? '' : 'disabled'}>
-            <option value="">${t(state, 'filterAll')}</option>
-            ${muscleOptions.map((muscle) => `<option value="${escapeAttribute(muscle.toLowerCase())}">${escapeHtml(muscle)}</option>`).join('')}
-          </select>
-        </label>
+          <label class="field" for="workout-exercise-muscle-filter">
+            <span>${t(state, 'exerciseMuscles')}</span>
+            <select id="workout-exercise-muscle-filter" data-workout-exercise-muscle-filter ${exercises.length ? '' : 'disabled'}>
+              <option value="">${t(state, 'filterAll')}</option>
+              ${muscleOptions.map((muscle) => `<option value="${escapeAttribute(muscle.toLowerCase())}">${escapeHtml(muscle)}</option>`).join('')}
+            </select>
+          </label>
 
-        <label class="field" for="workout-exercise-equipment-filter">
-          <span>${t(state, 'exerciseEquipmentFilterLabel')}</span>
-          <select id="workout-exercise-equipment-filter" data-workout-exercise-equipment-filter ${exercises.length ? '' : 'disabled'}>
-            <option value="">${t(state, 'filterAll')}</option>
-            <option value="available">${t(state, 'exerciseEquipmentFilterAvailable')}</option>
-            ${equipmentOptions}
-          </select>
-        </label>
+          <label class="field" for="workout-exercise-equipment-filter">
+            <span>${t(state, 'exerciseEquipmentFilterLabel')}</span>
+            <select id="workout-exercise-equipment-filter" data-workout-exercise-equipment-filter ${exercises.length ? '' : 'disabled'}>
+              <option value="">${t(state, 'filterAll')}</option>
+              <option value="available">${t(state, 'exerciseEquipmentFilterAvailable')}</option>
+              ${equipmentOptions}
+            </select>
+          </label>
 
-        <label class="field" for="workout-exercise-profile-level-filter">
-          <span>${t(state, 'exerciseProfileLevelFilterLabel')}</span>
-          <select id="workout-exercise-profile-level-filter" data-workout-exercise-profile-level-filter ${exercises.length ? '' : 'disabled'}>
-            <option value="">${t(state, 'filterAll')}</option>
-            <option value="profile">${t(state, 'exerciseProfileLevelFilterProfile')}</option>
-            <option value="beginner">${t(state, 'trainingLevelOptionBeginner')}</option>
-            <option value="intermediate">${t(state, 'trainingLevelOptionIntermediate')}</option>
-            <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
-          </select>
-        </label>
-      </div>
+          <label class="field" for="workout-exercise-profile-level-filter">
+            <span>${t(state, 'exerciseProfileLevelFilterLabel')}</span>
+            <select id="workout-exercise-profile-level-filter" data-workout-exercise-profile-level-filter ${exercises.length ? '' : 'disabled'}>
+              <option value="">${t(state, 'filterAll')}</option>
+              <option value="profile">${t(state, 'exerciseProfileLevelFilterProfile')}</option>
+              <option value="beginner">${t(state, 'trainingLevelOptionBeginner')}</option>
+              <option value="intermediate">${t(state, 'trainingLevelOptionIntermediate')}</option>
+              <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
+            </select>
+          </label>
+        </div>
+      </details>
 
       <div class="workout-exercise-results" data-workout-exercise-results>
         ${sortedExercises.map((exercise) => renderWorkoutExerciseOption(
@@ -233,7 +236,7 @@ export function renderWorkoutExerciseOption(state, exercise, isFavorite, knownEq
           ${isFavorite ? `<span class="badge">${t(state, 'favoritesLabel')}</span>` : ''}
         </div>
         <p class="muted">${escapeHtml(description)}</p>
-        <div class="chip-list">
+        <div class="chip-list chip-list--muted">
           <span class="chip">${escapeHtml(type)}</span>
           ${muscles.slice(0, 3).map((muscle) => `<span class="chip">${escapeHtml(muscle)}</span>`).join('')}
         </div>

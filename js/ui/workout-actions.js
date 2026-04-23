@@ -210,10 +210,15 @@ export function syncWorkoutItemsState(form = document.querySelector('[data-worko
 
   const items = Array.from(itemsRoot.querySelectorAll('[data-workout-item]'));
   const empty = itemsRoot.querySelector('[data-workout-empty]');
+  const counters = form.querySelectorAll('[data-workout-item-count]');
 
   if (empty) {
     empty.hidden = items.length > 0;
   }
+
+  counters.forEach((counter) => {
+    counter.textContent = String(items.length);
+  });
 
   items.forEach((item, index) => {
     item.dataset.order = String(index);

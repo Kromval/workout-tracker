@@ -1,5 +1,6 @@
 import { saveHistoryEntry } from '../features/history.js';
 import { t } from '../i18n/index.js';
+import { localizedText } from '../i18n/index.js';
 import { getRouteParams } from '../core/router.js';
 import {
   createWorkoutSession,
@@ -17,6 +18,7 @@ import {
   setText,
 } from '../core/utils.js';
 import { selectExerciseCatalog, selectRoute, selectWorkoutById } from '../core/selectors.js';
+import { selectLanguage } from '../core/selectors.js';
 import {
   buildSessionSummary,
   formatNextStep,
@@ -193,6 +195,11 @@ function renderSessionSnapshot(root, snapshot, state) {
   setText(root, '[data-session-progress-value]', `${progressPercent}%`);
   setText(root, '[data-session-next]', formatNextStep(nextStep, state));
   setText(root, '[data-session-status]', getStatusLabel(snapshot.status, state));
+  setText(root, '[data-session-description]', getStepDescription(currentStep, state));
+
+  const exerciseCounter = formatExerciseCounter(snapshot);
+  setText(root, '[data-session-exercise-counter]', exerciseCounter);
+  setText(root, '[data-session-exercise-counter-inline]', exerciseCounter);
 
   const progress = root.querySelector('[data-session-progress]');
   if (progress) {
@@ -212,7 +219,77 @@ function renderSessionSnapshot(root, snapshot, state) {
     button.disabled = isFinished;
   });
 
+  renderSessionPlaylist(root, snapshot, state);
   renderFinishScreen(root, snapshot, state);
+}
+
+function renderSessionPlaylist(root, snapshot, state) {
+  const playlist = root.querySelector('[data-session-playlist]');
+
+  if (!playlist) {
+    return;
+  }
+
+  const language = selectLanguage(state);
+  const exerciseSteps = buildPlaylistSteps(snapshot);
+  const activeExerciseIndex = Number.isInteger(snapshot.currentStep?.exerciseIndex)
+    ? snapshot.currentStep.exerciseIndex
+    : -1;
+
+  playlist.innerHTML = exerciseSteps.map((step, index) => {
+    const name = getStepExerciseName(step, state);
+    const duration = formatClock(step.durationSec || 0);
+    const isActive = index === activeExerciseIndex;
+
+    return `
+      <article class="session-playlist__item ${isActive ? 'session-playlist__item--active' : ''}">
+        <span class="session-playlist__number">${index + 1}</span>
+        <div class="session-playlist__body">
+          <strong title="${escapeAttribute(name)}">${escapeHtml(name)}</strong>
+          <span>${escapeHtml(duration)}</span>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+function buildPlaylistSteps(snapshot) {
+  const seen = new Set();
+  return (Array.isArray(snapshot.steps) ? snapshot.steps : []).filter((step) => {
+    if (step?.type !== 'exercise') {
+      return false;
+    }
+
+    const key = step.workoutItemId || step.id;
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
+function formatExerciseCounter(snapshot) {
+  const exerciseSteps = buildPlaylistSteps(snapshot);
+  const activeIndex = Number.isInteger(snapshot.currentStep?.exerciseIndex)
+    ? snapshot.currentStep.exerciseIndex + 1
+    : exerciseSteps.length;
+  const safeActiveIndex = exerciseSteps.length ? Math.min(Math.max(activeIndex, 1), exerciseSteps.length) : 0;
+
+  return `${safeActiveIndex} / ${exerciseSteps.length}`;
+}
+
+function getStepDescription(step, state) {
+  if (!step?.exercise) {
+    return t(state, 'emptyValue');
+  }
+
+  const language = selectLanguage(state);
+  return localizedText(step.exercise.shortDescription, language)
+    || localizedText(step.exercise.instruction, language)
+    || step.notes
+    || t(state, 'emptyValue');
 }
 
 function renderFinishScreen(root, snapshot, state) {

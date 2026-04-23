@@ -5,9 +5,8 @@ body {
 }
 
 .app-header {
-  backdrop-filter: blur(6px);
-  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
-  border-bottom-color: color-mix(in srgb, var(--color-border) 90%, var(--color-text) 10%);
+  backdrop-filter: blur(18px);
+  background: transparent;
 }
 
 .button,
@@ -25,10 +24,10 @@ body {
 }
 
 .nav {
-  padding: 2px;
-  border: 1px solid color-mix(in srgb, var(--color-border) 92%, var(--color-text) 8%);
-  border-radius: 999px;
-  background: var(--color-surface);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .nav__link {
@@ -41,19 +40,19 @@ body {
 
 .nav__link:hover {
   color: var(--color-text);
-  background: var(--color-surface-muted);
+  background: color-mix(in srgb, var(--color-surface-muted) 70%, transparent);
 }
 
 .nav__link[aria-current="page"] {
   color: var(--color-text);
-  border-color: color-mix(in srgb, var(--color-border) 78%, var(--color-accent) 22%);
-  background: color-mix(in srgb, var(--color-surface-muted) 80%, #fff 20%);
+  border-color: transparent;
+  background: color-mix(in srgb, var(--color-surface-muted) 88%, transparent);
 }
 
 .button,
 .icon-button {
   border-width: 1px;
-  border-radius: 10px;
+  border-radius: 999px;
   border-color: color-mix(in srgb, var(--color-border) 88%, var(--color-text) 12%);
   box-shadow: none;
 }
@@ -107,7 +106,7 @@ body {
 .session-panel,
 .session-finish {
   border-color: color-mix(in srgb, var(--color-border) 90%, var(--color-text) 10%);
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }
 
 .card:hover,
@@ -117,7 +116,7 @@ body {
 .workout-exercise-option:hover,
 .quick-action:hover {
   border-color: color-mix(in srgb, var(--color-border) 68%, var(--color-accent) 32%);
-  box-shadow: var(--shadow-md);
+  box-shadow: none;
 }
 
 .quick-action {
@@ -140,8 +139,8 @@ body {
 .page-header h1 {
   margin: 0;
   letter-spacing: -0.015em;
-  font-size: clamp(1.45rem, 2vw, 1.9rem);
-  line-height: 1.2;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.05;
 }
 
 .page-header p,
@@ -155,7 +154,17 @@ body {
 .field textarea {
   min-height: 42px;
   border-color: color-mix(in srgb, var(--color-border) 86%, var(--color-text) 14%);
-  background: var(--color-surface);
+  background: color-mix(in srgb, var(--color-surface) 92%, var(--color-surface-muted) 8%);
+}
+
+.field select {
+  color: var(--color-text);
+}
+
+.field select option,
+.field select optgroup {
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-surface) 94%, #000 6%);
 }
 
 .field textarea {
@@ -182,7 +191,33 @@ body {
 
 .exercise-filters,
 .workout-exercise-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) repeat(4, minmax(160px, 1fr));
   gap: var(--space-2);
+  align-items: end;
+}
+
+.workout-exercise-sidebar .workout-exercise-filters {
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.exercise-filters__search {
+  grid-column: 1;
+}
+
+.exercise-filters .field {
+  min-width: 0;
+}
+
+.exercise-filters .field span {
+  font-size: 0.84rem;
+}
+
+.exercise-filters input,
+.exercise-filters select {
+  min-height: 40px;
 }
 
 .workout-exercise-sidebar {
@@ -222,7 +257,7 @@ body {
   grid-auto-columns: minmax(320px, 360px);
   gap: var(--space-4);
   overflow-x: auto;
-  padding-bottom: var(--space-2);
+  padding: 2px 0 var(--space-2);
   scroll-snap-type: x proximity;
 }
 
@@ -247,15 +282,53 @@ body {
   background: color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
 }
 
+.workout-summary--hero .card,
+.workout-summary--hero {
+  background: color-mix(in srgb, var(--color-surface-muted) 35%, var(--color-surface));
+}
+
+.session-sidebar .badge,
+.session-controls .button,
+.session-controls .button--danger,
+.session-controls .button--primary,
+.session-playlist__item,
+.session-metric,
+.session-status {
+  border-color: transparent;
+}
+
+.session-controls .button {
+  color: #f5f1e8;
+  background: rgb(255 255 255 / 0.06);
+}
+
+.session-controls .button--primary {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+}
+
+.session-controls .button--danger {
+  background: rgb(255 255 255 / 0.1);
+}
+
+.session-sidebar .badge {
+  color: var(--color-accent-strong);
+  background: rgb(255 255 255 / 0.08);
+}
+
 .session-progress__track span {
   transition: width 180ms ease;
 }
 
 @media (max-width: 980px) {
+  .workout-builder-layout,
   .workout-editor-grid,
-  .session-panel,
+  .session-layout,
   .exercises-page .exercise-filters {
     grid-template-columns: 1fr;
+  }
+
+  .workout-builder-panel {
+    min-height: 0;
   }
 
   .workout-exercise-sidebar {
@@ -268,9 +341,6 @@ body {
     max-height: 360px;
   }
 
-  .session-controls {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 720px) {
@@ -283,9 +353,12 @@ body {
   .form-grid,
   .form-grid--tempo,
   .session-grid,
-  .session-finish__stats,
-  .session-controls {
+  .session-finish__stats {
     grid-template-columns: 1fr;
+  }
+
+  .exercise-filters-card__header {
+    display: grid;
   }
 
   .toolbar,

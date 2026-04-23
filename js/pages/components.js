@@ -5,7 +5,7 @@ export function renderEmptyState(state, titleKey, descriptionKey, actionKey, act
   return `
     <article class="empty-state">
       <div class="empty-state__icon" aria-hidden="true">+</div>
-      <div>
+      <div class="empty-state__content">
         <h3>${t(state, titleKey)}</h3>
         <p class="muted">${t(state, descriptionKey)}</p>
       </div>

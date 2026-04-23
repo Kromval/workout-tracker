@@ -12,6 +12,7 @@ export function renderWorkoutFormPage(state, workout, requestedId = '') {
   const hasExercises = exercises.length > 0;
   const exerciseMap = createExerciseMap(exercises);
   const isEdit = Boolean(workout);
+  const workoutItems = workout?.items || [];
 
   if (requestedId && !workout) {
     return `
@@ -27,45 +28,68 @@ export function renderWorkoutFormPage(state, workout, requestedId = '') {
   }
 
   return `
-    <section class="page">
+    <section class="page workout-builder-page">
       <div class="page-header">
         <h1>${t(state, isEdit ? 'workoutEditTitle' : 'workoutCreateTitle')}</h1>
       </div>
 
-      <form class="card workout-form" data-workout-form data-form-mode="${isEdit ? 'edit' : 'create'}" aria-describedby="workout-form-status" novalidate>
+      <form class="workout-form workout-builder-form" data-workout-form data-form-mode="${isEdit ? 'edit' : 'create'}" aria-describedby="workout-form-status" novalidate>
         ${isEdit ? `<input type="hidden" name="id" value="${escapeAttribute(workout.id)}">` : ''}
-        <fieldset class="form-section">
-          <legend>${t(state, 'workoutBasics')}</legend>
-          <div class="form-grid">
-            <label class="field" for="workout-title">
-              <span>${t(state, 'workoutTitleLabel')} *</span>
-              <input id="workout-title" name="title" type="text" value="${escapeAttribute(workout?.title || '')}" required autocomplete="off">
-            </label>
-
-            <label class="field form-grid__wide" for="workout-description">
-              <span>${t(state, 'workoutDescriptionLabel')}</span>
-              <textarea id="workout-description" name="description" rows="3">${escapeHtml(workout?.description || '')}</textarea>
-            </label>
-          </div>
-        </fieldset>
-
-        <fieldset class="form-section">
-          <legend>${t(state, 'workoutItems')}</legend>
-          <div class="workout-editor-grid">
+        <div class="workout-builder-layout">
+          <div class="workout-builder-sidebar-wrap">
             ${renderWorkoutExerciseSidebar(state, exercises)}
-
-            <div class="workout-items" data-workout-items role="list" aria-label="${escapeAttribute(t(state, 'workoutItems'))}">
-              <p class="muted" data-workout-empty role="status" ${workout?.items?.length ? 'hidden' : ''}>${hasExercises ? t(state, 'workoutNoItems') : t(state, 'emptyExercises')}</p>
-              ${(workout?.items || []).map((item, index) => renderWorkoutDraftItem(state, exerciseMap.get(item.exerciseId), index, item)).join('')}
-            </div>
           </div>
-        </fieldset>
 
-        <p class="notice" id="workout-form-status" data-workout-form-status role="status" aria-live="polite"></p>
+          <article class="workout-builder-panel">
+            <div class="workout-builder-panel__head">
+              <div class="workout-builder-kicker">${t(state, 'workoutBasics')}</div>
+              <div class="workout-builder-status"><span data-workout-item-count>${workoutItems.length}</span> ${t(state, 'workoutExerciseCountShort')}</div>
+            </div>
 
-        <div class="toolbar">
-          <button class="button button--primary" type="submit" ${hasExercises ? '' : 'disabled'}>${t(state, 'saveWorkout')}</button>
-          <a class="button" href="${isEdit ? `#workout-view/${encodeURIComponent(workout.id)}` : '#home'}">${t(state, 'cancel')}</a>
+            <div class="workout-builder-panel__main">
+              <section class="workout-builder-section">
+                <div class="workout-builder-section__title">
+                  <h2>${t(state, isEdit ? 'workoutEditTitle' : 'workoutCreateTitle')}</h2>
+                  <p class="muted">${t(state, 'workoutExercisePickerHint')}</p>
+                </div>
+
+                <div class="form-grid">
+                  <label class="field" for="workout-title">
+                    <span>${t(state, 'workoutTitleLabel')} *</span>
+                    <input id="workout-title" name="title" type="text" value="${escapeAttribute(workout?.title || '')}" required autocomplete="off">
+                  </label>
+
+                  <label class="field form-grid__wide" for="workout-description">
+                    <span>${t(state, 'workoutDescriptionLabel')}</span>
+                    <textarea id="workout-description" name="description" rows="3">${escapeHtml(workout?.description || '')}</textarea>
+                  </label>
+                </div>
+              </section>
+
+              <section class="workout-builder-section workout-builder-section--items">
+                <div class="workout-builder-section__header">
+                  <div>
+                    <p class="workout-builder-section__eyebrow">${t(state, 'workoutItems')}</p>
+                    <h3>${t(state, 'workoutItems')}</h3>
+                  </div>
+                  <span class="badge"><span data-workout-item-count>${workoutItems.length}</span> / ${exercises.length}</span>
+                </div>
+
+                <div class="workout-items" data-workout-items role="list" aria-label="${escapeAttribute(t(state, 'workoutItems'))}">
+                  <p class="muted workout-items__empty" data-workout-empty role="status" ${workoutItems.length ? 'hidden' : ''}>${hasExercises ? t(state, 'workoutNoItems') : t(state, 'emptyExercises')}</p>
+                  ${workoutItems.map((item, index) => renderWorkoutDraftItem(state, exerciseMap.get(item.exerciseId), index, item)).join('')}
+                </div>
+              </section>
+            </div>
+
+            <div class="workout-builder-panel__footer">
+              <p class="notice" id="workout-form-status" data-workout-form-status role="status" aria-live="polite"></p>
+              <div class="toolbar workout-builder-actions">
+                <button class="button button--primary" type="submit" ${hasExercises ? '' : 'disabled'}>${t(state, 'saveWorkout')}</button>
+                <a class="button" href="${isEdit ? `#workout-view/${encodeURIComponent(workout.id)}` : '#home'}">${t(state, 'cancel')}</a>
+              </div>
+            </div>
+          </article>
         </div>
       </form>
     </section>
@@ -289,4 +313,3 @@ export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem =
     </article>
   `;
 }
-

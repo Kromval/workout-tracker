@@ -265,55 +265,77 @@ export function renderWorkoutRunPage(state) {
           <a class="back-link" href="#workout-view/${encodeURIComponent(workout.id)}">${t(state, 'navWorkoutView')}</a>
           <h1>${escapeHtml(workout.title || t(state, 'workoutRunTitle'))}</h1>
         </div>
-        <div class="session-status" data-session-status aria-live="polite">${t(state, 'sessionStatus_idle')}</div>
       </div>
 
-      <article class="session-panel">
-        <div class="session-panel__main">
-          <div class="session-kicker" data-session-step-kind>${t(state, 'sessionExerciseStep')}</div>
-          <h2 data-session-exercise>${t(state, 'emptyValue')}</h2>
-          <div class="session-phase" data-session-phase>${t(state, 'emptyValue')}</div>
-          <div class="session-current-timer" data-session-current-time aria-live="polite">00:00</div>
-        </div>
-
-        <div class="session-panel__aside">
-          <div class="session-total-timer">
-            <span>${t(state, 'sessionTotalTimer')}</span>
-            <strong data-session-total-time>00:00</strong>
-          </div>
-          <div class="session-progress">
-            <div class="session-progress__label">
-              <span>${t(state, 'sessionWorkoutProgress')}</span>
-              <strong data-session-progress-value>0%</strong>
+      <div class="session-layout">
+        <aside class="session-sidebar card" aria-label="${escapeAttribute(t(state, 'workoutsTitle'))}">
+          <div class="session-sidebar__header">
+            <div>
+              <h2>${t(state, 'workoutsTitle')}</h2>
+              <p class="muted">${t(state, 'sessionCurrentDetails')}</p>
             </div>
-            <div class="session-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-              <span data-session-progress></span>
+            <span class="badge" data-session-exercise-counter>0 / 0</span>
+          </div>
+          <div class="session-playlist" data-session-playlist></div>
+        </aside>
+
+        <article class="session-panel">
+          <div class="session-panel__head">
+            <div class="session-kicker" data-session-step-kind>${t(state, 'sessionExerciseStep')}</div>
+            <div class="session-status" data-session-status aria-live="polite">${t(state, 'sessionStatus_idle')}</div>
+          </div>
+
+          <div class="session-panel__main">
+            <div class="session-panel__title">
+              <p class="session-panel__index" data-session-exercise-counter-inline>0 / 0</p>
+              <h2 data-session-exercise>${t(state, 'emptyValue')}</h2>
+              <p class="session-panel__description muted" data-session-description>${t(state, 'emptyValue')}</p>
+            </div>
+
+            <div class="session-current-timer" data-session-current-time aria-live="polite">00:00</div>
+
+            <div class="session-progress">
+              <div class="session-progress__label">
+                <span>${t(state, 'sessionWorkoutProgress')}</span>
+                <strong data-session-progress-value>0%</strong>
+              </div>
+              <div class="session-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <span data-session-progress></span>
+              </div>
+            </div>
+
+            <section class="session-grid" aria-label="${t(state, 'sessionCurrentDetails')}">
+              <article class="session-metric">
+                <span>${t(state, 'sessionCurrentSet')}</span>
+                <strong data-session-sets>${t(state, 'sessionNotApplicable')}</strong>
+              </article>
+              <article class="session-metric">
+                <span>${t(state, 'sessionCurrentRep')}</span>
+                <strong data-session-reps>${t(state, 'sessionNotApplicable')}</strong>
+              </article>
+              <article class="session-metric">
+                <span>${t(state, 'sessionTotalTimer')}</span>
+                <strong data-session-total-time>00:00</strong>
+              </article>
+              <article class="session-metric session-metric--wide">
+                <span>${t(state, 'sessionNextStep')}</span>
+                <strong data-session-next>${t(state, 'emptyValue')}</strong>
+              </article>
+            </section>
+          </div>
+
+          <div class="session-controls" aria-label="${t(state, 'sessionControls')}">
+            <div class="session-controls__primary">
+              <button class="button" type="button" data-session-action="subtract-time">${t(state, 'sessionSubtractTen')}</button>
+              <button class="button button--primary" type="button" data-session-action="pause-resume">${t(state, 'sessionPause')}</button>
+              <button class="button" type="button" data-session-action="skip">${t(state, 'sessionSkip')}</button>
+            </div>
+            <div class="session-controls__secondary">
+              <button class="button" type="button" data-session-action="add-time">${t(state, 'sessionAddTen')}</button>
+              <button class="button button--danger" type="button" data-session-action="abort">${t(state, 'sessionAbort')}</button>
             </div>
           </div>
-        </div>
-      </article>
-
-      <section class="session-grid" aria-label="${t(state, 'sessionCurrentDetails')}">
-        <article class="session-metric">
-          <span>${t(state, 'sessionCurrentSet')}</span>
-          <strong data-session-sets>${t(state, 'sessionNotApplicable')}</strong>
         </article>
-        <article class="session-metric">
-          <span>${t(state, 'sessionCurrentRep')}</span>
-          <strong data-session-reps>${t(state, 'sessionNotApplicable')}</strong>
-        </article>
-        <article class="session-metric session-metric--wide">
-          <span>${t(state, 'sessionNextStep')}</span>
-          <strong data-session-next>${t(state, 'emptyValue')}</strong>
-        </article>
-      </section>
-
-      <div class="session-controls" aria-label="${t(state, 'sessionControls')}">
-        <button class="button button--primary" type="button" data-session-action="pause-resume">${t(state, 'sessionPause')}</button>
-        <button class="button" type="button" data-session-action="skip">${t(state, 'sessionSkip')}</button>
-        <button class="button" type="button" data-session-action="add-time">${t(state, 'sessionAddTen')}</button>
-        <button class="button" type="button" data-session-action="subtract-time">${t(state, 'sessionSubtractTen')}</button>
-        <button class="button button--danger" type="button" data-session-action="abort">${t(state, 'sessionAbort')}</button>
       </div>
 
       <section class="session-finish" data-session-finish hidden aria-live="polite"></section>
@@ -504,6 +526,7 @@ export function renderExercisesCatalogRegion(state) {
   const profile = selectProfile(state);
   const knownEquipmentIds = equipmentCatalog.map((item) => item.id);
   const favoriteIds = selectFavoriteExerciseIdSet(state);
+  const dislikedExerciseIds = new Set(asArray(profile?.dislikedExercises).map((item) => normalizeString(item)));
   const allMuscles = new Set();
   const allTypes = new Set();
 
@@ -536,6 +559,7 @@ export function renderExercisesCatalogRegion(state) {
     const equipmentAvailable = isExerciseAvailableForSelectedEquipment(exercise, Array.from(selectedEquipmentIds), knownEquipmentIds);
     const profileCompatible = isExerciseCompatibleWithProfileLevel(exercise, profile.trainingLevel);
     const isFavorite = favoriteIds.has(exercise.id);
+    const isDisliked = dislikedExerciseIds.has(normalizeString(exercise.id));
 
     return `
       <a class="exercise-card" href="#exercise-view/${encodeURIComponent(exercise.id)}"
@@ -549,11 +573,13 @@ export function renderExercisesCatalogRegion(state) {
         <div class="exercise-card__content">
           <div class="exercise-card__header">
             <h3>${escapeHtml(name)}</h3>
-            ${isFavorite ? `<span class="badge badge--favorite">★</span>` : ''}
           </div>
           <p class="muted">${escapeHtml(desc || t(state, 'emptyValue'))}</p>
           <div class="exercise-card__meta">
+            ${isFavorite ? `<span class="badge badge--favorite" aria-label="Liked exercise">♥</span>` : ''}
+            ${isDisliked ? `<span class="badge badge--disliked" aria-label="Disliked exercise">⊘</span>` : ''}
             <span class="badge">${escapeHtml(localizedText(exercise.type, language) || exercise.executionMode)}</span>
+            ${exercise.muscles?.[0] ? `<span class="badge">${escapeHtml(exercise.muscles[0])}</span>` : ''}
           </div>
         </div>
       </a>
@@ -561,48 +587,55 @@ export function renderExercisesCatalogRegion(state) {
   }).join('');
 
   return `
-    <div class="exercise-filters">
-      <label class="field">
-        <span>${t(state, 'exerciseSearchLabel')}</span>
-        <input type="text" id="exercises-search" data-exercises-search placeholder="${t(state, 'exerciseSearchPlaceholder')}" autocomplete="off">
-      </label>
+    <section class="exercise-filters-card">
+      <div class="exercise-filters-card__header">
+        <h2>${t(state, 'exerciseSearchLabel')}</h2>
+        <p class="muted">${t(state, 'exerciseFilterNoResults')}</p>
+      </div>
 
-      <label class="field">
-        <span>${t(state, 'exerciseTypeLabel')}</span>
-        <select id="exercises-type-filter" data-exercises-type-filter>
-          <option value="">${t(state, 'filterAll')}</option>
-          ${typeOptions}
-        </select>
-      </label>
+      <div class="exercise-filters">
+        <label class="field exercise-filters__search">
+          <span>${t(state, 'exerciseSearchLabel')}</span>
+          <input type="text" id="exercises-search" data-exercises-search placeholder="${t(state, 'exerciseSearchPlaceholder')}" autocomplete="off">
+        </label>
 
-      <label class="field">
-        <span>${t(state, 'exerciseMusclesLabel')}</span>
-        <select id="exercises-muscle-filter" data-exercises-muscle-filter>
-          <option value="">${t(state, 'filterAll')}</option>
-          ${muscleOptions}
-        </select>
-      </label>
+        <label class="field">
+          <span>${t(state, 'exerciseTypeLabel')}</span>
+          <select id="exercises-type-filter" data-exercises-type-filter>
+            <option value="">${t(state, 'filterAll')}</option>
+            ${typeOptions}
+          </select>
+        </label>
 
-      <label class="field">
-        <span>${t(state, 'exerciseEquipmentFilterLabel')}</span>
-        <select id="exercises-equipment-filter" data-exercises-equipment-filter>
-          <option value="">${t(state, 'filterAll')}</option>
-          <option value="available">${t(state, 'exerciseEquipmentFilterAvailable')}</option>
-          ${equipmentOptions}
-        </select>
-      </label>
+        <label class="field">
+          <span>${t(state, 'exerciseMusclesLabel')}</span>
+          <select id="exercises-muscle-filter" data-exercises-muscle-filter>
+            <option value="">${t(state, 'filterAll')}</option>
+            ${muscleOptions}
+          </select>
+        </label>
 
-      <label class="field">
-        <span>${t(state, 'exerciseProfileLevelFilterLabel')}</span>
-        <select id="exercises-profile-level-filter" data-exercises-profile-level-filter>
-          <option value="">${t(state, 'filterAll')}</option>
-          <option value="profile">${t(state, 'exerciseProfileLevelFilterProfile')}</option>
-          <option value="beginner">${t(state, 'trainingLevelOptionBeginner')}</option>
-          <option value="intermediate">${t(state, 'trainingLevelOptionIntermediate')}</option>
-          <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
-        </select>
-      </label>
-    </div>
+        <label class="field">
+          <span>${t(state, 'exerciseEquipmentFilterLabel')}</span>
+          <select id="exercises-equipment-filter" data-exercises-equipment-filter>
+            <option value="">${t(state, 'filterAll')}</option>
+            <option value="available">${t(state, 'exerciseEquipmentFilterAvailable')}</option>
+            ${equipmentOptions}
+          </select>
+        </label>
+
+        <label class="field">
+          <span>${t(state, 'exerciseProfileLevelFilterLabel')}</span>
+          <select id="exercises-profile-level-filter" data-exercises-profile-level-filter>
+            <option value="">${t(state, 'filterAll')}</option>
+            <option value="profile">${t(state, 'exerciseProfileLevelFilterProfile')}</option>
+            <option value="beginner">${t(state, 'trainingLevelOptionBeginner')}</option>
+            <option value="intermediate">${t(state, 'trainingLevelOptionIntermediate')}</option>
+            <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
+          </select>
+        </label>
+      </div>
+    </section>
 
     <div
       class="exercise-list"
@@ -624,28 +657,36 @@ export function renderHomeOverviewRegion(state) {
   const lastOpenedWorkout = selectLastOpenedWorkout(state);
 
   return `
-    <div class="home-stats">
-      ${renderHomeStat(state, userWorkouts.length, 'totalWorkouts')}
-      ${renderHomeStat(state, exercises.length, 'exercisesTitle')}
-      ${renderHomeStat(state, customExerciseCount, 'customExercises')}
-    </div>
+    <section class="home-hero" aria-labelledby="home-hero-title">
+      <article class="home-hero__content">
+        <span class="eyebrow">${t(state, 'quickActions')}</span>
+        <h1 id="home-hero-title">${t(state, 'appBrand')}</h1>
+        <p class="muted">${t(state, 'userWorkoutsHint')}</p>
 
-    <div class="quick-actions" aria-label="${t(state, 'quickActions')}">
-      <a class="quick-action quick-action--primary" href="#workout-create">
-        <span>${t(state, 'quickActionNewTrain')}</span>
-      </a>
-      ${lastOpenedWorkout ? `
-        <a class="quick-action" href="#workout-view/${encodeURIComponent(lastOpenedWorkout.id)}" aria-label="${escapeAttribute(`${t(state, 'returnToLastWorkout')}: ${lastOpenedWorkout.title}`)}">
-          <span>${t(state, 'returnToLastWorkout')}</span>
-        </a>
-      ` : ''}
-      <a class="quick-action" href="#exercises">
-        <span>${t(state, 'quickActionExercises')}</span>
-      </a>
-      <a class="quick-action" href="#settings">
-        <span>${t(state, 'quickActionSettings')}</span>
-      </a>
-    </div>
+        <div class="quick-actions" aria-label="${t(state, 'quickActions')}">
+          <a class="quick-action quick-action--primary" href="#workout-create">
+            <span class="quick-action__label">${t(state, 'quickActionNewTrain')}</span>
+          </a>
+          ${lastOpenedWorkout ? `
+            <a class="quick-action" href="#workout-view/${encodeURIComponent(lastOpenedWorkout.id)}" aria-label="${escapeAttribute(`${t(state, 'returnToLastWorkout')}: ${lastOpenedWorkout.title}`)}">
+              <span class="quick-action__label">${t(state, 'returnToLastWorkout')}</span>
+            </a>
+          ` : ''}
+          <a class="quick-action" href="#exercises">
+            <span class="quick-action__label">${t(state, 'quickActionExercises')}</span>
+          </a>
+          <a class="quick-action" href="#settings">
+            <span class="quick-action__label">${t(state, 'quickActionSettings')}</span>
+          </a>
+        </div>
+      </article>
+
+      <aside class="home-stats" aria-label="${escapeAttribute(t(state, 'homeActivityStatsTitle'))}">
+        ${renderHomeStat(state, userWorkouts.length, 'totalWorkouts')}
+        ${renderHomeStat(state, exercises.length, 'exercisesTitle')}
+        ${renderHomeStat(state, customExerciseCount, 'customExercises')}
+      </aside>
+    </section>
   `;
 }
 
@@ -760,7 +801,7 @@ export function renderWorkoutViewContentRegion(state) {
 
     ${workout.items.length ? '' : renderEmptyState(state, 'workoutEmptyViewTitle', 'workoutEmptyViewDescription', 'editWorkout', `#workout-edit/${encodeURIComponent(workout.id)}`)}
 
-    <article class="card workout-summary">
+    <article class="card workout-summary workout-summary--hero">
       <div class="stat">
         <span class="stat__value">${escapeHtml(formatDuration(durationSec))}</span>
         <span class="muted">${t(state, 'workoutEstimatedDuration')}</span>
