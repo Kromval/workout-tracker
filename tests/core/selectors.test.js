@@ -35,7 +35,12 @@ describe('core selectors', () => {
           difficulty: 'intermediate',
           equipment: ['kettlebell'],
           contraindications: [],
-          intensityProfile: { strength: 'medium', cardio: 'high', endurance: 'high', impact: 'medium' },
+          intensityProfile: {
+            strength: 'medium',
+            cardio: 'high',
+            endurance: 'high',
+            impact: 'medium',
+          },
         },
       ],
       store: {

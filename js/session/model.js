@@ -48,4 +48,3 @@ export const REP_PHASE_SEQUENCE = Object.freeze([
   { key: REP_PHASE_NAMES.pauseTop, name: 'Pause top', tempoField: 'pauseTop' },
 ]);
 export const TICK_INTERVAL_MS = 1000;
-

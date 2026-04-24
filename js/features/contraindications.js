@@ -86,7 +86,9 @@ export const CONTRAINDICATION_DEFINITIONS = Object.freeze({
  * All supported canonical contraindication tags.
  * @readonly
  */
-export const SUPPORTED_CONTRAINDICATION_TAGS = Object.freeze(Object.keys(CONTRAINDICATION_DEFINITIONS));
+export const SUPPORTED_CONTRAINDICATION_TAGS = Object.freeze(
+  Object.keys(CONTRAINDICATION_DEFINITIONS),
+);
 
 /**
  * Normalizes one raw contraindication token to canonical tags.
@@ -112,9 +114,7 @@ export function normalizeContraindicationTag(value) {
  * @returns {string[]} canonical contraindication tags
  */
 export function normalizeContraindicationTags(values) {
-  return uniqueStrings(
-    asArray(values).flatMap((value) => normalizeContraindicationTag(value))
-  );
+  return uniqueStrings(asArray(values).flatMap((value) => normalizeContraindicationTag(value)));
 }
 
 /**

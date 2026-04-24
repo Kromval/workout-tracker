@@ -1,8 +1,4 @@
-import {
-  DEFAULT_STORE,
-  MIN_SUPPORTED_STORAGE_VERSION,
-  STORAGE_VERSION,
-} from './schema.js';
+import { DEFAULT_STORE, MIN_SUPPORTED_STORAGE_VERSION, STORAGE_VERSION } from './schema.js';
 import {
   clone,
   isPlainObject,
@@ -27,7 +23,7 @@ export function migrateStore(store) {
 
   if (version > STORAGE_VERSION) {
     console.warn(
-      `Stored workout tracker data is from a newer schema (${version}). Current schema is ${STORAGE_VERSION}.`
+      `Stored workout tracker data is from a newer schema (${version}). Current schema is ${STORAGE_VERSION}.`,
     );
     return sanitizeStore(nextStore);
   }
@@ -36,7 +32,9 @@ export function migrateStore(store) {
     const migration = MIGRATIONS[version];
 
     if (typeof migration !== 'function') {
-      throw new Error(`Missing workout tracker storage migration from v${version} to v${version + 1}.`);
+      throw new Error(
+        `Missing workout tracker storage migration from v${version} to v${version + 1}.`,
+      );
     }
 
     nextStore = migration(nextStore);

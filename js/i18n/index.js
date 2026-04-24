@@ -9,9 +9,8 @@ export const messages = {
 export const fallbackLanguage = 'ru';
 
 export function t(stateOrLanguage, key) {
-  const language = typeof stateOrLanguage === 'string'
-    ? stateOrLanguage
-    : stateOrLanguage?.settings?.language;
+  const language =
+    typeof stateOrLanguage === 'string' ? stateOrLanguage : stateOrLanguage?.settings?.language;
 
   return messages[language]?.[key] || messages[fallbackLanguage]?.[key] || key;
 }

@@ -28,20 +28,24 @@ export function getWorkouts(store = null) {
  * @returns {object} normalized workout draft
  */
 export function createEmptyWorkout(overrides = {}) {
-  return normalizeWorkout(createStoredWorkout({
-    title: '',
-    description: '',
-    items: [],
-    defaultRestBetweenExercises: DEFAULT_REST_BETWEEN_EXERCISES_SEC,
-    ...overrides,
-  }));
+  return normalizeWorkout(
+    createStoredWorkout({
+      title: '',
+      description: '',
+      items: [],
+      defaultRestBetweenExercises: DEFAULT_REST_BETWEEN_EXERCISES_SEC,
+      ...overrides,
+    }),
+  );
 }
 
 export function createWorkoutItem(overrides = {}) {
-  return normalizeWorkoutItem(createStoredWorkoutItem({
-    restBetweenSetsSec: DEFAULT_REST_BETWEEN_SETS_SEC,
-    ...overrides,
-  }));
+  return normalizeWorkoutItem(
+    createStoredWorkoutItem({
+      restBetweenSetsSec: DEFAULT_REST_BETWEEN_SETS_SEC,
+      ...overrides,
+    }),
+  );
 }
 
 /**
@@ -82,9 +86,10 @@ export function calculateEstimatedWorkoutDuration(workout, exercises = []) {
     const exercise = exerciseMap.get(item.exerciseId) || null;
     const activeSec = calculateItemActiveDuration(item, exercise);
     const setRestSec = Math.max(0, item.sets - 1) * item.restBetweenSetsSec;
-    const exerciseRestSec = index < normalizedWorkout.items.length - 1
-      ? item.restAfterExerciseSec ?? normalizedWorkout.defaultRestBetweenExercises
-      : 0;
+    const exerciseRestSec =
+      index < normalizedWorkout.items.length - 1
+        ? (item.restAfterExerciseSec ?? normalizedWorkout.defaultRestBetweenExercises)
+        : 0;
 
     return totalSec + activeSec + setRestSec + exerciseRestSec;
   }, 0);
@@ -127,7 +132,10 @@ function normalizeWorkoutItem(item = {}) {
     reps: optionalNonNegativeInteger(source.reps),
     durationSec: optionalNonNegativeInteger(source.durationSec),
     distance: optionalNonNegativeNumber(source.distance),
-    restBetweenSetsSec: nonNegativeInteger(source.restBetweenSetsSec, DEFAULT_REST_BETWEEN_SETS_SEC),
+    restBetweenSetsSec: nonNegativeInteger(
+      source.restBetweenSetsSec,
+      DEFAULT_REST_BETWEEN_SETS_SEC,
+    ),
     restAfterExerciseSec: optionalNonNegativeInteger(source.restAfterExerciseSec),
     tempoOverride: normalizeTempo(source.tempoOverride),
     notes: normalizeString(source.notes),
@@ -173,10 +181,13 @@ function normalizeTempo(tempo) {
     return null;
   }
 
-  return TEMPO_FIELDS.reduce((result, field) => ({
-    ...result,
-    [field]: nonNegativeNumber(tempo[field], 0),
-  }), {});
+  return TEMPO_FIELDS.reduce(
+    (result, field) => ({
+      ...result,
+      [field]: nonNegativeNumber(tempo[field], 0),
+    }),
+    {},
+  );
 }
 
 function optionalNonNegativeInteger(value) {
@@ -213,4 +224,3 @@ function createId(prefix) {
 
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
-

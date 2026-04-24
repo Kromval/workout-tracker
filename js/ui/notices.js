@@ -39,11 +39,15 @@ export function navigateWithNotice(hash, message, type = 'success') {
 }
 
 function noticeMatchesCurrentHash(notice) {
-  return !notice.targetHash || normalizeNoticeHash(window.location.hash || '#home') === notice.targetHash;
+  return (
+    !notice.targetHash || normalizeNoticeHash(window.location.hash || '#home') === notice.targetHash
+  );
 }
 
 function normalizeNoticeHash(hash) {
-  return String(hash || '')
-    .replace(/^#\/?/, '')
-    .trim() || 'home';
+  return (
+    String(hash || '')
+      .replace(/^#\/?/, '')
+      .trim() || 'home'
+  );
 }

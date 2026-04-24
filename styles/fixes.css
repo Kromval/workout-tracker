@@ -20,7 +20,10 @@ body {
 .workout-exercise-option,
 .progress-calendar__day,
 .session-metric {
-  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
 }
 
 .nav {
@@ -43,7 +46,7 @@ body {
   background: color-mix(in srgb, var(--color-surface-muted) 70%, transparent);
 }
 
-.nav__link[aria-current="page"] {
+.nav__link[aria-current='page'] {
   color: var(--color-text);
   border-color: transparent;
   background: color-mix(in srgb, var(--color-surface-muted) 88%, transparent);
@@ -62,16 +65,16 @@ body {
   font-weight: 600;
 }
 
-:root[data-density="compact"] .button,
-:root[data-density="compact"] .icon-button {
+:root[data-density='compact'] .button,
+:root[data-density='compact'] .icon-button {
   min-height: 36px;
 }
 
-:root[data-density="compact"] .quick-action {
+:root[data-density='compact'] .quick-action {
   min-height: 48px;
 }
 
-:root[data-density="compact"] .progress-calendar__day {
+:root[data-density='compact'] .progress-calendar__day {
   min-height: 46px;
 }
 
@@ -340,7 +343,6 @@ body {
   .workout-exercise-results {
     max-height: 360px;
   }
-
 }
 
 @media (max-width: 720px) {
@@ -419,7 +421,7 @@ body.modal-open {
   background: rgb(15 23 42 / 0.45);
 }
 
-.profile-picker-modal[data-open="true"] {
+.profile-picker-modal[data-open='true'] {
   display: grid;
 }
 

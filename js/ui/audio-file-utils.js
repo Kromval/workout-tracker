@@ -8,10 +8,11 @@ const CUSTOM_AUDIO_TYPES = new Set([
 
 export function isSupportedAudioFile(file) {
   const type = String(file.type || '').toLowerCase();
-  return CUSTOM_AUDIO_TYPES.has(type) || ['.mp3', '.wav', '.ogg'].some((extension) => file.name.toLowerCase().endsWith(extension));
+  return (
+    CUSTOM_AUDIO_TYPES.has(type) ||
+    ['.mp3', '.wav', '.ogg'].some((extension) => file.name.toLowerCase().endsWith(extension))
+  );
 }
-
-
 
 export function getAudioMimeFromName(name) {
   const normalizedName = String(name || '').toLowerCase();
@@ -23,18 +24,16 @@ export function getAudioMimeFromName(name) {
   return 'audio/mpeg';
 }
 
-
-
 export function readFileAsDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => resolve(String(reader.result || '')));
-    reader.addEventListener('error', () => reject(reader.error || new Error('Failed to read file.')));
+    reader.addEventListener('error', () =>
+      reject(reader.error || new Error('Failed to read file.')),
+    );
     reader.readAsDataURL(file);
   });
 }
-
-
 
 export function normalizeAudioDataUrl(dataUrl, mimeType) {
   const value = String(dataUrl || '');
@@ -52,5 +51,3 @@ export function normalizeAudioDataUrl(dataUrl, mimeType) {
 
   return `data:${mimeType}${base64Marker}${value.slice(markerIndex + base64Marker.length)}`;
 }
-
-

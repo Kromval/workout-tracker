@@ -27,4 +27,3 @@ export function renderListItem(name, value, stateOrLanguage = 'ru') {
 function createRemoveLabel(name, value, stateOrLanguage) {
   return t(stateOrLanguage, 'removeListItemLabel').replace('{item}', value || name);
 }
-

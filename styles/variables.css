@@ -27,11 +27,11 @@
   --space-6: 52px;
 
   /* Шрифты */
-  --font-body: "IBM Plex Sans", "Segoe UI", "Noto Sans", sans-serif;
-  --font-display: "IBM Plex Sans", "Segoe UI", "Noto Sans", sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', 'Noto Sans', sans-serif;
+  --font-display: 'IBM Plex Sans', 'Segoe UI', 'Noto Sans', sans-serif;
 }
 
-:root[data-density="compact"] {
+:root[data-density='compact'] {
   --space-1: 6px;
   --space-2: 10px;
   --space-3: 14px;
@@ -43,7 +43,7 @@
   --radius-lg: 14px;
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   --color-bg: #151513;
   --color-surface: #20201d;
   --color-surface-muted: #2a2a26;

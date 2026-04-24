@@ -49,4 +49,3 @@ function getHashParts(hash) {
     .map((part) => part.trim())
     .filter(Boolean);
 }
-

@@ -176,7 +176,7 @@ Flow:
 Main modules:
 
 - `js/features/recommendations.js`
-- `js/features/exercise-scoring.js`
+- `js/features/exercise-scoring.js` is a compatibility adapter over `recommendations.js`
 - `js/features/body-focus.js`
 - `js/core/selectors.js`
 
@@ -184,20 +184,10 @@ Public API (see JSDoc in source):
 
 - `filterExercisesForRecommendations(options)`
 - `rankExercisesForRecommendations(options)`
-- `scoreExercise(exercise, profile, context, weights)` in `js/features/recommendations.js`
+- `scoreExercise(exercise, profile, context, weights)`
 - `buildExerciseRecommendationMetadata(exercise, context)`
 - `getExerciseGoalIds(exercise)`
-- `rankRecommendedExercises(options)`
-- `scoreExercise(user, exercise, context, weights)` in `js/features/exercise-scoring.js`
 - `scoreGoalAlignment(...)`
-- `scoreLevelMatch(...)`
-- `scorePreferences(...)`
-- `scoreRecovery(...)`
-- `scoreSafety(...)`
-- `scoreVariety(...)`
-- `scoreTimeFit(...)`
-- `scoreFatiguePenalty(...)`
-- `scoreContraindicationRisk(...)`
 - `normalizeContraindicationTag(value)` and `normalizeContraindicationTags(values)`
 - `getContraindicationDefinition(tag)`
 - `getContraindicationRelatedMuscles(tag)`
@@ -232,6 +222,12 @@ The app includes:
 - `sw.js`
 - install icons in `assets/icons/`
 - offline caching of the app shell
+
+After adding or removing static imports, styles, or manifest icons, refresh the precache list:
+
+```bash
+npm run generate:precache
+```
 
 PWA installability requires `localhost` or HTTPS.
 

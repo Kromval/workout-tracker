@@ -1,8 +1,12 @@
 import { localizedText, t } from '../i18n/index.js';
 import { renderEmptyState, renderListItem } from './components.js';
-import { escapeAttribute, escapeHtml, formatDuration } from '../core/utils.js';
+import { escapeAttribute, escapeHtml } from '../core/utils.js';
 import { selectExerciseCatalog, selectLanguage } from '../core/selectors.js';
-import { capitalize, createExerciseMap, renderWorkoutExerciseSidebar } from './workout-renderers.js';
+import {
+  capitalize,
+  createExerciseMap,
+  renderWorkoutExerciseSidebar,
+} from './workout-renderers.js';
 
 const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
 const TEMPO_FIELDS = ['eccentric', 'pauseBottom', 'concentric', 'pauseTop'];
@@ -96,10 +100,6 @@ export function renderWorkoutFormPage(state, workout, requestedId = '') {
   `;
 }
 
-
-
-
-
 export function renderExerciseFormPage(state, exercise, requestedId = '') {
   const isEdit = Boolean(exercise);
 
@@ -154,9 +154,11 @@ export function renderExerciseFormPage(state, exercise, requestedId = '') {
             <label class="field" for="exercise-execution-mode">
               <span>${t(state, 'exerciseExecutionMode')} *</span>
               <select id="exercise-execution-mode" name="executionMode" required>
-                ${EXECUTION_MODES.map((mode) => `
+                ${EXECUTION_MODES.map(
+                  (mode) => `
                   <option value="${mode}" ${exercise?.executionMode === mode || (!exercise && mode === 'reps') ? 'selected' : ''}>${mode}</option>
-                `).join('')}
+                `,
+                ).join('')}
               </select>
             </label>
 
@@ -198,8 +200,6 @@ export function renderExerciseFormPage(state, exercise, requestedId = '') {
   `;
 }
 
-
-
 export function renderTextField(state, name, labelKey, value = '', required = false) {
   const id = `exercise-${name.replaceAll('.', '-')}`;
   return `
@@ -209,8 +209,6 @@ export function renderTextField(state, name, labelKey, value = '', required = fa
     </label>
   `;
 }
-
-
 
 export function renderTextareaField(state, name, labelKey, value = '') {
   const id = `exercise-${name.replaceAll('.', '-')}`;
@@ -222,8 +220,6 @@ export function renderTextareaField(state, name, labelKey, value = '') {
   `;
 }
 
-
-
 export function renderNumberField(state, name, labelKey, value = 0) {
   const id = `exercise-${name.replaceAll('.', '-')}`;
   return `
@@ -233,8 +229,6 @@ export function renderNumberField(state, name, labelKey, value = 0) {
     </label>
   `;
 }
-
-
 
 export function renderEditableList(state, name, labelKey, values) {
   const inputId = `exercise-${name}-entry`;
@@ -254,8 +248,6 @@ export function renderEditableList(state, name, labelKey, values) {
   `;
 }
 
-
-
 export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem = null) {
   const language = selectLanguage(state);
   const exerciseId = exercise?.id || workoutItem?.exerciseId || '';
@@ -264,9 +256,7 @@ export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem =
   const executionMode = exercise?.executionMode || 'reps';
   const usesDuration = executionMode === 'time' || executionMode === 'hold';
   const effortField = usesDuration ? 'durationSec' : 'reps';
-  const effortValue = usesDuration
-    ? workoutItem?.durationSec ?? 30
-    : workoutItem?.reps ?? 10;
+  const effortValue = usesDuration ? (workoutItem?.durationSec ?? 30) : (workoutItem?.reps ?? 10);
 
   return `
     <article class="workout-item" data-workout-item data-exercise-id="${escapeAttribute(exerciseId)}" data-execution-mode="${escapeAttribute(executionMode)}" data-order="${escapeAttribute(order)}" role="listitem">

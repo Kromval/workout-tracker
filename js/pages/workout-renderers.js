@@ -1,5 +1,11 @@
 import { localizedText, t } from '../i18n/index.js';
-import { escapeAttribute, escapeHtml, formatCalories, formatDuration, uniqueStrings } from '../core/utils.js';
+import {
+  escapeAttribute,
+  escapeHtml,
+  formatCalories,
+  formatDuration,
+  uniqueStrings,
+} from '../core/utils.js';
 import {
   selectEquipmentCatalog,
   selectEquipmentSelectedIdSet,
@@ -13,12 +19,16 @@ import {
   isExerciseAvailableForSelectedEquipment,
   isExerciseCompatibleWithProfileLevel,
 } from '../features/exercise-compatibility.js';
-import { calculateEstimatedWorkoutDuration, calculateWorkoutCaloriesEstimate } from '../features/workouts.js';
+import {
+  calculateEstimatedWorkoutDuration,
+  calculateWorkoutCaloriesEstimate,
+} from '../features/workouts.js';
 
 export function renderWorkoutViewItem(state, item, exercise, index) {
   const language = selectLanguage(state);
   const name = localizedText(exercise?.name, language) || item.exerciseId || t(state, 'emptyValue');
-  const exerciseType = getExerciseTypeLabel(exercise, language) || exercise?.executionMode || t(state, 'emptyValue');
+  const exerciseType =
+    getExerciseTypeLabel(exercise, language) || exercise?.executionMode || t(state, 'emptyValue');
 
   return `
     <article class="card workout-view-item">
@@ -43,14 +53,10 @@ export function renderWorkoutViewItem(state, item, exercise, index) {
   `;
 }
 
-
-
 export function renderWorkoutCard(state, workout, exercises, options = {}) {
   const isPresetCard = Boolean(options.isPresetCard);
   const language = selectLanguage(state);
-  const title = isPresetCard
-    ? localizedText(workout.title, language)
-    : workout.title;
+  const title = isPresetCard ? localizedText(workout.title, language) : workout.title;
   const description = isPresetCard
     ? localizedText(workout.description, language)
     : workout.description;
@@ -74,29 +80,38 @@ export function renderWorkoutCard(state, workout, exercises, options = {}) {
         <span>${escapeHtml(formatCalories(calories))}</span>
       </div>
 
-      ${tags.length ? `
+      ${
+        tags.length
+          ? `
         <div class="chip-list">
-          ${tags.slice(0, 3).map((tag) => `<span class="chip">${escapeHtml(tag)}</span>`).join('')}
+          ${tags
+            .slice(0, 3)
+            .map((tag) => `<span class="chip">${escapeHtml(tag)}</span>`)
+            .join('')}
         </div>
-      ` : ''}
+      `
+          : ''
+      }
 
       <div class="workout-card__actions">
-        ${isPresetCard ? `
+        ${
+          isPresetCard
+            ? `
           <button class="button button--primary" type="button" data-preset-workout-action="open" data-preset-workout-id="${escapeAttribute(workout.id)}" aria-label="${escapeAttribute(`${t(state, 'openWorkout')}: ${title}`)}">${t(state, 'openWorkout')}</button>
           <button class="button" type="button" data-preset-workout-action="edit" data-preset-workout-id="${escapeAttribute(workout.id)}" aria-label="${escapeAttribute(`${t(state, 'editWorkout')}: ${title}`)}">${t(state, 'editWorkout')}</button>
           <button class="button" type="button" data-preset-workout-action="duplicate" data-preset-workout-id="${escapeAttribute(workout.id)}" aria-label="${escapeAttribute(`${t(state, 'duplicateWorkout')}: ${title}`)}">${t(state, 'duplicateWorkout')}</button>
-        ` : `
+        `
+            : `
           <a class="button button--primary" href="#workout-view/${encodeURIComponent(workout.id)}" aria-label="${escapeAttribute(`${t(state, 'openWorkout')}: ${title}`)}">${t(state, 'openWorkout')}</a>
           <a class="button" href="#workout-edit/${encodeURIComponent(workout.id)}" aria-label="${escapeAttribute(`${t(state, 'editWorkout')}: ${title}`)}">${t(state, 'editWorkout')}</a>
           <button class="button" type="button" data-workout-action="duplicate" data-workout-id="${escapeAttribute(workout.id)}" aria-label="${escapeAttribute(`${t(state, 'duplicateWorkout')}: ${title}`)}">${t(state, 'duplicateWorkout')}</button>
           <button class="button button--danger" type="button" data-workout-action="delete" data-workout-id="${escapeAttribute(workout.id)}" aria-label="${escapeAttribute(`${t(state, 'deleteWorkout')}: ${title}`)}">${t(state, 'deleteWorkout')}</button>
-        `}
+        `
+        }
       </div>
     </article>
   `;
 }
-
-
 
 export function renderWorkoutExerciseSidebar(state, exercises) {
   const language = selectLanguage(state);
@@ -109,14 +124,22 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
     const favoriteDelta = Number(favoriteIds.has(right.id)) - Number(favoriteIds.has(left.id));
     if (favoriteDelta !== 0) return favoriteDelta;
 
-    return getExerciseDisplayName(left, language).localeCompare(getExerciseDisplayName(right, language), language);
+    return getExerciseDisplayName(left, language).localeCompare(
+      getExerciseDisplayName(right, language),
+      language,
+    );
   });
-  const typeOptions = uniqueStrings(exercises.map((exercise) => getExerciseTypeLabel(exercise, language)))
-    .sort((left, right) => left.localeCompare(right));
-  const muscleOptions = uniqueStrings(exercises.flatMap((exercise) => exercise.muscles || []))
-    .sort((left, right) => left.localeCompare(right));
+  const typeOptions = uniqueStrings(
+    exercises.map((exercise) => getExerciseTypeLabel(exercise, language)),
+  ).sort((left, right) => left.localeCompare(right));
+  const muscleOptions = uniqueStrings(exercises.flatMap((exercise) => exercise.muscles || [])).sort(
+    (left, right) => left.localeCompare(right),
+  );
   const equipmentOptions = equipmentCatalog
-    .map((item) => `<option value="${escapeAttribute(item.id)}">${escapeHtml(localizedText(item.name, language) || item.id)}</option>`)
+    .map(
+      (item) =>
+        `<option value="${escapeAttribute(item.id)}">${escapeHtml(localizedText(item.name, language) || item.id)}</option>`,
+    )
     .join('');
 
   return `
@@ -178,23 +201,32 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
       </details>
 
       <div class="workout-exercise-results" data-workout-exercise-results>
-        ${sortedExercises.map((exercise) => renderWorkoutExerciseOption(
-          state,
-          exercise,
-          favoriteIds.has(exercise.id),
-          knownEquipmentIds,
-          selectedEquipmentIds,
-          profile.trainingLevel
-        )).join('')}
+        ${sortedExercises
+          .map((exercise) =>
+            renderWorkoutExerciseOption(
+              state,
+              exercise,
+              favoriteIds.has(exercise.id),
+              knownEquipmentIds,
+              selectedEquipmentIds,
+              profile.trainingLevel,
+            ),
+          )
+          .join('')}
         <p class="muted" data-workout-exercise-no-results ${exercises.length ? 'hidden' : ''}>${exercises.length ? t(state, 'exerciseFilterNoResults') : t(state, 'emptyExercises')}</p>
       </div>
     </aside>
   `;
 }
 
-
-
-export function renderWorkoutExerciseOption(state, exercise, isFavorite, knownEquipmentIds = [], selectedEquipmentIds = [], profileTrainingLevel = '') {
+export function renderWorkoutExerciseOption(
+  state,
+  exercise,
+  isFavorite,
+  knownEquipmentIds = [],
+  selectedEquipmentIds = [],
+  profileTrainingLevel = '',
+) {
   const language = selectLanguage(state);
   const name = getExerciseDisplayName(exercise, language);
   const type = getExerciseTypeLabel(exercise, language);
@@ -202,7 +234,11 @@ export function renderWorkoutExerciseOption(state, exercise, isFavorite, knownEq
   const muscles = exercise.muscles || [];
   const equipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
   const exerciseProfileLevel = getExerciseProfileLevel(exercise);
-  const equipmentAvailable = isExerciseAvailableForSelectedEquipment(exercise, selectedEquipmentIds, knownEquipmentIds);
+  const equipmentAvailable = isExerciseAvailableForSelectedEquipment(
+    exercise,
+    selectedEquipmentIds,
+    knownEquipmentIds,
+  );
   const profileCompatible = isExerciseCompatibleWithProfileLevel(exercise, profileTrainingLevel);
   const searchableText = [
     name,
@@ -215,7 +251,9 @@ export function renderWorkoutExerciseOption(state, exercise, isFavorite, knownEq
     exercise.executionMode,
     ...muscles,
     ...(exercise.tags || []),
-  ].join(' ').toLowerCase();
+  ]
+    .join(' ')
+    .toLowerCase();
 
   return `
     <article
@@ -238,7 +276,10 @@ export function renderWorkoutExerciseOption(state, exercise, isFavorite, knownEq
         <p class="muted">${escapeHtml(description)}</p>
         <div class="chip-list chip-list--muted">
           <span class="chip">${escapeHtml(type)}</span>
-          ${muscles.slice(0, 3).map((muscle) => `<span class="chip">${escapeHtml(muscle)}</span>`).join('')}
+          ${muscles
+            .slice(0, 3)
+            .map((muscle) => `<span class="chip">${escapeHtml(muscle)}</span>`)
+            .join('')}
         </div>
       </div>
       <button class="button button--primary" type="button" data-workout-add-exercise data-workout-add-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'addExerciseShort')}</button>
@@ -246,19 +287,13 @@ export function renderWorkoutExerciseOption(state, exercise, isFavorite, knownEq
   `;
 }
 
-
-
 export function getExerciseDisplayName(exercise, language) {
   return localizedText(exercise?.name, language) || exercise?.id || '';
 }
 
-
-
 export function getExerciseTypeLabel(exercise, language) {
   return localizedText(exercise?.type, language) || exercise?.executionMode || '';
 }
-
-
 
 export function createExerciseMap(exercises) {
   return exercises.reduce((map, exercise) => {
@@ -266,8 +301,6 @@ export function createExerciseMap(exercises) {
     return map;
   }, new Map());
 }
-
-
 
 export function renderDetail(state, labelKey, value) {
   return `
@@ -278,13 +311,9 @@ export function renderDetail(state, labelKey, value) {
   `;
 }
 
-
-
 export function renderText(value, language, state) {
   return escapeHtml(localizedText(value, language) || t(state, 'emptyValue'));
 }
-
-
 
 export function renderChips(items, state) {
   if (!items.length) {
@@ -298,8 +327,6 @@ export function renderChips(items, state) {
   `;
 }
 
-
-
 export function formatTempo(tempo, state) {
   if (!tempo) {
     return t(state, 'emptyValue');
@@ -308,9 +335,6 @@ export function formatTempo(tempo, state) {
   return `${tempo.eccentric}-${tempo.pauseBottom}-${tempo.concentric}-${tempo.pauseTop}`;
 }
 
-
-
 export function capitalize(value) {
   return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
-

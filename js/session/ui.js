@@ -2,11 +2,7 @@ import { saveHistoryEntry } from '../features/history.js';
 import { t } from '../i18n/index.js';
 import { localizedText } from '../i18n/index.js';
 import { getRouteParams } from '../core/router.js';
-import {
-  createWorkoutSession,
-  restoreActiveWorkoutSession,
-  SESSION_STATUSES,
-} from './core.js';
+import { createWorkoutSession, restoreActiveWorkoutSession, SESSION_STATUSES } from './core.js';
 import { refreshStore, setRoute } from '../core/state.js';
 import {
   clamp,
@@ -180,9 +176,8 @@ function renderSessionSnapshot(root, snapshot, state) {
   const currentStep = snapshot.currentStep;
   const nextStep = getNextStep(snapshot);
   const currentPhase = snapshot.currentPhase;
-  const currentRemainingSec = currentPhase?.type === 'rep'
-    ? currentPhase.remainingSec
-    : currentStep?.remainingSec ?? 0;
+  const currentRemainingSec =
+    currentPhase?.type === 'rep' ? currentPhase.remainingSec : (currentStep?.remainingSec ?? 0);
   const progressPercent = Math.round(clamp(snapshot.progress, 0, 1) * 100);
 
   setText(root, '[data-session-exercise]', getStepExerciseName(currentStep, state));
@@ -204,14 +199,17 @@ function renderSessionSnapshot(root, snapshot, state) {
   const progress = root.querySelector('[data-session-progress]');
   if (progress) {
     progress.style.width = `${progressPercent}%`;
-    progress.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', String(progressPercent));
+    progress
+      .closest('[role="progressbar"]')
+      ?.setAttribute('aria-valuenow', String(progressPercent));
   }
 
   const pauseResume = root.querySelector('[data-session-action="pause-resume"]');
   if (pauseResume) {
-    pauseResume.textContent = snapshot.status === SESSION_STATUSES.PAUSED
-      ? t(state, 'sessionResume')
-      : t(state, 'sessionPause');
+    pauseResume.textContent =
+      snapshot.status === SESSION_STATUSES.PAUSED
+        ? t(state, 'sessionResume')
+        : t(state, 'sessionPause');
   }
 
   const isFinished = isTerminal(snapshot.status);
@@ -230,18 +228,18 @@ function renderSessionPlaylist(root, snapshot, state) {
     return;
   }
 
-  const language = selectLanguage(state);
   const exerciseSteps = buildPlaylistSteps(snapshot);
   const activeExerciseIndex = Number.isInteger(snapshot.currentStep?.exerciseIndex)
     ? snapshot.currentStep.exerciseIndex
     : -1;
 
-  playlist.innerHTML = exerciseSteps.map((step, index) => {
-    const name = getStepExerciseName(step, state);
-    const duration = formatClock(step.durationSec || 0);
-    const isActive = index === activeExerciseIndex;
+  playlist.innerHTML = exerciseSteps
+    .map((step, index) => {
+      const name = getStepExerciseName(step, state);
+      const duration = formatClock(step.durationSec || 0);
+      const isActive = index === activeExerciseIndex;
 
-    return `
+      return `
       <article class="session-playlist__item ${isActive ? 'session-playlist__item--active' : ''}">
         <span class="session-playlist__number">${index + 1}</span>
         <div class="session-playlist__body">
@@ -250,7 +248,8 @@ function renderSessionPlaylist(root, snapshot, state) {
         </div>
       </article>
     `;
-  }).join('');
+    })
+    .join('');
 }
 
 function buildPlaylistSteps(snapshot) {
@@ -275,7 +274,9 @@ function formatExerciseCounter(snapshot) {
   const activeIndex = Number.isInteger(snapshot.currentStep?.exerciseIndex)
     ? snapshot.currentStep.exerciseIndex + 1
     : exerciseSteps.length;
-  const safeActiveIndex = exerciseSteps.length ? Math.min(Math.max(activeIndex, 1), exerciseSteps.length) : 0;
+  const safeActiveIndex = exerciseSteps.length
+    ? Math.min(Math.max(activeIndex, 1), exerciseSteps.length)
+    : 0;
 
   return `${safeActiveIndex} / ${exerciseSteps.length}`;
 }
@@ -286,10 +287,12 @@ function getStepDescription(step, state) {
   }
 
   const language = selectLanguage(state);
-  return localizedText(step.exercise.shortDescription, language)
-    || localizedText(step.exercise.instruction, language)
-    || step.notes
-    || t(state, 'emptyValue');
+  return (
+    localizedText(step.exercise.shortDescription, language) ||
+    localizedText(step.exercise.instruction, language) ||
+    step.notes ||
+    t(state, 'emptyValue')
+  );
 }
 
 function renderFinishScreen(root, snapshot, state) {
@@ -333,13 +336,15 @@ function renderFinishScreen(root, snapshot, state) {
       <fieldset class="session-rating">
         <legend>${t(state, 'sessionFinishRating')}</legend>
         <div class="session-rating__options">
-          ${RATING_OPTIONS.map((option, index) => `
+          ${RATING_OPTIONS.map(
+            (option, index) => `
             <label class="session-rating__option">
               <input class="sr-only" type="radio" name="ratingEmoji" value="${escapeAttribute(option.emoji)}" ${index === 1 ? 'checked' : ''}>
               <span aria-hidden="true">${option.emoji}</span>
               <small>${option.value}</small>
             </label>
-          `).join('')}
+          `,
+          ).join('')}
         </div>
       </fieldset>
 

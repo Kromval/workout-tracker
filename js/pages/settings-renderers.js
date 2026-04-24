@@ -25,8 +25,6 @@ export function renderCustomAudioRow(state, eventName, audioEntry) {
   `;
 }
 
-
-
 export function formatFileSize(bytes) {
   const size = Math.max(0, Number(bytes) || 0);
 
@@ -41,8 +39,6 @@ export function formatFileSize(bytes) {
   return `${(size / 1024 / 1024).toFixed(1)} MB`;
 }
 
-
-
 export function getCustomAudioDataUrl(audioEntry) {
   if (typeof audioEntry === 'string') {
     return audioEntry;
@@ -50,8 +46,6 @@ export function getCustomAudioDataUrl(audioEntry) {
 
   return audioEntry?.dataUrl || '';
 }
-
-
 
 export function getCustomAudioName(audioEntry) {
   if (typeof audioEntry === 'string') {
@@ -61,8 +55,6 @@ export function getCustomAudioName(audioEntry) {
   return audioEntry?.name || '';
 }
 
-
-
 export function getCustomAudioSize(audioEntry) {
   if (!audioEntry || typeof audioEntry === 'string') {
     return 0;
@@ -70,5 +62,3 @@ export function getCustomAudioSize(audioEntry) {
 
   return Number(audioEntry.size) || 0;
 }
-
-

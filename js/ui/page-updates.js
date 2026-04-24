@@ -39,11 +39,17 @@ export function updateCurrentPage(state, meta = {}) {
 }
 
 function updateExercisesPage(state, meta) {
-  if (meta.type === 'settings' && Array.isArray(meta.changedKeys) && meta.changedKeys.includes('language')) {
+  if (
+    meta.type === 'settings' &&
+    Array.isArray(meta.changedKeys) &&
+    meta.changedKeys.includes('language')
+  ) {
     return false;
   }
 
-  const region = document.querySelector('[data-page-route="exercises"] [data-page-region="exercises-catalog"]');
+  const region = document.querySelector(
+    '[data-page-route="exercises"] [data-page-region="exercises-catalog"]',
+  );
 
   if (!region) {
     return false;
@@ -64,7 +70,11 @@ function updateExercisesPage(state, meta) {
 }
 
 function updateHomePage(state, meta) {
-  if (meta.type === 'settings' && Array.isArray(meta.changedKeys) && meta.changedKeys.includes('language')) {
+  if (
+    meta.type === 'settings' &&
+    Array.isArray(meta.changedKeys) &&
+    meta.changedKeys.includes('language')
+  ) {
     return false;
   }
 
@@ -76,10 +86,18 @@ function updateHomePage(state, meta) {
     return false;
   }
 
-  const overviewRegion = document.querySelector('[data-page-route="home"] [data-page-region="home-overview"]');
-  const activityRegion = document.querySelector('[data-page-route="home"] [data-page-region="home-activity"]');
-  const userWorkoutsRegion = document.querySelector('[data-page-route="home"] [data-page-region="home-user-workouts"]');
-  const presetWorkoutsRegion = document.querySelector('[data-page-route="home"] [data-page-region="home-preset-workouts"]');
+  const overviewRegion = document.querySelector(
+    '[data-page-route="home"] [data-page-region="home-overview"]',
+  );
+  const activityRegion = document.querySelector(
+    '[data-page-route="home"] [data-page-region="home-activity"]',
+  );
+  const userWorkoutsRegion = document.querySelector(
+    '[data-page-route="home"] [data-page-region="home-user-workouts"]',
+  );
+  const presetWorkoutsRegion = document.querySelector(
+    '[data-page-route="home"] [data-page-region="home-preset-workouts"]',
+  );
 
   if (!overviewRegion || !activityRegion || !userWorkoutsRegion || !presetWorkoutsRegion) {
     return false;
@@ -101,7 +119,11 @@ function updateHomePage(state, meta) {
 }
 
 function updateWorkoutViewPage(state, meta) {
-  if (meta.type === 'settings' && Array.isArray(meta.changedKeys) && meta.changedKeys.includes('language')) {
+  if (
+    meta.type === 'settings' &&
+    Array.isArray(meta.changedKeys) &&
+    meta.changedKeys.includes('language')
+  ) {
     return false;
   }
 
@@ -113,7 +135,9 @@ function updateWorkoutViewPage(state, meta) {
     return false;
   }
 
-  const region = document.querySelector('[data-page-route="workout-view"] [data-page-region="workout-view-content"]');
+  const region = document.querySelector(
+    '[data-page-route="workout-view"] [data-page-region="workout-view-content"]',
+  );
 
   if (!region) {
     return false;
@@ -125,22 +149,28 @@ function updateWorkoutViewPage(state, meta) {
 
 function updateSettingsPage(state, meta) {
   if (meta.type === 'equipment') {
-    const region = document.querySelector('[data-page-route="settings"] [data-page-region="settings-equipment"]');
+    const region = document.querySelector(
+      '[data-page-route="settings"] [data-page-region="settings-equipment"]',
+    );
     if (!region) {
       return false;
     }
 
-    const controlState = captureControlValues(region, [
-      '#equipment-custom-name',
-    ]);
+    const controlState = captureControlValues(region, ['#equipment-custom-name']);
 
     region.innerHTML = renderSettingsEquipmentRegion(state);
     restoreControlValues(controlState);
     return true;
   }
 
-  if (meta.type === 'settings' && Array.isArray(meta.changedKeys) && meta.changedKeys.includes('customAudio')) {
-    const region = document.querySelector('[data-page-route="settings"] [data-page-region="settings-audio"]');
+  if (
+    meta.type === 'settings' &&
+    Array.isArray(meta.changedKeys) &&
+    meta.changedKeys.includes('customAudio')
+  ) {
+    const region = document.querySelector(
+      '[data-page-route="settings"] [data-page-region="settings-audio"]',
+    );
     if (!region) {
       return false;
     }
@@ -150,7 +180,9 @@ function updateSettingsPage(state, meta) {
   }
 
   if (meta.type === 'profile') {
-    const region = document.querySelector('[data-page-route="settings"] [data-page-region="settings-profile"]');
+    const region = document.querySelector(
+      '[data-page-route="settings"] [data-page-region="settings-profile"]',
+    );
     if (!region) {
       return false;
     }
@@ -170,7 +202,11 @@ function updateSettingsPage(state, meta) {
 }
 
 function updateRecommendationsPage(state, meta) {
-  if (meta.type === 'settings' && Array.isArray(meta.changedKeys) && meta.changedKeys.includes('language')) {
+  if (
+    meta.type === 'settings' &&
+    Array.isArray(meta.changedKeys) &&
+    meta.changedKeys.includes('language')
+  ) {
     return false;
   }
 
@@ -182,7 +218,9 @@ function updateRecommendationsPage(state, meta) {
     return false;
   }
 
-  const region = document.querySelector('[data-page-route="recommendations"] [data-page-region="recommendations-content"]');
+  const region = document.querySelector(
+    '[data-page-route="recommendations"] [data-page-region="recommendations-content"]',
+  );
 
   if (!region) {
     return false;

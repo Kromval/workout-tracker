@@ -4,10 +4,7 @@ import {
   isFutureStorageVersion,
   migrateStore,
 } from '../../js/storage/migrations.js';
-import {
-  MIN_SUPPORTED_STORAGE_VERSION,
-  STORAGE_VERSION,
-} from '../../js/storage/schema.js';
+import { MIN_SUPPORTED_STORAGE_VERSION, STORAGE_VERSION } from '../../js/storage/schema.js';
 
 describe('storage migrations', () => {
   test('migrates legacy v1 store to current normalized schema', () => {
@@ -31,13 +28,15 @@ describe('storage migrations', () => {
         workout: {
           id: 'workout-a',
           title: 'Workout A',
-          items: [{
-            id: 'item-a',
-            exerciseId: 'exercise-a',
-            sets: 1,
-            reps: 10,
-            order: 0,
-          }],
+          items: [
+            {
+              id: 'item-a',
+              exerciseId: 'exercise-a',
+              sets: 1,
+              reps: 10,
+              order: 0,
+            },
+          ],
         },
         steps: [{ id: 'item-a:set-1:exercise', durationSec: 30 }],
         currentStepIndex: 0,

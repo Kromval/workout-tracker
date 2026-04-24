@@ -1,7 +1,12 @@
 import { preview as previewAudio, setVolume, stopAll } from '../features/audio.js';
 import { t } from '../i18n/index.js';
 import { refreshStore, updateEquipment, updateProfile, updateSettings } from '../core/state.js';
-import { selectCustomAudio, selectEquipment, selectEquipmentSelectedIdSet, selectProfile } from '../core/selectors.js';
+import {
+  selectCustomAudio,
+  selectEquipment,
+  selectEquipmentSelectedIdSet,
+  selectProfile,
+} from '../core/selectors.js';
 import {
   createCustomEquipmentRecord,
   createEquipment,
@@ -123,9 +128,9 @@ export function applyProfilePicker(button, state) {
     return;
   }
 
-  const selectedValues = Array.from(
-    modal.querySelectorAll('[data-profile-picker-option]:checked')
-  ).map((input) => normalizeString(input.value).toLowerCase()).filter(Boolean);
+  const selectedValues = Array.from(modal.querySelectorAll('[data-profile-picker-option]:checked'))
+    .map((input) => normalizeString(input.value).toLowerCase())
+    .filter(Boolean);
   const profilePatch = buildProfilePatch(selectProfile(state), fieldName, selectedValues);
 
   updateProfile(profilePatch);
@@ -152,10 +157,12 @@ export function handleEquipmentToggle(input, state) {
     selectedIds.delete(equipmentId);
   }
 
-  updateEquipment(createEquipment({
-    ...selectEquipment(state),
-    selectedIds: Array.from(selectedIds),
-  }));
+  updateEquipment(
+    createEquipment({
+      ...selectEquipment(state),
+      selectedIds: Array.from(selectedIds),
+    }),
+  );
   setEquipmentStatus(t(state, 'settingsSaved'));
 }
 
@@ -186,11 +193,13 @@ export function handleEquipmentRemove(button, state) {
   }
 
   const currentEquipment = selectEquipment(state);
-  updateEquipment(createEquipment({
-    ...currentEquipment,
-    customItems: currentEquipment.customItems.filter((item) => item.id !== equipmentId),
-    selectedIds: currentEquipment.selectedIds.filter((itemId) => itemId !== equipmentId),
-  }));
+  updateEquipment(
+    createEquipment({
+      ...currentEquipment,
+      customItems: currentEquipment.customItems.filter((item) => item.id !== equipmentId),
+      selectedIds: currentEquipment.selectedIds.filter((itemId) => itemId !== equipmentId),
+    }),
+  );
   setEquipmentStatus(t(state, 'equipmentRemoved'));
 }
 
@@ -236,7 +245,7 @@ export async function handleCustomAudioUpload(input, state) {
 
     updateSettings({ customAudio });
     setCustomAudioStatus(t(state, 'customAudioSaved'));
-  } catch (error) {
+  } catch {
     setCustomAudioStatus(t(state, 'customAudioReadFailed'), 'error');
   }
 }
@@ -284,8 +293,11 @@ export async function handleImportData(input, state) {
     return;
   }
 
-  const mode = document.querySelector('input[name="import-mode"]:checked')?.value || IMPORT_MODES.MERGE;
-  const confirmed = window.confirm(t(state, mode === IMPORT_MODES.REPLACE ? 'importWillReplace' : 'importWillMerge'));
+  const mode =
+    document.querySelector('input[name="import-mode"]:checked')?.value || IMPORT_MODES.MERGE;
+  const confirmed = window.confirm(
+    t(state, mode === IMPORT_MODES.REPLACE ? 'importWillReplace' : 'importWillMerge'),
+  );
 
   input.value = '';
 
@@ -358,9 +370,10 @@ function buildProfilePatch(currentProfile, fieldName, value) {
   }
 
   const [rootKey, leafKey] = fieldName.split('.');
-  const currentGroup = currentProfile?.[rootKey] && typeof currentProfile[rootKey] === 'object'
-    ? currentProfile[rootKey]
-    : {};
+  const currentGroup =
+    currentProfile?.[rootKey] && typeof currentProfile[rootKey] === 'object'
+      ? currentProfile[rootKey]
+      : {};
 
   return {
     [rootKey]: {

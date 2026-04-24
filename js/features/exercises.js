@@ -31,14 +31,18 @@ export async function loadExercises() {
 }
 
 function normalizeBuiltInExercises() {
-  return asArray(builtInExerciseRecords).map((exercise) => normalizeExerciseRecord(exercise, false));
+  return asArray(builtInExerciseRecords).map((exercise) =>
+    normalizeExerciseRecord(exercise, false),
+  );
 }
 
 /**
  * Merges built-in and custom exercises, preferring built-ins on ID collision.
  */
 export function getExerciseCatalog(state) {
-  const builtIns = asArray(state.exercises).map((exercise) => normalizeExerciseRecord(exercise, false));
+  const builtIns = asArray(state.exercises).map((exercise) =>
+    normalizeExerciseRecord(exercise, false),
+  );
   const builtInIds = new Set(builtIns.map((exercise) => exercise.id));
   const customSource = Array.isArray(state.store?.customExercises)
     ? state.store.customExercises
@@ -104,10 +108,13 @@ function normalizeTempo(tempo) {
     return null;
   }
 
-  return TEMPO_FIELDS.reduce((result, field) => ({
-    ...result,
-    [field]: nonNegativeNumber(tempo[field]),
-  }), {});
+  return TEMPO_FIELDS.reduce(
+    (result, field) => ({
+      ...result,
+      [field]: nonNegativeNumber(tempo[field]),
+    }),
+    {},
+  );
 }
 
 function normalizeDifficulty(value) {
@@ -148,4 +155,3 @@ function normalizeIntensityProfile(value) {
     impact: normalizeString(source.impact).toLowerCase(),
   };
 }
-

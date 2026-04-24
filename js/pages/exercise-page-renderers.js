@@ -5,7 +5,6 @@ import {
   isExerciseCompatibleWithProfileLevel,
 } from '../features/exercise-compatibility.js';
 import { localizedText, t } from '../i18n/index.js';
-import { renderEmptyState } from './components.js';
 import { getRouteParams } from '../core/router.js';
 import {
   selectEquipmentCatalog,
@@ -60,12 +59,16 @@ export function renderExerciseViewPage(state) {
 
   const name = localizedText(exercise.name, language);
   const isFavorite = selectFavoriteExerciseIdSet(state).has(exercise.id);
-  const dislikedExerciseIds = new Set(asArray(selectProfile(state)?.dislikedExercises).map((item) => normalizeString(item)));
+  const dislikedExerciseIds = new Set(
+    asArray(selectProfile(state)?.dislikedExercises).map((item) => normalizeString(item)),
+  );
   const isDisliked = dislikedExerciseIds.has(exercise.id);
-  const customActions = exercise.isCustom ? `
+  const customActions = exercise.isCustom
+    ? `
     <button class="button" type="button" data-exercise-action="edit" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'editExercise')}</button>
     <button class="button button--danger" type="button" data-exercise-action="delete" data-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'deleteExercise')}</button>
-  ` : '';
+  `
+    : '';
 
   return `
     <section class="page">
@@ -77,9 +80,13 @@ export function renderExerciseViewPage(state) {
       </div>
 
       <article class="card exercise-view ${exercise.image ? '' : 'exercise-view--no-image'}">
-        ${exercise.image ? `
+        ${
+          exercise.image
+            ? `
           <img class="exercise-view__image" src="${escapeAttribute(exercise.image)}" alt="${escapeAttribute(name)}">
-        ` : ''}
+        `
+            : ''
+        }
 
         <div class="exercise-view__content">
           <p class="exercise-view__lead">${renderText(exercise.shortDescription, language, state)}</p>
@@ -130,7 +137,9 @@ export function renderExercisesCatalogRegion(state) {
   const profile = selectProfile(state);
   const knownEquipmentIds = equipmentCatalog.map((item) => item.id);
   const favoriteIds = selectFavoriteExerciseIdSet(state);
-  const dislikedExerciseIds = new Set(asArray(profile?.dislikedExercises).map((item) => normalizeString(item)));
+  const dislikedExerciseIds = new Set(
+    asArray(profile?.dislikedExercises).map((item) => normalizeString(item)),
+  );
   const allMuscles = new Set();
   const allTypes = new Set();
 
@@ -142,30 +151,45 @@ export function renderExercisesCatalogRegion(state) {
     }
   });
 
-  const muscleOptions = Array.from(allMuscles).sort().map((muscle) =>
-    `<option value="${escapeAttribute(muscle)}">${escapeHtml(muscle)}</option>`
-  ).join('');
-  const typeOptions = Array.from(allTypes).sort().map((type) =>
-    `<option value="${escapeAttribute(type.toLowerCase())}">${escapeHtml(type)}</option>`
-  ).join('');
-  const equipmentOptions = equipmentCatalog.map((item) => {
-    const itemName = localizedText(item.name, language) || item.id;
-    return `<option value="${escapeAttribute(item.id)}">${escapeHtml(itemName)}</option>`;
-  }).join('');
-  const exerciseCardsHTML = exercises.map((exercise) => {
-    const name = localizedText(exercise.name, language);
-    const desc = localizedText(exercise.shortDescription, language);
-    const searchText = `${name} ${desc} ${exercise.muscles.join(' ')}`.toLowerCase();
-    const typeText = localizedText(exercise.type, language).toLowerCase();
-    const musclesText = exercise.muscles.join('|');
-    const exerciseEquipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
-    const exerciseProfileLevel = getExerciseProfileLevel(exercise);
-    const equipmentAvailable = isExerciseAvailableForSelectedEquipment(exercise, Array.from(selectedEquipmentIds), knownEquipmentIds);
-    const profileCompatible = isExerciseCompatibleWithProfileLevel(exercise, profile.trainingLevel);
-    const isFavorite = favoriteIds.has(exercise.id);
-    const isDisliked = dislikedExerciseIds.has(normalizeString(exercise.id));
+  const muscleOptions = Array.from(allMuscles)
+    .sort()
+    .map((muscle) => `<option value="${escapeAttribute(muscle)}">${escapeHtml(muscle)}</option>`)
+    .join('');
+  const typeOptions = Array.from(allTypes)
+    .sort()
+    .map(
+      (type) =>
+        `<option value="${escapeAttribute(type.toLowerCase())}">${escapeHtml(type)}</option>`,
+    )
+    .join('');
+  const equipmentOptions = equipmentCatalog
+    .map((item) => {
+      const itemName = localizedText(item.name, language) || item.id;
+      return `<option value="${escapeAttribute(item.id)}">${escapeHtml(itemName)}</option>`;
+    })
+    .join('');
+  const exerciseCardsHTML = exercises
+    .map((exercise) => {
+      const name = localizedText(exercise.name, language);
+      const desc = localizedText(exercise.shortDescription, language);
+      const searchText = `${name} ${desc} ${exercise.muscles.join(' ')}`.toLowerCase();
+      const typeText = localizedText(exercise.type, language).toLowerCase();
+      const musclesText = exercise.muscles.join('|');
+      const exerciseEquipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
+      const exerciseProfileLevel = getExerciseProfileLevel(exercise);
+      const equipmentAvailable = isExerciseAvailableForSelectedEquipment(
+        exercise,
+        Array.from(selectedEquipmentIds),
+        knownEquipmentIds,
+      );
+      const profileCompatible = isExerciseCompatibleWithProfileLevel(
+        exercise,
+        profile.trainingLevel,
+      );
+      const isFavorite = favoriteIds.has(exercise.id);
+      const isDisliked = dislikedExerciseIds.has(normalizeString(exercise.id));
 
-    return `
+      return `
       <a class="exercise-card" href="#exercise-view/${encodeURIComponent(exercise.id)}"
          data-exercise-search="${escapeHtml(searchText)}"
          data-exercise-type="${escapeAttribute(typeText)}"
@@ -188,7 +212,8 @@ export function renderExercisesCatalogRegion(state) {
         </div>
       </a>
     `;
-  }).join('');
+    })
+    .join('');
 
   return `
     <section class="exercise-filters-card">

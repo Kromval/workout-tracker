@@ -20,7 +20,9 @@ export function renderRecommendationsContentRegion(state) {
   const recommendations = selectRecommendedExercises(state);
   const profile = selectProfile(state);
   const topExercises = recommendations.topExercises || [];
-  const selectedEquipmentCount = Array.isArray(state?.store?.equipment?.selectedIds) ? state.store.equipment.selectedIds.length : 0;
+  const selectedEquipmentCount = Array.isArray(state?.store?.equipment?.selectedIds)
+    ? state.store.equipment.selectedIds.length
+    : 0;
   const exclusionEntries = Object.entries(recommendations.summary?.excludedByReason || {});
   const scoreParts = [
     ['goalAlignment', 'recommendationsPartGoalAlignment'],
@@ -70,29 +72,35 @@ export function renderRecommendationsContentRegion(state) {
         <span class="chip">${t(state, 'recommendationsSummaryEquipment')}: ${selectedEquipmentCount}</span>
         <span class="chip">${t(state, 'recommendationsSummarySessionDuration')}: ${profile.sessionDurationMin || 0} ${t(state, 'recommendationsMinutesShort')}</span>
       </div>
-      ${exclusionEntries.length ? `
+      ${
+        exclusionEntries.length
+          ? `
         <div class="chip-list chip-list--spaced">
           ${exclusionEntries.map(([reason, count]) => `<span class="chip">${t(state, getRecommendationReasonMessageKey(reason))}: ${count}</span>`).join('')}
         </div>
-      ` : ''}
+      `
+          : ''
+      }
     </article>
 
     <section class="workout-view-list" aria-label="${escapeAttribute(t(state, 'recommendationsTitle'))}">
-      ${topExercises.map((entry, index) => {
-        const exercise = entry.exercise;
-        const name = localizedText(exercise.name, language) || exercise.id;
-        const shortDescription = localizedText(exercise.shortDescription, language) || t(state, 'emptyValue');
-        const partsHtml = scoreParts
-          .map(([partId, labelKey]) => {
-            const value = entry.parts?.[partId];
-            return typeof value === 'number'
-              ? `<span class="chip">${t(state, labelKey)}: ${formatRecommendationScore(value)}</span>`
-              : '';
-          })
-          .filter(Boolean)
-          .join('');
+      ${topExercises
+        .map((entry, index) => {
+          const exercise = entry.exercise;
+          const name = localizedText(exercise.name, language) || exercise.id;
+          const shortDescription =
+            localizedText(exercise.shortDescription, language) || t(state, 'emptyValue');
+          const partsHtml = scoreParts
+            .map(([partId, labelKey]) => {
+              const value = entry.parts?.[partId];
+              return typeof value === 'number'
+                ? `<span class="chip">${t(state, labelKey)}: ${formatRecommendationScore(value)}</span>`
+                : '';
+            })
+            .filter(Boolean)
+            .join('');
 
-        return `
+          return `
           <article class="card">
             <div class="section-header">
               <div>
@@ -123,7 +131,8 @@ export function renderRecommendationsContentRegion(state) {
             </div>
           </article>
         `;
-      }).join('')}
+        })
+        .join('')}
     </section>
   `;
 }

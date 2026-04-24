@@ -48,8 +48,6 @@ export function createLocalizedText(value = '') {
   };
 }
 
-
-
 export function createExercise(overrides = {}) {
   const now = nowIso();
 
@@ -73,8 +71,6 @@ export function createExercise(overrides = {}) {
   });
 }
 
-
-
 export function createWorkoutItem(overrides = {}) {
   return sanitizeWorkoutItem({
     id: createId('workout-item'),
@@ -91,8 +87,6 @@ export function createWorkoutItem(overrides = {}) {
     ...overrides,
   });
 }
-
-
 
 export function createWorkout(overrides = {}) {
   const now = nowIso();
@@ -111,8 +105,6 @@ export function createWorkout(overrides = {}) {
     ...overrides,
   });
 }
-
-
 
 export function createHistoryEntry(overrides = {}) {
   const now = nowIso();
@@ -138,8 +130,6 @@ export function createHistoryEntry(overrides = {}) {
     ...overrides,
   });
 }
-
-
 
 export function createSettings(overrides = {}) {
   return sanitizeSettings({
@@ -174,8 +164,6 @@ export function createEquipment(overrides = {}) {
     ...overrides,
   });
 }
-
-
 
 export function validateWorkoutForSave(workout) {
   const errors = [];
@@ -212,8 +200,6 @@ export function validateWorkoutForSave(workout) {
   }
 }
 
-
-
 export function sanitizeStore(store) {
   const source = isPlainObject(store) ? store : {};
   const settings = createSettings(source.settings);
@@ -223,18 +209,20 @@ export function sanitizeStore(store) {
     settings,
     profile: createProfile(source.profile),
     equipment: createEquipment(source.equipment),
-    customExercises: sortByUpdatedAtDesc(asArray(source.customExercises).map(sanitizeCustomExercise)),
+    customExercises: sortByUpdatedAtDesc(
+      asArray(source.customExercises).map(sanitizeCustomExercise),
+    ),
     workouts: sortByUpdatedAtDesc(asArray(source.workouts).map(sanitizeWorkout)),
     history: sortHistoryEntries(asArray(source.history).map(sanitizeHistoryEntry)),
     activeSession: sanitizeActiveSession(source.activeSession),
   };
 }
 
-
-
 export function sanitizeSettings(settings) {
   const source = isPlainObject(settings) ? settings : {};
-  const language = LANGUAGES.includes(source.language) ? source.language : DEFAULT_SETTINGS.language;
+  const language = LANGUAGES.includes(source.language)
+    ? source.language
+    : DEFAULT_SETTINGS.language;
   const theme = THEMES.includes(source.theme) ? source.theme : DEFAULT_SETTINGS.theme;
   const density = DENSITIES.includes(source.density) ? source.density : DEFAULT_SETTINGS.density;
   const calendarViewMode = CALENDAR_VIEW_MODES.includes(source.calendarViewMode)
@@ -245,14 +233,17 @@ export function sanitizeSettings(settings) {
     language,
     theme,
     density,
-    soundEnabled: typeof source.soundEnabled === 'boolean'
-      ? source.soundEnabled
-      : DEFAULT_SETTINGS.soundEnabled,
+    soundEnabled:
+      typeof source.soundEnabled === 'boolean'
+        ? source.soundEnabled
+        : DEFAULT_SETTINGS.soundEnabled,
     volume: clampNumber(source.volume, 0, 1, DEFAULT_SETTINGS.volume),
     customAudio: sanitizeCustomAudio(source.customAudio),
     favoriteExerciseIds: uniqueStrings(source.favoriteExerciseIds),
     calendarViewMode,
-    lastOpenedWorkoutId: source.lastOpenedWorkoutId ? normalizeString(source.lastOpenedWorkoutId) : null,
+    lastOpenedWorkoutId: source.lastOpenedWorkoutId
+      ? normalizeString(source.lastOpenedWorkoutId)
+      : null,
   };
 }
 
@@ -260,16 +251,21 @@ export function sanitizeProfile(profile) {
   const source = isPlainObject(profile) ? profile : {};
   const goals = sanitizeProfileGoals(source.goals, source.goal);
   const bodyFocusGoals = sanitizeBodyFocusGoals(source.bodyFocusGoals);
-  const trainingLevel = PROFILE_TRAINING_LEVELS.includes(source.trainingLevel) ? source.trainingLevel : '';
+  const trainingLevel = PROFILE_TRAINING_LEVELS.includes(source.trainingLevel)
+    ? source.trainingLevel
+    : '';
 
   return {
     age: optionalNonNegativeInteger(source.age),
     sex: PROFILE_SEXES.includes(source.sex) ? source.sex : '',
     weightKg: optionalNonNegativeNumber(source.weightKg),
     heightCm: optionalNonNegativeNumber(source.heightCm),
-    bodyFatPercent: source.bodyFatPercent === null || source.bodyFatPercent === undefined || source.bodyFatPercent === ''
-      ? null
-      : clampNumber(source.bodyFatPercent, 0, 100, null),
+    bodyFatPercent:
+      source.bodyFatPercent === null ||
+      source.bodyFatPercent === undefined ||
+      source.bodyFatPercent === ''
+        ? null
+        : clampNumber(source.bodyFatPercent, 0, 100, null),
     wristCm: optionalNonNegativeNumber(source.wristCm),
     waistCm: optionalNonNegativeNumber(source.waistCm),
     neckCm: optionalNonNegativeNumber(source.neckCm),
@@ -299,7 +295,7 @@ export function sanitizeEquipment(equipment) {
     customItems: sortByUpdatedAtDesc(
       asArray(source.customItems)
         .map(sanitizeEquipmentItem)
-        .filter((item) => Boolean(item.name))
+        .filter((item) => Boolean(item.name)),
     ),
   };
 }
@@ -316,8 +312,6 @@ export function sanitizeEquipmentItem(item) {
     isCustom: source.isCustom !== false,
   };
 }
-
-
 
 export function sanitizeExercise(exercise) {
   const source = isPlainObject(exercise) ? exercise : {};
@@ -342,16 +336,12 @@ export function sanitizeExercise(exercise) {
   };
 }
 
-
-
 export function sanitizeCustomExercise(exercise) {
   return {
     ...sanitizeExercise(exercise),
     isCustom: true,
   };
 }
-
-
 
 export function sanitizeWorkout(workout) {
   const source = isPlainObject(workout) ? workout : {};
@@ -373,8 +363,6 @@ export function sanitizeWorkout(workout) {
   };
 }
 
-
-
 export function sanitizeWorkoutItem(item) {
   const source = isPlainObject(item) ? item : {};
 
@@ -392,8 +380,6 @@ export function sanitizeWorkoutItem(item) {
     order: nonNegativeInteger(source.order, 0),
   };
 }
-
-
 
 export function sanitizeHistoryEntry(entry) {
   const source = isPlainObject(entry) ? entry : {};
@@ -420,8 +406,6 @@ export function sanitizeHistoryEntry(entry) {
   };
 }
 
-
-
 export function sanitizeCompletedItem(item) {
   const source = isPlainObject(item) ? item : {};
 
@@ -437,8 +421,6 @@ export function sanitizeCompletedItem(item) {
   };
 }
 
-
-
 export function sanitizeTempo(tempo) {
   if (!isPlainObject(tempo)) {
     return null;
@@ -451,8 +433,6 @@ export function sanitizeTempo(tempo) {
     pauseBottom: nonNegativeNumber(tempo.pauseBottom, 0),
   };
 }
-
-
 
 export function sanitizeCustomAudio(customAudio) {
   if (!isPlainObject(customAudio)) {
@@ -469,8 +449,6 @@ export function sanitizeCustomAudio(customAudio) {
     return result;
   }, {});
 }
-
-
 
 export function sanitizeCustomAudioEntry(value) {
   if (typeof value === 'string') {
@@ -496,8 +474,6 @@ export function sanitizeCustomAudioEntry(value) {
   };
 }
 
-
-
 export function normalizeAudioDataUrl(value) {
   const dataUrl = normalizeString(value);
 
@@ -508,21 +484,17 @@ export function normalizeAudioDataUrl(value) {
   return dataUrl;
 }
 
-
-
 export function normalizeAudioMime(value) {
   const mime = normalizeString(value).toLowerCase();
-  return ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/ogg'].includes(mime) ? mime : '';
+  return ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/ogg'].includes(mime)
+    ? mime
+    : '';
 }
-
-
 
 export function getDataUrlMime(dataUrl) {
   const match = dataUrl.match(/^data:([^;,]+)[;,]/);
   return match ? normalizeAudioMime(match[1]) : '';
 }
-
-
 
 export function sanitizeActiveSession(session) {
   if (!isPlainObject(session)) {
@@ -536,17 +508,20 @@ export function sanitizeActiveSession(session) {
   }));
   const currentStepIndex = nonNegativeInteger(session.currentStepIndex, -1);
   const currentStep = steps[currentStepIndex];
-  const remainingSec = nonNegativeInteger(session.currentStep?.remainingSec ?? session.remainingSec, -1);
+  const remainingSec = nonNegativeInteger(
+    session.currentStep?.remainingSec ?? session.remainingSec,
+    -1,
+  );
 
   if (
-    !['running', 'paused'].includes(status)
-    || !isPlainObject(session.workout)
-    || steps.length === 0
-    || currentStepIndex < 0
-    || currentStepIndex >= steps.length
-    || !currentStep?.id
-    || remainingSec < 0
-    || remainingSec > currentStep.durationSec
+    !['running', 'paused'].includes(status) ||
+    !isPlainObject(session.workout) ||
+    steps.length === 0 ||
+    currentStepIndex < 0 ||
+    currentStepIndex >= steps.length ||
+    !currentStep?.id ||
+    remainingSec < 0 ||
+    remainingSec > currentStep.durationSec
   ) {
     return null;
   }
@@ -566,10 +541,13 @@ export function sanitizeActiveSession(session) {
 
 function sanitizeProfileGoals(goals, legacyGoal) {
   const source = isPlainObject(goals) ? goals : {};
-  const result = PROFILE_SCORING_GOALS.reduce((accumulator, goalId) => ({
-    ...accumulator,
-    [goalId]: clampNumber(source[goalId], 0, 1, 0),
-  }), {});
+  const result = PROFILE_SCORING_GOALS.reduce(
+    (accumulator, goalId) => ({
+      ...accumulator,
+      [goalId]: clampNumber(source[goalId], 0, 1, 0),
+    }),
+    {},
+  );
 
   if (PROFILE_SCORING_GOALS.some((goalId) => result[goalId] > 0)) {
     return result;
@@ -585,10 +563,13 @@ function sanitizeProfileGoals(goals, legacyGoal) {
 function sanitizeBodyFocusGoals(bodyFocusGoals) {
   const source = isPlainObject(bodyFocusGoals) ? bodyFocusGoals : {};
 
-  return PROFILE_BODY_FOCUS_GOALS.reduce((result, goalId) => ({
-    ...result,
-    [goalId]: clampNumber(source[goalId], 0, 1, 0),
-  }), {});
+  return PROFILE_BODY_FOCUS_GOALS.reduce(
+    (result, goalId) => ({
+      ...result,
+      [goalId]: clampNumber(source[goalId], 0, 1, 0),
+    }),
+    {},
+  );
 }
 
 function getLegacyGoalWeights(goal) {
@@ -640,33 +621,37 @@ function sanitizeLegacyGoal(goal, goals) {
 
 function sanitizeProfileTokenList(value) {
   return uniqueStrings(
-    (Array.isArray(value) ? value : normalizeString(value).split(/[\n,;]+/))
-      .map((item) => normalizeString(item).toLowerCase().replaceAll(' ', '-'))
+    (Array.isArray(value) ? value : normalizeString(value).split(/[\n,;]+/)).map((item) =>
+      normalizeString(item).toLowerCase().replaceAll(' ', '-'),
+    ),
   );
 }
 
 function sanitizeRecoveryProfile(recoveryProfile) {
   const source = isPlainObject(recoveryProfile) ? recoveryProfile : {};
 
-  return PROFILE_RECOVERY_AREAS.reduce((result, area) => ({
-    ...result,
-    [area]: clampNumber(source[area], 0, 1, 0),
-  }), {});
+  return PROFILE_RECOVERY_AREAS.reduce(
+    (result, area) => ({
+      ...result,
+      [area]: clampNumber(source[area], 0, 1, 0),
+    }),
+    {},
+  );
 }
 
 function sanitizeRecentHistory(recentHistory) {
   const source = isPlainObject(recentHistory) ? recentHistory : {};
   const performedMovementPatterns = isPlainObject(source.performedMovementPatterns)
     ? Object.entries(source.performedMovementPatterns).reduce((result, [pattern, count]) => {
-      const normalizedPattern = normalizeString(pattern).toLowerCase().replaceAll(' ', '-');
+        const normalizedPattern = normalizeString(pattern).toLowerCase().replaceAll(' ', '-');
 
-      if (!normalizedPattern) {
+        if (!normalizedPattern) {
+          return result;
+        }
+
+        result[normalizedPattern] = nonNegativeInteger(count, 0);
         return result;
-      }
-
-      result[normalizedPattern] = nonNegativeInteger(count, 0);
-      return result;
-    }, {})
+      }, {})
     : {};
 
   return {

@@ -1,7 +1,4 @@
-import {
-  moveProgressCalendarMonth,
-  selectProgressCalendarDay,
-} from '../features/calendar.js';
+import { moveProgressCalendarMonth, selectProgressCalendarDay } from '../features/calendar.js';
 
 export function handleProgressCalendarAction(button, renderApp, state) {
   const action = button.dataset.progressCalendarAction;

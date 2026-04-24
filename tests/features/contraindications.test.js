@@ -17,18 +17,13 @@ describe('contraindication normalization', () => {
   test('returns canonical muscle and joint associations for tags', () => {
     expect(getContraindicationRelatedJoints('joint-knee-pain')).toEqual(['joint-knee']);
     expect(getContraindicationRelatedMuscles('joint-knee-pain')).toEqual(
-      expect.arrayContaining(['quads', 'hamstrings', 'glutes', 'calves'])
+      expect.arrayContaining(['quads', 'hamstrings', 'glutes', 'calves']),
     );
   });
 
   test('normalizes and de-duplicates contraindication arrays', () => {
-    expect(normalizeContraindicationTags([
-      'wrist pain',
-      'joint-wrist-pain',
-      'elbow issues',
-    ])).toEqual([
-      'joint-wrist-pain',
-      'joint-elbow-irritation',
-    ]);
+    expect(
+      normalizeContraindicationTags(['wrist pain', 'joint-wrist-pain', 'elbow issues']),
+    ).toEqual(['joint-wrist-pain', 'joint-elbow-irritation']);
   });
 });

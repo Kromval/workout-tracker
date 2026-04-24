@@ -28,7 +28,8 @@ export function buildWorkoutSteps(workout, exercises = []) {
     }
 
     if (exerciseIndex < workoutItems.length - 1) {
-      const durationSec = item.restAfterExerciseSec ?? normalizedWorkout.defaultRestBetweenExercises;
+      const durationSec =
+        item.restAfterExerciseSec ?? normalizedWorkout.defaultRestBetweenExercises;
 
       if (durationSec > 0) {
         steps.push(createRestBetweenExercisesStep(item, exercise, exerciseIndex, durationSec));
@@ -38,8 +39,6 @@ export function buildWorkoutSteps(workout, exercises = []) {
     return steps;
   });
 }
-
-
 
 function createExerciseStep(item, exercise, exerciseIndex, setIndex) {
   const effort = createExerciseEffort(item, exercise);
@@ -64,8 +63,6 @@ function createExerciseStep(item, exercise, exerciseIndex, setIndex) {
   };
 }
 
-
-
 function createRestBetweenSetsStep(item, exercise, exerciseIndex, setIndex) {
   return {
     id: `${item.id}:set-${setIndex + 1}:rest`,
@@ -83,8 +80,6 @@ function createRestBetweenSetsStep(item, exercise, exerciseIndex, setIndex) {
   };
 }
 
-
-
 function createRestBetweenExercisesStep(item, exercise, exerciseIndex, durationSec) {
   return {
     id: `${item.id}:rest-after-exercise`,
@@ -94,12 +89,13 @@ function createRestBetweenExercisesStep(item, exercise, exerciseIndex, durationS
     exerciseId: item.exerciseId,
     exercise,
     exerciseIndex,
-    durationSource: item.restAfterExerciseSec === null ? 'workout.defaultRestBetweenExercises' : 'restAfterExerciseSec',
+    durationSource:
+      item.restAfterExerciseSec === null
+        ? 'workout.defaultRestBetweenExercises'
+        : 'restAfterExerciseSec',
     durationSec,
   };
 }
-
-
 
 function createExerciseEffort(item, exercise) {
   const executionMode = resolveExecutionMode(item, exercise);
@@ -137,12 +133,14 @@ function createExerciseEffort(item, exercise) {
   };
 }
 
-
-
 function resolveExecutionMode(item, exercise) {
   const exerciseMode = normalizeString(exercise?.executionMode);
 
-  if (exerciseMode === EXECUTION_MODES.REPS || exerciseMode === EXECUTION_MODES.TIME || exerciseMode === EXECUTION_MODES.HOLD) {
+  if (
+    exerciseMode === EXECUTION_MODES.REPS ||
+    exerciseMode === EXECUTION_MODES.TIME ||
+    exerciseMode === EXECUTION_MODES.HOLD
+  ) {
     return exerciseMode;
   }
 
@@ -157,13 +155,15 @@ function resolveExecutionMode(item, exercise) {
   return exerciseMode || EXECUTION_MODES.CUSTOM;
 }
 
-
-
 function getTempoDetails(item, exercise) {
   const tempoOverride = normalizeTempo(item.tempoOverride);
   const exerciseTempo = normalizeTempo(exercise?.tempo);
   const tempo = tempoOverride || exerciseTempo;
-  const tempoSource = tempoOverride ? 'tempoOverride' : exerciseTempo ? 'exercise.tempo' : 'default';
+  const tempoSource = tempoOverride
+    ? 'tempoOverride'
+    : exerciseTempo
+      ? 'exercise.tempo'
+      : 'default';
 
   if (!tempo) {
     return {
@@ -185,8 +185,6 @@ function getTempoDetails(item, exercise) {
   };
 }
 
-
-
 function createTempoRepPhases(tempo) {
   return REP_PHASE_SEQUENCE.map((phase, phaseIndex) => ({
     key: phase.key,
@@ -197,13 +195,9 @@ function createTempoRepPhases(tempo) {
   }));
 }
 
-
-
 function createDefaultRepPhases() {
   return createTempoRepPhases(DEFAULT_REP_TEMPO);
 }
-
-
 
 function createExerciseMap(exercises) {
   return asArray(exercises).reduce((map, exercise) => {
@@ -215,17 +209,16 @@ function createExerciseMap(exercises) {
   }, new Map());
 }
 
-
-
 function normalizeTempo(tempo) {
   if (!isPlainObject(tempo)) {
     return null;
   }
 
-  return TEMPO_FIELDS.reduce((result, field) => ({
-    ...result,
-    [field]: nonNegativeNumber(tempo[field], 0),
-  }), {});
+  return TEMPO_FIELDS.reduce(
+    (result, field) => ({
+      ...result,
+      [field]: nonNegativeNumber(tempo[field], 0),
+    }),
+    {},
+  );
 }
-
-

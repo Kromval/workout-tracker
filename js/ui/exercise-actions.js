@@ -57,15 +57,22 @@ export function handleExerciseAction(button, state) {
     const workout = createWorkoutRecord({
       title: getLocalizedExerciseName(exercise, state),
       description: t(state, 'createdFromExercise'),
-      items: [createWorkoutItem({
-        exerciseId: exercise.id,
-        reps: exercise.executionMode === 'reps' || exercise.executionMode === 'custom' ? 10 : null,
-        durationSec: exercise.executionMode === 'time' || exercise.executionMode === 'hold' ? 30 : null,
-      })],
+      items: [
+        createWorkoutItem({
+          exerciseId: exercise.id,
+          reps:
+            exercise.executionMode === 'reps' || exercise.executionMode === 'custom' ? 10 : null,
+          durationSec:
+            exercise.executionMode === 'time' || exercise.executionMode === 'hold' ? 30 : null,
+        }),
+      ],
     });
 
     refreshStore();
-    navigateWithNotice(`workout-edit/${encodeURIComponent(workout.id)}`, t(state, 'workoutCreated'));
+    navigateWithNotice(
+      `workout-edit/${encodeURIComponent(workout.id)}`,
+      t(state, 'workoutCreated'),
+    );
     return;
   }
 
@@ -90,8 +97,9 @@ export function handleExerciseFormSubmit(form, state) {
   clearFormInvalidState(form);
 
   const formData = new FormData(form);
-  const negativeInputs = Array.from(form.querySelectorAll('input[type="number"]'))
-    .filter((input) => Number(input.value || 0) < 0);
+  const negativeInputs = Array.from(form.querySelectorAll('input[type="number"]')).filter(
+    (input) => Number(input.value || 0) < 0,
+  );
 
   if (negativeInputs.length > 0) {
     markInvalidControls(form, negativeInputs);
@@ -149,23 +157,28 @@ export function handleExerciseFormSubmit(form, state) {
   };
 
   if (!exercise.name.ru || !exercise.name.en || !exercise.type.ru || !exercise.type.en) {
-    markInvalidControls(form, [
-      form.querySelector('[name="name.ru"]'),
-      form.querySelector('[name="name.en"]'),
-      form.querySelector('[name="type.ru"]'),
-      form.querySelector('[name="type.en"]'),
-    ].filter((input) => !normalizeFormString(input?.value)));
+    markInvalidControls(
+      form,
+      [
+        form.querySelector('[name="name.ru"]'),
+        form.querySelector('[name="name.en"]'),
+        form.querySelector('[name="type.ru"]'),
+        form.querySelector('[name="type.en"]'),
+      ].filter((input) => !normalizeFormString(input?.value)),
+    );
     setExerciseFormStatus(form, t(state, 'formRequiredFields'), 'error');
     return;
   }
 
   try {
     const isEdit = Boolean(exercise.id);
-    const savedExercise = isEdit
-      ? saveCustomExercise(exercise)
-      : createCustomExercise(exercise);
+    const savedExercise = isEdit ? saveCustomExercise(exercise) : createCustomExercise(exercise);
 
-    setPendingNotice(t(state, 'exerciseSaved'), 'success', `#exercise-view/${encodeURIComponent(savedExercise.id)}`);
+    setPendingNotice(
+      t(state, 'exerciseSaved'),
+      'success',
+      `#exercise-view/${encodeURIComponent(savedExercise.id)}`,
+    );
     refreshStore();
     window.location.hash = `exercise-view/${encodeURIComponent(savedExercise.id)}`;
   } catch (error) {

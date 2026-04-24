@@ -17,7 +17,11 @@ export function getExerciseProfileLevel(exercise) {
   return difficulty || PROFILE_LEVELS.find((level) => tags.includes(level)) || '';
 }
 
-export function isExerciseAvailableForSelectedEquipment(exercise, selectedEquipmentIds, knownEquipmentIds = []) {
+export function isExerciseAvailableForSelectedEquipment(
+  exercise,
+  selectedEquipmentIds,
+  knownEquipmentIds = [],
+) {
   const requiredEquipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
 
   if (requiredEquipmentIds.length === 0) {
@@ -32,7 +36,11 @@ export function isExerciseCompatibleWithProfileLevel(exercise, trainingLevel) {
   const normalizedProfileLevel = normalizeTag(trainingLevel);
   const exerciseLevel = getExerciseProfileLevel(exercise);
 
-  if (!normalizedProfileLevel || !PROFILE_LEVELS.includes(normalizedProfileLevel) || !exerciseLevel) {
+  if (
+    !normalizedProfileLevel ||
+    !PROFILE_LEVELS.includes(normalizedProfileLevel) ||
+    !exerciseLevel
+  ) {
     return true;
   }
 

@@ -79,4 +79,3 @@ export function formatCalories(value) {
   const calories = Math.max(0, Number(value) || 0);
   return `${Number.isInteger(calories) ? calories : calories.toFixed(1)} kcal`;
 }
-

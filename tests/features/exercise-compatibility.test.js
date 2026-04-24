@@ -19,15 +19,29 @@ describe('exercise compatibility helpers', () => {
   });
 
   test('allows untagged exercises and respects selected equipment for tagged ones', () => {
-    expect(isExerciseAvailableForSelectedEquipment({ tags: ['cardio'] }, [], ['bodyweight'])).toBe(true);
-    expect(isExerciseAvailableForSelectedEquipment({ tags: ['bodyweight'] }, ['bodyweight'], ['bodyweight'])).toBe(true);
-    expect(isExerciseAvailableForSelectedEquipment({ tags: ['bodyweight'] }, [], ['bodyweight'])).toBe(false);
+    expect(isExerciseAvailableForSelectedEquipment({ tags: ['cardio'] }, [], ['bodyweight'])).toBe(
+      true,
+    );
+    expect(
+      isExerciseAvailableForSelectedEquipment(
+        { tags: ['bodyweight'] },
+        ['bodyweight'],
+        ['bodyweight'],
+      ),
+    ).toBe(true);
+    expect(
+      isExerciseAvailableForSelectedEquipment({ tags: ['bodyweight'] }, [], ['bodyweight']),
+    ).toBe(false);
   });
 
   test('supports profile level compatibility as a soft upper bound', () => {
-    expect(getExerciseProfileLevel({ difficulty: 'advanced', tags: ['strength'] })).toBe('advanced');
+    expect(getExerciseProfileLevel({ difficulty: 'advanced', tags: ['strength'] })).toBe(
+      'advanced',
+    );
     expect(isExerciseCompatibleWithProfileLevel({ tags: ['beginner'] }, 'intermediate')).toBe(true);
-    expect(isExerciseCompatibleWithProfileLevel({ difficulty: 'advanced' }, 'intermediate')).toBe(false);
+    expect(isExerciseCompatibleWithProfileLevel({ difficulty: 'advanced' }, 'intermediate')).toBe(
+      false,
+    );
     expect(isExerciseCompatibleWithProfileLevel({ tags: ['strength'] }, 'beginner')).toBe(true);
   });
 });

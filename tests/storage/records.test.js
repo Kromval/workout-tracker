@@ -181,7 +181,13 @@ describe('storage normalizers', () => {
       title: '  Test workout  ',
       items: [
         createWorkoutItem({ id: 'late', exerciseId: 'exercise-b', reps: 8, order: 2 }),
-        createWorkoutItem({ id: 'early', exerciseId: 'exercise-a', durationSec: 30, reps: null, order: 0 }),
+        createWorkoutItem({
+          id: 'early',
+          exerciseId: 'exercise-a',
+          durationSec: 30,
+          reps: null,
+          order: 0,
+        }),
       ],
       tags: [' strength ', 'strength'],
     });
@@ -191,19 +197,25 @@ describe('storage normalizers', () => {
     expect(workout.items.map((item) => item.order)).toEqual([0, 1]);
     expect(workout.tags).toEqual(['strength']);
     expect(() => validateWorkoutForSave(workout)).not.toThrow();
-    expect(() => validateWorkoutForSave({ title: '', items: [] })).toThrow(/Workout title is required/);
-    expect(() => validateWorkoutForSave({
-      title: 'Invalid',
-      items: [createWorkoutItem({ exerciseId: 'exercise-a', reps: 10, durationSec: 30 })],
-    })).toThrow(/set either positive reps or positive durationSec/);
+    expect(() => validateWorkoutForSave({ title: '', items: [] })).toThrow(
+      /Workout title is required/,
+    );
+    expect(() =>
+      validateWorkoutForSave({
+        title: 'Invalid',
+        items: [createWorkoutItem({ exerciseId: 'exercise-a', reps: 10, durationSec: 30 })],
+      }),
+    ).toThrow(/set either positive reps or positive durationSec/);
   });
 
   test('history and audio sanitizers reject invalid shapes', () => {
-    expect(sanitizeCustomAudio({
-      exerciseStart: 'data:audio/ogg;base64,AAAA',
-      restEnd: 'data:text/plain;base64,AAAA',
-      tick: { dataUrl: 'data:audio/wav;base64,BBBB', type: 'bad/type', size: -10 },
-    })).toEqual({
+    expect(
+      sanitizeCustomAudio({
+        exerciseStart: 'data:audio/ogg;base64,AAAA',
+        restEnd: 'data:text/plain;base64,AAAA',
+        tick: { dataUrl: 'data:audio/wav;base64,BBBB', type: 'bad/type', size: -10 },
+      }),
+    ).toEqual({
       exerciseStart: 'data:audio/ogg;base64,AAAA',
       tick: {
         name: 'Custom audio',

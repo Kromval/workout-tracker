@@ -9,14 +9,8 @@ export const EXPORT_DATA_KEYS = [
   'workouts',
   'history',
 ];
-export const LEGACY_IMPORT_DATA_KEYS = [
-  'favorites',
-  'customAudio',
-];
-export const IMPORT_DATA_KEYS = [
-  ...EXPORT_DATA_KEYS,
-  ...LEGACY_IMPORT_DATA_KEYS,
-];
+export const LEGACY_IMPORT_DATA_KEYS = ['favorites', 'customAudio'];
+export const IMPORT_DATA_KEYS = [...EXPORT_DATA_KEYS, ...LEGACY_IMPORT_DATA_KEYS];
 
 export const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
 export const HISTORY_STATUSES = ['completed', 'aborted', 'interrupted'];
@@ -26,9 +20,28 @@ export const DENSITIES = ['comfortable', 'compact'];
 export const CALENDAR_VIEW_MODES = ['month', 'week'];
 export const PROFILE_SEXES = ['male', 'female'];
 export const PROFILE_TRAINING_LEVELS = ['beginner', 'intermediate', 'advanced'];
-export const PROFILE_GOALS = ['strength', 'hypertrophy', 'endurance', 'fat-loss', 'general-fitness'];
-export const PROFILE_SCORING_GOALS = ['strength', 'hypertrophy', 'endurance', 'fatLoss', 'mobility'];
-export const PROFILE_BODY_FOCUS_GOALS = ['upperBody', 'lowerBody', 'vTaper', 'core', 'arms', 'glutes'];
+export const PROFILE_GOALS = [
+  'strength',
+  'hypertrophy',
+  'endurance',
+  'fat-loss',
+  'general-fitness',
+];
+export const PROFILE_SCORING_GOALS = [
+  'strength',
+  'hypertrophy',
+  'endurance',
+  'fatLoss',
+  'mobility',
+];
+export const PROFILE_BODY_FOCUS_GOALS = [
+  'upperBody',
+  'lowerBody',
+  'vTaper',
+  'core',
+  'arms',
+  'glutes',
+];
 export const PROFILE_RECOVERY_AREAS = ['chest', 'back', 'legs', 'shoulders', 'arms', 'core'];
 
 export const AUDIO_EVENTS = [
@@ -127,4 +140,3 @@ export const DEFAULT_STORE = Object.freeze({
   history: [],
   activeSession: null,
 });
-

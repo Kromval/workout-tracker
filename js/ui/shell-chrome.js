@@ -4,19 +4,25 @@ import { selectLanguage, selectRoute, selectTheme } from '../core/selectors.js';
 import { updateSettings } from '../core/state.js';
 import { navRoutes, routeLabels } from './navigation.js';
 
-const themeQuery = typeof window !== 'undefined'
-  ? window.matchMedia?.('(prefers-color-scheme: dark)')
-  : null;
+const themeQuery =
+  typeof window !== 'undefined' ? window.matchMedia?.('(prefers-color-scheme: dark)') : null;
 
 export function renderNav(state) {
   const nav = document.querySelector('#app-nav');
   if (!nav) return;
 
-  nav.innerHTML = routes.filter((route) => navRoutes.includes(route)).map((route) => `
+  nav.innerHTML = routes
+    .filter((route) => navRoutes.includes(route))
+    .map(
+      (route) => `
     <a class="nav__link" href="#${route}" ${selectRoute(state) === route ? 'aria-current="page"' : ''}>${t(state, routeLabels[route])}</a>
-  `).join('');
+  `,
+    )
+    .join('');
 
-  document.querySelector('#nav-toggle')?.setAttribute('aria-label', t(state, 'navigationToggleLabel'));
+  document
+    .querySelector('#nav-toggle')
+    ?.setAttribute('aria-label', t(state, 'navigationToggleLabel'));
   nav.setAttribute('aria-label', t(state, 'mainNavigationLabel'));
 }
 
@@ -88,9 +94,7 @@ export function updateShellLabels(state) {
 
   brandLink?.setAttribute('aria-label', t(state, 'brandHomeLabel'));
 
-  document.title = route === 'home'
-    ? brand
-    : `${routeTitle} - ${brand}`;
+  document.title = route === 'home' ? brand : `${routeTitle} - ${brand}`;
 }
 
 export function applyTheme(theme) {
@@ -102,9 +106,7 @@ export function applyDensity(density) {
 }
 
 export function getResolvedTheme(theme) {
-  return theme === 'system'
-    ? (themeQuery?.matches ? 'dark' : 'light')
-    : theme;
+  return theme === 'system' ? (themeQuery?.matches ? 'dark' : 'light') : theme;
 }
 
 export function syncDocumentLanguage(state) {

@@ -88,4 +88,3 @@ function syncLastOpenedWorkout(route, workoutId) {
   state.settings = saveLastOpenedWorkout(workoutId);
   state.store = loadStore();
 }
-

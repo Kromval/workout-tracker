@@ -21,11 +21,13 @@ export function applyExerciseCatalogFilters() {
   const cards = Array.from(list.querySelectorAll('.exercise-card'));
   let visibleCount = 0;
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     const searchText = (card.dataset.exerciseSearch || '').toLowerCase();
     const cardType = (card.dataset.exerciseType || '').toLowerCase();
     const muscles = card.dataset.exerciseMuscles ? card.dataset.exerciseMuscles.split('|') : [];
-    const equipmentIds = card.dataset.exerciseEquipment ? card.dataset.exerciseEquipment.split('|') : [];
+    const equipmentIds = card.dataset.exerciseEquipment
+      ? card.dataset.exerciseEquipment.split('|')
+      : [];
     const profileLevel = (card.dataset.exerciseProfileLevel || '').toLowerCase();
     const equipmentAvailable = card.dataset.exerciseEquipmentAvailable === 'true';
     const profileCompatible = card.dataset.exerciseProfileCompatible === 'true';
@@ -33,14 +35,19 @@ export function applyExerciseCatalogFilters() {
     const matchesQuery = !query || searchText.includes(query);
     const matchesType = !type || cardType === type;
     const matchesMuscle = !muscle || muscles.includes(muscle);
-    const matchesEquipment = !equipmentFilter
-      || (equipmentFilter === 'available' ? equipmentAvailable : equipmentIds.includes(equipmentFilter));
-    const matchesProfileLevel = !profileLevelFilter
-      || (profileLevelFilter === 'profile'
-        ? (!currentProfileLevel || profileCompatible)
+    const matchesEquipment =
+      !equipmentFilter ||
+      (equipmentFilter === 'available'
+        ? equipmentAvailable
+        : equipmentIds.includes(equipmentFilter));
+    const matchesProfileLevel =
+      !profileLevelFilter ||
+      (profileLevelFilter === 'profile'
+        ? !currentProfileLevel || profileCompatible
         : profileLevel === profileLevelFilter);
 
-    const visible = matchesQuery && matchesType && matchesMuscle && matchesEquipment && matchesProfileLevel;
+    const visible =
+      matchesQuery && matchesType && matchesMuscle && matchesEquipment && matchesProfileLevel;
     card.style.display = visible ? 'block' : 'none';
 
     if (visible) visibleCount++;

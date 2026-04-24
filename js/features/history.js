@@ -51,42 +51,51 @@ export function getHistoryByDate(date) {
 }
 
 export function getHistoryGroupedByMonth(history = getHistory()) {
-  return sortMonthGroups(asArray(history).reduce((months, entry) => {
-    const monthKey = normalizeMonthKey(entry.startedAt);
+  return sortMonthGroups(
+    asArray(history).reduce((months, entry) => {
+      const monthKey = normalizeMonthKey(entry.startedAt);
 
-    if (!monthKey) {
+      if (!monthKey) {
+        return months;
+      }
+
+      months[monthKey] = months[monthKey] || [];
+      months[monthKey].push(entry);
       return months;
-    }
-
-    months[monthKey] = months[monthKey] || [];
-    months[monthKey].push(entry);
-    return months;
-  }, {}));
+    }, {}),
+  );
 }
 
 export function getStatsSummary(history = getHistory()) {
   const entries = asArray(history);
-  const statusCounts = entries.reduce((counts, entry) => {
-    const status = HISTORY_STATUSES.includes(entry.status) ? entry.status : 'completed';
-    counts[status] += 1;
-    return counts;
-  }, {
-    completed: 0,
-    aborted: 0,
-    interrupted: 0,
-  });
+  const statusCounts = entries.reduce(
+    (counts, entry) => {
+      const status = HISTORY_STATUSES.includes(entry.status) ? entry.status : 'completed';
+      counts[status] += 1;
+      return counts;
+    },
+    {
+      completed: 0,
+      aborted: 0,
+      interrupted: 0,
+    },
+  );
 
-  const totals = entries.reduce((summary, entry) => ({
-    durationSec: summary.durationSec + nonNegativeNumber(entry.durationSec, 0),
-    caloriesBurned: summary.caloriesBurned + nonNegativeNumber(entry.estimatedCaloriesBurned, 0),
-    exercisesCompleted: summary.exercisesCompleted + nonNegativeInteger(entry.totalExercisesCompleted, 0),
-    setsCompleted: summary.setsCompleted + nonNegativeInteger(entry.totalSetsCompleted, 0),
-  }), {
-    durationSec: 0,
-    caloriesBurned: 0,
-    exercisesCompleted: 0,
-    setsCompleted: 0,
-  });
+  const totals = entries.reduce(
+    (summary, entry) => ({
+      durationSec: summary.durationSec + nonNegativeNumber(entry.durationSec, 0),
+      caloriesBurned: summary.caloriesBurned + nonNegativeNumber(entry.estimatedCaloriesBurned, 0),
+      exercisesCompleted:
+        summary.exercisesCompleted + nonNegativeInteger(entry.totalExercisesCompleted, 0),
+      setsCompleted: summary.setsCompleted + nonNegativeInteger(entry.totalSetsCompleted, 0),
+    }),
+    {
+      durationSec: 0,
+      caloriesBurned: 0,
+      exercisesCompleted: 0,
+      setsCompleted: 0,
+    },
+  );
 
   return {
     totalEntries: entries.length,
@@ -99,7 +108,9 @@ export function getStatsSummary(history = getHistory()) {
     totalExercisesCompleted: totals.exercisesCompleted,
     totalSetsCompleted: totals.setsCompleted,
     averageDurationSec: entries.length ? Math.round(totals.durationSec / entries.length) : 0,
-    averageCaloriesBurned: entries.length ? roundToOneDecimal(totals.caloriesBurned / entries.length) : 0,
+    averageCaloriesBurned: entries.length
+      ? roundToOneDecimal(totals.caloriesBurned / entries.length)
+      : 0,
   };
 }
 
@@ -109,7 +120,9 @@ export function getHistoryStats() {
 }
 
 function sortByStartedAtDesc(history) {
-  return [...asArray(history)].sort((left, right) => getTime(right.startedAt) - getTime(left.startedAt));
+  return [...asArray(history)].sort(
+    (left, right) => getTime(right.startedAt) - getTime(left.startedAt),
+  );
 }
 
 function sortMonthGroups(groups) {
@@ -138,9 +151,11 @@ function countCompletedExercises(completedItems) {
       return false;
     }
 
-    return nonNegativeInteger(item.setsCompleted, 0) > 0
-      || nonNegativeInteger(item.repsCompleted, 0) > 0
-      || nonNegativeInteger(item.durationSec, 0) > 0;
+    return (
+      nonNegativeInteger(item.setsCompleted, 0) > 0 ||
+      nonNegativeInteger(item.repsCompleted, 0) > 0 ||
+      nonNegativeInteger(item.durationSec, 0) > 0
+    );
   }).length;
 }
 
@@ -202,4 +217,3 @@ function isPlainObject(value) {
 function nowIso() {
   return new Date().toISOString();
 }
-

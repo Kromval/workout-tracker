@@ -8,7 +8,13 @@ import {
   selectLanguage,
   selectProfile,
 } from '../core/selectors.js';
-import { asArray, escapeAttribute, escapeHtml, normalizeString, uniqueStrings } from '../core/utils.js';
+import {
+  asArray,
+  escapeAttribute,
+  escapeHtml,
+  normalizeString,
+  uniqueStrings,
+} from '../core/utils.js';
 import { renderCustomAudioRow } from './settings-renderers.js';
 import { capitalize } from './workout-renderers.js';
 
@@ -162,37 +168,43 @@ export function renderSettingsProfileRegion(state) {
         <div class="field settings-grid__wide">
           <span>${t(state, 'profileGoalsWeighted')}</span>
           <div class="settings-grid">
-            ${PROFILE_GOAL_FIELDS.map((goalId) => renderProfilePriorityField(
-              state,
-              `goals.${goalId}`,
-              `profileGoalWeight${capitalize(goalId)}`,
-              profile.goals?.[goalId],
-              { min: 0, max: 1, step: 0.1 }
-            )).join('')}
+            ${PROFILE_GOAL_FIELDS.map((goalId) =>
+              renderProfilePriorityField(
+                state,
+                `goals.${goalId}`,
+                `profileGoalWeight${capitalize(goalId)}`,
+                profile.goals?.[goalId],
+                { min: 0, max: 1, step: 0.1 },
+              ),
+            ).join('')}
           </div>
         </div>
         <div class="field settings-grid__wide">
           <span>${t(state, 'profileBodyFocusGoals')}</span>
           <div class="settings-grid">
-            ${PROFILE_BODY_FOCUS_FIELDS.map((goalId) => renderProfilePriorityField(
-              state,
-              `bodyFocusGoals.${goalId}`,
-              `profileBodyFocus${capitalize(goalId)}`,
-              profile.bodyFocusGoals?.[goalId],
-              { min: 0, max: 1, step: 0.1 }
-            )).join('')}
+            ${PROFILE_BODY_FOCUS_FIELDS.map((goalId) =>
+              renderProfilePriorityField(
+                state,
+                `bodyFocusGoals.${goalId}`,
+                `profileBodyFocus${capitalize(goalId)}`,
+                profile.bodyFocusGoals?.[goalId],
+                { min: 0, max: 1, step: 0.1 },
+              ),
+            ).join('')}
           </div>
         </div>
         <div class="field settings-grid__wide">
           <span>${t(state, 'profileRecoveryProfile')}</span>
           <div class="settings-grid">
-            ${PROFILE_RECOVERY_FIELDS.map((areaId) => renderProfilePriorityField(
-              state,
-              `recoveryProfile.${areaId}`,
-              `profileRecovery${capitalize(areaId)}`,
-              profile.recoveryProfile?.[areaId],
-              { min: 0, max: 1, step: 0.1 }
-            )).join('')}
+            ${PROFILE_RECOVERY_FIELDS.map((areaId) =>
+              renderProfilePriorityField(
+                state,
+                `recoveryProfile.${areaId}`,
+                `profileRecovery${capitalize(areaId)}`,
+                profile.recoveryProfile?.[areaId],
+                { min: 0, max: 1, step: 0.1 },
+              ),
+            ).join('')}
           </div>
         </div>
         ${renderProfilePickerField(state, profilePickers.limitations)}
@@ -322,10 +334,12 @@ function renderProfileSelectField(state, fieldName, labelKey, value, optionValue
     <label class="field" for="${id}">
       <span>${t(state, labelKey)}</span>
       <select id="${id}" data-profile-field="${fieldName}">
-        ${optionValues.map((optionValue) => {
-          const messageKey = buildProfileOptionMessageKey(fieldName, optionValue);
-          return `<option value="${escapeAttribute(optionValue)}" ${optionValue === value ? 'selected' : ''}>${t(state, messageKey)}</option>`;
-        }).join('')}
+        ${optionValues
+          .map((optionValue) => {
+            const messageKey = buildProfileOptionMessageKey(fieldName, optionValue);
+            return `<option value="${escapeAttribute(optionValue)}" ${optionValue === value ? 'selected' : ''}>${t(state, messageKey)}</option>`;
+          })
+          .join('')}
       </select>
     </label>
   `;
@@ -346,7 +360,9 @@ function buildProfileOptionMessageKey(fieldName, optionValue) {
 
 function renderProfilePickerField(state, config) {
   const selectedValues = asArray(config.selectedValues);
-  const selectedLabels = selectedValues.slice(0, 6).map((value) => config.optionLabelByValue.get(value) || humanizeToken(value));
+  const selectedLabels = selectedValues
+    .slice(0, 6)
+    .map((value) => config.optionLabelByValue.get(value) || humanizeToken(value));
 
   return `
     <div class="field settings-grid__wide profile-picker-field">
@@ -362,9 +378,12 @@ function renderProfilePickerField(state, config) {
         ${t(state, 'profilePickerOpen')}
       </button>
       <div class="chip-list profile-picker-field__summary">
-        ${selectedLabels.length
-          ? selectedLabels.map((label) => `<span class="chip">${escapeHtml(label)}</span>`).join('')
-          : `<span class="muted">${t(state, 'profilePickerEmpty')}</span>`
+        ${
+          selectedLabels.length
+            ? selectedLabels
+                .map((label) => `<span class="chip">${escapeHtml(label)}</span>`)
+                .join('')
+            : `<span class="muted">${t(state, 'profilePickerEmpty')}</span>`
         }
       </div>
       <p class="muted">${t(state, 'profilePickerSelectedCount')}: ${selectedValues.length}</p>
@@ -394,11 +413,15 @@ function renderProfilePickerModal(state, config) {
         </div>
 
         <div class="profile-picker-modal__groups">
-          ${config.groups.map((group) => `
+          ${config.groups
+            .map(
+              (group) => `
             <section class="profile-picker-group" aria-label="${escapeAttribute(group.label)}">
               <h4>${escapeHtml(group.label)}</h4>
               <div class="profile-picker-options">
-                ${group.options.map((option) => `
+                ${group.options
+                  .map(
+                    (option) => `
                   <label class="profile-picker-option">
                     <input
                       type="checkbox"
@@ -409,10 +432,14 @@ function renderProfilePickerModal(state, config) {
                     <span>${escapeHtml(option.label)}</span>
                     ${option.description ? `<small class="muted">${escapeHtml(option.description)}</small>` : ''}
                   </label>
-                `).join('')}
+                `,
+                  )
+                  .join('')}
               </div>
             </section>
-          `).join('')}
+          `,
+            )
+            .join('')}
         </div>
 
         <div class="toolbar profile-picker-modal__actions">
@@ -426,8 +453,15 @@ function renderProfilePickerModal(state, config) {
 
 function buildProfilePickerConfigs(state, context) {
   const limitationsGroups = buildLimitationsPickerGroups(state);
-  const dislikedExerciseGroups = buildDislikedExercisePickerGroups(context.exercises, context.language);
-  const preferredTagGroups = buildPreferredTagsPickerGroups(state, context.exercises, context.equipmentCatalog);
+  const dislikedExerciseGroups = buildDislikedExercisePickerGroups(
+    context.exercises,
+    context.language,
+  );
+  const preferredTagGroups = buildPreferredTagsPickerGroups(
+    state,
+    context.exercises,
+    context.equipmentCatalog,
+  );
 
   return {
     limitations: buildProfilePickerConfig({
@@ -458,7 +492,9 @@ function buildProfilePickerConfigs(state, context) {
 }
 
 function buildProfilePickerConfig(config) {
-  const selectedValues = uniqueStrings(asArray(config.selectedValues).map((item) => normalizeString(item).toLowerCase()));
+  const selectedValues = uniqueStrings(
+    asArray(config.selectedValues).map((item) => normalizeString(item).toLowerCase()),
+  );
   const groups = asArray(config.groups)
     .map((group) => ({
       ...group,
@@ -511,7 +547,10 @@ function buildDislikedExercisePickerGroups(exercises, language) {
   const groupMap = new Map();
 
   asArray(exercises).forEach((exercise) => {
-    const typeLabel = localizedText(exercise.type, language) || humanizeToken(exercise.type?.en || exercise.type) || 'Other';
+    const typeLabel =
+      localizedText(exercise.type, language) ||
+      humanizeToken(exercise.type?.en || exercise.type) ||
+      'Other';
     const exerciseName = localizedText(exercise.name, language) || exercise.id;
 
     if (!exercise.id || !exerciseName) {
@@ -537,7 +576,11 @@ function buildDislikedExercisePickerGroups(exercises, language) {
 }
 
 function buildPreferredTagsPickerGroups(state, exercises, equipmentCatalog) {
-  const equipmentIds = new Set(asArray(equipmentCatalog).map((item) => normalizeString(item.id).toLowerCase()).filter(Boolean));
+  const equipmentIds = new Set(
+    asArray(equipmentCatalog)
+      .map((item) => normalizeString(item.id).toLowerCase())
+      .filter(Boolean),
+  );
   const tagGroups = new Map([
     ['goal', { label: t(state, 'profilePickerGroupGoal'), options: [] }],
     ['equipment', { label: t(state, 'profilePickerGroupEquipment'), options: [] }],
@@ -545,10 +588,33 @@ function buildPreferredTagsPickerGroups(state, exercises, equipmentCatalog) {
     ['movement', { label: t(state, 'profilePickerGroupMovement'), options: [] }],
   ]);
 
-  const goalTags = new Set(['strength', 'hypertrophy', 'endurance', 'fat-loss', 'general-fitness', 'cardio', 'yoga', 'compound', 'conditioning', 'mobility', 'static', 'hold']);
-  const contextTags = new Set(['beginner', 'intermediate', 'advanced', 'home', 'warmup', 'cooldown', 'recovery']);
+  const goalTags = new Set([
+    'strength',
+    'hypertrophy',
+    'endurance',
+    'fat-loss',
+    'general-fitness',
+    'cardio',
+    'yoga',
+    'compound',
+    'conditioning',
+    'mobility',
+    'static',
+    'hold',
+  ]);
+  const contextTags = new Set([
+    'beginner',
+    'intermediate',
+    'advanced',
+    'home',
+    'warmup',
+    'cooldown',
+    'recovery',
+  ]);
   const allTags = uniqueStrings(
-    asArray(exercises).flatMap((exercise) => asArray(exercise.tags).map((tag) => normalizeString(tag).toLowerCase()))
+    asArray(exercises).flatMap((exercise) =>
+      asArray(exercise.tags).map((tag) => normalizeString(tag).toLowerCase()),
+    ),
   );
 
   allTags.forEach((tag) => {
@@ -558,7 +624,12 @@ function buildPreferredTagsPickerGroups(state, exercises, equipmentCatalog) {
 
     let groupKey = 'movement';
 
-    if (equipmentIds.has(tag) || tag.includes('dumbbell') || tag.includes('kettlebell') || tag.includes('barbell')) {
+    if (
+      equipmentIds.has(tag) ||
+      tag.includes('dumbbell') ||
+      tag.includes('kettlebell') ||
+      tag.includes('barbell')
+    ) {
       groupKey = 'equipment';
     } else if (goalTags.has(tag)) {
       groupKey = 'goal';
@@ -594,9 +665,9 @@ function humanizeToken(value) {
   return normalized
     .split(/[-_]/)
     .filter(Boolean)
-    .map((part) => (part.length <= 3
-      ? part.toUpperCase()
-      : part.charAt(0).toUpperCase() + part.slice(1)))
+    .map((part) =>
+      part.length <= 3 ? part.toUpperCase() : part.charAt(0).toUpperCase() + part.slice(1),
+    )
     .join(' ');
 }
 

@@ -20,4 +20,3 @@ export const navRoutes = [
   'workout-run',
   'settings',
 ];
-

@@ -88,7 +88,10 @@ export function filterExercisesForRecommendations(options = {}) {
   const profile = normalizeProfile(options.profile);
   const context = normalizeRecommendationContext(options.context, profile);
   const goalMode = normalizeGoalMode(options.goalMode);
-  const equipmentCatalog = getNormalizedEquipmentCatalog(options.equipmentCatalog, options.equipment);
+  const equipmentCatalog = getNormalizedEquipmentCatalog(
+    options.equipmentCatalog,
+    options.equipment,
+  );
   const knownEquipmentIds = equipmentCatalog.map((item) => item.id);
   const selectedEquipmentIds = getSelectedEquipmentIds(options.equipment);
   const excludedExerciseIds = new Set(asArray(options.excludedExerciseIds).map(normalizeToken));
@@ -183,10 +186,17 @@ export function rankExercisesForRecommendations(options = {}) {
 
   const rankedExercises = filteringResult.eligibleExercises
     .map((entry) => {
-      const scored = scoreExercise(entry.exercise, profile, {
-        ...context,
-        selectedEquipmentIds: entry.metadata.requiredEquipmentIds.length ? entry.metadata.requiredEquipmentIds : context.selectedEquipmentIds,
-      }, weights);
+      const scored = scoreExercise(
+        entry.exercise,
+        profile,
+        {
+          ...context,
+          selectedEquipmentIds: entry.metadata.requiredEquipmentIds.length
+            ? entry.metadata.requiredEquipmentIds
+            : context.selectedEquipmentIds,
+        },
+        weights,
+      );
 
       return {
         exercise: entry.exercise,
@@ -215,7 +225,12 @@ export function rankExercisesForRecommendations(options = {}) {
  * @param {object} [weights=DEFAULT_RECOMMENDATION_WEIGHTS] part weights
  * @returns {{score:number,reasons:string[],matchedSignals:string[],penalties:string[],parts:object}}
  */
-export function scoreExercise(exercise, profile, context = {}, weights = DEFAULT_RECOMMENDATION_WEIGHTS) {
+export function scoreExercise(
+  exercise,
+  profile,
+  context = {},
+  weights = DEFAULT_RECOMMENDATION_WEIGHTS,
+) {
   const normalizedProfile = normalizeProfile(profile);
   const normalizedContext = normalizeRecommendationContext(context, normalizedProfile);
   const normalizedWeights = normalizeWeights(weights);
@@ -234,17 +249,22 @@ export function scoreExercise(exercise, profile, context = {}, weights = DEFAULT
 
   const score = clampUnit(
     normalizedWeights.goalAlignment * parts.goalAlignment +
-    normalizedWeights.difficultyFit * parts.difficultyFit +
-    normalizedWeights.equipmentFit * parts.equipmentFit +
-    normalizedWeights.movementFocus * parts.movementFocus +
-    normalizedWeights.movementVariety * parts.movementVariety +
-    normalizedWeights.contraindicationsFit * parts.contraindicationsFit +
-    normalizedWeights.preferenceFit * parts.preferenceFit +
-    normalizedWeights.recoveryFit * parts.recoveryFit +
-    normalizedWeights.timeFit * parts.timeFit
+      normalizedWeights.difficultyFit * parts.difficultyFit +
+      normalizedWeights.equipmentFit * parts.equipmentFit +
+      normalizedWeights.movementFocus * parts.movementFocus +
+      normalizedWeights.movementVariety * parts.movementVariety +
+      normalizedWeights.contraindicationsFit * parts.contraindicationsFit +
+      normalizedWeights.preferenceFit * parts.preferenceFit +
+      normalizedWeights.recoveryFit * parts.recoveryFit +
+      normalizedWeights.timeFit * parts.timeFit,
   );
 
-  const explanation = buildExplanationPayload(parts, exercise, normalizedProfile, normalizedContext);
+  const explanation = buildExplanationPayload(
+    parts,
+    exercise,
+    normalizedProfile,
+    normalizedContext,
+  );
 
   return {
     score,
@@ -278,8 +298,15 @@ export function buildExerciseRecommendationMetadata(exercise, context = {}) {
     requiredEquipmentIds: getExerciseEquipmentIds(exercise, knownEquipmentIds),
     profileLevel: getExerciseProfileLevel(exercise),
     goalIds,
-    hasRequiredEquipment: isExerciseAvailableForSelectedEquipment(exercise, selectedEquipmentIds, knownEquipmentIds),
-    isCompatibleWithProfileLevel: isExerciseCompatibleWithProfileLevel(exercise, profile.trainingLevel),
+    hasRequiredEquipment: isExerciseAvailableForSelectedEquipment(
+      exercise,
+      selectedEquipmentIds,
+      knownEquipmentIds,
+    ),
+    isCompatibleWithProfileLevel: isExerciseCompatibleWithProfileLevel(
+      exercise,
+      profile.trainingLevel,
+    ),
     matchesGoal: !profile.goal || goalIds.includes(profile.goal),
   };
 }
@@ -316,7 +343,7 @@ export function getExerciseGoalIds(exercise) {
  * @param {object} [context={}] reserved context for forward compatibility
  * @returns {number} normalized score in range `[0, 1]`
  */
-export function scoreGoalAlignment(exercise, profile, context = {}) {
+export function scoreGoalAlignment(exercise, profile) {
   const normalizedProfile = normalizeProfile(profile);
   const goals = getNormalizedGoalWeights(normalizedProfile);
   const type = normalizeToken(exercise?.type?.en || exercise?.type);
@@ -326,18 +353,21 @@ export function scoreGoalAlignment(exercise, profile, context = {}) {
   const endurance = getIntensityValue(exercise, 'endurance');
   const cardio = getIntensityValue(exercise, 'cardio');
   const impact = getIntensityValue(exercise, 'impact');
-  const hypertrophy = clampUnit((strength * 0.78) + (type === 'strength' ? 0.14 : 0) + (tags.has('compound') ? 0.08 : 0));
-  const fatLoss = clampUnit((cardio * 0.6) + (endurance * 0.25) + (impact * 0.15));
-  const generalFitness = clampUnit((strength * 0.3) + (endurance * 0.3) + (cardio * 0.25) + (impact * 0.15));
+  const hypertrophy = clampUnit(
+    strength * 0.78 + (type === 'strength' ? 0.14 : 0) + (tags.has('compound') ? 0.08 : 0),
+  );
+  const fatLoss = clampUnit(cardio * 0.6 + endurance * 0.25 + impact * 0.15);
+  const generalFitness = clampUnit(
+    strength * 0.3 + endurance * 0.3 + cardio * 0.25 + impact * 0.15,
+  );
 
-  const weightedScore = (
+  const weightedScore =
     goals.strength * strength +
     goals.hypertrophy * hypertrophy +
-    goals.endurance * clampUnit((endurance * 0.7) + (cardio * 0.3)) +
+    goals.endurance * clampUnit(endurance * 0.7 + cardio * 0.3) +
     goals.fatLoss * fatLoss +
     goals.mobility * getMobilitySignal(exercise) +
-    goals.generalFitness * generalFitness
-  );
+    goals.generalFitness * generalFitness;
   const totalWeight = Object.values(goals).reduce((sum, value) => sum + value, 0);
 
   if (totalWeight <= 0) {
@@ -363,10 +393,10 @@ export function scoreDifficultyFit(exercise, profile) {
   }
 
   if (difference < 0) {
-    return clampUnit(0.88 + (difference * 0.08));
+    return clampUnit(0.88 + difference * 0.08);
   }
 
-  return clampUnit(0.35 - ((difference - 1) * 0.2));
+  return clampUnit(0.35 - (difference - 1) * 0.2);
 }
 
 /**
@@ -396,8 +426,14 @@ export function scoreMovementFocus(exercise, profile) {
   const bodyFocusGoals = isPlainObject(profile?.bodyFocusGoals) ? profile.bodyFocusGoals : {};
   const primaryMuscles = new Set(asArray(exercise?.muscleGroups?.primary).map(normalizeToken));
   const secondaryMuscles = new Set(asArray(exercise?.muscleGroups?.secondary).map(normalizeToken));
-  const allMuscles = new Set([...primaryMuscles, ...secondaryMuscles, ...asArray(exercise?.muscles).map(normalizeToken)]);
-  const activeEntries = Object.entries(bodyFocusGoals).filter(([, weight]) => clampUnit(weight) > 0);
+  const allMuscles = new Set([
+    ...primaryMuscles,
+    ...secondaryMuscles,
+    ...asArray(exercise?.muscles).map(normalizeToken),
+  ]);
+  const activeEntries = Object.entries(bodyFocusGoals).filter(
+    ([, weight]) => clampUnit(weight) > 0,
+  );
 
   if (activeEntries.length === 0) {
     return 0.5;
@@ -411,10 +447,14 @@ export function scoreMovementFocus(exercise, profile) {
     }
 
     const primaryMatches = targetMuscles.filter((muscleId) => primaryMuscles.has(muscleId)).length;
-    const secondaryMatches = targetMuscles.filter((muscleId) => !primaryMuscles.has(muscleId) && allMuscles.has(muscleId)).length;
-    const alignment = clampUnit(((primaryMatches * 1) + (secondaryMatches * 0.45)) / targetMuscles.length);
+    const secondaryMatches = targetMuscles.filter(
+      (muscleId) => !primaryMuscles.has(muscleId) && allMuscles.has(muscleId),
+    ).length;
+    const alignment = clampUnit(
+      (primaryMatches * 1 + secondaryMatches * 0.45) / targetMuscles.length,
+    );
 
-    return sum + (clampUnit(weight) * alignment);
+    return sum + clampUnit(weight) * alignment;
   }, 0);
 
   return totalWeight > 0 ? clampUnit(weightedScore / totalWeight) : 0.5;
@@ -442,7 +482,10 @@ export function scoreMovementVariety(exercise, context = {}) {
     score -= Math.min(0.42, count * 0.14);
   });
 
-  if (movementPatterns.length > 0 && movementPatterns.every((pattern) => !recentHistory.performedMovementPatterns[pattern])) {
+  if (
+    movementPatterns.length > 0 &&
+    movementPatterns.every((pattern) => !recentHistory.performedMovementPatterns[pattern])
+  ) {
     score += 0.05;
   }
 
@@ -499,7 +542,9 @@ export function scoreRecoveryFit(exercise, profile) {
     return 1;
   }
 
-  const average = muscles.reduce((sum, muscleId) => sum + clampUnit(recoveryProfile[muscleId] ?? 1), 0) / muscles.length;
+  const average =
+    muscles.reduce((sum, muscleId) => sum + clampUnit(recoveryProfile[muscleId] ?? 1), 0) /
+    muscles.length;
   return clampUnit(average);
 }
 
@@ -511,7 +556,9 @@ export function scoreRecoveryFit(exercise, profile) {
  * @returns {number} normalized score in range `[0, 1]`
  */
 export function scoreTimeFit(exercise, profile, context = {}) {
-  const targetDurationMin = nonNegativeNumber(context.targetDurationMin ?? profile?.sessionDurationMin);
+  const targetDurationMin = nonNegativeNumber(
+    context.targetDurationMin ?? profile?.sessionDurationMin,
+  );
 
   if (targetDurationMin <= 0) {
     return 1;
@@ -538,7 +585,9 @@ function buildExplanationPayload(parts, exercise, profile, context) {
   }
 
   if (parts.difficultyFit >= 0.95) {
-    matchedSignals.push(`difficulty-${normalizeToken(exercise?.difficulty || profile?.trainingLevel)}`);
+    matchedSignals.push(
+      `difficulty-${normalizeToken(exercise?.difficulty || profile?.trainingLevel)}`,
+    );
     reasons.push('Matches profile difficulty');
   } else if (parts.difficultyFit < 0.75) {
     penalties.push('difficulty-off-target');
@@ -546,9 +595,11 @@ function buildExplanationPayload(parts, exercise, profile, context) {
   }
 
   if (parts.equipmentFit === 1) {
-    asArray(exercise?.equipment).map(normalizeToken).forEach((equipmentId) => {
-      matchedSignals.push(`equipment-${equipmentId}`);
-    });
+    asArray(exercise?.equipment)
+      .map(normalizeToken)
+      .forEach((equipmentId) => {
+        matchedSignals.push(`equipment-${equipmentId}`);
+      });
     reasons.push('Equipment available');
   }
 
@@ -651,14 +702,14 @@ function normalizeRecentHistory(recentHistory) {
   const source = isPlainObject(recentHistory) ? recentHistory : {};
   const performedMovementPatterns = isPlainObject(source.performedMovementPatterns)
     ? Object.entries(source.performedMovementPatterns).reduce((result, [pattern, count]) => {
-      const normalizedPattern = normalizeTag(pattern);
-      if (!normalizedPattern) {
-        return result;
-      }
+        const normalizedPattern = normalizeTag(pattern);
+        if (!normalizedPattern) {
+          return result;
+        }
 
-      result[normalizedPattern] = nonNegativeNumber(count);
-      return result;
-    }, {})
+        result[normalizedPattern] = nonNegativeNumber(count);
+        return result;
+      }, {})
     : {};
 
   return {
@@ -692,7 +743,11 @@ function getNormalizedGoalWeights(profile) {
     };
   }
 
-  if (profile.goal === 'strength' || profile.goal === 'hypertrophy' || profile.goal === 'endurance') {
+  if (
+    profile.goal === 'strength' ||
+    profile.goal === 'hypertrophy' ||
+    profile.goal === 'endurance'
+  ) {
     return {
       ...weights,
       [profile.goal]: 1,
@@ -746,7 +801,7 @@ function estimateExerciseDurationMin(exercise) {
   const intensity = Math.max(
     getIntensityValue(exercise, 'strength'),
     getIntensityValue(exercise, 'endurance'),
-    getIntensityValue(exercise, 'cardio')
+    getIntensityValue(exercise, 'cardio'),
   );
 
   if (executionMode === 'hold') {
@@ -757,7 +812,7 @@ function estimateExerciseDurationMin(exercise) {
     return 8;
   }
 
-  return 4 + (intensity * 4);
+  return 4 + intensity * 4;
 }
 
 function hasContraindicationMatch(limitations, contraindications) {
@@ -803,8 +858,7 @@ function hasTokenOverlap(limitations, token) {
 
 function getDominantGoal(profile) {
   const normalizedGoals = getNormalizedGoalWeights(profile);
-  const topGoal = Object.entries(normalizedGoals)
-    .sort((left, right) => right[1] - left[1])[0];
+  const topGoal = Object.entries(normalizedGoals).sort((left, right) => right[1] - left[1])[0];
 
   return topGoal?.[0] || normalizeTag(profile?.goal) || 'general-fitness';
 }

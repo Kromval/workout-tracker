@@ -21,8 +21,6 @@ export function getSessionSnapshot() {
   return snapshot;
 }
 
-
-
 export function saveSessionSnapshot(snapshot) {
   const normalized = normalizeSessionSnapshot(snapshot);
 
@@ -34,13 +32,9 @@ export function saveSessionSnapshot(snapshot) {
   return saveActiveSession(normalized);
 }
 
-
-
 export function discardSessionSnapshot() {
   clearActiveSession();
 }
-
-
 
 export function createPersistedSessionSnapshot(snapshot) {
   if (!isPlainObject(snapshot) || !RESTORABLE_STATUSES.includes(snapshot.status)) {
@@ -63,8 +57,6 @@ export function createPersistedSessionSnapshot(snapshot) {
   });
 }
 
-
-
 export function normalizeSessionSnapshot(snapshot) {
   if (!isPlainObject(snapshot)) {
     return null;
@@ -77,18 +69,21 @@ export function normalizeSessionSnapshot(snapshot) {
   }));
   const currentStepIndex = nonNegativeInteger(snapshot.currentStepIndex, -1);
   const currentStep = steps[currentStepIndex];
-  const remainingSec = nonNegativeInteger(snapshot.currentStep?.remainingSec ?? snapshot.remainingSec, -1);
+  const remainingSec = nonNegativeInteger(
+    snapshot.currentStep?.remainingSec ?? snapshot.remainingSec,
+    -1,
+  );
   const elapsedSec = nonNegativeInteger(snapshot.elapsedSec, 0);
 
   if (
-    !RESTORABLE_STATUSES.includes(status)
-    || !isPlainObject(snapshot.workout)
-    || steps.length === 0
-    || currentStepIndex < 0
-    || currentStepIndex >= steps.length
-    || !currentStep?.id
-    || remainingSec < 0
-    || remainingSec > currentStep.durationSec
+    !RESTORABLE_STATUSES.includes(status) ||
+    !isPlainObject(snapshot.workout) ||
+    steps.length === 0 ||
+    currentStepIndex < 0 ||
+    currentStepIndex >= steps.length ||
+    !currentStep?.id ||
+    remainingSec < 0 ||
+    remainingSec > currentStep.durationSec
   ) {
     return null;
   }
@@ -105,4 +100,3 @@ export function normalizeSessionSnapshot(snapshot) {
     startedAt: normalizeIsoDate(snapshot.startedAt, nowIso()),
   };
 }
-

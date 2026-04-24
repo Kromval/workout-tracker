@@ -47,7 +47,11 @@ export function createWorkoutSession(workout, exercises = [], options = {}) {
 /**
  * Rehydrates a persisted active session when the workout structure still matches.
  */
-export function restoreWorkoutSession(snapshot = getSessionSnapshot(), exercises = [], options = {}) {
+export function restoreWorkoutSession(
+  snapshot = getSessionSnapshot(),
+  exercises = [],
+  options = {},
+) {
   const normalizedSnapshot = normalizeSessionSnapshot(snapshot);
 
   if (!normalizedSnapshot) {
@@ -92,7 +96,10 @@ export class WorkoutSession {
     this.hooks = normalizeHooks(options);
     this.audioEnabled = options.audio !== false;
     this.persistenceEnabled = options.persist !== false;
-    this.snapshotSaveIntervalMs = nonNegativeInteger(options.snapshotSaveIntervalMs, DEFAULT_SNAPSHOT_SAVE_INTERVAL_MS);
+    this.snapshotSaveIntervalMs = nonNegativeInteger(
+      options.snapshotSaveIntervalMs,
+      DEFAULT_SNAPSHOT_SAVE_INTERVAL_MS,
+    );
     this.lastSnapshotSavedAt = 0;
   }
 
@@ -227,12 +234,12 @@ export class WorkoutSession {
       })),
       currentStep: currentStep
         ? {
-          ...currentStep,
-          durationSec: this.stepDurations[this.currentStepIndex],
-          remainingSec: this.remainingSec,
-          elapsedSec: this.getCurrentStepElapsedSec(),
-          currentPhase: this.currentPhase,
-        }
+            ...currentStep,
+            durationSec: this.stepDurations[this.currentStepIndex],
+            remainingSec: this.remainingSec,
+            elapsedSec: this.getCurrentStepElapsedSec(),
+            currentPhase: this.currentPhase,
+          }
         : null,
       currentStepIndex: this.currentStepIndex,
       totalSteps: this.steps.length,
@@ -269,7 +276,8 @@ export class WorkoutSession {
     }
 
     const previousPhase = previousPhaseOverride ?? this.currentPhase;
-    const previousStep = previousStepOverride === undefined ? this.getCurrentStep() : previousStepOverride;
+    const previousStep =
+      previousStepOverride === undefined ? this.getCurrentStep() : previousStepOverride;
 
     this.status = SESSION_STATUSES.COMPLETED;
     this.phase = SESSION_PHASES.FINISHED;
@@ -362,7 +370,11 @@ export class WorkoutSession {
   }
 
   advancePastZeroDurationSteps() {
-    while (this.status === SESSION_STATUSES.RUNNING && this.getCurrentStep() && this.remainingSec === 0) {
+    while (
+      this.status === SESSION_STATUSES.RUNNING &&
+      this.getCurrentStep() &&
+      this.remainingSec === 0
+    ) {
       this.advanceStep();
     }
   }
@@ -423,10 +435,10 @@ export class WorkoutSession {
 
   playPhaseSignal(previousPhase, currentPhase) {
     if (
-      previousPhase?.type === 'rep'
-      && currentPhase?.type === 'rep'
-      && previousPhase.stepId === currentPhase.stepId
-      && previousPhase.key !== currentPhase.key
+      previousPhase?.type === 'rep' &&
+      currentPhase?.type === 'rep' &&
+      previousPhase.stepId === currentPhase.stepId &&
+      previousPhase.key !== currentPhase.key
     ) {
       this.playAudioSignal('phaseChange');
     }
@@ -506,14 +518,17 @@ export class WorkoutSession {
       phaseStartSec = phaseEndSec;
     }
 
-    const lastTimedPhaseIndex = findLastIndex(repPhases, (phase) => nonNegativeNumber(phase.durationSec, 0) > 0);
+    const lastTimedPhaseIndex = findLastIndex(
+      repPhases,
+      (phase) => nonNegativeNumber(phase.durationSec, 0) > 0,
+    );
     return lastTimedPhaseIndex >= 0
       ? this.createRepPhase(step, repPhases[lastTimedPhaseIndex], {
-        phaseIndex: lastTimedPhaseIndex,
-        repIndex,
-        elapsedSec: nonNegativeNumber(repPhases[lastTimedPhaseIndex].durationSec, 0),
-        remainingSec: 0,
-      })
+          phaseIndex: lastTimedPhaseIndex,
+          repIndex,
+          elapsedSec: nonNegativeNumber(repPhases[lastTimedPhaseIndex].durationSec, 0),
+          remainingSec: 0,
+        })
       : null;
   }
 
@@ -592,8 +607,7 @@ export class WorkoutSession {
 
     const currentDurationSec = snapshot.steps[snapshot.currentStepIndex]?.durationSec;
 
-    return Number.isInteger(currentDurationSec)
-      && snapshot.remainingSec <= currentDurationSec;
+    return Number.isInteger(currentDurationSec) && snapshot.remainingSec <= currentDurationSec;
   }
 
   persistSnapshot(force = false) {

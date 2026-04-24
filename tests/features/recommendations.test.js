@@ -37,27 +37,38 @@ describe('recommendation exercise filtering', () => {
       equipment: {
         selectedIds: ['bodyweight'],
       },
-      equipmentCatalog: [
-        { id: 'bodyweight' },
-        { id: 'kettlebell' },
-      ],
+      equipmentCatalog: [{ id: 'bodyweight' }, { id: 'kettlebell' }],
     });
 
     expect(result.eligibleExercises).toHaveLength(1);
     expect(result.eligibleExercises[0].exercise.id).toBe('push-ups');
     expect(result.excludedExercises).toHaveLength(1);
     expect(result.excludedExercises[0].exercise.id).toBe('kettlebell-snatch');
-    expect(result.excludedExercises[0].reasons).toEqual(expect.arrayContaining([
-      RECOMMENDATION_EXCLUSION_REASONS.MISSING_REQUIRED_EQUIPMENT,
-      RECOMMENDATION_EXCLUSION_REASONS.DIFFICULTY_ABOVE_PROFILE_LEVEL,
-    ]));
+    expect(result.excludedExercises[0].reasons).toEqual(
+      expect.arrayContaining([
+        RECOMMENDATION_EXCLUSION_REASONS.MISSING_REQUIRED_EQUIPMENT,
+        RECOMMENDATION_EXCLUSION_REASONS.DIFFICULTY_ABOVE_PROFILE_LEVEL,
+      ]),
+    );
   });
 
   test('deduplicates repeated exercise ids inside recommendation pool', () => {
     const result = filterExercisesForRecommendations({
       exercises: [
-        { id: 'bird-dog', type: { en: 'strength' }, equipment: ['bodyweight'], difficulty: 'beginner', tags: ['bodyweight', 'beginner'] },
-        { id: 'bird-dog', type: { en: 'strength' }, equipment: ['bodyweight'], difficulty: 'beginner', tags: ['bodyweight', 'beginner'] },
+        {
+          id: 'bird-dog',
+          type: { en: 'strength' },
+          equipment: ['bodyweight'],
+          difficulty: 'beginner',
+          tags: ['bodyweight', 'beginner'],
+        },
+        {
+          id: 'bird-dog',
+          type: { en: 'strength' },
+          equipment: ['bodyweight'],
+          difficulty: 'beginner',
+          tags: ['bodyweight', 'beginner'],
+        },
       ],
       profile: {},
       equipment: { selectedIds: ['bodyweight'] },
@@ -74,8 +85,20 @@ describe('recommendation exercise filtering', () => {
   test('supports strict goal filtering and goal affinity metadata', () => {
     const result = filterExercisesForRecommendations({
       exercises: [
-        { id: 'push-ups', type: { en: 'strength' }, equipment: ['bodyweight'], difficulty: 'beginner', tags: ['bodyweight', 'beginner'] },
-        { id: 'jumping-jacks', type: { en: 'cardio' }, equipment: ['bodyweight'], difficulty: 'beginner', tags: ['bodyweight', 'beginner', 'cardio'] },
+        {
+          id: 'push-ups',
+          type: { en: 'strength' },
+          equipment: ['bodyweight'],
+          difficulty: 'beginner',
+          tags: ['bodyweight', 'beginner'],
+        },
+        {
+          id: 'jumping-jacks',
+          type: { en: 'cardio' },
+          equipment: ['bodyweight'],
+          difficulty: 'beginner',
+          tags: ['bodyweight', 'beginner', 'cardio'],
+        },
       ],
       profile: {
         goal: 'fat-loss',
@@ -115,12 +138,14 @@ describe('recommendation exercise filtering', () => {
     expect(metadata.isCompatibleWithProfileLevel).toBe(true);
     expect(metadata.matchesGoal).toBe(true);
 
-    expect(getExerciseGoalIds({
-      type: { en: 'strength' },
-      equipment: ['dumbbells'],
-      difficulty: 'intermediate',
-      tags: ['dumbbells', 'intermediate'],
-    })).toEqual(expect.arrayContaining(['strength', 'hypertrophy', 'general-fitness']));
+    expect(
+      getExerciseGoalIds({
+        type: { en: 'strength' },
+        equipment: ['dumbbells'],
+        difficulty: 'intermediate',
+        tags: ['dumbbells', 'intermediate'],
+      }),
+    ).toEqual(expect.arrayContaining(['strength', 'hypertrophy', 'general-fitness']));
   });
 
   test('scores goal alignment from intensity profile instead of binary goal match', () => {
@@ -152,22 +177,22 @@ describe('recommendation exercise filtering', () => {
   });
 
   test('prefers same-level exercise and penalizes lower-level match slightly', () => {
-    expect(scoreDifficultyFit(
-      { difficulty: 'intermediate' },
-      { trainingLevel: 'intermediate' },
-    )).toBe(1);
+    expect(
+      scoreDifficultyFit({ difficulty: 'intermediate' }, { trainingLevel: 'intermediate' }),
+    ).toBe(1);
 
-    expect(scoreDifficultyFit(
-      { difficulty: 'beginner' },
-      { trainingLevel: 'intermediate' },
-    )).toBeLessThan(1);
+    expect(
+      scoreDifficultyFit({ difficulty: 'beginner' }, { trainingLevel: 'intermediate' }),
+    ).toBeLessThan(1);
   });
 
   test('applies contraindication penalty when profile limitations overlap exercise contraindications', () => {
-    expect(scoreContraindications(
-      { contraindications: ['joint-wrist-pain', 'joint-elbow-irritation'] },
-      { limitations: ['joint-wrist'] },
-    )).toBe(0);
+    expect(
+      scoreContraindications(
+        { contraindications: ['joint-wrist-pain', 'joint-elbow-irritation'] },
+        { limitations: ['joint-wrist'] },
+      ),
+    ).toBe(0);
   });
 
   test('penalizes repeated movement patterns from recent history', () => {
@@ -227,10 +252,9 @@ describe('recommendation exercise filtering', () => {
     );
 
     expect(result.score).toBeGreaterThan(0);
-    expect(result.matchedSignals).toEqual(expect.arrayContaining([
-      'goal-strength',
-      'equipment-bodyweight',
-    ]));
+    expect(result.matchedSignals).toEqual(
+      expect.arrayContaining(['goal-strength', 'equipment-bodyweight']),
+    );
     expect(result.reasons.length).toBeGreaterThan(0);
   });
 

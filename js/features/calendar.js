@@ -1,9 +1,4 @@
-import {
-  asArray,
-  escapeAttribute,
-  escapeHtml,
-  normalizeString,
-} from '../core/utils.js';
+import { asArray, escapeAttribute, escapeHtml, normalizeString } from '../core/utils.js';
 import { t } from '../i18n/index.js';
 
 const WEEKDAY_LABELS = {
@@ -73,7 +68,10 @@ export function selectProgressCalendarDay(dateKey) {
 
 function renderWeekdayHeader(language) {
   return WEEKDAY_LABELS[language]
-    .map((label) => `<div class="progress-calendar__weekday" role="columnheader">${escapeHtml(label)}</div>`)
+    .map(
+      (label) =>
+        `<div class="progress-calendar__weekday" role="columnheader">${escapeHtml(label)}</div>`,
+    )
     .join('');
 }
 
@@ -81,20 +79,23 @@ function renderMonthDays(monthDate, days, activeDateKey, language) {
   const todayKey = formatDateKey(new Date());
   const cells = getMonthCells(monthDate);
 
-  return cells.map((date) => {
-    const dateKey = formatDateKey(date);
-    const entries = days[dateKey] || [];
-    const inMonth = date.getMonth() === monthDate.getMonth();
-    const hasEntries = entries.length > 0;
-    const isSelected = dateKey === activeDateKey;
-    const classNames = [
-      'progress-calendar__day',
-      inMonth ? '' : 'progress-calendar__day--muted',
-      hasEntries ? 'progress-calendar__day--has-workout' : '',
-      isSelected ? 'progress-calendar__day--selected' : '',
-    ].filter(Boolean).join(' ');
+  return cells
+    .map((date) => {
+      const dateKey = formatDateKey(date);
+      const entries = days[dateKey] || [];
+      const inMonth = date.getMonth() === monthDate.getMonth();
+      const hasEntries = entries.length > 0;
+      const isSelected = dateKey === activeDateKey;
+      const classNames = [
+        'progress-calendar__day',
+        inMonth ? '' : 'progress-calendar__day--muted',
+        hasEntries ? 'progress-calendar__day--has-workout' : '',
+        isSelected ? 'progress-calendar__day--selected' : '',
+      ]
+        .filter(Boolean)
+        .join(' ');
 
-    return `
+      return `
       <button
         class="${classNames}"
         type="button"
@@ -108,7 +109,8 @@ function renderMonthDays(monthDate, days, activeDateKey, language) {
         ${hasEntries ? `<span class="progress-calendar__day-count">${entries.length}</span>` : ''}
       </button>
     `;
-  }).join('');
+    })
+    .join('');
 }
 
 function renderDayEntries(entries, language) {
@@ -125,7 +127,8 @@ function renderDayEntries(entries, language) {
 
 function renderDayEntry(entry, language) {
   const status = getStatus(entry.status);
-  const title = normalizeString(entry.workoutTitleSnapshot) || t(language, 'calendarUnnamedWorkout');
+  const title =
+    normalizeString(entry.workoutTitleSnapshot) || t(language, 'calendarUnnamedWorkout');
   const startedAt = formatTime(entry.startedAt, language);
   const rating = normalizeString(entry.ratingEmoji);
 
@@ -262,4 +265,3 @@ function getStatus(status) {
 function isDateKey(value) {
   return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
 }
-

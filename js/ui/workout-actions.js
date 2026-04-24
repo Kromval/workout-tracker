@@ -10,11 +10,7 @@ import {
   duplicateWorkout,
   saveWorkout,
 } from '../storage/core.js';
-import {
-  clearFormInvalidState,
-  markInvalidControls,
-  normalizeFormString,
-} from './form-utils.js';
+import { clearFormInvalidState, markInvalidControls, normalizeFormString } from './form-utils.js';
 import { navigateWithNotice, setPendingNotice } from './notices.js';
 
 let draggedWorkoutItem = null;
@@ -36,7 +32,10 @@ export function handleWorkoutAction(button, state) {
 
     refreshStore();
     if (copy) {
-      navigateWithNotice(`workout-view/${encodeURIComponent(copy.id)}`, t(state, 'duplicateWorkoutSuccess'));
+      navigateWithNotice(
+        `workout-view/${encodeURIComponent(copy.id)}`,
+        t(state, 'duplicateWorkoutSuccess'),
+      );
     }
     return;
   }
@@ -66,18 +65,20 @@ export function handlePresetWorkoutAction(button, state) {
       title: localizedText(preset.title, language) || t(state, 'workoutViewTitle'),
       description: localizedText(preset.description, language),
       defaultRestBetweenExercises: preset.defaultRestBetweenExercises,
-      items: preset.items.map((item, index) => createWorkoutItem({
-        exerciseId: item.exerciseId,
-        sets: item.sets,
-        reps: item.reps,
-        durationSec: item.durationSec,
-        distance: item.distance,
-        restBetweenSetsSec: item.restBetweenSetsSec,
-        restAfterExerciseSec: item.restAfterExerciseSec,
-        tempoOverride: item.tempoOverride,
-        notes: item.notes,
-        order: index,
-      })),
+      items: preset.items.map((item, index) =>
+        createWorkoutItem({
+          exerciseId: item.exerciseId,
+          sets: item.sets,
+          reps: item.reps,
+          durationSec: item.durationSec,
+          distance: item.distance,
+          restBetweenSetsSec: item.restBetweenSetsSec,
+          restAfterExerciseSec: item.restAfterExerciseSec,
+          tempoOverride: item.tempoOverride,
+          notes: item.notes,
+          order: index,
+        }),
+      ),
     });
   } catch (error) {
     window.alert(error.message || t(state, 'workoutSaveFailed'));
@@ -87,11 +88,17 @@ export function handlePresetWorkoutAction(button, state) {
   refreshStore();
 
   if (action === 'edit') {
-    navigateWithNotice(`workout-edit/${encodeURIComponent(workout.id)}`, t(state, 'presetWorkoutCopied'));
+    navigateWithNotice(
+      `workout-edit/${encodeURIComponent(workout.id)}`,
+      t(state, 'presetWorkoutCopied'),
+    );
     return;
   }
 
-  navigateWithNotice(`workout-view/${encodeURIComponent(workout.id)}`, t(state, 'presetWorkoutCopied'));
+  navigateWithNotice(
+    `workout-view/${encodeURIComponent(workout.id)}`,
+    t(state, 'presetWorkoutCopied'),
+  );
 }
 
 export function handleEditableListAdd(button, state) {
@@ -103,8 +110,9 @@ export function handleEditableListAdd(button, state) {
 
   if (!value || !items) return;
 
-  const exists = Array.from(items.querySelectorAll('[data-list-value]'))
-    .some((item) => item.dataset.listValue.toLowerCase() === value.toLowerCase());
+  const exists = Array.from(items.querySelectorAll('[data-list-value]')).some(
+    (item) => item.dataset.listValue.toLowerCase() === value.toLowerCase(),
+  );
 
   if (!exists) {
     items.insertAdjacentHTML('beforeend', renderListItem(name, value, state));
@@ -135,33 +143,37 @@ export function handleWorkoutAddExercise(button, state) {
 export function applyWorkoutExerciseFilters(sidebar) {
   if (!sidebar) return;
 
-  const query = normalizeFormString(
-    sidebar.querySelector('[data-workout-exercise-search]')?.value
-  ).toLowerCase().trim();
+  const query = normalizeFormString(sidebar.querySelector('[data-workout-exercise-search]')?.value)
+    .toLowerCase()
+    .trim();
 
   const type = normalizeFormString(
-    sidebar.querySelector('[data-workout-exercise-type-filter]')?.value
+    sidebar.querySelector('[data-workout-exercise-type-filter]')?.value,
   ).toLowerCase();
 
   const muscle = normalizeFormString(
-    sidebar.querySelector('[data-workout-exercise-muscle-filter]')?.value
+    sidebar.querySelector('[data-workout-exercise-muscle-filter]')?.value,
   ).toLowerCase();
   const equipmentFilter = normalizeFormString(
-    sidebar.querySelector('[data-workout-exercise-equipment-filter]')?.value
+    sidebar.querySelector('[data-workout-exercise-equipment-filter]')?.value,
   ).toLowerCase();
   const profileLevelFilter = normalizeFormString(
-    sidebar.querySelector('[data-workout-exercise-profile-level-filter]')?.value
+    sidebar.querySelector('[data-workout-exercise-profile-level-filter]')?.value,
   ).toLowerCase();
-  const currentProfileLevel = normalizeFormString(sidebar.dataset.profileTrainingLevel).toLowerCase();
+  const currentProfileLevel = normalizeFormString(
+    sidebar.dataset.profileTrainingLevel,
+  ).toLowerCase();
 
   const options = Array.from(sidebar.querySelectorAll('.workout-exercise-option'));
   let visibleCount = 0;
 
-  options.forEach(option => {
+  options.forEach((option) => {
     const searchText = (option.dataset.exerciseSearch || '').toLowerCase();
     const optionType = (option.dataset.exerciseType || '').toLowerCase();
     const muscles = option.dataset.exerciseMuscles ? option.dataset.exerciseMuscles.split('|') : [];
-    const equipmentIds = option.dataset.exerciseEquipment ? option.dataset.exerciseEquipment.split('|') : [];
+    const equipmentIds = option.dataset.exerciseEquipment
+      ? option.dataset.exerciseEquipment.split('|')
+      : [];
     const profileLevel = (option.dataset.exerciseProfileLevel || '').toLowerCase();
     const equipmentAvailable = option.dataset.exerciseEquipmentAvailable === 'true';
     const profileCompatible = option.dataset.exerciseProfileCompatible === 'true';
@@ -169,14 +181,19 @@ export function applyWorkoutExerciseFilters(sidebar) {
     const matchesQuery = !query || searchText.includes(query);
     const matchesType = !type || optionType === type;
     const matchesMuscle = !muscle || muscles.includes(muscle);
-    const matchesEquipment = !equipmentFilter
-      || (equipmentFilter === 'available' ? equipmentAvailable : equipmentIds.includes(equipmentFilter));
-    const matchesProfileLevel = !profileLevelFilter
-      || (profileLevelFilter === 'profile'
-        ? (!currentProfileLevel || profileCompatible)
+    const matchesEquipment =
+      !equipmentFilter ||
+      (equipmentFilter === 'available'
+        ? equipmentAvailable
+        : equipmentIds.includes(equipmentFilter));
+    const matchesProfileLevel =
+      !profileLevelFilter ||
+      (profileLevelFilter === 'profile'
+        ? !currentProfileLevel || profileCompatible
         : profileLevel === profileLevelFilter);
 
-    const isVisible = matchesQuery && matchesType && matchesMuscle && matchesEquipment && matchesProfileLevel;
+    const isVisible =
+      matchesQuery && matchesType && matchesMuscle && matchesEquipment && matchesProfileLevel;
 
     option.style.display = isVisible ? 'grid' : 'none';
 
@@ -225,7 +242,9 @@ export function syncWorkoutItemsState(form = document.querySelector('[data-worko
     item.setAttribute('aria-posinset', String(index + 1));
     item.setAttribute('aria-setsize', String(items.length));
     item.querySelector('[data-workout-move="up"]')?.toggleAttribute('disabled', index === 0);
-    item.querySelector('[data-workout-move="down"]')?.toggleAttribute('disabled', index === items.length - 1);
+    item
+      .querySelector('[data-workout-move="down"]')
+      ?.toggleAttribute('disabled', index === items.length - 1);
   });
 }
 
@@ -287,7 +306,9 @@ export function handleWorkoutFormSubmit(form, state) {
   }
 
   const knownExerciseIds = new Set(selectExerciseCatalog(state).map((exercise) => exercise.id));
-  const unknownExerciseRows = rows.filter((row) => !knownExerciseIds.has(row.dataset.exerciseId || ''));
+  const unknownExerciseRows = rows.filter(
+    (row) => !knownExerciseIds.has(row.dataset.exerciseId || ''),
+  );
   if (unknownExerciseRows.length > 0) {
     markInvalidControls(form, unknownExerciseRows);
     setWorkoutFormStatus(form, t(state, 'workoutUnknownExercise'), 'error');
@@ -322,7 +343,11 @@ export function handleWorkoutFormSubmit(form, state) {
   });
 
   if (errors.length > 0) {
-    setWorkoutFormStatus(form, `${t(state, 'workoutNumberInvalid')} ${t(state, 'formInvalidData')}`, 'error');
+    setWorkoutFormStatus(
+      form,
+      `${t(state, 'workoutNumberInvalid')} ${t(state, 'formInvalidData')}`,
+      'error',
+    );
     return;
   }
 
@@ -338,7 +363,11 @@ export function handleWorkoutFormSubmit(form, state) {
       ? saveWorkout(workoutPayload)
       : createWorkoutRecord(workoutPayload);
 
-    setPendingNotice(t(state, isEdit ? 'workoutSaved' : 'workoutCreated'), 'success', `#workout-view/${encodeURIComponent(workout.id)}`);
+    setPendingNotice(
+      t(state, isEdit ? 'workoutSaved' : 'workoutCreated'),
+      'success',
+      `#workout-view/${encodeURIComponent(workout.id)}`,
+    );
     refreshStore();
     window.location.hash = `workout-view/${encodeURIComponent(workout.id)}`;
   } catch (error) {

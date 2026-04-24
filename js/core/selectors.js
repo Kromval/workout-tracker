@@ -44,37 +44,49 @@ export function selectCustomAudio(state) {
   return selectSettings(state).customAudio || EMPTY_OBJECT;
 }
 
-const selectFavoriteExerciseIdsBySettings = memoizeByRefs((settings) => settings.favoriteExerciseIds || EMPTY_ARRAY);
-const selectFavoriteExerciseIdSetBySettings = memoizeByRefs((settings) => new Set(settings.favoriteExerciseIds || EMPTY_ARRAY));
-const selectExerciseCatalogByRefs = memoizeByRefs((exercises, store) => getExerciseCatalog({
-  exercises,
-  store,
-}));
+const selectFavoriteExerciseIdsBySettings = memoizeByRefs(
+  (settings) => settings.favoriteExerciseIds || EMPTY_ARRAY,
+);
+const selectFavoriteExerciseIdSetBySettings = memoizeByRefs(
+  (settings) => new Set(settings.favoriteExerciseIds || EMPTY_ARRAY),
+);
+const selectExerciseCatalogByRefs = memoizeByRefs((exercises, store) =>
+  getExerciseCatalog({
+    exercises,
+    store,
+  }),
+);
 const selectEquipmentCatalogByStore = memoizeByRefs((store) => getEquipmentCatalog({ store }));
-const selectEquipmentSelectedIdSetByStore = memoizeByRefs((store) => new Set(store.equipment?.selectedIds || EMPTY_ARRAY));
+const selectEquipmentSelectedIdSetByStore = memoizeByRefs(
+  (store) => new Set(store.equipment?.selectedIds || EMPTY_ARRAY),
+);
 
-const selectUserWorkoutsByStore = memoizeByRefs((store) => (store.workouts || EMPTY_ARRAY)
-  .filter((workout) => !workout.isPreset));
+const selectUserWorkoutsByStore = memoizeByRefs((store) =>
+  (store.workouts || EMPTY_ARRAY).filter((workout) => !workout.isPreset),
+);
 
 const selectWorkoutsByStore = memoizeByRefs((store) => getWorkouts(store));
-const selectExerciseRecommendationsByRefs = memoizeByRefs((exerciseCatalog, profile, equipment, equipmentCatalog, limit) => {
-  const normalizedLimit = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : DEFAULT_RECOMMENDATION_LIMIT;
-  const result = rankRecommendedExercises({
-    exercises: exerciseCatalog,
-    profile,
-    equipment,
-    equipmentCatalog,
-    context: {
-      targetDurationMin: profile?.sessionDurationMin,
-    },
-  });
+const selectExerciseRecommendationsByRefs = memoizeByRefs(
+  (exerciseCatalog, profile, equipment, equipmentCatalog, limit) => {
+    const normalizedLimit =
+      Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : DEFAULT_RECOMMENDATION_LIMIT;
+    const result = rankRecommendedExercises({
+      exercises: exerciseCatalog,
+      profile,
+      equipment,
+      equipmentCatalog,
+      context: {
+        targetDurationMin: profile?.sessionDurationMin,
+      },
+    });
 
-  return {
-    ...result,
-    topExercises: result.scoredExercises.slice(0, normalizedLimit),
-    limit: normalizedLimit,
-  };
-});
+    return {
+      ...result,
+      topExercises: result.scoredExercises.slice(0, normalizedLimit),
+      limit: normalizedLimit,
+    };
+  },
+);
 
 export const selectPresetWorkouts = memoizeByRefs(() => getPopularPresetWorkouts());
 
@@ -98,7 +110,7 @@ export function selectRecommendedExercises(state, options = {}) {
     selectProfile(state),
     selectEquipment(state),
     selectEquipmentCatalog(state),
-    options.limit
+    options.limit,
   );
 }
 
@@ -150,9 +162,9 @@ function memoizeByRefs(selector) {
 
   return (...args) => {
     if (
-      previousArgs
-      && previousArgs.length === args.length
-      && previousArgs.every((arg, index) => arg === args[index])
+      previousArgs &&
+      previousArgs.length === args.length &&
+      previousArgs.every((arg, index) => arg === args[index])
     ) {
       return previousResult;
     }

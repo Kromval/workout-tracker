@@ -16,8 +16,16 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at top left, color-mix(in srgb, var(--color-accent) 10%, transparent) 0, transparent 28%),
-    linear-gradient(180deg, color-mix(in srgb, var(--color-bg) 92%, #ffffff 8%) 0%, var(--color-bg) 100%);
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--color-accent) 10%, transparent) 0,
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-bg) 92%, #ffffff 8%) 0%,
+      var(--color-bg) 100%
+    );
 }
 
 button,

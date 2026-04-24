@@ -13,7 +13,6 @@ import {
   importStore,
   loadStore,
   resetStore,
-  saveSettings,
   saveStore,
   setFavorites,
   toggleFavoriteExercise,
@@ -33,14 +32,17 @@ describe('storage core', () => {
   });
 
   test('loadStore migrates and persists current schema', () => {
-    memoryStorage.setItem(STORAGE_KEY, JSON.stringify({
-      version: 2,
-      settings: { favoriteExerciseIds: ['a'] },
-      favorites: ['b'],
-      customExercises: [],
-      workouts: [],
-      history: [],
-    }));
+    memoryStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        version: 2,
+        settings: { favoriteExerciseIds: ['a'] },
+        favorites: ['b'],
+        customExercises: [],
+        workouts: [],
+        history: [],
+      }),
+    );
 
     const store = loadStore();
     const persisted = JSON.parse(memoryStorage.getItem(STORAGE_KEY));
@@ -101,42 +103,49 @@ describe('storage core', () => {
       },
     });
 
-    const imported = importStore(JSON.stringify({
-      app: 'workout-tracker',
-      version: 2,
-      settings: {
-        favoriteExerciseIds: ['settings-favorite'],
-        customAudio: { restStart: 'data:audio/wav;base64,AAAA' },
-      },
-      favorites: ['legacy-favorite'],
-      customAudio: { restEnd: 'data:audio/wav;base64,BBBB' },
-      profile: {
-        age: 29,
-        goal: 'strength',
-        goals: {
-          strength: 0.9,
-          hypertrophy: 0.4,
+    const imported = importStore(
+      JSON.stringify({
+        app: 'workout-tracker',
+        version: 2,
+        settings: {
+          favoriteExerciseIds: ['settings-favorite'],
+          customAudio: { restStart: 'data:audio/wav;base64,AAAA' },
         },
-        bodyFocusGoals: {
-          upperBody: 0.8,
+        favorites: ['legacy-favorite'],
+        customAudio: { restEnd: 'data:audio/wav;base64,BBBB' },
+        profile: {
+          age: 29,
+          goal: 'strength',
+          goals: {
+            strength: 0.9,
+            hypertrophy: 0.4,
+          },
+          bodyFocusGoals: {
+            upperBody: 0.8,
+          },
+          recentHistory: {
+            performedExerciseIds: ['squat'],
+          },
         },
-        recentHistory: {
-          performedExerciseIds: ['squat'],
+        equipment: {
+          selectedIds: ['bodyweight', 'sled'],
+          customItems: [
+            {
+              id: 'sled',
+              name: 'Sled',
+            },
+          ],
         },
-      },
-      equipment: {
-        selectedIds: ['bodyweight', 'sled'],
-        customItems: [{
-          id: 'sled',
-          name: 'Sled',
-        }],
-      },
-      workouts: [{
-        id: 'workout-a',
-        title: 'Workout A',
-        items: [createWorkoutItem({ exerciseId: 'exercise-a', reps: 10 })],
-      }],
-    }), { mode: IMPORT_MODES.MERGE });
+        workouts: [
+          {
+            id: 'workout-a',
+            title: 'Workout A',
+            items: [createWorkoutItem({ exerciseId: 'exercise-a', reps: 10 })],
+          },
+        ],
+      }),
+      { mode: IMPORT_MODES.MERGE },
+    );
 
     expect(imported.settings.favoriteExerciseIds).toEqual([
       'current',
@@ -195,8 +204,11 @@ describe('storage core', () => {
     expect(() => importStore('not-json')).toThrow(/корректный JSON/);
     expect(() => importStore(JSON.stringify({ unknown: [] }))).toThrow(/Неизвестный раздел/);
     expect(() => importStore(JSON.stringify({ favorites: [123] }))).toThrow(/favorites\[0\]/);
-    expect(() => importStore(JSON.stringify({ equipment: { selectedIds: [123] } }))).toThrow(/equipment\.selectedIds\[0\]/);
-    expect(() => importStore(JSON.stringify({ customAudio: { bad: 'data:audio/wav;base64,AAAA' } })))
-      .toThrow(/неизвестное событие/);
+    expect(() => importStore(JSON.stringify({ equipment: { selectedIds: [123] } }))).toThrow(
+      /equipment\.selectedIds\[0\]/,
+    );
+    expect(() =>
+      importStore(JSON.stringify({ customAudio: { bad: 'data:audio/wav;base64,AAAA' } })),
+    ).toThrow(/неизвестное событие/);
   });
 });

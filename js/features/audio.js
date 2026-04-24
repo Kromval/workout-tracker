@@ -27,9 +27,7 @@ const signalPatterns = Object.freeze({
     { frequency: 660, duration: 0.11 },
     { frequency: 880, duration: 0.14, delay: 0.04 },
   ],
-  phaseChange: [
-    { frequency: 520, duration: 0.08 },
-  ],
+  phaseChange: [{ frequency: 520, duration: 0.08 }],
   restStart: [
     { frequency: 440, duration: 0.14 },
     { frequency: 330, duration: 0.16, delay: 0.04 },
@@ -110,7 +108,7 @@ export function stopAll() {
   activeSources.forEach((source) => {
     try {
       source.stop();
-    } catch (error) {
+    } catch {
       // Already stopped sources are safe to ignore.
     }
   });
@@ -190,10 +188,14 @@ function playCustomAudio(url, volume, fallbackEventName = 'phaseChange') {
   media.preload = 'auto';
   activeMedia.add(media);
   media.addEventListener('ended', () => activeMedia.delete(media), { once: true });
-  media.addEventListener('error', () => {
-    activeMedia.delete(media);
-    playBeepPattern(signalPatterns[fallbackEventName] || signalPatterns.phaseChange, volume);
-  }, { once: true });
+  media.addEventListener(
+    'error',
+    () => {
+      activeMedia.delete(media);
+      playBeepPattern(signalPatterns[fallbackEventName] || signalPatterns.phaseChange, volume);
+    },
+    { once: true },
+  );
   media.play().catch(() => activeMedia.delete(media));
 }
 
@@ -254,4 +256,3 @@ function nonNegativeNumber(value, fallback) {
   const number = Number(value);
   return Number.isFinite(number) && number >= 0 ? number : fallback;
 }
-

@@ -155,9 +155,17 @@ export function renderWorkoutViewContentRegion(state) {
 
       <p class="muted">${t(state, 'userWorkoutsHint')}</p>
 
-      ${userWorkouts.length
-        ? `<div class="workout-card-grid">${userWorkouts.map((workout) => renderWorkoutCard(state, workout, exercises)).join('')}</div>`
-        : renderEmptyState(state, 'emptyWorkoutsTitle', 'emptyWorkoutsDescription', 'createWorkout', '#workout-create')}
+      ${
+        userWorkouts.length
+          ? `<div class="workout-card-grid">${userWorkouts.map((workout) => renderWorkoutCard(state, workout, exercises)).join('')}</div>`
+          : renderEmptyState(
+              state,
+              'emptyWorkoutsTitle',
+              'emptyWorkoutsDescription',
+              'createWorkout',
+              '#workout-create',
+            )
+      }
     `;
   }
 
@@ -212,7 +220,16 @@ export function renderWorkoutViewContentRegion(state) {
     </article>
 
     <div class="workout-view-list">
-      ${workout.items.map((item, index) => renderWorkoutViewItem(state, item, exercises.find((exercise) => exercise.id === item.exerciseId), index)).join('')}
+      ${workout.items
+        .map((item, index) =>
+          renderWorkoutViewItem(
+            state,
+            item,
+            exercises.find((exercise) => exercise.id === item.exerciseId),
+            index,
+          ),
+        )
+        .join('')}
     </div>
 
     <div class="toolbar">

@@ -25,13 +25,15 @@ async function main() {
       workout: {
         id: 'workout-a',
         title: 'Workout A',
-        items: [{
-          id: 'item-a',
-          exerciseId: 'exercise-a',
-          sets: 1,
-          reps: 10,
-          order: 0,
-        }],
+        items: [
+          {
+            id: 'item-a',
+            exerciseId: 'exercise-a',
+            sets: 1,
+            reps: 10,
+            order: 0,
+          },
+        ],
       },
       steps: [{ id: 'step-a', durationSec: 30 }],
       currentStepIndex: 0,
@@ -54,17 +56,19 @@ async function main() {
   assert.equal(migrations.isFutureStorageVersion({ version: schema.STORAGE_VERSION }), false);
 
   storage.resetStore();
-  storage.importStore(JSON.stringify({
-    app: 'workout-tracker',
-    version: 2,
-    settings: {
-      favoriteExerciseIds: ['exercise-a'],
-    },
-    favorites: ['exercise-b'],
-    customAudio: {
-      tick: 'data:audio/wav;base64,AAAA',
-    },
-  }));
+  storage.importStore(
+    JSON.stringify({
+      app: 'workout-tracker',
+      version: 2,
+      settings: {
+        favoriteExerciseIds: ['exercise-a'],
+      },
+      favorites: ['exercise-b'],
+      customAudio: {
+        tick: 'data:audio/wav;base64,AAAA',
+      },
+    }),
+  );
 
   const store = storage.loadStore();
   assert.equal(store.version, schema.STORAGE_VERSION);
@@ -76,7 +80,10 @@ async function main() {
   const exported = JSON.parse(storage.exportStore());
   assert.equal(Object.prototype.hasOwnProperty.call(exported, 'favorites'), false);
   assert.equal(Object.prototype.hasOwnProperty.call(exported, 'customAudio'), false);
-  assert.deepEqual(Object.keys(exported).filter((key) => schema.EXPORT_DATA_KEYS.includes(key)), schema.EXPORT_DATA_KEYS);
+  assert.deepEqual(
+    Object.keys(exported).filter((key) => schema.EXPORT_DATA_KEYS.includes(key)),
+    schema.EXPORT_DATA_KEYS,
+  );
 
   console.log('storage migrations ok');
 }

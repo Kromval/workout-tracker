@@ -12,8 +12,6 @@ export function renderHomeStat(state, value, labelKey) {
   `;
 }
 
-
-
 export function renderHomeActivityStats(state, stats) {
   const items = [
     ['homeStatsWeekWorkouts', stats.weekWorkouts],
@@ -33,18 +31,20 @@ export function renderHomeActivityStats(state, stats) {
       </div>
 
       <div class="home-activity__grid">
-        ${items.map(([labelKey, value]) => `
+        ${items
+          .map(
+            ([labelKey, value]) => `
           <article class="home-activity__item">
             <span class="home-activity__value">${escapeHtml(value)}</span>
             <span class="muted">${t(state, labelKey)}</span>
           </article>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </div>
     </section>
   `;
 }
-
-
 
 export function getHomeActivityStats(history = []) {
   const entries = asArray(history);
@@ -55,20 +55,20 @@ export function getHomeActivityStats(history = []) {
   const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 
   return {
-    weekWorkouts: entries.filter((entry) => isEntryInRange(entry, weekStart, addDays(weekStart, 7))).length,
-    monthWorkouts: entries.filter((entry) => isEntryInRange(entry, monthStart, nextMonthStart)).length,
+    weekWorkouts: entries.filter((entry) => isEntryInRange(entry, weekStart, addDays(weekStart, 7)))
+      .length,
+    monthWorkouts: entries.filter((entry) => isEntryInRange(entry, monthStart, nextMonthStart))
+      .length,
     totalDurationSec: summary.totalDurationSec,
     totalExercisesCompleted: summary.totalExercisesCompleted,
     activeDayStreak: calculateActiveDayStreak(entries, now),
   };
 }
 
-
-
 export function calculateActiveDayStreak(history, now = new Date()) {
-  const activeDays = new Set(history
-    .map((entry) => normalizeDateKey(entry?.startedAt))
-    .filter(Boolean));
+  const activeDays = new Set(
+    history.map((entry) => normalizeDateKey(entry?.startedAt)).filter(Boolean),
+  );
 
   if (activeDays.size === 0) {
     return 0;
@@ -95,14 +95,10 @@ export function calculateActiveDayStreak(history, now = new Date()) {
   return streak;
 }
 
-
-
 export function isEntryInRange(entry, start, end) {
   const date = new Date(entry?.startedAt);
   return !Number.isNaN(date.getTime()) && date >= start && date < end;
 }
-
-
 
 export function getStartOfWeek(date) {
   const day = date.getDay();
@@ -110,13 +106,9 @@ export function getStartOfWeek(date) {
   return addDays(startOfDay(date), mondayOffset);
 }
 
-
-
 export function startOfDay(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
-
-
 
 export function addDays(date, days) {
   const nextDate = new Date(date);
@@ -124,14 +116,10 @@ export function addDays(date, days) {
   return nextDate;
 }
 
-
-
 export function normalizeDateKey(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? '' : formatDateKey(date);
 }
-
-
 
 export function formatDateKey(date) {
   const year = date.getFullYear();
@@ -139,8 +127,6 @@ export function formatDateKey(date) {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
-
-
 
 export function formatCompactDuration(totalSec, language = 'ru') {
   const seconds = Math.max(0, Math.round(Number(totalSec) || 0));
@@ -164,4 +150,3 @@ export function formatCompactDuration(totalSec, language = 'ru') {
 
   return `${hours} ${hourUnit} ${minutes} ${minuteUnit}`;
 }
-
