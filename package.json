@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "generate:precache": "node scripts/generate-precache.js",
@@ -29,6 +30,13 @@
       "js/features/**/*.js",
       "js/session/**/*.js",
       "!js/features/exercises-data.js"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 70,
+        "functions": 70,
+        "lines": 70
+      }
+    }
   }
 }

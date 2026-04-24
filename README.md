@@ -1,254 +1,169 @@
 # Workout Planner
 
-Workout Planner is a framework-free PWA for building workouts, running guided sessions, tracking history, and ranking exercises against a user profile.
+[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-1f6feb)](.github/workflows/ci.yml)
+[![PWA](https://img.shields.io/badge/PWA-offline%20ready-0f766e)](manifest.webmanifest)
+[![Coverage](https://img.shields.io/badge/coverage-%E2%89%A570%25-15803d)](package.json)
+[![Stack](https://img.shields.io/badge/stack-HTML%20%2B%20CSS%20%2B%20ESM-334155)](#технологии)
 
-## Current State
+Workout Planner — framework-free PWA для планирования тренировок, запуска guided-сессий, ведения истории и подбора упражнений под профиль пользователя. Приложение работает как статический сайт, хранит данные локально и может открываться offline после установки app shell.
 
-The app already includes:
+## Возможности
 
-- Exercise catalog with search, filters, favorites, and custom exercises.
-- Workout builder with exercise ordering, sets, reps, durations, rest timers, and notes.
-- Workout run screen with timers, pause/resume, skip, time adjustment, finish form, and active session recovery.
-- User profile with anthropometrics, training level, goals, body-focus priorities, recovery profile, limitations, preferred tags, disliked exercises, session duration, and weekly frequency.
-- Equipment management with built-in equipment plus user-defined items.
-- Exercise recommendations page powered by:
-  - hard filtering by equipment and difficulty
-  - scoring by goals, body-focus, level, recovery, safety, variety, preferences, and time fit
-- Workout history with notes, ratings, estimated calories, and progress calendar.
-- Preset workouts that can be copied and edited.
-- Russian and English localization.
-- Light, dark, and system themes.
-- Comfortable/compact interface density toggle.
-- Custom audio signals for workout events.
-- JSON import/export with schema migrations.
-- Local persistence in `localStorage`.
-- PWA shell with service worker and offline app shell caching.
+- Каталог упражнений с поиском, фильтрами, избранным, пользовательскими упражнениями и проверкой совместимости с оборудованием.
+- Конструктор тренировок: порядок упражнений, подходы, повторы, длительность, отдых, заметки, копирование пресетов.
+- Экран выполнения тренировки: таймеры, пауза/продолжение, пропуск шага, корректировка времени, завершение, восстановление активной сессии.
+- Рекомендации упражнений с hard-фильтрами и скорингом по целям, уровню, восстановлению, безопасности, предпочтениям, разнообразию и доступному времени.
+- История тренировок с заметками, оценками, расчетными калориями, статистикой и календарем прогресса.
+- Профиль пользователя: антропометрия, уровень подготовки, цели, фокус по телу, ограничения, восстановление, частота и длительность занятий.
+- Настройки оборудования, темы, языка, плотности интерфейса, громкости и пользовательских аудиосигналов.
+- JSON import/export с миграциями схемы `localStorage`.
+- PWA shell с service worker, manifest, generated precache и smoke-тестом offline static imports.
 
-## Tech Stack
+## Быстрый Старт
 
-- HTML
-- CSS
-- JavaScript ES modules
-- `localStorage`
-- Static exercise source in `data/exercises.json`
-- Jest for tests
+Требования: Node.js 22 для разработки и любой современный браузер для запуска приложения.
 
-No framework or bundler is required for the app itself.
-
-## Project Structure
-
-```text
-.
-├── index.html
-├── data/
-│   └── exercises.json
-├── docs/
-│   └── Техническое задание.md
-├── js/
-│   ├── app.js
-│   ├── core/
-│   ├── features/
-│   ├── i18n/
-│   ├── pages/
-│   ├── session/
-│   ├── storage/
-│   └── ui/
-├── scripts/
-│   └── generate-exercises-data.js
-├── styles/
-├── sw.js
-└── manifest.webmanifest
+```bash
+npm ci
+npx serve .
 ```
 
-## Getting Started
+Открой `http://localhost:3000` или адрес, который покажет static server. Для service worker нужен `localhost` или HTTPS; запуск через `file://` не подходит.
 
-Run the app from any static file server:
+Альтернатива без npm-сервера:
 
 ```bash
 python -m http.server 8000
 ```
 
-or:
+## Команды
+
+| Команда                                   | Назначение                                                       |
+| ----------------------------------------- | ---------------------------------------------------------------- |
+| `npm test`                                | Запуск Jest-тестов                                               |
+| `npm run coverage`                        | Coverage с глобальным порогом 70% для statements/functions/lines |
+| `npm run lint`                            | ESLint для JS, тестов и конфигов                                 |
+| `npm run format:check`                    | Проверка форматирования Prettier                                 |
+| `npm run format`                          | Автоформатирование Prettier                                      |
+| `npm run generate:precache`               | Перегенерация precache-списка для `sw.js`                        |
+| `node scripts/generate-exercises-data.js` | Генерация ESM-модуля упражнений из JSON                          |
+
+## Качество
+
+Проект использует Jest, ESLint и Prettier. Coverage считается по ключевым доменам `js/storage`, `js/features`, `js/session`; generated exercise data исключен из покрытия.
+
+Текущий ориентир качества закреплен в `package.json`:
+
+```json
+"coverageThreshold": {
+  "global": {
+    "statements": 70,
+    "functions": 70,
+    "lines": 70
+  }
+}
+```
+
+CI находится в `.github/workflows/ci.yml` и выполняет `npm ci`, `npm test`, `npm run coverage`, после чего публикует `coverage/` как artifact.
+
+## Архитектура
+
+```text
+.
+├── index.html                 # App shell
+├── manifest.webmanifest       # PWA manifest
+├── sw.js                      # Service worker с generated precache
+├── data/
+│   └── exercises.json         # Исходные данные встроенных упражнений
+├── js/
+│   ├── app.js                 # Bootstrap приложения
+│   ├── core/                  # Router, state, selectors, PWA registration
+│   ├── features/              # Доменная логика упражнений, рекомендаций, истории
+│   ├── i18n/                  # RU/EN сообщения
+│   ├── pages/                 # Page renderers
+│   ├── session/               # Workout session engine, steps, snapshots, UI formatters
+│   ├── storage/               # Store, schema, migrations, domain repositories
+│   └── ui/                    # Actions, page updates, feature event bindings, shell chrome
+├── scripts/                   # Генераторы и проверки
+├── styles/                    # CSS
+└── tests/                     # Jest-тесты
+```
+
+### Storage
+
+`js/storage/core.js` остается совместимым facade, а доменные операции вынесены в репозитории:
+
+| Репозиторий             | Ответственность                                         |
+| ----------------------- | ------------------------------------------------------- |
+| `settingsRepository.js` | Настройки, избранное, custom audio, last opened workout |
+| `profileRepository.js`  | Профиль, оборудование, custom equipment                 |
+| `workoutRepository.js`  | CRUD тренировок, duplicate, сортировка                  |
+| `historyRepository.js`  | CRUD истории и выборка по дате                          |
+| `sessionRepository.js`  | Active session snapshot                                 |
+
+Схема и миграции живут в `js/storage/schema.js` и `js/storage/migrations.js`. Текущие основные секции стора: `settings`, `profile`, `equipment`, `customExercises`, `workouts`, `history`, `activeSession`.
+
+### UI События
+
+Feature bindings разделены по областям, чтобы `event-bindings.js` не превращался в общий контейнер:
+
+| Файл                         | Область                                         |
+| ---------------------------- | ----------------------------------------------- |
+| `shell-event-bindings.js`    | Навигация и shell-level поведение               |
+| `exercise-event-bindings.js` | Каталог и действия упражнений                   |
+| `workout-event-bindings.js`  | Конструктор, карточки и запуск тренировок       |
+| `settings-event-bindings.js` | Настройки, профиль, оборудование, import/export |
+| `calendar-event-bindings.js` | Календарь прогресса                             |
+
+## PWA И Offline
+
+Service worker кэширует app shell и статические ES module imports. Список precache генерируется из shell entrypoints и импорт-графа, чтобы новые модули не выпадали из offline-режима.
+
+После изменения статических импортов, `index.html`, CSS, manifest или иконок запусти:
 
 ```bash
-npx serve .
+npm run generate:precache
+npm test -- tests/pwa/service-worker.test.js
 ```
 
-Then open:
+Smoke-тест проверяет, что все static module imports, необходимые app shell, доступны offline через precache.
 
-```text
-http://localhost:8000
-```
+## Данные Упражнений
 
-Because the app uses ES modules and a service worker, use `localhost` or HTTPS.
-
-## Tests
-
-Install dependencies and run:
-
-```bash
-npm install
-npm test
-```
-
-Current tests cover:
-
-- storage schema migrations
-- store sanitizers and normalizers
-- import/export merge behavior
-- exercise compatibility
-- recommendation filtering
-- exercise scoring
-- selector-level recommendation flow
-
-## Exercise Data
-
-Built-in exercises are authored in:
-
-```text
-data/exercises.json
-```
-
-The browser uses the generated module:
-
-```text
-js/features/exercises-data.js
-```
-
-After editing `data/exercises.json`, regenerate it:
+Встроенный каталог редактируется в `data/exercises.json`. Браузер импортирует generated module `js/features/exercises-data.js`, поэтому после изменения JSON нужно выполнить:
 
 ```bash
 node scripts/generate-exercises-data.js
 ```
 
-## Storage
+Рекомендации используют `js/features/recommendations.js`; `js/features/exercise-scoring.js` оставлен как compatibility adapter для старого API.
 
-Storage schema metadata lives in `js/storage/schema.js`. The current schema is:
+## Основные Маршруты
 
-- `STORAGE_VERSION = 6`
-- `settings`
-- `profile`
-- `equipment`
-- `customExercises`
-- `workouts`
-- `history`
-- `activeSession`
+Приложение использует hash routing:
 
-Notable profile fields:
+| Route                 | Экран                                |
+| --------------------- | ------------------------------------ |
+| `#home`               | Главная, статистика и тренировки     |
+| `#exercises`          | Каталог упражнений                   |
+| `#recommendations`    | Рекомендации                         |
+| `#exercise-create`    | Создание упражнения                  |
+| `#exercise-view/<id>` | Просмотр упражнения                  |
+| `#exercise-edit/<id>` | Редактирование упражнения            |
+| `#workout-create`     | Создание тренировки                  |
+| `#workout-view/<id>`  | Просмотр тренировки                  |
+| `#workout-edit/<id>`  | Редактирование тренировки            |
+| `#workout-run/<id>`   | Выполнение тренировки                |
+| `#settings`           | Настройки, профиль, импорт и экспорт |
 
-- anthropometrics
-- `trainingLevel`
-- legacy `goal`
-- weighted `goals`
-- weighted `bodyFocusGoals`
-- `limitations`
-- `dislikedExercises`
-- `likedTags`
-- `sessionDurationMin`
-- `frequencyPerWeek`
-- `recoveryProfile`
-- `recentHistory`
+## Поддержка Браузеров
 
-Notable settings fields:
+Нужен современный браузер с поддержкой ES modules, service workers, `localStorage`, Web Audio API и File API.
 
-- `language`
-- `theme`
-- `density`
-- `soundEnabled`
-- `volume`
+## Документация
 
-Version migrations live in:
+Исходное техническое задание находится в `docs/Техническое задание.md`.
 
-```text
-js/storage/migrations.js
-```
+## Лицензия
 
-## Recommendations
-
-Recommendations are currently exercise-level, not full workout-plan generation.
-
-Flow:
-
-1. Filter incompatible exercises by equipment, difficulty, duplicates, and optional goal mode.
-2. Score eligible exercises.
-3. Rank and display top-N results on `#recommendations`.
-
-Main modules:
-
-- `js/features/recommendations.js`
-- `js/features/exercise-scoring.js` is a compatibility adapter over `recommendations.js`
-- `js/features/body-focus.js`
-- `js/core/selectors.js`
-
-Public API (see JSDoc in source):
-
-- `filterExercisesForRecommendations(options)`
-- `rankExercisesForRecommendations(options)`
-- `scoreExercise(exercise, profile, context, weights)`
-- `buildExerciseRecommendationMetadata(exercise, context)`
-- `getExerciseGoalIds(exercise)`
-- `scoreGoalAlignment(...)`
-- `normalizeContraindicationTag(value)` and `normalizeContraindicationTags(values)`
-- `getContraindicationDefinition(tag)`
-- `getContraindicationRelatedMuscles(tag)`
-- `getContraindicationRelatedJoints(tag)`
-
-Notes:
-
-- `js/features/exercises-data.js` is generated from `data/exercises.json`.
-- After changing exercise source data, run `node scripts/generate-exercises-data.js`.
-
-## Main Routes
-
-The app uses hash routing:
-
-- `#home`
-- `#exercises`
-- `#recommendations`
-- `#exercise-create`
-- `#exercise-view/<id>`
-- `#exercise-edit/<id>`
-- `#workout-create`
-- `#workout-view/<id>`
-- `#workout-edit/<id>`
-- `#workout-run/<id>`
-- `#settings`
-
-## PWA
-
-The app includes:
-
-- `manifest.webmanifest`
-- `sw.js`
-- install icons in `assets/icons/`
-- offline caching of the app shell
-
-After adding or removing static imports, styles, or manifest icons, refresh the precache list:
-
-```bash
-npm run generate:precache
-```
-
-PWA installability requires `localhost` or HTTPS.
-
-## Browser Support
-
-Use a modern browser with support for:
-
-- ES modules
-- `localStorage`
-- service workers
-- Web Audio API
-- File API
-
-## Documentation
-
-Original requirements:
-
-```text
-docs/Техническое задание.md
-```
-
-## License
-
-MIT. See [LICENSE](LICENSE).
+MIT. См. [LICENSE](LICENSE).
