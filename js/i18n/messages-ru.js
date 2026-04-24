@@ -12,6 +12,7 @@ export const ruMessages = {
   navWorkoutRun: 'Запуск',
   navHistory: 'История',
   navSettings: 'Настройки',
+  navMore: 'Еще',
   navigationToggleLabel: 'Открыть меню',
   mainNavigationLabel: 'Основная навигация',
   homeTitle: 'Панель тренировок',

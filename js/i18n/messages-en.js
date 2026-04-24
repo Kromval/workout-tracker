@@ -12,6 +12,7 @@ export const enMessages = {
   navWorkoutRun: 'Run workout',
   navHistory: 'History',
   navSettings: 'Settings',
+  navMore: 'More',
   navigationToggleLabel: 'Open navigation menu',
   mainNavigationLabel: 'Main navigation',
   homeTitle: 'Workout dashboard',

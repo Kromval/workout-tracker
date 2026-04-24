@@ -79,10 +79,18 @@ const APP_SHELL = [
   './js/ui/workout-event-bindings.js',
   './manifest.webmanifest',
   './styles/base.css',
+  './styles/calendar.css',
   './styles/components.css',
+  './styles/exercises.css',
   './styles/fixes.css',
+  './styles/home.css',
   './styles/layout.css',
+  './styles/navigation.css',
+  './styles/responsive.css',
+  './styles/session.css',
+  './styles/settings.css',
   './styles/variables.css',
+  './styles/workouts.css',
 ];
 
 self.addEventListener('install', (event) => {

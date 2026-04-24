@@ -1,0 +1,148 @@
+.progress-calendar {
+  gap: var(--space-4);
+}
+
+.progress-calendar__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.progress-calendar__month {
+  min-width: 170px;
+  color: var(--color-text);
+  font-weight: 700;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.progress-calendar__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: var(--space-4);
+}
+
+.progress-calendar__panel,
+.progress-calendar__details {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.progress-calendar__panel {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.progress-calendar__weekday {
+  min-width: 0;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.progress-calendar__day {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 68px;
+  align-content: space-between;
+  padding: var(--space-2);
+  color: var(--color-text);
+  background: var(--color-surface-muted);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  text-align: left;
+}
+
+.progress-calendar__day--muted {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.progress-calendar__day--has-workout {
+  background: color-mix(in srgb, var(--color-accent) 16%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-accent) 42%, var(--color-border));
+}
+
+.progress-calendar__day--selected {
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+.progress-calendar__day-number {
+  font-weight: 800;
+}
+
+.progress-calendar__day-count {
+  justify-self: end;
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0 var(--space-2);
+  color: #fff;
+  background: var(--color-accent);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: center;
+  line-height: 24px;
+}
+
+.progress-calendar__details {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+}
+
+.progress-calendar__details-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.progress-calendar__details-header h3 {
+  margin: 0;
+}
+
+.progress-calendar__entry-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.progress-calendar__entry {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-sm);
+}
+
+.progress-calendar__entry--aborted {
+  border-left-color: var(--color-danger);
+}
+
+.progress-calendar__entry h4,
+.progress-calendar__entry p,
+.progress-calendar__empty {
+  margin: 0;
+}
+
+.progress-calendar__entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.progress-calendar__rating {
+  font-size: 1.3rem;
+  line-height: 1;
+}

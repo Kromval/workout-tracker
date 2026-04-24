@@ -1,0 +1,401 @@
+.session-page {
+  gap: var(--space-4);
+}
+
+.session-page__header {
+  align-items: center;
+}
+
+.session-status {
+  min-width: 112px;
+  min-height: 36px;
+  padding: var(--space-2) var(--space-3);
+  color: #fff;
+  background: color-mix(in srgb, var(--color-accent) 82%, #000 18%);
+  border-radius: 999px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.session-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: stretch;
+}
+
+.session-sidebar,
+.session-panel,
+.session-finish {
+  color: #f5f1e8;
+  background: #2b2b2e;
+  border-color: #3a3a42;
+}
+
+.session-sidebar {
+  display: block;
+  min-height: 760px;
+  overflow: hidden;
+}
+
+.session-sidebar__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.session-sidebar__header h2,
+.session-sidebar__header p {
+  margin: 0;
+}
+
+.session-playlist {
+  display: block;
+  min-height: 0;
+  height: calc(100% - 68px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: var(--space-1);
+}
+
+.session-playlist__item + .session-playlist__item {
+  margin-top: 12px;
+}
+
+.session-playlist__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  min-height: 72px;
+  max-height: 72px;
+  color: #f5f1e8;
+  border-radius: 20px;
+  background: rgb(255 255 255 / 0.02);
+  overflow: hidden;
+}
+
+.session-playlist__item--active {
+  background: color-mix(in srgb, var(--color-accent) 78%, #ffffff 22%);
+}
+
+.session-playlist__number {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: inherit;
+  background: rgb(0 0 0 / 0.38);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.session-playlist__body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  align-content: center;
+}
+
+.session-playlist__body strong,
+.session-playlist__body span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.session-playlist__body strong {
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.session-playlist__body span {
+  color: rgb(245 241 232 / 0.72);
+  font-size: 0.84rem;
+  line-height: 1;
+}
+
+.session-panel {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  min-height: 760px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.session-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.session-panel__main {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.session-panel__title {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.session-panel__index {
+  margin: 0;
+  color: var(--color-accent-strong);
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.session-panel__description {
+  margin: 0;
+  max-width: 34ch;
+  color: rgb(245 241 232 / 0.84);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.session-kicker,
+.session-phase {
+  width: max-content;
+  max-width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: rgb(255 255 255 / 0.06);
+  border-radius: 999px;
+  color: rgb(245 241 232 / 0.74);
+  font-weight: 700;
+}
+
+.session-panel h2 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+.session-current-timer {
+  font-variant-numeric: tabular-nums;
+  justify-self: center;
+  color: var(--color-accent-strong);
+  font-size: clamp(4.8rem, 11vw, 8.4rem);
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+.session-progress {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 320px;
+  justify-self: center;
+  width: 100%;
+}
+
+.session-progress__label {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.session-progress__label span {
+  color: rgb(245 241 232 / 0.64);
+}
+
+.session-progress__track {
+  height: 8px;
+  overflow: hidden;
+  background: rgb(255 255 255 / 0.12);
+  border-radius: 999px;
+}
+
+.session-progress__track span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-strong));
+  transition: width 160ms ease;
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.session-metric {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-4);
+  background: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: var(--radius-md);
+}
+
+.session-metric span {
+  color: rgb(245 241 232 / 0.62);
+}
+
+.session-metric strong {
+  overflow-wrap: anywhere;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.session-metric--wide {
+  grid-column: 1 / -1;
+}
+
+.session-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: var(--space-3);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.session-controls__primary,
+.session-controls__secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.session-controls__primary .button {
+  min-width: 104px;
+}
+
+.session-controls__primary .button--primary {
+  min-width: 200px;
+}
+
+.session-controls .button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 56px;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.session-finish {
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+}
+
+.session-finish__form {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.session-finish__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.session-finish__header h2,
+.session-finish__header p {
+  margin: 0;
+}
+
+.session-finish__header p {
+  margin-top: var(--space-2);
+}
+
+.session-finish__status {
+  min-height: 32px;
+  padding: var(--space-2) var(--space-3);
+  color: #fff;
+  background: color-mix(in srgb, var(--color-accent) 82%, #000 18%);
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.session-finish__status--aborted {
+  background: var(--color-danger);
+}
+
+.session-finish__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.session-finish__stat {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-4);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-sm);
+}
+
+.session-finish__stat strong {
+  overflow-wrap: anywhere;
+  font-size: 1.5rem;
+}
+
+.session-finish__stat span,
+.session-rating legend {
+  color: var(--color-text-muted);
+}
+
+.session-rating {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.session-rating legend {
+  padding: 0;
+}
+
+.session-rating__options {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 64px));
+  gap: var(--space-2);
+}
+
+.session-rating__option {
+  display: grid;
+  min-width: 0;
+  min-height: 64px;
+  place-items: center;
+  gap: var(--space-1);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.session-rating__option span {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.session-rating__option small {
+  color: var(--color-text-muted);
+}
+
+.session-rating__option:has(input:checked) {
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}

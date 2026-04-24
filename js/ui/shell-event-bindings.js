@@ -2,7 +2,10 @@ import { closeNavMenu } from './shell-chrome.js';
 
 export function bindShellChromeEvents() {
   document.addEventListener('click', (event) => {
-    if (event.target?.closest?.('#app-nav .nav__link')) {
+    if (
+      event.target?.closest?.('#app-nav .nav__link') ||
+      event.target?.closest?.('#mobile-app-nav a')
+    ) {
       closeNavMenu();
     }
   });
@@ -15,6 +18,11 @@ export function bindShellChromeEvents() {
       !event.target?.closest?.('#app-nav') &&
       !event.target?.closest?.('#nav-toggle')
     ) {
+      closeNavMenu();
+    }
+
+    const mobileMenu = document.querySelector('[data-mobile-nav-menu]');
+    if (mobileMenu?.dataset.open === 'true' && !event.target?.closest?.('#mobile-app-nav')) {
       closeNavMenu();
     }
   });

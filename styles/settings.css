@@ -1,0 +1,118 @@
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+
+.settings-grid__wide {
+  grid-column: 1 / -1;
+}
+
+.settings-inline-field {
+  flex: 1 1 auto;
+}
+
+.settings-panel {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.settings-panel__header {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.settings-panel__header p {
+  margin: 0;
+}
+
+.settings-checkbox-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.settings-checkbox-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.settings-checkbox-item__main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.settings-checkbox-item__main input {
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  accent-color: var(--color-accent);
+}
+
+.settings-checkbox-item__remove {
+  min-width: 0;
+}
+
+.custom-audio-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.custom-audio-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.custom-audio-row__main {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.custom-audio-row__main .muted {
+  overflow-wrap: anywhere;
+}
+
+.custom-audio-row__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.custom-audio-upload {
+  cursor: pointer;
+}
+
+.import-mode {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.import-mode legend {
+  padding: 0 var(--space-1);
+  font-weight: 700;
+}
+
+.import-mode label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+}
