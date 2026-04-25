@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed",
+    "e2e:install": "playwright install chromium",
+    "e2e:ui": "playwright test --ui",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "generate:precache": "node scripts/generate-precache.js",
@@ -14,6 +18,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.59.1",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.5.0",

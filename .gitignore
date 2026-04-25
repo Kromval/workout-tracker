@@ -1,4 +1,6 @@
 TODOlist.txt
 node_modules/
 coverage/
+playwright-report/
+test-results/
 exercisesToAdd.txt

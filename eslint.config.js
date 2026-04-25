@@ -34,7 +34,7 @@ export default [
     },
   },
   {
-    files: ['scripts/**/*.js', 'eslint.config.js'],
+    files: ['scripts/**/*.js', 'eslint.config.js', 'playwright.config.js'],
     languageOptions: {
       globals: globals.node,
     },
@@ -45,6 +45,14 @@ export default [
       globals: {
         ...globals.node,
         ...globals.jest,
+      },
+    },
+  },
+  {
+    files: ['tests/e2e/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
       },
     },
   },
