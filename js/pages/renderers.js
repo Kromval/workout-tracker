@@ -24,6 +24,7 @@ export {
 
 export {
   renderWorkoutCreatePage,
+  renderWorkoutGeneratePage,
   renderWorkoutEditPage,
   renderWorkoutViewPage,
   renderWorkoutRunPage,
@@ -48,6 +49,7 @@ import {
 import { renderRecommendationsPage } from './recommendation-page-renderers.js';
 import {
   renderWorkoutCreatePage,
+  renderWorkoutGeneratePage,
   renderWorkoutEditPage,
   renderWorkoutRunPage,
   renderWorkoutViewPage,
@@ -62,6 +64,7 @@ export const pageRenderers = {
   'exercise-edit': renderExerciseEditPage,
   'exercise-view': renderExerciseViewPage,
   'workout-create': renderWorkoutCreatePage,
+  'workout-generate': renderWorkoutGeneratePage,
   'workout-edit': renderWorkoutEditPage,
   'workout-view': renderWorkoutViewPage,
   'workout-run': renderWorkoutRunPage,

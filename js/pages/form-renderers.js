@@ -34,7 +34,11 @@ export function renderWorkoutFormPage(state, workout, requestedId = '') {
   return `
     <section class="page workout-builder-page">
       <div class="page-header">
-        <h1>${t(state, isEdit ? 'workoutEditTitle' : 'workoutCreateTitle')}</h1>
+        <div>
+          <h1>${t(state, isEdit ? 'workoutEditTitle' : 'workoutCreateTitle')}</h1>
+          ${isEdit ? '' : `<p class="muted">${t(state, 'workoutCreateGenerationHint')}</p>`}
+        </div>
+        ${isEdit ? '' : `<a class="button button--primary" href="#workout-generate">${t(state, 'generateWorkout')}</a>`}
       </div>
 
       <form class="workout-form workout-builder-form" data-workout-form data-form-mode="${isEdit ? 'edit' : 'create'}" aria-describedby="workout-form-status" novalidate>

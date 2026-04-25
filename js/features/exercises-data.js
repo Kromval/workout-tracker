@@ -1,8 +1,4 @@
-/**
- * Generated from `data/exercises.json`.
- * Keep this module static so built-in exercises work without fetch or a server.
- * @type {Array<object>}
- */
+// Generated from data/exercises.json. Keep this module static so built-in exercises work without fetch or a server.
 export const builtInExerciseRecords = [
   {
     "id": "push-ups",
@@ -5994,6 +5990,5436 @@ export const builtInExerciseRecords = [
       "strength": "medium",
       "cardio": "medium",
       "endurance": "high",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "pull-ups",
+    "name": {
+      "ru": "Подтягивания",
+      "en": "Pull-ups"
+    },
+    "shortDescription": {
+      "ru": "Базовое упражнение для спины и бицепсов.",
+      "en": "A basic back and biceps exercise."
+    },
+    "instruction": {
+      "ru": "Подтягивайтесь до касания подбородком перекладины, опускайтесь контролируемо.",
+      "en": "Pull up until your chin passes the bar, lower with control."
+    },
+    "effect": {
+      "ru": "Развивает силу верхней части тела и ширину спины.",
+      "en": "Builds upper body strength and back width."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps",
+      "shoulders"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back",
+        "biceps"
+      ],
+      "secondary": [
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement",
+      "joint-elbow-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "chin-ups",
+    "name": {
+      "ru": "Подтягивания обратным хватом",
+      "en": "Chin-ups"
+    },
+    "shortDescription": {
+      "ru": "Подтягивания супинированным хватом с акцентом на бицепс.",
+      "en": "Supinated grip pull-ups with biceps emphasis."
+    },
+    "instruction": {
+      "ru": "Хват ладонями к себе, подтягивайтесь до касания подбородком.",
+      "en": "Palms facing you, pull up until chin passes the bar."
+    },
+    "effect": {
+      "ru": "Сильный акцент на бицепс и нижнюю часть широчайших.",
+      "en": "Strong emphasis on biceps and lower lats."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back",
+        "biceps"
+      ],
+      "secondary": [
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement",
+      "joint-elbow-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "negative-pull-ups",
+    "name": {
+      "ru": "Негативные подтягивания",
+      "en": "Negative Pull-ups"
+    },
+    "shortDescription": {
+      "ru": "Эксцентрическая фаза подтягиваний для развития силы.",
+      "en": "Eccentric phase pull-ups for strength development."
+    },
+    "instruction": {
+      "ru": "Прыгните или встаньте на опору, медленно опускайтесь 3–5 секунд.",
+      "en": "Jump or use a step to get to the top, lower slowly for 3-5 seconds."
+    },
+    "effect": {
+      "ru": "Отлично для новичков и развития эксцентрической силы.",
+      "en": "Great for beginners and eccentric strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 4,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back",
+        "biceps"
+      ],
+      "secondary": [
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "australian-pull-ups",
+    "name": {
+      "ru": "Австралийские подтягивания",
+      "en": "Australian Pull-ups"
+    },
+    "shortDescription": {
+      "ru": "Горизонтальные подтягивания (инвертированные тяги).",
+      "en": "Horizontal pull-ups (inverted rows)."
+    },
+    "instruction": {
+      "ru": "Лежа под перекладиной, подтягивайте грудь к перекладине.",
+      "en": "Lie under the bar, pull your chest to the bar."
+    },
+    "effect": {
+      "ru": "Отличное упражнение для новичков и укрепления спины.",
+      "en": "Excellent beginner back builder."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back",
+        "biceps"
+      ],
+      "secondary": [
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bar"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "lat-pulldown",
+    "name": {
+      "ru": "Тяга верхнего блока",
+      "en": "Lat Pulldown"
+    },
+    "shortDescription": {
+      "ru": "Тяга вертикального блока к груди.",
+      "en": "Vertical cable pull to the chest."
+    },
+    "instruction": {
+      "ru": "Тяните рукоять к верхней части груди, контролируйте возврат.",
+      "en": "Pull the handle to your upper chest, control the return."
+    },
+    "effect": {
+      "ru": "Развивает широчайшие мышцы спины.",
+      "en": "Develops latissimus dorsi."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "gym",
+      "cable"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "biceps",
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "cable-machine"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "seated-cable-row",
+    "name": {
+      "ru": "Тяга горизонтального блока",
+      "en": "Seated Cable Row"
+    },
+    "shortDescription": {
+      "ru": "Горизонтальная тяга сидя к поясу.",
+      "en": "Seated horizontal cable row."
+    },
+    "instruction": {
+      "ru": "Тяните рукоять к животу, сохраняя прямую спину.",
+      "en": "Pull the handle to your abdomen, keep back straight."
+    },
+    "effect": {
+      "ru": "Укрепляет середину и толщину спины.",
+      "en": "Builds mid and upper back thickness."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "gym",
+      "cable"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "biceps",
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "cable-machine"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "bent-over-barbell-row",
+    "name": {
+      "ru": "Тяга штанги в наклоне",
+      "en": "Bent-over Barbell Row"
+    },
+    "shortDescription": {
+      "ru": "Классическая тяга штанги в наклоне.",
+      "en": "Classic bent-over barbell row."
+    },
+    "instruction": {
+      "ru": "Наклонитесь, тяните штангу к поясу, сохраняя нейтральную спину.",
+      "en": "Hinge at hips, pull bar to lower abdomen, keep neutral spine."
+    },
+    "effect": {
+      "ru": "Отличное упражнение для общей толщины спины.",
+      "en": "Great overall back thickness builder."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "gym",
+      "barbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "biceps",
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "t-bar-row",
+    "name": {
+      "ru": "Тяга T-грифа",
+      "en": "T-bar Row"
+    },
+    "shortDescription": {
+      "ru": "Тяга T-грифа в наклоне.",
+      "en": "T-bar row."
+    },
+    "instruction": {
+      "ru": "Тяните гриф к груди, сохраняя прогиб в пояснице.",
+      "en": "Pull the T-bar toward your chest, maintain spinal position."
+    },
+    "effect": {
+      "ru": "Мощное упражнение для середины спины.",
+      "en": "Powerful mid-back developer."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "gym",
+      "barbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "biceps",
+        "shoulders"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "t-bar"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "one-arm-dumbbell-row",
+    "name": {
+      "ru": "Тяга гантелей к поясу в наклоне",
+      "en": "One-Arm Dumbbell Row"
+    },
+    "shortDescription": {
+      "ru": "Односторонняя тяга гантели в упоре.",
+      "en": "Single-arm dumbbell row with support."
+    },
+    "instruction": {
+      "ru": "Упор коленом и рукой на скамью, тяните гантель к поясу.",
+      "en": "Knee and hand on bench, pull dumbbell to hip."
+    },
+    "effect": {
+      "ru": "Отличная односторонняя проработка спины.",
+      "en": "Excellent unilateral back work."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "biceps",
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "dumbbell-pullover",
+    "name": {
+      "ru": "Пуловер с гантелью",
+      "en": "Dumbbell Pullover"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для широчайших и грудных мышц.",
+      "en": "Exercise targeting lats and chest."
+    },
+    "instruction": {
+      "ru": "Лежа на скамье, опускайте гантель за голову и возвращайте вверх.",
+      "en": "Lying on bench, lower dumbbell behind head and pull back up."
+    },
+    "effect": {
+      "ru": "Расширяет грудную клетку и прорабатывает широчайшие.",
+      "en": "Expands ribcage and works lats."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "chest"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back"
+      ],
+      "secondary": [
+        "chest",
+        "shoulders",
+        "triceps"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "elevated-push-ups",
+    "name": {
+      "ru": "Отжимания с ногами на возвышении",
+      "en": "Elevated Push-ups"
+    },
+    "shortDescription": {
+      "ru": "Усложнённый вариант отжиманий с акцентом на верхнюю часть груди.",
+      "en": "Advanced push-up variation emphasizing upper chest."
+    },
+    "instruction": {
+      "ru": "Ноги на возвышении, корпус прямой, опускайтесь контролируемо, локти под 45°.",
+      "en": "Feet on elevation, keep body straight, lower with control, elbows at 45°."
+    },
+    "effect": {
+      "ru": "Развивает силу верхней части груди, плеч и трицепсов.",
+      "en": "Builds strength in upper chest, shoulders and triceps."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest",
+        "triceps"
+      ],
+      "secondary": [
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "joint-wrist-pain",
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "dips",
+    "name": {
+      "ru": "Отжимания на брусьях",
+      "en": "Parallel Bar Dips"
+    },
+    "shortDescription": {
+      "ru": "Базовое упражнение для нижней части груди и трицепсов.",
+      "en": "Basic exercise targeting lower chest and triceps."
+    },
+    "instruction": {
+      "ru": "Слегка наклоните корпус вперёд, опускайтесь до комфортной глубины, разгибайте руки полностью.",
+      "en": "Lean torso slightly forward, lower until comfortable depth, fully extend arms."
+    },
+    "effect": {
+      "ru": "Развивает силу и массу нижней груди, трицепсов и передних дельт.",
+      "en": "Builds strength and mass in lower chest, triceps and front delts."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "tags": [
+      "gym",
+      "bodyweight",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest",
+        "triceps"
+      ],
+      "secondary": [
+        "shoulders"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dip-bars"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement",
+      "joint-elbow-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "bench-press",
+    "name": {
+      "ru": "Жим штанги лёжа",
+      "en": "Bench Press"
+    },
+    "shortDescription": {
+      "ru": "Классическое базовое упражнение для развития груди.",
+      "en": "Classic compound exercise for chest development."
+    },
+    "instruction": {
+      "ru": "Лопатки сведены, ноги упираются в пол, опускайте штангу к середине груди, мощно выжимайте вверх.",
+      "en": "Scapulae retracted, feet planted, lower bar to mid-chest, press powerfully up."
+    },
+    "effect": {
+      "ru": "Развивает силу и массу груди, передних дельт и трицепсов.",
+      "en": "Builds strength and mass in chest, front delts and triceps."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "compound"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest"
+      ],
+      "secondary": [
+        "shoulders",
+        "triceps"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement",
+      "joint-wrist-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "incline-bench-press",
+    "name": {
+      "ru": "Жим штанги на наклонной скамье",
+      "en": "Incline Bench Press"
+    },
+    "shortDescription": {
+      "ru": "Жим штанги на наклонной скамье (30–45°).",
+      "en": "Bench press on incline bench (30–45°)."
+    },
+    "instruction": {
+      "ru": "Скамья 30–45°, лопатки сведены, опускайте штангу к верхней части груди.",
+      "en": "Bench at 30–45°, scapulae retracted, lower bar to upper chest."
+    },
+    "effect": {
+      "ru": "Акцент на верхнюю часть груди, передние дельты и трицепсы.",
+      "en": "Emphasizes upper chest, front delts and triceps."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "gym",
+      "barbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest"
+      ],
+      "secondary": [
+        "shoulders",
+        "triceps"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell",
+      "incline-bench"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "incline-dumbbell-press",
+    "name": {
+      "ru": "Жим гантелей на наклонной скамье",
+      "en": "Incline Dumbbell Press"
+    },
+    "shortDescription": {
+      "ru": "Жим гантелей на наклонной скамье.",
+      "en": "Incline Dumbbell Press."
+    },
+    "instruction": {
+      "ru": "Локти под 45°, разводите гантели в нижней точке, мощно сводите вверху.",
+      "en": "Elbows at 45°, stretch at bottom, powerfully press and squeeze at top."
+    },
+    "effect": {
+      "ru": "Отличная проработка верхней части груди с большей амплитудой.",
+      "en": "Excellent upper chest work with greater range of motion."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest"
+      ],
+      "secondary": [
+        "shoulders",
+        "triceps"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbells",
+      "incline-bench"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "cable-flyes",
+    "name": {
+      "ru": "Сведение рук в кроссовере",
+      "en": "Cable Flyes"
+    },
+    "shortDescription": {
+      "ru": "Изолирующее упражнение для средней и внутренней части груди.",
+      "en": "Isolation exercise for mid and inner chest."
+    },
+    "instruction": {
+      "ru": "Слегка согнутые руки, сведение перед собой на уровне груди, пиковое сокращение.",
+      "en": "Slightly bent arms, bring handles together in front of chest, peak contraction."
+    },
+    "effect": {
+      "ru": "Формирует красивую форму груди, улучшает разделение.",
+      "en": "Shapes chest, improves separation and inner chest detail."
+    },
+    "type": {
+      "ru": "изолирующее",
+      "en": "isolation"
+    },
+    "muscles": [
+      "chest"
+    ],
+    "tags": [
+      "gym",
+      "cable"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "chest"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "cable-machine"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "tricep-pushdown",
+    "name": {
+      "ru": "Разгибание рук на блоке",
+      "en": "Tricep Pushdown"
+    },
+    "shortDescription": {
+      "ru": "Классическое изолирующее упражнение для трицепсов.",
+      "en": "Classic isolation exercise for triceps."
+    },
+    "instruction": {
+      "ru": "Локти зафиксированы, разгибайте руки вниз, внизу задержитесь на 1 сек.",
+      "en": "Elbows fixed, extend arms down, hold 1 sec at bottom."
+    },
+    "effect": {
+      "ru": "Развивает все три головки трицепса, особенно латеральную.",
+      "en": "Develops all three heads of triceps, especially lateral head."
+    },
+    "type": {
+      "ru": "изолирующее",
+      "en": "isolation"
+    },
+    "muscles": [
+      "triceps"
+    ],
+    "tags": [
+      "gym",
+      "cable"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "arm-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "triceps"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "cable-machine"
+    ],
+    "contraindications": [
+      "joint-elbow-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "french-press-dumbbell",
+    "name": {
+      "ru": "Французский жим с гантелью",
+      "en": "Dumbbell French Press"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для длинной головки трицепса.",
+      "en": "Exercise targeting long head of triceps."
+    },
+    "instruction": {
+      "ru": "Лёжа или сидя, опускайте гантель за голову, локти не разводите.",
+      "en": "Lying or sitting, lower dumbbell behind head, keep elbows tight."
+    },
+    "effect": {
+      "ru": "Отлично растягивает и укрепляет длинную головку трицепса.",
+      "en": "Great stretch and strengthening of the long triceps head."
+    },
+    "type": {
+      "ru": "изолирующее",
+      "en": "isolation"
+    },
+    "muscles": [
+      "triceps"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "arm-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "triceps"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbell"
+    ],
+    "contraindications": [
+      "joint-elbow-pain",
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "overhead-dumbbell-extension",
+    "name": {
+      "ru": "Разгибание гантели из-за головы",
+      "en": "Overhead Dumbbell Extension"
+    },
+    "shortDescription": {
+      "ru": "Одноручное или двуручное разгибание над головой.",
+      "en": "Single or double arm overhead tricep extension."
+    },
+    "instruction": {
+      "ru": "Руки над головой, опускайте гантель за голову, полностью разгибайте вверх.",
+      "en": "Arms overhead, lower dumbbell behind head, fully extend."
+    },
+    "effect": {
+      "ru": "Мощная проработка длинной головки трицепса.",
+      "en": "Powerful work on the long head of triceps."
+    },
+    "type": {
+      "ru": "изолирующее",
+      "en": "isolation"
+    },
+    "muscles": [
+      "triceps"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "arm-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "triceps"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbell"
+    ],
+    "contraindications": [
+      "joint-elbow-pain",
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "hammer-curls",
+    "name": {
+      "ru": "Молотковые сгибания",
+      "en": "Hammer Curls"
+    },
+    "shortDescription": {
+      "ru": "Сгибания рук с нейтральным хватом.",
+      "en": "Neutral-grip biceps curls."
+    },
+    "instruction": {
+      "ru": "Ладони смотрят друг на друга, поднимайте гантели без супинации.",
+      "en": "Palms facing each other, curl dumbbells without supination."
+    },
+    "effect": {
+      "ru": "Развивает брахиалис и брахиорадиалис, делает руки объёмнее.",
+      "en": "Develops brachialis and brachioradialis for thicker arms."
+    },
+    "type": {
+      "ru": "изолирующее",
+      "en": "isolation"
+    },
+    "muscles": [
+      "biceps",
+      "forearms"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "arm-curl"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "biceps"
+      ],
+      "secondary": [
+        "forearms"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbells"
+    ],
+    "contraindications": [
+      "joint-elbow-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "concentration-curls",
+    "name": {
+      "ru": "Концентрированные сгибания",
+      "en": "Concentration Curls"
+    },
+    "shortDescription": {
+      "ru": "Изолированное сгибание одной руки с упором в бедро.",
+      "en": "Single-arm isolation curl with elbow against thigh."
+    },
+    "instruction": {
+      "ru": "Сидя, локоть упирается в бедро, медленно поднимайте и опускайте гантель.",
+      "en": "Seated, elbow on thigh, slowly curl and lower the dumbbell."
+    },
+    "effect": {
+      "ru": "Максимальная пиковая нагрузка на бицепс, улучшает пик.",
+      "en": "Maximum peak contraction on biceps, improves biceps peak."
+    },
+    "type": {
+      "ru": "изолирующее",
+      "en": "isolation"
+    },
+    "muscles": [
+      "biceps"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "arm-curl"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "biceps"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbell"
+    ],
+    "contraindications": [
+      "joint-elbow-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "barbell-bicep-curl",
+    "name": {
+      "ru": "Сгибания рук со штангой",
+      "en": "Barbell Bicep Curl"
+    },
+    "shortDescription": {
+      "ru": "Классическое упражнение для развития бицепса.",
+      "en": "Classic exercise for bicep development."
+    },
+    "instruction": {
+      "ru": "Стоя ровно, опускайте штангу контролируемо и сгибайте руки без раскачивания корпуса.",
+      "en": "Stand straight, lower the barbell with control and curl without swinging the body."
+    },
+    "effect": {
+      "ru": "Развивает силу и объём бицепса.",
+      "en": "Builds strength and size of the biceps."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "biceps"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "elbow-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "biceps"
+      ],
+      "secondary": [
+        "forearms"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-elbow-pain",
+      "joint-wrist-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "reverse-bicep-curl",
+    "name": {
+      "ru": "Обратные сгибания на бицепс",
+      "en": "Reverse Bicep Curl"
+    },
+    "shortDescription": {
+      "ru": "Упражнение на бицепс и брахиалис с обратным хватом.",
+      "en": "Bicep and brachialis exercise with reverse grip."
+    },
+    "instruction": {
+      "ru": "Держите хват сверху, опускайте штангу контролируемо, не разгибайте полностью локти.",
+      "en": "Use overhand grip, lower with control, do not fully extend elbows."
+    },
+    "effect": {
+      "ru": "Развивает бицепс, брахиалис и предплечья.",
+      "en": "Develops biceps, brachialis and forearms."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "biceps",
+      "forearms"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "elbow-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "biceps"
+      ],
+      "secondary": [
+        "forearms",
+        "brachialis"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-wrist-pain",
+      "joint-elbow-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "close-grip-barbell-curl",
+    "name": {
+      "ru": "Подъём штанги на бицепс узким хватом",
+      "en": "Close Grip Barbell Curl"
+    },
+    "shortDescription": {
+      "ru": "Вариация сгибаний на бицепс с узким хватом.",
+      "en": "Bicep curl variation with close grip."
+    },
+    "instruction": {
+      "ru": "Хват уже ширины плеч, локти прижаты к корпусу, поднимайте штангу к плечам.",
+      "en": "Grip narrower than shoulder width, elbows close to body, curl bar to shoulders."
+    },
+    "effect": {
+      "ru": "Акцент на внутреннюю часть бицепса.",
+      "en": "Emphasizes inner part of the biceps."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "biceps"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "elbow-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "biceps"
+      ],
+      "secondary": [
+        "forearms"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-wrist-pain",
+      "joint-elbow-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "romanian-deadlift",
+    "name": {
+      "ru": "Румынская тяга со штангой",
+      "en": "Romanian Deadlift"
+    },
+    "shortDescription": {
+      "ru": "Упражнение на заднюю поверхность бедра и ягодицы.",
+      "en": "Exercise targeting hamstrings and glutes."
+    },
+    "instruction": {
+      "ru": "Слегка согните колени, отводите таз назад, опускайте штангу до середины голени.",
+      "en": "Slight knee bend, hinge at hips, lower bar to mid-shin."
+    },
+    "effect": {
+      "ru": "Развивает силу задней цепи и улучшает осанку.",
+      "en": "Builds posterior chain strength and improves posture."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "hamstrings",
+      "glutes"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "compound"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "hamstrings",
+        "glutes"
+      ],
+      "secondary": [
+        "lower-back",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "region-lower-back-pain",
+      "soft-tissue-hamstring-injury"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "conventional-deadlift",
+    "name": {
+      "ru": "Классическая становая тяга",
+      "en": "Conventional Deadlift"
+    },
+    "shortDescription": {
+      "ru": "Базовое многосуставное упражнение для всего тела.",
+      "en": "Fundamental compound full-body exercise."
+    },
+    "instruction": {
+      "ru": "Ноги на ширине плеч, хват снаружи, тяните штангу, разгибая бедра и колени.",
+      "en": "Feet shoulder-width, grip outside legs, lift by extending hips and knees."
+    },
+    "effect": {
+      "ru": "Развивает силу всей задней цепи и спины.",
+      "en": "Builds strength of the entire posterior chain and back."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "back",
+      "hamstrings",
+      "glutes"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "compound"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 10,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "hamstrings",
+        "glutes",
+        "lower-back"
+      ],
+      "secondary": [
+        "traps",
+        "core",
+        "quads"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "region-lower-back-pain",
+      "core-hernia"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "sumo-deadlift",
+    "name": {
+      "ru": "Становая тяга сумо",
+      "en": "Sumo Deadlift"
+    },
+    "shortDescription": {
+      "ru": "Вариация становой тяги с широкой постановкой ног.",
+      "en": "Wide-stance variation of the deadlift."
+    },
+    "instruction": {
+      "ru": "Ноги широко, носки в стороны, тяните штангу с прямой спиной.",
+      "en": "Wide stance, toes pointed out, lift with straight back."
+    },
+    "effect": {
+      "ru": "Больше нагрузки на внутреннюю поверхность бедра и ягодицы.",
+      "en": "Greater emphasis on inner thighs and glutes."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "quads",
+      "hamstrings"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "compound"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 9,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes",
+        "quads"
+      ],
+      "secondary": [
+        "hamstrings",
+        "adductors",
+        "lower-back"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-hip-impingement",
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "low",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "good-morning",
+    "name": {
+      "ru": "Гудморнинг",
+      "en": "Good Morning"
+    },
+    "shortDescription": {
+      "ru": "Упражнение на разгибатели спины и заднюю поверхность бедра.",
+      "en": "Exercise for lower back and hamstrings."
+    },
+    "instruction": {
+      "ru": "Штанга на плечах, наклоняйтесь вперёд с прямой спиной, слегка согнув колени.",
+      "en": "Bar on upper back, hinge forward with straight back and slight knee bend."
+    },
+    "effect": {
+      "ru": "Укрепляет заднюю цепь и улучшает подвижность.",
+      "en": "Strengthens posterior chain and improves mobility."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "hamstrings",
+      "lower-back"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "compound"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 4,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-hinge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "hamstrings",
+        "lower-back"
+      ],
+      "secondary": [
+        "glutes",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "region-lower-back-pain",
+      "soft-tissue-hamstring-injury"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "lying-leg-curl",
+    "name": {
+      "ru": "Сгибание ног лёжа",
+      "en": "Lying Leg Curl"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение на бицепс бедра.",
+      "en": "Isolated hamstring exercise."
+    },
+    "instruction": {
+      "ru": "Лежа на животе, сгибайте ноги к ягодицам, контролируйте опускание.",
+      "en": "Lying face down, curl legs toward glutes and control the descent."
+    },
+    "effect": {
+      "ru": "Развивает заднюю поверхность бедра.",
+      "en": "Develops the hamstrings."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "hamstrings"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "knee-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "hamstrings"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "machine"
+    ],
+    "contraindications": [
+      "joint-knee-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "seated-leg-curl",
+    "name": {
+      "ru": "Сгибание ног сидя",
+      "en": "Seated Leg Curl"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение на бицепс бедра в положении сидя.",
+      "en": "Seated isolated hamstring exercise."
+    },
+    "instruction": {
+      "ru": "Сидя в тренажёре, сгибайте ноги к себе, медленно разгибайте.",
+      "en": "Seated in machine, curl legs toward you and slowly extend."
+    },
+    "effect": {
+      "ru": "Целенаправленно прорабатывает мышцы задней поверхности бедра.",
+      "en": "Targets the hamstring muscles."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "hamstrings"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "knee-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "hamstrings"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "machine"
+    ],
+    "contraindications": [
+      "joint-knee-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "nordic-hamstring-curl",
+    "name": {
+      "ru": "Скандинавские сгибания",
+      "en": "Nordic Hamstring Curl"
+    },
+    "shortDescription": {
+      "ru": "Продвинутое упражнение на бицепс бедра с собственным весом.",
+      "en": "Advanced bodyweight hamstring exercise."
+    },
+    "instruction": {
+      "ru": "Колени зафиксированы, медленно опускайте корпус вперёд, контролируя движение.",
+      "en": "Knees fixed, slowly lower torso forward with control."
+    },
+    "effect": {
+      "ru": "Сильно развивает силу и контроль задней поверхности бедра.",
+      "en": "Strongly develops hamstring strength and control."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "hamstrings"
+    ],
+    "tags": [
+      "home",
+      "bodyweight",
+      "advanced"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 5,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "knee-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "hamstrings"
+      ],
+      "secondary": [
+        "glutes",
+        "core"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "joint-knee-pain",
+      "soft-tissue-hamstring-injury"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "barbell-glute-bridge",
+    "name": {
+      "ru": "Ягодичный мост со штангой",
+      "en": "Barbell Glute Bridge"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для развития ягодичных мышц с отягощением.",
+      "en": "Weighted exercise targeting the glutes."
+    },
+    "instruction": {
+      "ru": "Лежа на спине, штанга на бёдрах. Поднимайте таз вверх, сжимая ягодицы, держите корпус ровно.",
+      "en": "Lie on back with barbell on hips. Drive hips up by squeezing glutes, keep body straight."
+    },
+    "effect": {
+      "ru": "Развивает силу и объём ягодичных мышц, улучшает стабильность таза.",
+      "en": "Builds glute strength and size, improves hip stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings",
+      "core"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "hyperextension",
+    "name": {
+      "ru": "Гиперэкстензия",
+      "en": "Hyperextension"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для разгибателей спины и ягодиц.",
+      "en": "Exercise for back extensors and glutes."
+    },
+    "instruction": {
+      "ru": "Лежа лицом вниз на тренажёре, опускайте корпус контролируемо, затем поднимайте до прямой линии.",
+      "en": "On hyperextension bench, lower torso controlled, then raise to straight line."
+    },
+    "effect": {
+      "ru": "Укрепляет нижнюю часть спины, ягодицы и бицепсы бедра.",
+      "en": "Strengthens lower back, glutes, and hamstrings."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "lower-back",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "gym",
+      "bodyweight",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "lower-back",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "hyperextension-bench"
+    ],
+    "contraindications": [
+      "region-lower-back-pain",
+      "region-spinal-issues"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "reverse-hyperextension",
+    "name": {
+      "ru": "Обратная гиперэкстензия",
+      "en": "Reverse Hyperextension"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для ягодиц, бицепсов бедра и нижней спины без осевой нагрузки.",
+      "en": "Glutes, hamstrings, and lower back exercise with low spinal load."
+    },
+    "instruction": {
+      "ru": "Лежа животом на тренажёре, поднимайте прямые ноги вверх, сжимая ягодицы.",
+      "en": "Lying prone, raise straight legs up by squeezing glutes."
+    },
+    "effect": {
+      "ru": "Развивает заднюю цепь, улучшает стабильность и реабилитацию.",
+      "en": "Builds posterior chain, improves stability and rehab."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "glutes",
+      "hamstrings",
+      "lower-back"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes",
+        "hamstrings"
+      ],
+      "secondary": [
+        "lower-back"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "reverse-hyperextension-machine"
+    ],
+    "contraindications": [
+      "joint-hip-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "leg-press",
+    "name": {
+      "ru": "Жим ногами",
+      "en": "Leg Press"
+    },
+    "shortDescription": {
+      "ru": "Базовое упражнение для мышц ног в тренажёре.",
+      "en": "Compound leg exercise on machine."
+    },
+    "instruction": {
+      "ru": "Сидя в тренажёре, опускайте платформу контролируемо, затем выжимайте ногами.",
+      "en": "Sit in machine, lower platform controlled, then press with legs."
+    },
+    "effect": {
+      "ru": "Развивает квадрицепсы, ягодицы и бицепсы бедра.",
+      "en": "Builds quads, glutes, and hamstrings."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "squat"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "calves"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "leg-press-machine"
+    ],
+    "contraindications": [
+      "joint-knee-pain",
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "front-squat",
+    "name": {
+      "ru": "Фронтальные приседания",
+      "en": "Front Squats"
+    },
+    "shortDescription": {
+      "ru": "Приседания со штангой спереди для квадрицепсов и кора.",
+      "en": "Front barbell squats emphasizing quads and core."
+    },
+    "instruction": {
+      "ru": "Штанга на передних дельтах, приседайте глубоко, сохраняя вертикальное положение корпуса.",
+      "en": "Bar on front shoulders, squat deep keeping torso upright."
+    },
+    "effect": {
+      "ru": "Отлично развивает квадрицепсы, улучшает осанку и мобильность.",
+      "en": "Excellent for quads, posture, and mobility."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "core"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "squat"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads"
+      ],
+      "secondary": [
+        "glutes",
+        "core",
+        "upper-back"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-wrist-pain",
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "back-squat",
+    "name": {
+      "ru": "Приседания со штангой на спине",
+      "en": "Back Squats"
+    },
+    "shortDescription": {
+      "ru": "Классические приседания со штангой на спине.",
+      "en": "Classic barbell back squats."
+    },
+    "instruction": {
+      "ru": "Штанга на трапециях, приседайте до параллели или ниже, колени по направлению носков.",
+      "en": "Bar on upper back, squat to parallel or below, knees track toes."
+    },
+    "effect": {
+      "ru": "Развивает всю нижнюю часть тела и силу.",
+      "en": "Builds overall lower body strength and power."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "squat"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core",
+        "lower-back"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-knee-pain",
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "reverse-lunges",
+    "name": {
+      "ru": "Выпады назад",
+      "en": "Reverse Lunges"
+    },
+    "shortDescription": {
+      "ru": "Выпады шагом назад для баланса и задней цепи.",
+      "en": "Reverse step lunges for balance and posterior chain."
+    },
+    "instruction": {
+      "ru": "Шаг назад, опускайтесь до касания коленом пола, возвращайтесь вверх.",
+      "en": "Step back, lower until knee nearly touches floor, push back up."
+    },
+    "effect": {
+      "ru": "Укрепляет ноги, улучшает баланс и стабильность.",
+      "en": "Strengthens legs, improves balance and stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "home",
+      "dumbbell",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "lunge"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight",
+      "dumbbells"
+    ],
+    "contraindications": [
+      "joint-knee-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "step-ups",
+    "name": {
+      "ru": "Шаги на платформу",
+      "en": "Step-ups"
+    },
+    "shortDescription": {
+      "ru": "Шаги на возвышение для unilateral силы ног.",
+      "en": "Box step-ups for unilateral leg strength."
+    },
+    "instruction": {
+      "ru": "Поставьте одну ногу на платформу, поднимитесь, полностью выпрямляя ногу, опуститесь контролируемо.",
+      "en": "Place one foot on box, drive up straightening leg, lower controlled."
+    },
+    "effect": {
+      "ru": "Развивает силу, баланс и ягодичные мышцы.",
+      "en": "Builds strength, balance, and glutes."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "tags": [
+      "gym",
+      "bodyweight",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "step-up"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "box",
+      "dumbbells"
+    ],
+    "contraindications": [
+      "joint-knee-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "leg-extensions",
+    "name": {
+      "ru": "Разгибание ног в тренажёре",
+      "en": "Leg Extensions"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение для квадрицепсов.",
+      "en": "Isolation exercise for quadriceps."
+    },
+    "instruction": {
+      "ru": "Сидя в тренажёре, разгибайте ноги полностью, контролируя движение.",
+      "en": "Sit in machine, extend legs fully with control."
+    },
+    "effect": {
+      "ru": "Целенаправленно развивает квадрицепсы.",
+      "en": "Targets and builds quadriceps."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "quads"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "knee-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "leg-extension-machine"
+    ],
+    "contraindications": [
+      "joint-knee-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "leg-adductions",
+    "name": {
+      "ru": "Сведение ног в тренажёре",
+      "en": "Leg Adductions"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для приводящих мышц внутренней поверхности бедра.",
+      "en": "Inner thigh adductor machine exercise."
+    },
+    "instruction": {
+      "ru": "Сидя в тренажёре, сводите ноги вместе, сжимая приводящие мышцы.",
+      "en": "Sit in machine, bring legs together squeezing inner thighs."
+    },
+    "effect": {
+      "ru": "Укрепляет внутреннюю часть бедер, улучшает стабильность таза.",
+      "en": "Strengthens inner thighs and hip stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "adductors"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-adduction"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "adductors"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "adductor-machine"
+    ],
+    "contraindications": [
+      "joint-hip-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "seated-leg-abduction-machine",
+    "name": {
+      "ru": "Разведение ног в тренажёре",
+      "en": "Seated Leg Abduction Machine"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для развития приводящих мышц бедра (внутренней поверхности).",
+      "en": "Targets the inner thighs (hip adductors)."
+    },
+    "instruction": {
+      "ru": "Сидя в тренажёре, разводите ноги в стороны с контролем, затем медленно сводите.",
+      "en": "Sit in the machine, push legs outward with control, then slowly bring them back together."
+    },
+    "effect": {
+      "ru": "Укрепляет внутреннюю поверхность бедра и улучшает стабильность таза.",
+      "en": "Strengthens inner thighs and improves pelvic stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "adductors",
+      "glutes"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-abduction"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "adductors"
+      ],
+      "secondary": [
+        "glutes",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "machine"
+    ],
+    "contraindications": [
+      "joint-hip-pain",
+      "joint-knee-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "seated-calf-raise",
+    "name": {
+      "ru": "Подъёмы на носки сидя",
+      "en": "Seated Calf Raise"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение для камбаловидной мышцы голени.",
+      "en": "Isolated exercise for the soleus muscle."
+    },
+    "instruction": {
+      "ru": "Сидя в тренажёре, поднимайте пятки максимально высоко, затем медленно опускайте.",
+      "en": "Sit in the machine, raise heels as high as possible, then slowly lower."
+    },
+    "effect": {
+      "ru": "Развивает нижнюю часть икр, улучшает выносливость голеней.",
+      "en": "Develops lower calves and improves lower leg endurance."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "calves"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "plantar-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "soleus"
+      ],
+      "secondary": [
+        "gastrocnemius"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "machine"
+    ],
+    "contraindications": [
+      "joint-ankle-pain",
+      "tendon-achilles-tendinopathy"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "standing-calf-raise-machine",
+    "name": {
+      "ru": "Подъёмы на носки в тренажёре стоя",
+      "en": "Standing Calf Raise Machine"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для икроножных мышц (газтрокнемиус).",
+      "en": "Targets the gastrocnemius (upper calves)."
+    },
+    "instruction": {
+      "ru": "Стоя в тренажёре, поднимайтесь на носки как можно выше, затем медленно опускайтесь ниже уровня платформы.",
+      "en": "Stand in the machine, rise onto toes as high as possible, then slowly lower below platform level."
+    },
+    "effect": {
+      "ru": "Развивает объём и силу икр.",
+      "en": "Builds calf size and strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "calves"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "plantar-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "gastrocnemius"
+      ],
+      "secondary": [
+        "soleus"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "machine"
+    ],
+    "contraindications": [
+      "joint-ankle-pain",
+      "tendon-achilles-tendinopathy"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "standing-barbell-press",
+    "name": {
+      "ru": "Жим штанги стоя",
+      "en": "Standing Barbell Press (Military Press)"
+    },
+    "shortDescription": {
+      "ru": "Базовое упражнение для плеч и трицепсов.",
+      "en": "Compound shoulder and triceps builder."
+    },
+    "instruction": {
+      "ru": "Жим штанги от груди вверх над головой, сохраняя напряжение в корпусе.",
+      "en": "Press the barbell from chest to overhead while keeping core tight."
+    },
+    "effect": {
+      "ru": "Развивает силу и массу плечевого пояса.",
+      "en": "Builds shoulder strength and mass."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders"
+      ],
+      "secondary": [
+        "triceps",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement",
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "seated-dumbbell-press",
+    "name": {
+      "ru": "Жим гантелей сидя",
+      "en": "Seated Dumbbell Press"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для развития дельтовидных мышц.",
+      "en": "Excellent shoulder developer."
+    },
+    "instruction": {
+      "ru": "Сидя на скамье с опорой, жмите гантели вверх, слегка сводя их в верхней точке.",
+      "en": "Sit on a bench with back support, press dumbbells upward, bringing them slightly together at the top."
+    },
+    "effect": {
+      "ru": "Развивает среднюю и переднюю часть дельт.",
+      "en": "Targets middle and front delts."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-push"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders"
+      ],
+      "secondary": [
+        "triceps"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbell"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "barbell-upright-row",
+    "name": {
+      "ru": "Тяга штанги к подбородку",
+      "en": "Barbell Upright Row"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для трапеций и дельт.",
+      "en": "Targets traps and side delts."
+    },
+    "instruction": {
+      "ru": "Тяните штангу вверх вдоль тела до уровня подбородка, ведя локтями.",
+      "en": "Pull the barbell up along the body to chin level, leading with elbows."
+    },
+    "effect": {
+      "ru": "Развивает верхнюю часть трапеций и средние дельты.",
+      "en": "Builds upper traps and lateral deltoids."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "traps",
+      "shoulders"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "vertical-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "traps"
+      ],
+      "secondary": [
+        "shoulders",
+        "biceps"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement",
+      "joint-wrist-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "bent-over-dumbbell-rear-delt-raise",
+    "name": {
+      "ru": "Махи гантелями в наклоне",
+      "en": "Bent-Over Dumbbell Rear Delt Raise"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение для задних дельт.",
+      "en": "Isolated rear delt builder."
+    },
+    "instruction": {
+      "ru": "В наклоне вперёд разводите гантели в стороны, акцентируя напряжение в задних дельтах.",
+      "en": "Bend forward and raise dumbbells out to the sides, focusing on rear delts."
+    },
+    "effect": {
+      "ru": "Улучшает форму и силу задних дельтовидных мышц.",
+      "en": "Improves rear delt shape and strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "rear-delts"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell",
+      "intermediate"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "rear-delts"
+      ],
+      "secondary": [
+        "traps",
+        "rhomboids"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbell"
+    ],
+    "contraindications": [
+      "region-lower-back-pain",
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "reverse-pec-deck",
+    "name": {
+      "ru": "Разведения в тренажёре обратная бабочка",
+      "en": "Reverse Pec Deck (Rear Delt Fly)"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для задних дельт и ромбовидных мышц.",
+      "en": "Targets rear delts and upper back."
+    },
+    "instruction": {
+      "ru": "Сидя лицом к спинке, разводите рукоятки назад, сжимая лопатки.",
+      "en": "Sit facing the pad, pull handles back while squeezing shoulder blades."
+    },
+    "effect": {
+      "ru": "Укрепляет заднюю поверхность плеч и верх спины.",
+      "en": "Strengthens posterior shoulders and upper back."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "rear-delts",
+      "rhomboids"
+    ],
+    "tags": [
+      "gym",
+      "machine",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "rear-delts"
+      ],
+      "secondary": [
+        "traps",
+        "rhomboids"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "machine"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "dumbbell-shrugs",
+    "name": {
+      "ru": "Шраги с гантелями",
+      "en": "Dumbbell Shrugs"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для трапециевидных мышц.",
+      "en": "Classic trap builder."
+    },
+    "instruction": {
+      "ru": "Стоя с гантелями в руках, поднимайте плечи максимально вверх, затем медленно опускайте.",
+      "en": "Hold dumbbells and shrug shoulders straight up as high as possible, then lower slowly."
+    },
+    "effect": {
+      "ru": "Развивает верхнюю и среднюю часть трапеций.",
+      "en": "Builds upper and middle traps."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "traps"
+    ],
+    "tags": [
+      "gym",
+      "dumbbell",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "scapular-elevation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "traps"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbell"
+    ],
+    "contraindications": [
+      "region-neck-pain",
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "barbell-shrugs",
+    "name": {
+      "ru": "Шраги со штангой",
+      "en": "Barbell Shrugs"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для трапециевидных мышц.",
+      "en": "Heavy trap developer."
+    },
+    "instruction": {
+      "ru": "Стоя со штангой в руках (хват сверху), поднимайте плечи вверх без вращения.",
+      "en": "Stand holding barbell, shrug shoulders straight up without rolling."
+    },
+    "effect": {
+      "ru": "Мощно развивает трапеции.",
+      "en": "Powerful trap mass builder."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "traps"
+    ],
+    "tags": [
+      "gym",
+      "barbell",
+      "beginner"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "scapular-elevation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "traps"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "barbell"
+    ],
+    "contraindications": [
+      "region-neck-pain",
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "face-pull-band",
+    "name": {
+      "ru": "Face Pull с резинкой",
+      "en": "Face Pull with Band"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для задних дельт, ротаторов плеча и верхней части спины.",
+      "en": "Exercise for rear delts, shoulder rotators and upper back."
+    },
+    "instruction": {
+      "ru": "Тяните резинку к лицу, разводя локти в стороны и сжимая лопатки. Локти держите выше кистей.",
+      "en": "Pull the band towards your face, elbows high and out, squeezing shoulder blades."
+    },
+    "effect": {
+      "ru": "Укрепляет заднюю поверхность плеч и улучшает осанку.",
+      "en": "Strengthens rear shoulders and improves posture."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "rear-delts",
+      "upper-back",
+      "rotator-cuff"
+    ],
+    "tags": [
+      "band",
+      "shoulder-health",
+      "posture"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "rear-delts",
+        "upper-back"
+      ],
+      "secondary": [
+        "rotator-cuff",
+        "traps"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "face-pull-cable",
+    "name": {
+      "ru": "Face Pull в кроссовере",
+      "en": "Face Pull in Crossover"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для задних дельт и внешних ротаторов плеча на блоке.",
+      "en": "Rear delt and external rotator exercise on cable machine."
+    },
+    "instruction": {
+      "ru": "Тяните рукояти к лицу на уровне глаз, разводя локти и сжимая лопатки.",
+      "en": "Pull handles to face level, elbows high, squeeze shoulder blades."
+    },
+    "effect": {
+      "ru": "Развивает задние дельты и укрепляет ротаторную манжету.",
+      "en": "Develops rear delts and strengthens rotator cuff."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "rear-delts",
+      "upper-back",
+      "rotator-cuff"
+    ],
+    "tags": [
+      "cable",
+      "shoulder-health",
+      "posture"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "rear-delts",
+        "upper-back"
+      ],
+      "secondary": [
+        "rotator-cuff",
+        "traps"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "cable-machine"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "external-shoulder-rotation-band",
+    "name": {
+      "ru": "Внешняя ротация плеча с резинкой",
+      "en": "External Shoulder Rotation with Band"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение для внешних ротаторов плеча.",
+      "en": "Isolated exercise for external shoulder rotators."
+    },
+    "instruction": {
+      "ru": "Локоть прижат к корпусу, предплечье поворачивайте наружу против сопротивления резинки.",
+      "en": "Elbow tucked to side, rotate forearm outward against band resistance."
+    },
+    "effect": {
+      "ru": "Укрепляет ротаторную манжету и предотвращает травмы плеч.",
+      "en": "Strengthens rotator cuff and prevents shoulder injuries."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "rotator-cuff"
+    ],
+    "tags": [
+      "band",
+      "shoulder-health",
+      "rehab"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "external-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "rotator-cuff"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "internal-shoulder-rotation-band",
+    "name": {
+      "ru": "Внутренняя ротация плеча с резинкой",
+      "en": "Internal Shoulder Rotation with Band"
+    },
+    "shortDescription": {
+      "ru": "Изолированное упражнение для внутренних ротаторов плеча.",
+      "en": "Isolated exercise for internal shoulder rotators."
+    },
+    "instruction": {
+      "ru": "Локоть прижат к корпусу, предплечье поворачивайте внутрь против сопротивления.",
+      "en": "Elbow tucked, rotate forearm inward against resistance."
+    },
+    "effect": {
+      "ru": "Балансирует силу ротаторов плеча.",
+      "en": "Balances shoulder rotator strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "rotator-cuff"
+    ],
+    "tags": [
+      "band",
+      "shoulder-health"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "internal-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "rotator-cuff"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "ab-wheel-rollout",
+    "name": {
+      "ru": "Выкаты с роликом для пресса",
+      "en": "Ab Wheel Rollout"
+    },
+    "shortDescription": {
+      "ru": "Одно из самых эффективных упражнений на мышцы кора.",
+      "en": "One of the most effective core exercises."
+    },
+    "instruction": {
+      "ru": "Из положения на коленях выкатывайтесь вперед, сохраняя прямую спину, затем возвращайтесь силой пресса.",
+      "en": "From knees, roll forward keeping spine neutral, return with abs."
+    },
+    "effect": {
+      "ru": "Мощно развивает прямую и косые мышцы живота, а также стабилизаторы.",
+      "en": "Strongly develops abs and core stabilizers."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "abs",
+      "core"
+    ],
+    "tags": [
+      "bodyweight",
+      "core",
+      "advanced"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "abs"
+      ],
+      "secondary": [
+        "core",
+        "shoulders",
+        "lats"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "ab-wheel"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "cable-crunch",
+    "name": {
+      "ru": "Скручивания на блоке",
+      "en": "Cable Crunch"
+    },
+    "shortDescription": {
+      "ru": "Упражнение на прямую мышцу живота с отягощением.",
+      "en": "Weighted crunch for rectus abdominis."
+    },
+    "instruction": {
+      "ru": "Стоя на коленях, скручивайтесь вниз, округляя спину и напрягая пресс.",
+      "en": "Kneeling, crunch down rounding upper back, squeeze abs."
+    },
+    "effect": {
+      "ru": "Развивает силу и толщину прямой мышцы живота.",
+      "en": "Builds strength and thickness of the six-pack."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "abs"
+    ],
+    "tags": [
+      "cable",
+      "core"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "abs"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "cable-machine"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "pallof-press-band",
+    "name": {
+      "ru": "Pallof Press с резинкой",
+      "en": "Pallof Press with Band"
+    },
+    "shortDescription": {
+      "ru": "Анти-ротационное упражнение для глубоких мышц кора.",
+      "en": "Anti-rotation core stability exercise."
+    },
+    "instruction": {
+      "ru": "Вытяните руки перед собой и удерживайте положение, сопротивляясь скручиванию.",
+      "en": "Extend arms in front and resist rotation."
+    },
+    "effect": {
+      "ru": "Укрепляет косые мышцы и улучшает стабильность позвоночника.",
+      "en": "Strengthens obliques and spinal stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "obliques"
+    ],
+    "tags": [
+      "band",
+      "core-stability"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 1,
+      "pauseTop": 3,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "anti-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "resistance-band"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "pallof-press-cable",
+    "name": {
+      "ru": "Pallof Press в кроссовере",
+      "en": "Pallof Press in Crossover"
+    },
+    "shortDescription": {
+      "ru": "Анти-ротационное упражнение для кора на блоке.",
+      "en": "Anti-rotation core exercise on cable machine."
+    },
+    "instruction": {
+      "ru": "Вытяните руки перед собой и удерживайте нейтральное положение, сопротивляясь скручиванию.",
+      "en": "Extend arms forward and resist rotational pull."
+    },
+    "effect": {
+      "ru": "Отлично развивает стабильность корпуса и косые мышцы живота.",
+      "en": "Excellent for core stability and oblique strength."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "obliques"
+    ],
+    "tags": [
+      "cable",
+      "core-stability"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 1,
+      "pauseTop": 3,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "anti-rotation"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "obliques"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "cable-machine"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "hanging-knee-raises",
+    "name": {
+      "ru": "Подъём коленей в висе",
+      "en": "Hanging Knee Raises"
+    },
+    "shortDescription": {
+      "ru": "Отличное упражнение на нижнюю часть пресса.",
+      "en": "Great exercise for lower abs."
+    },
+    "instruction": {
+      "ru": "В висе на турнике подтягивайте колени к груди, слегка округляя поясницу.",
+      "en": "Hanging from bar, raise knees toward chest, slightly rounding lower back."
+    },
+    "effect": {
+      "ru": "Целенаправленно прорабатывает нижнюю часть прямой мышцы живота.",
+      "en": "Targets the lower portion of the rectus abdominis."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "abs",
+      "core"
+    ],
+    "tags": [
+      "bodyweight",
+      "core"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 6,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "abs"
+      ],
+      "secondary": [
+        "core",
+        "hip-flexors"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "contraindications": [
+      "joint-shoulder-pain",
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "hanging-leg-raises",
+    "name": {
+      "ru": "Подъём ног в висе",
+      "en": "Hanging Leg Raises"
+    },
+    "shortDescription": {
+      "ru": "Одно из лучших упражнений на нижний пресс.",
+      "en": "One of the best lower abs exercises."
+    },
+    "instruction": {
+      "ru": "В висе поднимайте прямые ноги до параллели с полом или выше, контролируя движение.",
+      "en": "Hanging, raise straight legs to parallel or higher with control."
+    },
+    "effect": {
+      "ru": "Сильно нагружает нижнюю часть пресса и мышцы-сгибатели бедра.",
+      "en": "Heavily loads lower abs and hip flexors."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "abs",
+      "core"
+    ],
+    "tags": [
+      "bodyweight",
+      "core",
+      "advanced"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 3,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "hip-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "abs"
+      ],
+      "secondary": [
+        "core",
+        "hip-flexors"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "contraindications": [
+      "joint-shoulder-pain",
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "cable-woodchopper",
+    "name": {
+      "ru": "Дровосек в кроссовере",
+      "en": "Cable Woodchopper"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для косых мышц живота с вращением корпуса.",
+      "en": "Rotational core exercise targeting obliques."
+    },
+    "instruction": {
+      "ru": "Тяните рукоятку по диагонали вниз через тело, поворачивая корпус. Контролируйте движение.",
+      "en": "Pull the handle diagonally across your body with rotation. Control the movement."
+    },
+    "effect": {
+      "ru": "Развивает косые мышцы живота, улучшает ротационную силу и стабильность корпуса.",
+      "en": "Develops obliques, improves rotational power and core stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "obliques",
+      "core",
+      "shoulders"
+    ],
+    "tags": [
+      "cable",
+      "gym",
+      "core"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 0,
+      "pauseBottom": 1
+    },
+    "estimatedCalories": 5,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "rotational"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "obliques"
+      ],
+      "secondary": [
+        "core",
+        "shoulders",
+        "lats"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "cable"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "dumbbell-side-bend",
+    "name": {
+      "ru": "Боковые наклоны с гантелью",
+      "en": "Dumbbell Side Bend"
+    },
+    "shortDescription": {
+      "ru": "Упражнение для косых мышц живота и квадратов поясницы.",
+      "en": "Targets obliques and quadratus lumborum."
+    },
+    "instruction": {
+      "ru": "Наклоняйтесь в сторону с гантелью в руке, не сгибая корпус вперёд. Возвращайтесь в исходное положение.",
+      "en": "Bend sideways holding a dumbbell, keep torso straight. Return to starting position."
+    },
+    "effect": {
+      "ru": "Укрепляет боковые мышцы корпуса и улучшает боковую стабильность.",
+      "en": "Strengthens lateral core muscles and improves side stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "obliques",
+      "core"
+    ],
+    "tags": [
+      "dumbbell",
+      "home",
+      "core"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 4,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "lateral-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "obliques"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbell"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "suitcase-carry",
+    "name": {
+      "ru": "Переноска чемодана",
+      "en": "Suitcase Carry"
+    },
+    "shortDescription": {
+      "ru": "Прогулка с отягощением в одной руке для антилатеральной стабильности.",
+      "en": "Unilateral loaded carry for anti-lateral core strength."
+    },
+    "instruction": {
+      "ru": "Идите ровным шагом, держа гантель/гирю в одной руке. Не наклоняйтесь в сторону.",
+      "en": "Walk with even steps holding weight in one hand. Resist leaning to the side."
+    },
+    "effect": {
+      "ru": "Отлично развивает хват, кор и общую стабильность тела.",
+      "en": "Excellent for grip, core, and full-body stability."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "core",
+      "forearms",
+      "traps"
+    ],
+    "tags": [
+      "dumbbell",
+      "functional",
+      "core"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "gait",
+      "anti-lateral"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "core",
+        "forearms"
+      ],
+      "secondary": [
+        "traps",
+        "shoulders",
+        "legs"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbell",
+      "kettlebell"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "overhead-carry",
+    "name": {
+      "ru": "Переноска над головой",
+      "en": "Overhead Carry"
+    },
+    "shortDescription": {
+      "ru": "Прогулка с весом над головой для стабильности плеч и кора.",
+      "en": "Overhead loaded walk for shoulder and core stability."
+    },
+    "instruction": {
+      "ru": "Держите гантели/гири над головой и идите ровным шагом, сохраняя напряжение в корпусе.",
+      "en": "Hold weights overhead and walk with controlled steps, keeping core tight."
+    },
+    "effect": {
+      "ru": "Улучшает стабильность плечевого пояса, силу хвата и выносливость кора.",
+      "en": "Improves shoulder stability, grip strength and core endurance."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders",
+      "core",
+      "traps"
+    ],
+    "tags": [
+      "dumbbell",
+      "functional",
+      "core"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 9,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "gait",
+      "anti-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders",
+        "core"
+      ],
+      "secondary": [
+        "traps",
+        "forearms",
+        "legs"
+      ]
+    },
+    "difficulty": "advanced",
+    "equipment": [
+      "dumbbell",
+      "kettlebell"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "waiters-walk",
+    "name": {
+      "ru": "Прогулка официанта",
+      "en": "Waiter's Walk"
+    },
+    "shortDescription": {
+      "ru": "Односторонняя переноска веса над головой одной рукой.",
+      "en": "Unilateral overhead carry with one arm."
+    },
+    "instruction": {
+      "ru": "Держите вес одной рукой над головой и идите, сохраняя ровное положение корпуса.",
+      "en": "Hold weight overhead with one arm and walk while keeping torso level."
+    },
+    "effect": {
+      "ru": "Развивает плечевую стабильность, антилатеральный кор и координацию.",
+      "en": "Builds shoulder stability, anti-lateral core and coordination."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "shoulders",
+      "core"
+    ],
+    "tags": [
+      "dumbbell",
+      "functional",
+      "core"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "gait",
+      "anti-lateral"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders",
+        "core"
+      ],
+      "secondary": [
+        "traps",
+        "forearms"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "dumbbell",
+      "kettlebell"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "plate-finger-hold",
+    "name": {
+      "ru": "Удержание блинов пальцами",
+      "en": "Plate Finger Hold"
+    },
+    "shortDescription": {
+      "ru": "Изометрическое упражнение на силу пальцев и предплечий.",
+      "en": "Isometric finger and forearm strength exercise."
+    },
+    "instruction": {
+      "ru": "Удерживайте блин(ы) кончиками пальцев на вытянутых руках или у тела как можно дольше.",
+      "en": "Hold plate(s) with fingertips at arm's length or by your side as long as possible."
+    },
+    "effect": {
+      "ru": "Сильно развивает хват, силу пальцев и предплечий.",
+      "en": "Strongly develops grip, finger strength and forearms."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "forearms"
+    ],
+    "tags": [
+      "grip",
+      "isometric",
+      "home"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 3,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "grip-hold",
+      "isometric"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "forearms"
+      ],
+      "secondary": []
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "plate"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "high",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "wrist-curl",
+    "name": {
+      "ru": "Сгибания кистей",
+      "en": "Wrist Curl"
+    },
+    "shortDescription": {
+      "ru": "Упражнение на сгибатели предплечий.",
+      "en": "Forearm flexor isolation exercise."
+    },
+    "instruction": {
+      "ru": "Сидя, предплечья на бёдрах или скамье, сгибайте кисти вверх с гантелями или штангой.",
+      "en": "With forearms resting on thighs or bench, curl wrists upward."
+    },
+    "effect": {
+      "ru": "Укрепляет сгибатели предплечий и улучшает хват.",
+      "en": "Strengthens forearm flexors and improves grip."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "forearms"
+    ],
+    "tags": [
+      "dumbbell",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 3,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "wrist-flexion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "forearms"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbell",
+      "barbell"
+    ],
+    "contraindications": [
+      "joint-wrist-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "wrist-extension",
+    "name": {
+      "ru": "Разгибания кистей",
+      "en": "Wrist Extension"
+    },
+    "shortDescription": {
+      "ru": "Упражнение на разгибатели предплечий.",
+      "en": "Forearm extensor isolation exercise."
+    },
+    "instruction": {
+      "ru": "Предплечья на опоре, разгибайте кисти вверх с гантелями.",
+      "en": "With forearms supported, extend wrists upward holding dumbbells."
+    },
+    "effect": {
+      "ru": "Укрепляет разгибатели предплечий, балансирует развитие рук.",
+      "en": "Strengthens forearm extensors and balances arm development."
+    },
+    "type": {
+      "ru": "силовое",
+      "en": "strength"
+    },
+    "muscles": [
+      "forearms"
+    ],
+    "tags": [
+      "dumbbell",
+      "isolation"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 2,
+      "concentric": 1,
+      "pauseTop": 1,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 3,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "wrist-extension"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "forearms"
+      ],
+      "secondary": []
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "dumbbell"
+    ],
+    "contraindications": [
+      "joint-wrist-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "low",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "jump-rope",
+    "name": {
+      "ru": "Прыжки на скакалке",
+      "en": "Jump Rope"
+    },
+    "shortDescription": {
+      "ru": "Кардио-упражнение с координацией и работой икр.",
+      "en": "Coordination and calf cardio exercise."
+    },
+    "instruction": {
+      "ru": "Прыгайте на носках, вращая скакалку кистями. Держите корпус ровно.",
+      "en": "Jump on the balls of your feet while rotating the rope with wrists. Keep torso upright."
+    },
+    "effect": {
+      "ru": "Улучшает кардиовыносливость, координацию и силу икроножных мышц.",
+      "en": "Improves cardio endurance, coordination and calf strength."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "calves",
+      "core"
+    ],
+    "tags": [
+      "cardio",
+      "home",
+      "beginner"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 12,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "locomotion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "calves"
+      ],
+      "secondary": [
+        "core",
+        "shoulders",
+        "forearms"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "jump-rope"
+    ],
+    "contraindications": [
+      "joint-knee-pain",
+      "joint-ankle-pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "jog-in-place",
+    "name": {
+      "ru": "Бег на месте",
+      "en": "Jog in Place"
+    },
+    "shortDescription": {
+      "ru": "Простое кардио-упражнение без перемещения.",
+      "en": "Simple stationary cardio exercise."
+    },
+    "instruction": {
+      "ru": "Бегите на месте, высоко поднимая колени или в лёгком темпе. Руки работают как при беге.",
+      "en": "Jog in place, lifting knees or at light pace. Swing arms naturally."
+    },
+    "effect": {
+      "ru": "Повышает пульс, развивает выносливость и разогревает тело.",
+      "en": "Elevates heart rate, builds endurance and warms up the body."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "legs",
+      "calves"
+    ],
+    "tags": [
+      "cardio",
+      "home",
+      "beginner"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 10,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "locomotion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "legs"
+      ],
+      "secondary": [
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "joint-knee-pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "shuttle-run",
+    "name": {
+      "ru": "Челночный бег",
+      "en": "Shuttle Run"
+    },
+    "shortDescription": {
+      "ru": "Интервальное кардио с резкими сменами направления.",
+      "en": "Interval cardio with quick direction changes."
+    },
+    "instruction": {
+      "ru": "Бегите от точки А к точке Б, касайтесь линии, разворачивайтесь и возвращайтесь. Держите низкий центр тяжести при поворотах.",
+      "en": "Run from point A to B, touch the line, turn and sprint back. Keep low center of gravity on turns."
+    },
+    "effect": {
+      "ru": "Развивает скорость, agility, анаэробную выносливость и координацию.",
+      "en": "Develops speed, agility, anaerobic endurance and coordination."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "legs",
+      "glutes",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "cardio",
+      "agility",
+      "beginner"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 12,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "locomotion",
+      "multi-directional"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "hamstrings",
+        "calves"
+      ],
+      "secondary": [
+        "core",
+        "glutes"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight",
+      "cones"
+    ],
+    "contraindications": [
+      "joint-knee-pain",
+      "joint-ankle-instability"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "in-place-sprint",
+    "name": {
+      "ru": "Спринт на месте",
+      "en": "Sprint in Place"
+    },
+    "shortDescription": {
+      "ru": "Высокоинтенсивный бег без перемещения.",
+      "en": "High-intensity running without displacement."
+    },
+    "instruction": {
+      "ru": "Быстро поднимайте колени высоко, активно работайте руками, сохраняйте ровный корпус.",
+      "en": "Quickly drive knees high, pump arms vigorously, keep torso upright."
+    },
+    "effect": {
+      "ru": "Улучшает кардио-выносливость, сжигает калории, развивает скорость ног.",
+      "en": "Improves cardio endurance, burns calories, develops leg speed."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "legs",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "cardio",
+      "hiit",
+      "beginner"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 11,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "locomotion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "calves"
+      ],
+      "secondary": [
+        "core",
+        "shoulders"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "joint-knee-pain",
+      "joint-high-impact-issues"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "shadow-boxing",
+    "name": {
+      "ru": "Боксирование с тенью",
+      "en": "Shadow Boxing"
+    },
+    "shortDescription": {
+      "ru": "Имитация боксерских ударов без снарядов.",
+      "en": "Boxing punches and movement without equipment."
+    },
+    "instruction": {
+      "ru": "Двигайтесь на ногах, наносите комбинации ударов (джебы, кроссы, хуки), держите защиту подбородка.",
+      "en": "Stay light on feet, throw punch combinations (jabs, crosses, hooks), keep chin protected."
+    },
+    "effect": {
+      "ru": "Развивает координацию, скорость, выносливость и рельеф верхней части тела.",
+      "en": "Develops coordination, speed, endurance and upper body definition."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "shoulders",
+      "arms",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "cardio",
+      "hiit"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 10,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "upper-body-push",
+      "rotational"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders",
+        "core"
+      ],
+      "secondary": [
+        "arms",
+        "legs"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement",
+      "joint-wrist-pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "high",
+      "endurance": "medium",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "battle-ropes",
+    "name": {
+      "ru": "Удары канатами",
+      "en": "Battle Ropes"
+    },
+    "shortDescription": {
+      "ru": "Мощные волны и удары канатами для всего тела.",
+      "en": "Powerful rope waves and slams for full-body conditioning."
+    },
+    "instruction": {
+      "ru": "Держите канаты, создавайте волны руками (альтернированные, двойные, slams), ноги слегка согнуты.",
+      "en": "Hold ropes, create waves (alternating, double, slams), keep knees soft."
+    },
+    "effect": {
+      "ru": "Отличная кардио-нагрузка, развивает силу и выносливость плеч, спины и core.",
+      "en": "Excellent cardio, builds power and endurance in shoulders, back and core."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "shoulders",
+      "core",
+      "arms"
+    ],
+    "tags": [
+      "gym",
+      "cardio",
+      "hiit"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 13,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "upper-body-push",
+      "rotational"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "shoulders",
+        "core"
+      ],
+      "secondary": [
+        "arms",
+        "back"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "battle-ropes"
+    ],
+    "contraindications": [
+      "joint-shoulder-impingement",
+      "joint-wrist-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "rowing-machine",
+    "name": {
+      "ru": "Гребля на тренажёре",
+      "en": "Rowing Machine"
+    },
+    "shortDescription": {
+      "ru": "Полнотелое кардио на гребном тренажёре.",
+      "en": "Full-body cardio on rowing ergometer."
+    },
+    "instruction": {
+      "ru": "Тяните рукоять, отталкиваясь ногами, затем подтягивайте к животу. Последовательность: ноги — корпус — руки.",
+      "en": "Drive with legs, then pull handle to torso. Sequence: legs — body — arms."
+    },
+    "effect": {
+      "ru": "Развивает кардио-выносливость и силу всего тела.",
+      "en": "Builds full-body cardio endurance and strength."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "back",
+      "legs",
+      "core"
+    ],
+    "tags": [
+      "gym",
+      "cardio"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 9,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "locomotion",
+      "horizontal-pull"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "back",
+        "legs"
+      ],
+      "secondary": [
+        "core",
+        "shoulders",
+        "arms"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "rowing-machine"
+    ],
+    "contraindications": [
+      "region-lower-back-pain"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "high",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "stationary-bike",
+    "name": {
+      "ru": "Велотренажёр",
+      "en": "Stationary Bike"
+    },
+    "shortDescription": {
+      "ru": "Классическое кардио на велотренажёре.",
+      "en": "Classic cardio on stationary bicycle."
+    },
+    "instruction": {
+      "ru": "Крутите педали равномерно, держите спину прямо, регулируйте сопротивление.",
+      "en": "Pedal at steady cadence, keep back straight, adjust resistance."
+    },
+    "effect": {
+      "ru": "Улучшает выносливость ног и сердечно-сосудистую систему.",
+      "en": "Improves leg endurance and cardiovascular health."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "legs"
+    ],
+    "tags": [
+      "gym",
+      "cardio",
+      "low-impact"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "locomotion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "hamstrings"
+      ],
+      "secondary": [
+        "calves",
+        "glutes"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "stationary-bike"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "elliptical-trainer",
+    "name": {
+      "ru": "Эллиптический тренажёр",
+      "en": "Elliptical Trainer"
+    },
+    "shortDescription": {
+      "ru": "Низкоударное кардио с имитацией бега и ходьбы.",
+      "en": "Low-impact cardio mimicking running and walking."
+    },
+    "instruction": {
+      "ru": "Двигайте рукояти и педали синхронно, держите ровную осанку.",
+      "en": "Move handles and pedals in sync, maintain upright posture."
+    },
+    "effect": {
+      "ru": "Отличная кардио-нагрузка с минимальной нагрузкой на суставы.",
+      "en": "Great cardio with minimal joint stress."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "legs",
+      "arms"
+    ],
+    "tags": [
+      "gym",
+      "cardio",
+      "low-impact"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "locomotion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "shoulders",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "elliptical"
+    ],
+    "contraindications": [],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "incline-treadmill-walk",
+    "name": {
+      "ru": "Ходьба на дорожке под наклоном",
+      "en": "Incline Treadmill Walking"
+    },
+    "shortDescription": {
+      "ru": "Ходьба на беговой дорожке с наклоном.",
+      "en": "Walking on treadmill with incline."
+    },
+    "instruction": {
+      "ru": "Идите в среднем темпе, держите корпус прямо, руки работают естественно.",
+      "en": "Walk at moderate pace, keep torso upright, arms swing naturally."
+    },
+    "effect": {
+      "ru": "Отлично прорабатывает ягодицы и заднюю поверхность бедра, сжигает калории.",
+      "en": "Excellent for glutes and hamstrings, high calorie burn."
+    },
+    "type": {
+      "ru": "кардио",
+      "en": "cardio"
+    },
+    "muscles": [
+      "glutes",
+      "legs"
+    ],
+    "tags": [
+      "gym",
+      "cardio",
+      "low-impact"
+    ],
+    "executionMode": "time",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 7,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "locomotion"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes",
+        "hamstrings"
+      ],
+      "secondary": [
+        "calves",
+        "core"
+      ]
+    },
+    "difficulty": "beginner",
+    "equipment": [
+      "treadmill"
+    ],
+    "contraindications": [
+      "joint-knee-pain"
+    ],
+    "intensityProfile": {
+      "strength": "low",
+      "cardio": "medium",
+      "endurance": "high",
+      "impact": "low"
+    }
+  },
+  {
+    "id": "lateral-jumps",
+    "name": {
+      "ru": "Боковые прыжки",
+      "en": "Lateral Jumps"
+    },
+    "shortDescription": {
+      "ru": "Прыжки из стороны в сторону.",
+      "en": "Side-to-side jumping."
+    },
+    "instruction": {
+      "ru": "Прыгайте в сторону, мягко приземляйтесь и сразу отталкивайтесь в обратную сторону. Держите колени над стопами.",
+      "en": "Jump side to side, land softly and immediately push off opposite direction. Keep knees over toes."
+    },
+    "effect": {
+      "ru": "Развивает боковую силу, agility и взрывную мощь ног.",
+      "en": "Develops lateral strength, agility and explosive leg power."
+    },
+    "type": {
+      "ru": "плиометрика",
+      "en": "plyometric"
+    },
+    "muscles": [
+      "legs",
+      "glutes"
+    ],
+    "tags": [
+      "home",
+      "plyo",
+      "agility"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 8,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "multi-directional",
+      "jumping"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "quads",
+        "glutes"
+      ],
+      "secondary": [
+        "calves",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "joint-knee-pain",
+      "joint-ankle-instability"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "medium",
+      "endurance": "medium",
+      "impact": "high"
+    }
+  },
+  {
+    "id": "skater-jumps",
+    "name": {
+      "ru": "Конькобежец",
+      "en": "Skater Jumps"
+    },
+    "shortDescription": {
+      "ru": "Прыжки в сторону с имитацией конькобежца.",
+      "en": "Lateral bounding jumps mimicking speed skater."
+    },
+    "instruction": {
+      "ru": "Оттолкнитесь одной ногой в сторону, приземлитесь на другую, слегка наклонитесь вперёд. Руки помогают балансу.",
+      "en": "Push off one leg sideways, land on the other, slight forward lean. Arms help with balance."
+    },
+    "effect": {
+      "ru": "Развивает боковую силу, баланс, взрывную мощь и координацию.",
+      "en": "Develops lateral power, balance, explosiveness and coordination."
+    },
+    "type": {
+      "ru": "плиометрика",
+      "en": "plyometric"
+    },
+    "muscles": [
+      "legs",
+      "glutes",
+      "core"
+    ],
+    "tags": [
+      "home",
+      "plyo",
+      "agility"
+    ],
+    "executionMode": "reps",
+    "tempo": {
+      "eccentric": 0,
+      "concentric": 0,
+      "pauseTop": 0,
+      "pauseBottom": 0
+    },
+    "estimatedCalories": 9,
+    "image": "",
+    "isCustom": false,
+    "movementPatterns": [
+      "multi-directional",
+      "jumping"
+    ],
+    "muscleGroups": {
+      "primary": [
+        "glutes",
+        "quads"
+      ],
+      "secondary": [
+        "hamstrings",
+        "core"
+      ]
+    },
+    "difficulty": "intermediate",
+    "equipment": [
+      "bodyweight"
+    ],
+    "contraindications": [
+      "joint-knee-pain",
+      "joint-ankle-instability"
+    ],
+    "intensityProfile": {
+      "strength": "medium",
+      "cardio": "high",
+      "endurance": "medium",
       "impact": "medium"
     }
   }

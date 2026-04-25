@@ -129,11 +129,16 @@ function normalizeEquipment(value) {
 function normalizeEquipmentId(value) {
   const normalized = normalizeString(value).toLowerCase().replaceAll(' ', '-');
 
-  if (normalized === 'resistance-band') {
-    return 'bands';
-  }
-
-  return normalized;
+  return (
+    {
+      bar: 'pull-up-bar',
+      cable: 'cable-station',
+      'cable-machine': 'cable-station',
+      dumbbell: 'dumbbells',
+      machine: 'machines',
+      'resistance-band': 'bands',
+    }[normalized] || normalized
+  );
 }
 
 function normalizeMuscleGroups(value) {

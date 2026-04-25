@@ -1,42 +1,22 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { SUPPORTED_CONTRAINDICATION_TAGS } from '../../js/features/contraindications.js';
+import { getBuiltInEquipmentCatalog } from '../../js/features/equipment.js';
 
 const sourcePath = path.resolve(process.cwd(), 'data', 'exercises.json');
 const exerciseRecords = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
 
-const EQUIPMENT_TAGS = new Set([
-  'bodyweight',
-  'dumbbells',
-  'kettlebell',
-  'bands',
-  'bench',
-  'pull-up-bar',
-  'barbell',
-  'machines',
-  'cable-station',
-  'gymnastic-rings',
-  'jump-rope',
-  'medicine-ball',
-]);
-
+const EQUIPMENT_TAGS = new Set(getBuiltInEquipmentCatalog().map((item) => item.id));
 const DIFFICULTY_TAGS = new Set(['beginner', 'intermediate', 'advanced']);
-const CONTRAINDICATION_TAGS = new Set([
-  'joint-wrist-pain',
-  'joint-elbow-irritation',
-  'joint-shoulder-pain',
-  'joint-shoulder-irritation',
-  'joint-shoulder-impingement',
-  'joint-hip-pain',
-  'joint-knee-pain',
-  'joint-knee-instability',
-  'joint-ankle-pain',
-  'joint-ankle-instability',
-  'region-lower-back-pain',
-  'region-back-severe-pain',
-  'region-neck-pain',
-  'cardio-high-blood-pressure',
+const CONTRAINDICATION_TAGS = new Set(SUPPORTED_CONTRAINDICATION_TAGS);
+const EQUIPMENT_ALIASES = new Map([
+  ['bar', 'pull-up-bar'],
+  ['cable', 'cable-station'],
+  ['cable-machine', 'cable-station'],
+  ['dumbbell', 'dumbbells'],
+  ['machine', 'machines'],
+  ['resistance-band', 'bands'],
 ]);
-const EQUIPMENT_ALIASES = new Map([['resistance-band', 'bands']]);
 
 function normalizeEquipmentId(value) {
   const normalized = String(value || '')

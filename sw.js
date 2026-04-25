@@ -25,6 +25,7 @@ const APP_SHELL = [
   './js/features/history.js',
   './js/features/presets.js',
   './js/features/recommendations.js',
+  './js/features/workout-generation.js',
   './js/features/workouts.js',
   './js/i18n/index.js',
   './js/i18n/messages-en.js',

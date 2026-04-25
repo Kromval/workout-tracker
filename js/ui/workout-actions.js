@@ -1,8 +1,16 @@
 import { localizedText, t } from '../i18n/index.js';
 import { renderListItem, renderWorkoutDraftItem } from '../pages/renderers.js';
 import { getPopularPresetWorkout } from '../features/presets.js';
+import { createSingleWorkoutRecommendation } from '../features/workout-generation.js';
 import { refreshStore } from '../core/state.js';
-import { selectExerciseCatalog, selectLanguage, selectWorkoutById } from '../core/selectors.js';
+import {
+  selectEquipment,
+  selectEquipmentCatalog,
+  selectExerciseCatalog,
+  selectLanguage,
+  selectProfile,
+  selectWorkoutById,
+} from '../core/selectors.js';
 import {
   createWorkoutItem,
   createWorkoutRecord,
@@ -101,6 +109,59 @@ export function handlePresetWorkoutAction(button, state) {
   );
 }
 
+export function handleWorkoutGenerationFormSubmit(form, state) {
+  const status = form.querySelector('[data-workout-generation-status]');
+
+  clearGenerationStatus(status);
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    setGenerationStatus(status, t(state, 'formRequiredFields'), 'error');
+    return;
+  }
+
+  const formData = new FormData(form);
+  const request = {
+    targetDurationMin: Number(formData.get('targetDurationMin')),
+    workoutType: normalizeFormString(formData.get('workoutType')) || 'auto',
+    priorities: readWorkoutGenerationPriorities(formData),
+  };
+
+  try {
+    const recommendation = createSingleWorkoutRecommendation({
+      request,
+      exercises: selectExerciseCatalog(state),
+      profile: selectProfile(state),
+      equipment: selectEquipment(state),
+      equipmentCatalog: selectEquipmentCatalog(state),
+    });
+
+    if (recommendation.workout.items.length === 0) {
+      setGenerationStatus(status, t(state, 'workoutGenerateEmpty'), 'error');
+      return;
+    }
+
+    const workout = createWorkoutRecord({
+      title: recommendation.workout.title,
+      description: recommendation.workout.description,
+      defaultRestBetweenExercises: recommendation.workout.defaultRestBetweenExercises,
+      items: recommendation.workout.items,
+    });
+
+    refreshStore();
+    navigateWithNotice(
+      `workout-view/${encodeURIComponent(workout.id)}`,
+      t(state, 'workoutGenerateCreated'),
+    );
+  } catch (error) {
+    setGenerationStatus(
+      status,
+      error.message || t(state, 'workoutGenerateFailed'),
+      'error',
+    );
+  }
+}
+
 export function handleEditableListAdd(button, state) {
   const name = button.dataset.listAdd;
   const root = button.closest(`[data-editable-list="${name}"]`);
@@ -120,6 +181,46 @@ export function handleEditableListAdd(button, state) {
 
   input.value = '';
   input.focus();
+}
+
+function readWorkoutGenerationPriorities(formData) {
+  return {
+    goals: {
+      strength: readPriorityValue(formData, 'goals.strength'),
+      hypertrophy: readPriorityValue(formData, 'goals.hypertrophy'),
+      endurance: readPriorityValue(formData, 'goals.endurance'),
+      fatLoss: readPriorityValue(formData, 'goals.fatLoss'),
+      mobility: readPriorityValue(formData, 'goals.mobility'),
+    },
+    bodyFocusGoals: {
+      upperBody: readPriorityValue(formData, 'bodyFocusGoals.upperBody'),
+      lowerBody: readPriorityValue(formData, 'bodyFocusGoals.lowerBody'),
+      vTaper: readPriorityValue(formData, 'bodyFocusGoals.vTaper'),
+      core: readPriorityValue(formData, 'bodyFocusGoals.core'),
+      arms: readPriorityValue(formData, 'bodyFocusGoals.arms'),
+      glutes: readPriorityValue(formData, 'bodyFocusGoals.glutes'),
+    },
+  };
+}
+
+function readPriorityValue(formData, fieldName) {
+  const value = Number(formData.get(fieldName));
+  return Number.isFinite(value) ? Math.min(1, Math.max(0, value)) : 0;
+}
+
+function setGenerationStatus(status, message, type = 'success') {
+  if (!status) return;
+
+  status.textContent = message;
+  if (message) {
+    status.dataset.type = type;
+  } else {
+    delete status.dataset.type;
+  }
+}
+
+function clearGenerationStatus(status) {
+  setGenerationStatus(status, '');
 }
 
 export function handleWorkoutAddExercise(button, state) {

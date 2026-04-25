@@ -1,7 +1,12 @@
 import { t } from '../i18n/index.js';
 import { renderEmptyState } from './components.js';
 import { getRouteParams } from '../core/router.js';
-import { selectExerciseCatalog, selectUserWorkouts, selectWorkoutById } from '../core/selectors.js';
+import {
+  selectExerciseCatalog,
+  selectProfile,
+  selectUserWorkouts,
+  selectWorkoutById,
+} from '../core/selectors.js';
 import { escapeAttribute, escapeHtml, formatCalories, formatDuration } from '../core/utils.js';
 import {
   calculateEstimatedWorkoutDuration,
@@ -12,6 +17,78 @@ import { renderWorkoutCard, renderWorkoutViewItem } from './workout-renderers.js
 
 export function renderWorkoutCreatePage(state) {
   return renderWorkoutFormPage(state, null);
+}
+
+export function renderWorkoutGeneratePage(state) {
+  const profile = selectProfile(state);
+  const durationMin = profile.sessionDurationMin || 30;
+  const goals = profile.goals || {};
+  const bodyFocusGoals = profile.bodyFocusGoals || {};
+
+  return `
+    <section class="page" data-page-route="workout-generate">
+      <div class="page-header">
+        <div>
+          <a class="back-link" href="#workout-create">← ${t(state, 'workoutCreateTitle')}</a>
+          <h1>${t(state, 'workoutGenerateTitle')}</h1>
+          <p class="muted">${t(state, 'workoutGenerateDescription')}</p>
+        </div>
+      </div>
+
+      <form class="card" data-workout-generation-form aria-describedby="workout-generation-status" novalidate>
+        <fieldset class="form-section">
+          <legend>${t(state, 'workoutGenerateBasics')}</legend>
+          <div class="form-grid">
+            <label class="field" for="workout-generate-duration">
+              <span>${t(state, 'workoutGenerateDuration')}</span>
+              <input id="workout-generate-duration" name="targetDurationMin" type="number" min="10" max="120" step="5" value="${escapeAttribute(durationMin)}" required>
+            </label>
+
+            <label class="field" for="workout-generate-type">
+              <span>${t(state, 'workoutGenerateType')}</span>
+              <select id="workout-generate-type" name="workoutType">
+                <option value="auto">${t(state, 'workoutGenerateTypeAuto')}</option>
+                <option value="straight">${t(state, 'workoutGenerateTypeStraight')}</option>
+                <option value="circuit">${t(state, 'workoutGenerateTypeCircuit')}</option>
+                <option value="interval">${t(state, 'workoutGenerateTypeInterval')}</option>
+                <option value="mobility">${t(state, 'workoutGenerateTypeMobility')}</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend>${t(state, 'profileGoalsWeighted')}</legend>
+          <div class="form-grid">
+            ${renderPriorityRange(state, 'goals.strength', 'goalOptionStrength', goals.strength)}
+            ${renderPriorityRange(state, 'goals.hypertrophy', 'goalOptionHypertrophy', goals.hypertrophy)}
+            ${renderPriorityRange(state, 'goals.endurance', 'goalOptionEndurance', goals.endurance)}
+            ${renderPriorityRange(state, 'goals.fatLoss', 'goalOptionFatLoss', goals.fatLoss)}
+            ${renderPriorityRange(state, 'goals.mobility', 'profileGoalMobility', goals.mobility)}
+          </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend>${t(state, 'profileBodyFocusGoals')}</legend>
+          <div class="form-grid">
+            ${renderPriorityRange(state, 'bodyFocusGoals.upperBody', 'bodyFocusUpperBody', bodyFocusGoals.upperBody)}
+            ${renderPriorityRange(state, 'bodyFocusGoals.lowerBody', 'bodyFocusLowerBody', bodyFocusGoals.lowerBody)}
+            ${renderPriorityRange(state, 'bodyFocusGoals.vTaper', 'bodyFocusVTaper', bodyFocusGoals.vTaper)}
+            ${renderPriorityRange(state, 'bodyFocusGoals.core', 'bodyFocusCore', bodyFocusGoals.core)}
+            ${renderPriorityRange(state, 'bodyFocusGoals.arms', 'bodyFocusArms', bodyFocusGoals.arms)}
+            ${renderPriorityRange(state, 'bodyFocusGoals.glutes', 'bodyFocusGlutes', bodyFocusGoals.glutes)}
+          </div>
+        </fieldset>
+
+        <p class="notice" id="workout-generation-status" data-workout-generation-status role="status" aria-live="polite"></p>
+
+        <div class="toolbar">
+          <button class="button button--primary" type="submit">${t(state, 'workoutGenerateSubmit')}</button>
+          <a class="button" href="#workout-create">${t(state, 'cancel')}</a>
+        </div>
+      </form>
+    </section>
+  `;
 }
 
 export function renderWorkoutEditPage(state) {
@@ -29,6 +106,23 @@ export function renderWorkoutViewPage(state) {
       </div>
     </section>
   `;
+}
+
+function renderPriorityRange(state, name, labelKey, value = 0) {
+  const normalizedValue = normalizePriorityValue(value);
+  const id = `workout-generate-${name.replaceAll('.', '-')}`;
+
+  return `
+    <label class="field" for="${id}">
+      <span>${t(state, labelKey)}</span>
+      <input id="${id}" name="${escapeAttribute(name)}" type="range" min="0" max="1" step="0.1" value="${escapeAttribute(normalizedValue)}">
+    </label>
+  `;
+}
+
+function normalizePriorityValue(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? Math.min(1, Math.max(0, number)) : 0;
 }
 
 export function renderWorkoutRunPage(state) {

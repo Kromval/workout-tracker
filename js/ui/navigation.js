@@ -5,6 +5,7 @@ export const routeLabels = {
   'exercise-create': 'createExercise',
   'exercise-view': 'navExerciseView',
   'workout-create': 'navWorkoutCreate',
+  'workout-generate': 'workoutGenerateTitle',
   'workout-edit': 'navWorkoutEdit',
   'workout-view': 'navWorkoutView',
   'workout-run': 'navWorkoutRun',

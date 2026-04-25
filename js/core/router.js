@@ -8,6 +8,7 @@ export const routes = [
   'exercise-edit',
   'exercise-view',
   'workout-create',
+  'workout-generate',
   'workout-edit',
   'workout-view',
   'workout-run',

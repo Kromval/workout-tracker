@@ -54,11 +54,16 @@ function normalizeTag(value) {
 function normalizeEquipmentId(value) {
   const normalized = normalizeTag(value);
 
-  if (normalized === 'resistance-band') {
-    return 'bands';
-  }
-
-  return normalized;
+  return (
+    {
+      bar: 'pull-up-bar',
+      cable: 'cable-station',
+      'cable-machine': 'cable-station',
+      dumbbell: 'dumbbells',
+      machine: 'machines',
+      'resistance-band': 'bands',
+    }[normalized] || normalized
+  );
 }
 
 function normalizeDifficulty(value) {

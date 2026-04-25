@@ -8,6 +8,7 @@ import {
   handleWorkoutAddExercise,
   handleWorkoutDragOver,
   handleWorkoutDragStart,
+  handleWorkoutGenerationFormSubmit,
   handleWorkoutFormSubmit,
   handleWorkoutItemMove,
   hasDraggedWorkoutItem,
@@ -71,6 +72,13 @@ export function bindWorkoutEvents(state) {
   });
 
   document.addEventListener('submit', (event) => {
+    const generationForm = event.target?.closest?.('[data-workout-generation-form]');
+    if (generationForm) {
+      event.preventDefault();
+      handleWorkoutGenerationFormSubmit(generationForm, state);
+      return;
+    }
+
     const workoutForm = event.target?.closest?.('[data-workout-form]');
     if (workoutForm) {
       event.preventDefault();

@@ -8,14 +8,19 @@ import {
 describe('exercise compatibility helpers', () => {
   test('extracts equipment ids from explicit equipment field with tag fallback', () => {
     const exercise = {
-      equipment: ['bodyweight', 'resistance-band'],
+      equipment: ['bodyweight', 'resistance-band', 'dumbbell', 'cable-machine'],
       tags: ['home', 'bodyweight', 'kettlebell'],
     };
 
-    expect(getExerciseEquipmentIds(exercise, ['bodyweight', 'kettlebell', 'bands'])).toEqual([
-      'bodyweight',
-      'bands',
-    ]);
+    expect(
+      getExerciseEquipmentIds(exercise, [
+        'bodyweight',
+        'kettlebell',
+        'bands',
+        'dumbbells',
+        'cable-station',
+      ]),
+    ).toEqual(['bodyweight', 'bands', 'dumbbells', 'cable-station']);
   });
 
   test('allows untagged exercises and respects selected equipment for tagged ones', () => {

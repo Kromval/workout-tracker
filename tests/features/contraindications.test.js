@@ -26,4 +26,24 @@ describe('contraindication normalization', () => {
       normalizeContraindicationTags(['wrist pain', 'joint-wrist-pain', 'elbow issues']),
     ).toEqual(['joint-wrist-pain', 'joint-elbow-irritation']);
   });
+
+  test('normalizes injury-specific contraindication aliases', () => {
+    expect(
+      normalizeContraindicationTags([
+        'hamstring-injury',
+        'hernia',
+        'hip-impingement',
+        'spinal-issues',
+        'achilles-tendinopathy',
+        'high-impact-joint-issues',
+      ]),
+    ).toEqual([
+      'soft-tissue-hamstring-injury',
+      'core-hernia',
+      'joint-hip-impingement',
+      'region-spinal-issues',
+      'tendon-achilles-tendinopathy',
+      'joint-high-impact-issues',
+    ]);
+  });
 });

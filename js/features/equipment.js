@@ -13,6 +13,23 @@ const builtInEquipmentRecords = Object.freeze([
   { id: 'gymnastic-rings', name: { ru: 'Кольца', en: 'Gymnastic rings' } },
   { id: 'jump-rope', name: { ru: 'Скакалка', en: 'Jump rope' } },
   { id: 'medicine-ball', name: { ru: 'Медбол', en: 'Medicine ball' } },
+  { id: 'ab-wheel', name: { ru: 'Ролик для пресса', en: 'Ab wheel' } },
+  { id: 'battle-ropes', name: { ru: 'Канаты', en: 'Battle ropes' } },
+  { id: 'box', name: { ru: 'Тумба', en: 'Box' } },
+  { id: 'cones', name: { ru: 'Конусы', en: 'Cones' } },
+  { id: 'dip-bars', name: { ru: 'Брусья', en: 'Dip bars' } },
+  { id: 'elliptical', name: { ru: 'Эллиптический тренажер', en: 'Elliptical trainer' } },
+  { id: 'hyperextension-bench', name: { ru: 'Скамья для гиперэкстензии', en: 'Hyperextension bench' } },
+  { id: 'incline-bench', name: { ru: 'Наклонная скамья', en: 'Incline bench' } },
+  { id: 'leg-extension-machine', name: { ru: 'Тренажер для разгибания ног', en: 'Leg extension machine' } },
+  { id: 'leg-press-machine', name: { ru: 'Жим ногами', en: 'Leg press machine' } },
+  { id: 'adductor-machine', name: { ru: 'Тренажер для приведения бедра', en: 'Adductor machine' } },
+  { id: 'plate', name: { ru: 'Блин', en: 'Weight plate' } },
+  { id: 'reverse-hyperextension-machine', name: { ru: 'Обратная гиперэкстензия', en: 'Reverse hyperextension machine' } },
+  { id: 'rowing-machine', name: { ru: 'Гребной тренажер', en: 'Rowing machine' } },
+  { id: 'stationary-bike', name: { ru: 'Велотренажер', en: 'Stationary bike' } },
+  { id: 't-bar', name: { ru: 'T-гриф', en: 'T-bar' } },
+  { id: 'treadmill', name: { ru: 'Беговая дорожка', en: 'Treadmill' } },
 ]);
 
 const builtInEquipment = builtInEquipmentRecords.map((item) => normalizeBuiltInEquipment(item));

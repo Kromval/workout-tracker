@@ -5,7 +5,12 @@ const LEGACY_CONTRAINDICATION_ALIASES = Object.freeze({
   'ankle-pain': ['joint-ankle-pain'],
   'ankle-knee-issues': ['joint-ankle-instability', 'joint-knee-instability'],
   'elbow-issues': ['joint-elbow-irritation'],
+  'elbow-pain': ['joint-elbow-pain'],
   'high-blood-pressure': ['cardio-high-blood-pressure'],
+  'hamstring-injury': ['soft-tissue-hamstring-injury'],
+  hernia: ['core-hernia'],
+  'high-impact-joint-issues': ['joint-high-impact-issues'],
+  'hip-impingement': ['joint-hip-impingement'],
   'hip-pain': ['joint-hip-pain'],
   'knee-pain': ['joint-knee-pain'],
   'knee-ankle-issues': ['joint-knee-instability', 'joint-ankle-instability'],
@@ -16,6 +21,8 @@ const LEGACY_CONTRAINDICATION_ALIASES = Object.freeze({
   'shoulder-impingement': ['joint-shoulder-impingement'],
   'shoulder-issues': ['joint-shoulder-irritation'],
   'shoulder-pain': ['joint-shoulder-pain'],
+  'spinal-issues': ['region-spinal-issues'],
+  'achilles-tendinopathy': ['tendon-achilles-tendinopathy'],
   'wrist-pain': ['joint-wrist-pain'],
 });
 
@@ -27,6 +34,10 @@ export const CONTRAINDICATION_DEFINITIONS = Object.freeze({
   'joint-wrist-pain': Object.freeze({
     jointTags: Object.freeze(['joint-wrist']),
     muscleTags: Object.freeze(['forearms', 'triceps', 'chest', 'shoulders']),
+  }),
+  'joint-elbow-pain': Object.freeze({
+    jointTags: Object.freeze(['joint-elbow']),
+    muscleTags: Object.freeze(['forearms', 'biceps', 'triceps', 'chest', 'back']),
   }),
   'joint-elbow-irritation': Object.freeze({
     jointTags: Object.freeze(['joint-elbow']),
@@ -79,6 +90,30 @@ export const CONTRAINDICATION_DEFINITIONS = Object.freeze({
   'cardio-high-blood-pressure': Object.freeze({
     jointTags: Object.freeze([]),
     muscleTags: Object.freeze([]),
+  }),
+  'soft-tissue-hamstring-injury': Object.freeze({
+    jointTags: Object.freeze(['joint-hip', 'joint-knee']),
+    muscleTags: Object.freeze(['hamstrings', 'glutes', 'lower-back']),
+  }),
+  'core-hernia': Object.freeze({
+    jointTags: Object.freeze([]),
+    muscleTags: Object.freeze(['core', 'lower-back', 'abs']),
+  }),
+  'joint-hip-impingement': Object.freeze({
+    jointTags: Object.freeze(['joint-hip']),
+    muscleTags: Object.freeze(['glutes', 'hip-flexors', 'adductors', 'abductors']),
+  }),
+  'region-spinal-issues': Object.freeze({
+    jointTags: Object.freeze(['joint-spine']),
+    muscleTags: Object.freeze(['lower-back', 'back', 'core', 'neck']),
+  }),
+  'tendon-achilles-tendinopathy': Object.freeze({
+    jointTags: Object.freeze(['joint-ankle']),
+    muscleTags: Object.freeze(['calves', 'feet']),
+  }),
+  'joint-high-impact-issues': Object.freeze({
+    jointTags: Object.freeze(['joint-knee', 'joint-ankle', 'joint-hip']),
+    muscleTags: Object.freeze(['quads', 'hamstrings', 'glutes', 'calves']),
   }),
 });
 
