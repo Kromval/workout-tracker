@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { updateServiceWorkerPrecache } from './precache-utils.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
@@ -21,3 +22,9 @@ const content = [
 
 fs.writeFileSync(targetPath, content, 'utf8');
 console.log(`Generated js/features/exercises-data.js with ${records.length} records.`);
+
+const precacheResult = updateServiceWorkerPrecache(rootDir);
+
+if (precacheResult.updated) {
+  console.log(`Updated sw.js cache revision: ${precacheResult.cacheName}.`);
+}

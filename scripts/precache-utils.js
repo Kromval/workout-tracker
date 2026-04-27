@@ -1,5 +1,9 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+
+const CACHE_NAME_PREFIX = 'workout-planner';
+const CACHE_REVISION_LENGTH = 12;
 
 export function collectAppShell(rootDir = process.cwd()) {
   const context = createCollectContext(rootDir);
@@ -9,6 +13,44 @@ export function collectAppShell(rootDir = process.cwd()) {
   collectJsImports(context);
 
   return sortAppShellEntries(context.appShell);
+}
+
+export function createCacheName(rootDir = process.cwd(), entries = collectAppShell(rootDir)) {
+  return `${CACHE_NAME_PREFIX}-${createAppShellRevision(rootDir, entries)}`;
+}
+
+export function createAppShellRevision(
+  rootDir = process.cwd(),
+  entries = collectAppShell(rootDir),
+) {
+  const hash = createHash('sha256');
+
+  entries.forEach((entry) => {
+    hash.update(entry);
+    hash.update('\0');
+
+    if (entry !== './') {
+      hash.update(readFileSync(resolveAppShellEntry(rootDir, entry)));
+    }
+
+    hash.update('\0');
+  });
+
+  return hash.digest('hex').slice(0, CACHE_REVISION_LENGTH);
+}
+
+export function parseServiceWorkerCacheName(source) {
+  const cacheNameMatch = source.match(/const CACHE_NAME = ['"]([^'"]+)['"];/);
+
+  if (!cacheNameMatch) {
+    throw new Error('Could not find CACHE_NAME in service worker source.');
+  }
+
+  return cacheNameMatch[1];
+}
+
+export function formatCacheName(cacheName) {
+  return `const CACHE_NAME = '${cacheName}';`;
 }
 
 export function parseServiceWorkerAppShell(source) {
@@ -30,6 +72,37 @@ export function parseServiceWorkerAppShell(source) {
 
 export function formatAppShell(entries) {
   return `const APP_SHELL = [\n${entries.map((entry) => `  '${entry}'`).join(',\n')},\n];`;
+}
+
+export function updateServiceWorkerPrecache(rootDir = process.cwd()) {
+  const serviceWorkerPath = path.join(rootDir, 'sw.js');
+  const serviceWorker = readFileSync(serviceWorkerPath, 'utf8');
+  const cacheNamePattern = /const CACHE_NAME = ['"][^'"]+['"];/;
+  const appShellPattern = /const APP_SHELL = \[[\s\S]*?\];/;
+
+  if (!cacheNamePattern.test(serviceWorker)) {
+    throw new Error('Could not find CACHE_NAME in sw.js.');
+  }
+
+  if (!appShellPattern.test(serviceWorker)) {
+    throw new Error('Could not find APP_SHELL in sw.js.');
+  }
+
+  const appShell = collectAppShell(rootDir);
+  const cacheName = createCacheName(rootDir, appShell);
+  const updatedServiceWorker = serviceWorker
+    .replace(cacheNamePattern, formatCacheName(cacheName))
+    .replace(appShellPattern, formatAppShell(appShell));
+
+  if (updatedServiceWorker !== serviceWorker) {
+    writeFileSync(serviceWorkerPath, updatedServiceWorker);
+  }
+
+  return {
+    appShell,
+    cacheName,
+    updated: updatedServiceWorker !== serviceWorker,
+  };
 }
 
 export function resolveAppShellEntry(rootDir, entry) {

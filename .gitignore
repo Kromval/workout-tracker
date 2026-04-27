@@ -4,3 +4,9 @@ coverage/
 playwright-report/
 test-results/
 exercisesToAdd.txt
+data/batches
+data/batcher.js
+data/converter.js
+data/new-exercises.json
+data/converted-draft.json
+addRegProg.txt

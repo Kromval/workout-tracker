@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "cardio-high-blood-pressure",
+      "name": { "ru": "Высокое давление: осторожно с интенсивным кардио", "en": "High blood pressure: caution with intense cardio" },
+      "category": "cardio",
+      "jointTags": [],
+      "muscleTags": [],
+      "aliases": ["high-blood-pressure"]
+    },
+    {
+      "id": "core-hernia",
+      "name": { "ru": "Грыжа: осторожно с нагрузкой на кор", "en": "Hernia: caution with core loading" },
+      "category": "core",
+      "jointTags": [],
+      "muscleTags": ["core", "lower-back", "abs"],
+      "aliases": ["hernia"]
+    },
+    {
+      "id": "joint-ankle-instability",
+      "name": { "ru": "Нестабильность голеностопа", "en": "Ankle instability" },
+      "category": "joint",
+      "jointTags": ["joint-ankle"],
+      "muscleTags": ["calves", "quads", "hamstrings", "feet"],
+      "aliases": ["ankle-issues", "ankle-knee-issues", "knee-ankle-issues"]
+    },
+    {
+      "id": "joint-ankle-pain",
+      "name": { "ru": "Боль в голеностопе", "en": "Ankle pain" },
+      "category": "joint",
+      "jointTags": ["joint-ankle"],
+      "muscleTags": ["calves", "quads", "hamstrings", "feet"],
+      "aliases": ["ankle-pain"]
+    },
+    {
+      "id": "joint-elbow-irritation",
+      "name": { "ru": "Раздражение локтя", "en": "Elbow irritation" },
+      "category": "joint",
+      "jointTags": ["joint-elbow"],
+      "muscleTags": ["forearms", "biceps", "triceps"],
+      "aliases": ["elbow-issues"]
+    },
+    {
+      "id": "joint-elbow-pain",
+      "name": { "ru": "Боль в локте", "en": "Elbow pain" },
+      "category": "joint",
+      "jointTags": ["joint-elbow"],
+      "muscleTags": ["forearms", "biceps", "triceps", "chest", "back"],
+      "aliases": ["elbow-pain"]
+    },
+    {
+      "id": "joint-high-impact-issues",
+      "name": { "ru": "Ограничения для ударной нагрузки", "en": "High-impact joint issues" },
+      "category": "joint",
+      "jointTags": ["joint-knee", "joint-ankle", "joint-hip"],
+      "muscleTags": ["quads", "hamstrings", "glutes", "calves"],
+      "aliases": ["high-impact-joint-issues"]
+    },
+    {
+      "id": "joint-hip-impingement",
+      "name": { "ru": "Импинджмент тазобедренного сустава", "en": "Hip impingement" },
+      "category": "joint",
+      "jointTags": ["joint-hip"],
+      "muscleTags": ["glutes", "hip-flexors", "adductors", "abductors"],
+      "aliases": ["hip-impingement"]
+    },
+    {
+      "id": "joint-hip-pain",
+      "name": { "ru": "Боль в тазобедренном суставе", "en": "Hip pain" },
+      "category": "joint",
+      "jointTags": ["joint-hip"],
+      "muscleTags": ["glutes", "hamstrings", "hip-flexors", "adductors", "abductors"],
+      "aliases": ["hip-pain"]
+    },
+    {
+      "id": "joint-knee-instability",
+      "name": { "ru": "Нестабильность колена", "en": "Knee instability" },
+      "category": "joint",
+      "jointTags": ["joint-knee"],
+      "muscleTags": ["quads", "hamstrings", "glutes", "calves"],
+      "aliases": ["ankle-knee-issues", "knee-ankle-issues"]
+    },
+    {
+      "id": "joint-knee-pain",
+      "name": { "ru": "Боль в колене", "en": "Knee pain" },
+      "category": "joint",
+      "jointTags": ["joint-knee"],
+      "muscleTags": ["quads", "hamstrings", "glutes", "calves"],
+      "aliases": ["knee-pain"]
+    },
+    {
+      "id": "joint-shoulder-impingement",
+      "name": { "ru": "Импинджмент плеча", "en": "Shoulder impingement" },
+      "category": "joint",
+      "jointTags": ["joint-shoulder"],
+      "muscleTags": ["shoulders", "chest", "triceps", "back", "lats", "traps"],
+      "aliases": ["shoulder-impingement"]
+    },
+    {
+      "id": "joint-shoulder-irritation",
+      "name": { "ru": "Раздражение плеча", "en": "Shoulder irritation" },
+      "category": "joint",
+      "jointTags": ["joint-shoulder"],
+      "muscleTags": ["shoulders", "chest", "triceps", "back", "lats", "traps"],
+      "aliases": ["shoulder-issues"]
+    },
+    {
+      "id": "joint-shoulder-pain",
+      "name": { "ru": "Боль в плече", "en": "Shoulder pain" },
+      "category": "joint",
+      "jointTags": ["joint-shoulder"],
+      "muscleTags": ["shoulders", "chest", "triceps", "back", "lats", "traps"],
+      "aliases": ["shoulder-pain"]
+    },
+    {
+      "id": "joint-wrist-pain",
+      "name": { "ru": "Боль в запястье", "en": "Wrist pain" },
+      "category": "joint",
+      "jointTags": ["joint-wrist"],
+      "muscleTags": ["forearms", "triceps", "chest", "shoulders"],
+      "aliases": ["wrist-pain"]
+    },
+    {
+      "id": "region-back-severe-pain",
+      "name": { "ru": "Сильная боль в спине", "en": "Severe back pain" },
+      "category": "region",
+      "jointTags": ["joint-spine"],
+      "muscleTags": ["lower-back", "back", "core", "glutes", "hamstrings"],
+      "aliases": ["severe-back-pain"]
+    },
+    {
+      "id": "region-lower-back-pain",
+      "name": { "ru": "Боль в пояснице", "en": "Lower back pain" },
+      "category": "region",
+      "jointTags": ["joint-spine", "joint-lumbar-spine"],
+      "muscleTags": ["lower-back", "back", "core", "glutes", "hamstrings"],
+      "aliases": ["lower-back-issues", "lower-back-pain"]
+    },
+    {
+      "id": "region-neck-pain",
+      "name": { "ru": "Боль в шее", "en": "Neck pain" },
+      "category": "region",
+      "jointTags": ["joint-cervical-spine"],
+      "muscleTags": ["neck", "traps", "shoulders", "upper-back"],
+      "aliases": ["neck-pain"]
+    },
+    {
+      "id": "region-spinal-issues",
+      "name": { "ru": "Ограничения позвоночника", "en": "Spinal issues" },
+      "category": "region",
+      "jointTags": ["joint-spine"],
+      "muscleTags": ["lower-back", "back", "core", "neck"],
+      "aliases": ["spinal-issues"]
+    },
+    {
+      "id": "soft-tissue-hamstring-injury",
+      "name": { "ru": "Травма задней поверхности бедра", "en": "Hamstring injury" },
+      "category": "soft-tissue",
+      "jointTags": ["joint-hip", "joint-knee"],
+      "muscleTags": ["hamstrings", "glutes", "lower-back"],
+      "aliases": ["hamstring-injury"]
+    },
+    {
+      "id": "tendon-achilles-tendinopathy",
+      "name": { "ru": "Проблемы ахиллова сухожилия", "en": "Achilles tendinopathy" },
+      "category": "tendon",
+      "jointTags": ["joint-ankle"],
+      "muscleTags": ["calves", "feet"],
+      "aliases": ["achilles-tendinopathy"]
+    }
+  ]
+}

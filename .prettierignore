@@ -3,4 +3,4 @@ coverage
 data
 docs
 package-lock.json
-js/features/exercises-data.js
+data/converter.js

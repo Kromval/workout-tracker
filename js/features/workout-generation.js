@@ -145,7 +145,10 @@ export function buildSingleWorkoutTemplate(request = {}) {
   const workoutType = RESOLVED_SINGLE_WORKOUT_TYPES.has(request.workoutType)
     ? request.workoutType
     : selectSingleWorkoutType(request);
-  const targetDurationMin = nonNegativeNumber(request.targetDurationMin, DEFAULT_TARGET_DURATION_MIN);
+  const targetDurationMin = nonNegativeNumber(
+    request.targetDurationMin,
+    DEFAULT_TARGET_DURATION_MIN,
+  );
 
   if (workoutType === 'mobility') {
     return {
@@ -190,6 +193,7 @@ export function selectExercisesForSlots(rankedExercises = [], slots = [], contex
     .map((slot) => {
       const candidates = asArray(rankedExercises)
         .filter((entry) => entry?.exercise?.id && !selectedIds.has(entry.exercise.id))
+        .filter((entry) => isExerciseEligibleForSlot(entry.exercise, slot, context))
         .map((entry) => ({
           entry,
           slot,
@@ -226,6 +230,16 @@ export function prescribeWorkoutItem(exercise, context = {}) {
       durationSec: 45,
       restBetweenSetsSec: 15,
       restAfterExerciseSec: workoutType === 'straight' ? 45 : 15,
+    });
+  }
+
+  if (isMobilityExercise(exercise)) {
+    return buildEffortPrescription(exercise, {
+      sets: 1,
+      reps: 8,
+      durationSec: 45,
+      restBetweenSetsSec: 15,
+      restAfterExerciseSec: 30,
     });
   }
 
@@ -289,11 +303,12 @@ export function prescribeWorkoutItem(exercise, context = {}) {
 }
 
 export function fitWorkoutToDuration(workout, targetDurationMin, exercises = []) {
-  const targetSec = clampNumber(
-    nonNegativeNumber(targetDurationMin, DEFAULT_TARGET_DURATION_MIN),
-    MIN_TARGET_DURATION_MIN,
-    MAX_TARGET_DURATION_MIN,
-  ) * 60;
+  const targetSec =
+    clampNumber(
+      nonNegativeNumber(targetDurationMin, DEFAULT_TARGET_DURATION_MIN),
+      MIN_TARGET_DURATION_MIN,
+      MAX_TARGET_DURATION_MIN,
+    ) * 60;
   let fittedWorkout = normalizeWorkout(workout);
   let estimatedSec = calculateEstimatedWorkoutDuration(fittedWorkout, exercises);
   let attempts = 0;
@@ -410,12 +425,11 @@ function buildConditioningSlots(targetDurationMin, isInterval) {
 
   while (slots.length < targetCount - 1) {
     slots.push(
-      createSlot('conditioning', ['cardio', 'strength'], [
-        'cardio',
-        'full-body',
-        'full-body-dynamic',
-        isInterval ? 'conditioning' : 'compound',
-      ]),
+      createSlot(
+        'conditioning',
+        ['cardio', 'strength'],
+        ['cardio', 'full-body', 'full-body-dynamic', isInterval ? 'conditioning' : 'compound'],
+      ),
     );
   }
 
@@ -427,13 +441,11 @@ function buildMobilitySlots(targetDurationMin) {
   const targetCount = targetDurationMin >= 40 ? 7 : targetDurationMin >= 25 ? 6 : 4;
 
   return Array.from({ length: targetCount }, (_, index) =>
-    createSlot(index === 0 ? 'warmup' : 'mobility', ['yoga', 'static', 'strength'], [
-      'yoga',
-      'mobility',
-      'hold',
-      'core',
-      'full-body',
-    ]),
+    createSlot(
+      index === 0 ? 'warmup' : 'mobility',
+      ['yoga', 'static', 'strength'],
+      ['yoga', 'mobility', 'hold', 'core', 'full-body'],
+    ),
   );
 }
 
@@ -487,6 +499,55 @@ function scoreSlotFit(exercise, slot) {
   return clampUnit(score);
 }
 
+function isExerciseEligibleForSlot(exercise, slot, context = {}) {
+  const role = normalizeToken(slot?.role);
+  const workoutType = normalizeToken(context.workoutType);
+  const type = normalizeToken(exercise?.type?.en || exercise?.type);
+  const tags = new Set(asArray(exercise?.tags).map(normalizeToken));
+  const mode = normalizeToken(exercise?.executionMode);
+  const preferredTypes = asArray(slot?.preferredTypes).map(normalizeToken);
+  const preferredTags = asArray(slot?.preferredTags).map(normalizeToken);
+  const hasPreferredType = preferredTypes.length === 0 || preferredTypes.includes(type);
+  const hasPreferredTag = preferredTags.some((tag) => tags.has(tag));
+
+  if (workoutType === 'straight' && (role === 'main' || role === 'accessory')) {
+    return type === 'strength';
+  }
+
+  if (role === 'core') {
+    return (
+      (type === 'strength' || type === 'static') &&
+      (exerciseTargetsMuscle(exercise, 'core') || tags.has('core') || tags.has('hold'))
+    );
+  }
+
+  if (role === 'mobility') {
+    return type === 'yoga' || tags.has('mobility') || mode === 'hold';
+  }
+
+  if (role === 'conditioning' || role === 'finisher') {
+    return (
+      type === 'cardio' ||
+      type === 'strength' ||
+      tags.has('cardio') ||
+      tags.has('conditioning') ||
+      tags.has('full-body-dynamic')
+    );
+  }
+
+  if (role === 'warmup') {
+    return (
+      hasPreferredType ||
+      hasPreferredTag ||
+      tags.has('warmup') ||
+      tags.has('mobility') ||
+      mode === 'time'
+    );
+  }
+
+  return hasPreferredType || hasPreferredTag;
+}
+
 function scoreSelectionDiversity(exercise, selectedPatterns) {
   const movementPatterns = asArray(exercise?.movementPatterns).map(normalizeToken);
 
@@ -530,12 +591,17 @@ function buildEffortPrescription(exercise, prescription) {
   };
 }
 
+function isMobilityExercise(exercise) {
+  const type = normalizeToken(exercise?.type?.en || exercise?.type);
+  const tags = new Set(asArray(exercise?.tags).map(normalizeToken));
+
+  return type === 'yoga' || tags.has('yoga') || tags.has('mobility');
+}
+
 function reduceWorkoutVolume(workout) {
   const normalizedWorkout = normalizeWorkout(workout);
   const items = [...normalizedWorkout.items];
-  const reducibleItem = [...items]
-    .reverse()
-    .find((item) => item.sets > 1 && !isWarmupItem(item));
+  const reducibleItem = [...items].reverse().find((item) => item.sets > 1 && !isWarmupItem(item));
 
   if (reducibleItem) {
     return updateWorkoutItem(normalizedWorkout, reducibleItem.id, {

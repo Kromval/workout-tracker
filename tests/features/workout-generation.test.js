@@ -3,9 +3,13 @@ import {
   fitWorkoutToDuration,
   normalizeSingleWorkoutRequest,
   prescribeWorkoutItem,
+  selectExercisesForSlots,
   selectSingleWorkoutType,
 } from '../../js/features/workout-generation.js';
-import { calculateEstimatedWorkoutDuration, createEmptyWorkout } from '../../js/features/workouts.js';
+import {
+  calculateEstimatedWorkoutDuration,
+  createEmptyWorkout,
+} from '../../js/features/workouts.js';
 
 const equipmentCatalog = [{ id: 'bodyweight' }];
 const equipment = { selectedIds: ['bodyweight'] };
@@ -134,6 +138,20 @@ describe('single workout generation', () => {
     expect(result.summary.estimatedDurationMin).toBeGreaterThan(0);
   });
 
+  test('keeps yoga out of straight strength work slots even when it is ranked higher', () => {
+    const selections = selectExercisesForSlots(
+      [
+        { exercise: createExercise({ id: 'corpse-pose', type: 'yoga', tags: ['yoga'] }), score: 1 },
+        { exercise: createExercise({ id: 'push-ups', type: 'strength' }), score: 0.1 },
+      ],
+      [{ role: 'main', preferredTypes: ['strength'], preferredTags: ['compound'] }],
+      { workoutType: 'straight' },
+    );
+
+    expect(selections).toHaveLength(1);
+    expect(selections[0].entry.exercise.id).toBe('push-ups');
+  });
+
   test('uses profile priorities when request does not override them', () => {
     const result = createSingleWorkoutRecommendation({
       request: {
@@ -179,13 +197,33 @@ describe('single workout generation', () => {
 
   test('prescribes duration for time and hold exercises', () => {
     expect(
-      prescribeWorkoutItem(
-        createExercise({ id: 'plank', executionMode: 'hold', type: 'static' }),
-        { workoutType: 'straight', goalId: 'strength', trainingLevel: 'beginner' },
-      ),
+      prescribeWorkoutItem(createExercise({ id: 'plank', executionMode: 'hold', type: 'static' }), {
+        workoutType: 'straight',
+        goalId: 'strength',
+        trainingLevel: 'beginner',
+      }),
     ).toMatchObject({
       reps: null,
       durationSec: 30,
+    });
+  });
+
+  test('does not prescribe strength volume to yoga holds', () => {
+    expect(
+      prescribeWorkoutItem(
+        createExercise({
+          id: 'corpse-pose',
+          executionMode: 'hold',
+          type: 'yoga',
+          tags: ['yoga', 'mobility'],
+        }),
+        { workoutType: 'straight', goalId: 'strength', trainingLevel: 'advanced' },
+      ),
+    ).toMatchObject({
+      sets: 1,
+      reps: null,
+      durationSec: 45,
+      restBetweenSetsSec: 15,
     });
   });
 

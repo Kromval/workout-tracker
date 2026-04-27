@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "bodyweight",
+      "name": {
+        "ru": "Собственный вес",
+        "en": "Bodyweight"
+      }
+    },
+    {
+      "id": "external-load",
+      "name": {
+        "ru": "Внешнее отягощение",
+        "en": "External load"
+      }
+    },
+    {
+      "id": "elastic-resistance",
+      "name": {
+        "ru": "Эластичное сопротивление",
+        "en": "Elastic resistance"
+      }
+    },
+    {
+      "id": "machine",
+      "name": {
+        "ru": "Тренажер",
+        "en": "Machine"
+      }
+    },
+    {
+      "id": "assisted",
+      "name": {
+        "ru": "С поддержкой",
+        "en": "Assisted"
+      }
+    },
+    {
+      "id": "weighted-bodyweight",
+      "name": {
+        "ru": "Собственный вес с отягощением",
+        "en": "Weighted bodyweight"
+      }
+    }
+  ]
+}

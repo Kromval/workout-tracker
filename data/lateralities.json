@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "bilateral",
+      "name": {
+        "ru": "Двустороннее",
+        "en": "Bilateral"
+      }
+    },
+    {
+      "id": "unilateral",
+      "name": {
+        "ru": "Одностороннее",
+        "en": "Unilateral"
+      }
+    },
+    {
+      "id": "alternating",
+      "name": {
+        "ru": "Попеременное",
+        "en": "Alternating"
+      }
+    }
+  ]
+}

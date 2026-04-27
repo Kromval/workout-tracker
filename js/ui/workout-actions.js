@@ -154,11 +154,7 @@ export function handleWorkoutGenerationFormSubmit(form, state) {
       t(state, 'workoutGenerateCreated'),
     );
   } catch (error) {
-    setGenerationStatus(
-      status,
-      error.message || t(state, 'workoutGenerateFailed'),
-      'error',
-    );
+    setGenerationStatus(status, error.message || t(state, 'workoutGenerateFailed'), 'error');
   }
 }
 

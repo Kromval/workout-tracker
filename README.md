@@ -9,7 +9,7 @@ Workout Planner is a framework-free progressive web app for building workouts, g
 
 ## Features
 
-- Exercise catalog with 172 built-in exercises, search, filters, favorites, disliked exercises, custom exercises, equipment compatibility, and profile-level compatibility.
+- Exercise catalog with 163 built-in exercises, search, filters, favorites, disliked exercises, custom exercises, equipment compatibility, and profile-level compatibility.
 - Workout builder with exercise ordering, sets, reps, duration, rest intervals, notes, drag-and-drop ordering, preset copying, duplication, editing, and deletion.
 - Single-workout generator available from `#workout-create`, using duration, workout type, profile goals, body-focus priorities, equipment, contraindications, and recommendation scoring.
 - Guided workout runner with timers, rest steps, pause/resume, skip, time adjustment, completion flow, active-session recovery, and audio cues.
@@ -205,12 +205,14 @@ After editing `data/exercises.json`, run:
 node scripts/generate-exercises-data.js
 ```
 
-Exercise records should include:
+Exercise records use the canonical nested model:
 
-- localized `name`, `shortDescription`, `instruction`, `effect`, and `type`;
-- `muscles`, `muscleGroups.primary`, and optionally `muscleGroups.secondary`;
-- `tags`, `movementPatterns`, `difficulty`, `equipment`, and `contraindications`;
-- `executionMode`, `tempo`, `estimatedCalories`, and `intensityProfile`.
+- localized `names`;
+- `classification` for modality, movement patterns, difficulty, equipment, body position, and laterality;
+- `mechanics` for execution mode, tempo, range of motion, and load type;
+- `muscles`, `technique`, `dosage`, `safety`, `progression`, and `media`.
+
+The app normalizes this model into the flat runtime shape used by recommendations, filters, workout generation, and custom exercises.
 
 Data quality is checked by `tests/features/exercise-data-tags.test.js`. Equipment IDs are backed by the built-in catalog in `js/features/equipment.js`. Contraindication IDs are backed by `SUPPORTED_CONTRAINDICATION_TAGS` in `js/features/contraindications.js`.
 

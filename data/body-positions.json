@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "standing",
+      "name": {
+        "ru": "Стоя",
+        "en": "Standing"
+      }
+    },
+    {
+      "id": "seated",
+      "name": {
+        "ru": "Сидя",
+        "en": "Seated"
+      }
+    },
+    {
+      "id": "supine",
+      "name": {
+        "ru": "Лежа на спине",
+        "en": "Supine"
+      }
+    },
+    {
+      "id": "prone",
+      "name": {
+        "ru": "Лежа на животе",
+        "en": "Prone"
+      }
+    },
+    {
+      "id": "side-lying",
+      "name": {
+        "ru": "Лежа на боку",
+        "en": "Side-lying"
+      }
+    },
+    {
+      "id": "quadruped",
+      "name": {
+        "ru": "На четвереньках",
+        "en": "Quadruped"
+      }
+    },
+    {
+      "id": "hanging",
+      "name": {
+        "ru": "В висе",
+        "en": "Hanging"
+      }
+    },
+    {
+      "id": "kneeling",
+      "name": {
+        "ru": "На коленях",
+        "en": "Kneeling"
+      }
+    },
+    {
+      "id": "half-kneeling",
+      "name": {
+        "ru": "На одном колене",
+        "en": "Half-kneeling"
+      }
+    }
+  ]
+}
