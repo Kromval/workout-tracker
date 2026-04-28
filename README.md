@@ -12,13 +12,7 @@ Workout Tracker - open-source PWA-приложение для планирова
 
 ## Скриншоты
 
-| Главная                     | Каталог упражнений                      |
-| --------------------------- | --------------------------------------- |
-| `docs/screenshots/home.png` | `docs/screenshots/exercise-catalog.png` |
 
-| Генератор тренировки                     | Активная сессия                        |
-| ---------------------------------------- | -------------------------------------- |
-| `docs/screenshots/workout-generator.png` | `docs/screenshots/workout-session.png` |
 
 ## Возможности
 
