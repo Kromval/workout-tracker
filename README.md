@@ -29,7 +29,7 @@ Workout Tracker - open-source PWA-приложение для планирова
 
 ## Демо / запуск
 
-Демо: `TODO: добавить ссылку на опубликованную версию`.
+Демо: https://kromval.github.io/workout-tracker/
 
 Локальный запуск:
 
