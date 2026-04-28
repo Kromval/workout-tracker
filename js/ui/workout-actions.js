@@ -257,6 +257,9 @@ export function applyWorkoutExerciseFilters(sidebar) {
   const profileLevelFilter = normalizeFormString(
     sidebar.querySelector('[data-workout-exercise-profile-level-filter]')?.value,
   ).toLowerCase();
+  const movementFilter = normalizeFormString(
+    sidebar.querySelector('[data-workout-exercise-movement-filter]')?.value,
+  ).toLowerCase();
   const currentProfileLevel = normalizeFormString(
     sidebar.dataset.profileTrainingLevel,
   ).toLowerCase();
@@ -270,6 +273,9 @@ export function applyWorkoutExerciseFilters(sidebar) {
     const muscles = option.dataset.exerciseMuscles ? option.dataset.exerciseMuscles.split('|') : [];
     const equipmentIds = option.dataset.exerciseEquipment
       ? option.dataset.exerciseEquipment.split('|')
+      : [];
+    const movementPatterns = option.dataset.exerciseMovement
+      ? option.dataset.exerciseMovement.split('|')
       : [];
     const profileLevel = (option.dataset.exerciseProfileLevel || '').toLowerCase();
     const equipmentAvailable = option.dataset.exerciseEquipmentAvailable === 'true';
@@ -288,9 +294,15 @@ export function applyWorkoutExerciseFilters(sidebar) {
       (profileLevelFilter === 'profile'
         ? !currentProfileLevel || profileCompatible
         : profileLevel === profileLevelFilter);
+    const matchesMovement = !movementFilter || movementPatterns.includes(movementFilter);
 
     const isVisible =
-      matchesQuery && matchesType && matchesMuscle && matchesEquipment && matchesProfileLevel;
+      matchesQuery &&
+      matchesType &&
+      matchesMuscle &&
+      matchesEquipment &&
+      matchesProfileLevel &&
+      matchesMovement;
 
     option.style.display = isVisible ? 'grid' : 'none';
 

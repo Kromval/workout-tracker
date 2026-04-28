@@ -50,6 +50,40 @@ function createExercise(overrides = {}) {
   };
 }
 
+function createRawExercise({
+  id,
+  modality = 'strength',
+  executionMode = 'reps',
+  movementPatterns = ['squat'],
+  primary = ['chest'],
+  roleTags = [],
+} = {}) {
+  return {
+    id,
+    names: { en: id, ru: id },
+    classification: {
+      modality,
+      equipment: ['bodyweight'],
+      difficulty: 'beginner',
+      movementPatterns,
+      bodyPosition: roleTags.includes('warmup') ? 'standing' : 'prone',
+    },
+    mechanics: {
+      executionMode,
+      loadType: 'bodyweight',
+    },
+    muscles: {
+      primary,
+      secondary: [],
+      stabilizers: [],
+    },
+    safety: {
+      contraindications: [],
+      impactLevel: modality === 'cardio' ? 'medium' : 'low',
+    },
+  };
+}
+
 describe('single workout generation', () => {
   test('normalizes request defaults and clamps target duration', () => {
     expect(normalizeSingleWorkoutRequest({ durationMin: 5, workoutType: 'unknown' })).toEqual({
@@ -136,6 +170,74 @@ describe('single workout generation', () => {
     expect(result.workout.items[0].notes).toBe('');
     expect(result.workout.items.some((item) => item.exerciseId === 'plank')).toBe(true);
     expect(result.summary.estimatedDurationMin).toBeGreaterThan(0);
+  });
+
+  test('generates a useful workout for a new user with only implicit bodyweight access', () => {
+    const result = createSingleWorkoutRecommendation({
+      request: {
+        targetDurationMin: 20,
+        workoutType: 'auto',
+      },
+      profile: {},
+      equipment: { selectedIds: [] },
+      equipmentCatalog,
+      exercises: [
+        createExercise({ id: 'jumping-jacks', type: 'cardio', tags: ['warmup', 'cardio'] }),
+        createExercise({ id: 'push-ups', primary: ['chest'], pattern: 'horizontal-push' }),
+        createExercise({ id: 'squats', primary: ['quads'], pattern: 'squat' }),
+        createExercise({
+          id: 'plank',
+          type: 'static',
+          executionMode: 'hold',
+          tags: ['core', 'hold'],
+        }),
+      ],
+    });
+
+    expect(result.workout.items.length).toBeGreaterThanOrEqual(3);
+    expect(result.summary.estimatedDurationMin).toBeGreaterThan(0);
+  });
+
+  test('generates from current raw exercise model records', () => {
+    const result = createSingleWorkoutRecommendation({
+      request: {
+        targetDurationMin: 20,
+        workoutType: 'straight',
+      },
+      profile: {
+        trainingLevel: 'beginner',
+        goals: { strength: 1 },
+      },
+      equipment: { selectedIds: [] },
+      equipmentCatalog,
+      exercises: [
+        createRawExercise({ id: 'raw-jumping-jacks', modality: 'cardio', roleTags: ['warmup'] }),
+        createRawExercise({
+          id: 'raw-push-up',
+          modality: 'strength',
+          movementPatterns: ['horizontal-push'],
+          primary: ['chest'],
+        }),
+        createRawExercise({
+          id: 'raw-squat',
+          modality: 'strength',
+          movementPatterns: ['squat'],
+          primary: ['quads'],
+        }),
+        createRawExercise({
+          id: 'raw-plank',
+          modality: 'static',
+          executionMode: 'hold',
+          movementPatterns: ['core-anti-extension'],
+          primary: ['core'],
+        }),
+      ],
+    });
+
+    expect(result.workout.items.length).toBeGreaterThanOrEqual(3);
+    expect(result.workout.items.map((item) => item.exerciseId)).toEqual(
+      expect.arrayContaining(['raw-push-up', 'raw-squat', 'raw-plank']),
+    );
   });
 
   test('keeps yoga out of straight strength work slots even when it is ranked higher', () => {

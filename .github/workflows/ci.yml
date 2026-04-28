@@ -24,8 +24,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
       - name: Run tests
         run: npm test
+
+      - name: Install Playwright browsers
+        run: npm run e2e:install
+
+      - name: Run end-to-end tests
+        run: npm run e2e
+
+      - name: Generate precache
+        run: npm run generate:precache
+
+      - name: Run service worker tests
+        run: npm test -- tests/pwa/service-worker.test.js
 
       - name: Generate coverage
         run: npm run coverage

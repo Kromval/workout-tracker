@@ -435,6 +435,11 @@
   overflow: visible;
 }
 
+.workout-exercise-option--unavailable,
+.workout-exercise-option--above-level {
+  border-color: color-mix(in srgb, #d39a35 48%, #3d3d46);
+}
+
 .workout-exercise-option + .workout-exercise-option {
   margin-top: var(--space-3);
 }
@@ -470,6 +475,45 @@
 .workout-exercise-option__title .badge {
   width: max-content;
   max-width: 100%;
+}
+
+.workout-exercise-option__meta,
+.workout-item__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.workout-exercise-option__meta div,
+.workout-item__meta div {
+  min-width: 0;
+  padding: var(--space-2);
+  background: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.07);
+  border-radius: var(--radius-sm);
+}
+
+.workout-exercise-option__meta dt,
+.workout-item__meta dt {
+  color: rgb(245 241 232 / 0.64);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.workout-exercise-option__meta dd,
+.workout-item__meta dd {
+  margin: var(--space-1) 0 0;
+  color: #fff;
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.workout-exercise-option__warnings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .workout-exercise-option .button {
@@ -515,6 +559,10 @@
 .workout-item__title .badge {
   grid-column: 2;
   width: max-content;
+}
+
+.workout-item__meta {
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
 }
 
 .workout-item__drag-handle {

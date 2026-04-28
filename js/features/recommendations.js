@@ -317,7 +317,7 @@ export function buildExerciseRecommendationMetadata(exercise, context = {}) {
  * @returns {string[]} normalized goal IDs
  */
 export function getExerciseGoalIds(exercise) {
-  const tags = asArray(exercise?.tags).map(normalizeTag);
+  const tags = getExerciseTags(exercise);
   const goals = new Set();
 
   Object.entries(GOAL_TAGS_BY_GOAL).forEach(([goalId, goalTags]) => {
@@ -326,7 +326,7 @@ export function getExerciseGoalIds(exercise) {
     }
   });
 
-  const normalizedType = normalizeString(exercise?.type?.en || exercise?.type).toLowerCase();
+  const normalizedType = getExerciseType(exercise);
   asArray(TYPE_GOALS_BY_TYPE[normalizedType]).forEach((goalId) => goals.add(goalId));
 
   if (goals.size === 0) {
@@ -346,8 +346,8 @@ export function getExerciseGoalIds(exercise) {
 export function scoreGoalAlignment(exercise, profile) {
   const normalizedProfile = normalizeProfile(profile);
   const goals = getNormalizedGoalWeights(normalizedProfile);
-  const type = normalizeToken(exercise?.type?.en || exercise?.type);
-  const tags = new Set(asArray(exercise?.tags).map(normalizeToken));
+  const type = getExerciseType(exercise);
+  const tags = new Set(getExerciseTags(exercise));
 
   const strength = getIntensityValue(exercise, 'strength');
   const endurance = getIntensityValue(exercise, 'endurance');
@@ -406,8 +406,11 @@ export function scoreDifficultyFit(exercise, profile) {
  * @returns {number} `1` when equipment is compatible, else `0`
  */
 export function scoreEquipmentFit(exercise, context = {}) {
-  const selectedEquipmentIds = new Set(asArray(context?.selectedEquipmentIds).map(normalizeToken));
-  const requiredEquipmentIds = asArray(exercise?.equipment).map(normalizeToken);
+  const selectedEquipmentIds = new Set([
+    'bodyweight',
+    ...asArray(context?.selectedEquipmentIds).map(normalizeToken),
+  ]);
+  const requiredEquipmentIds = getExerciseRequiredEquipmentIds(exercise);
 
   if (requiredEquipmentIds.length === 0) {
     return 1;
@@ -424,12 +427,12 @@ export function scoreEquipmentFit(exercise, context = {}) {
  */
 export function scoreMovementFocus(exercise, profile) {
   const bodyFocusGoals = isPlainObject(profile?.bodyFocusGoals) ? profile.bodyFocusGoals : {};
-  const primaryMuscles = new Set(asArray(exercise?.muscleGroups?.primary).map(normalizeToken));
-  const secondaryMuscles = new Set(asArray(exercise?.muscleGroups?.secondary).map(normalizeToken));
+  const primaryMuscles = new Set(getExercisePrimaryMuscles(exercise));
+  const secondaryMuscles = new Set(getExerciseSecondaryMuscles(exercise));
   const allMuscles = new Set([
     ...primaryMuscles,
     ...secondaryMuscles,
-    ...asArray(exercise?.muscles).map(normalizeToken),
+    ...getExerciseMuscles(exercise),
   ]);
   const activeEntries = Object.entries(bodyFocusGoals).filter(
     ([, weight]) => clampUnit(weight) > 0,
@@ -469,7 +472,7 @@ export function scoreMovementFocus(exercise, profile) {
 export function scoreMovementVariety(exercise, context = {}) {
   const recentHistory = normalizeRecentHistory(context?.recentHistory);
   const exerciseId = normalizeToken(exercise?.id);
-  const movementPatterns = asArray(exercise?.movementPatterns).map(normalizeToken);
+  const movementPatterns = getExerciseMovementPatterns(exercise);
 
   let score = 1;
 
@@ -511,8 +514,8 @@ export function scoreContraindications(exercise, profile) {
 export function scorePreferenceFit(exercise, profile) {
   const dislikedExercises = new Set(asArray(profile?.dislikedExercises).map(normalizeToken));
   const likedTags = asArray(profile?.likedTags).map(normalizeToken);
-  const tags = new Set(asArray(exercise?.tags).map(normalizeToken));
-  const equipment = new Set(asArray(exercise?.equipment).map(normalizeToken));
+  const tags = new Set(getExerciseTags(exercise));
+  const equipment = new Set(getExerciseRequiredEquipmentIds(exercise));
   let score = 0.5;
 
   if (dislikedExercises.has(normalizeToken(exercise?.id))) {
@@ -536,15 +539,22 @@ export function scorePreferenceFit(exercise, profile) {
  */
 export function scoreRecoveryFit(exercise, profile) {
   const recoveryProfile = isPlainObject(profile?.recoveryProfile) ? profile.recoveryProfile : {};
-  const muscles = asArray(exercise?.muscleGroups?.primary).map(normalizeToken);
+  const recoveryValues = Object.values(recoveryProfile).map(Number).filter(Number.isFinite);
+  const muscles = getExercisePrimaryMuscles(exercise);
+
+  if (recoveryValues.length > 0 && recoveryValues.every((value) => value === 0)) {
+    return 1;
+  }
 
   if (muscles.length === 0) {
     return 1;
   }
 
   const average =
-    muscles.reduce((sum, muscleId) => sum + clampUnit(recoveryProfile[muscleId] ?? 1), 0) /
-    muscles.length;
+    muscles.reduce(
+      (sum, muscleId) => sum + getRecoveryReadinessForMuscle(recoveryProfile, muscleId),
+      0,
+    ) / muscles.length;
   return clampUnit(average);
 }
 
@@ -595,11 +605,9 @@ function buildExplanationPayload(parts, exercise, profile, context) {
   }
 
   if (parts.equipmentFit === 1) {
-    asArray(exercise?.equipment)
-      .map(normalizeToken)
-      .forEach((equipmentId) => {
-        matchedSignals.push(`equipment-${equipmentId}`);
-      });
+    getExerciseRequiredEquipmentIds(exercise).forEach((equipmentId) => {
+      matchedSignals.push(`equipment-${equipmentId}`);
+    });
     reasons.push('Equipment available');
   }
 
@@ -642,7 +650,7 @@ function buildExplanationPayload(parts, exercise, profile, context) {
 }
 
 function getSelectedEquipmentIds(equipment) {
-  return asArray(equipment?.selectedIds).map(normalizeTag);
+  return uniqueList(['bodyweight', ...asArray(equipment?.selectedIds).map(normalizeTag)]);
 }
 
 function getNormalizedEquipmentCatalog(equipmentCatalog, equipment) {
@@ -777,13 +785,13 @@ function getIntensityValue(exercise, channel) {
     return clampUnit(value);
   }
 
-  return INTENSITY_SCORES[normalizeTag(value)] || 0;
+  return INTENSITY_SCORES[normalizeTag(value)] || getFallbackIntensityValue(exercise, channel);
 }
 
 function getMobilitySignal(exercise) {
-  const type = normalizeTag(exercise?.type?.en || exercise?.type);
-  const tags = new Set(asArray(exercise?.tags).map(normalizeTag));
-  const movementPatterns = new Set(asArray(exercise?.movementPatterns).map(normalizeTag));
+  const type = getExerciseType(exercise);
+  const tags = new Set(getExerciseTags(exercise));
+  const movementPatterns = new Set(getExerciseMovementPatterns(exercise));
 
   if (type === 'yoga' || tags.has('mobility')) {
     return 1;
@@ -797,7 +805,7 @@ function getMobilitySignal(exercise) {
 }
 
 function estimateExerciseDurationMin(exercise) {
-  const executionMode = normalizeTag(exercise?.executionMode);
+  const executionMode = getExerciseExecutionMode(exercise);
   const intensity = Math.max(
     getIntensityValue(exercise, 'strength'),
     getIntensityValue(exercise, 'endurance'),
@@ -813,6 +821,206 @@ function estimateExerciseDurationMin(exercise) {
   }
 
   return 4 + intensity * 4;
+}
+
+function getExerciseType(exercise) {
+  const explicitType = normalizeTag(exercise?.type?.en || exercise?.type);
+  const modality = normalizeTag(exercise?.classification?.modality);
+  const type = explicitType || modality;
+
+  if (type === 'cardio' || type === 'static' || type === 'yoga') {
+    return type;
+  }
+
+  if (type === 'strength' || type === 'compound' || type === 'isolation') {
+    return 'strength';
+  }
+
+  return type;
+}
+
+function getExerciseTags(exercise) {
+  const classification = isPlainObject(exercise?.classification) ? exercise.classification : {};
+  const mechanics = isPlainObject(exercise?.mechanics) ? exercise.mechanics : {};
+  const safety = isPlainObject(exercise?.safety) ? exercise.safety : {};
+  const equipment = getExerciseRequiredEquipmentIds(exercise);
+  const movementPatterns = getExerciseMovementPatterns(exercise);
+  const type = getExerciseType(exercise);
+  const executionMode = getExerciseExecutionMode(exercise);
+  const impact = normalizeTag(exercise?.intensityProfile?.impact || safety.impactLevel);
+  const tags = [
+    ...asArray(exercise?.tags),
+    type,
+    ...equipment,
+    normalizeTag(exercise?.difficulty || classification.difficulty),
+    ...movementPatterns,
+    normalizeTag(mechanics.loadType),
+    normalizeTag(classification.bodyPosition),
+    impact ? `impact-${impact}` : '',
+    executionMode === 'hold' ? 'hold' : '',
+  ]
+    .map(normalizeTag)
+    .filter(Boolean);
+
+  if (type === 'yoga' || movementPatterns.includes('stretch')) {
+    tags.push('mobility');
+  }
+
+  if (equipment.includes('bodyweight')) {
+    tags.push('home');
+  }
+
+  return uniqueList(tags);
+}
+
+function getExerciseRequiredEquipmentIds(exercise) {
+  const explicitEquipment = asArray(exercise?.equipment);
+  const classificationEquipment = asArray(exercise?.classification?.equipment);
+  const source = explicitEquipment.length ? explicitEquipment : classificationEquipment;
+  return uniqueList(source.map(normalizeEquipmentId).filter(Boolean));
+}
+
+function getExerciseMovementPatterns(exercise) {
+  const explicitPatterns = asArray(exercise?.movementPatterns);
+  const classificationPatterns = asArray(exercise?.classification?.movementPatterns);
+  return uniqueList(
+    (explicitPatterns.length ? explicitPatterns : classificationPatterns).map(normalizeTag),
+  );
+}
+
+function getExerciseExecutionMode(exercise) {
+  return normalizeTag(exercise?.executionMode || exercise?.mechanics?.executionMode);
+}
+
+function getExercisePrimaryMuscles(exercise) {
+  const explicitPrimary = asArray(exercise?.muscleGroups?.primary);
+  const currentModelPrimary = asArray(exercise?.muscles?.primary);
+  const legacyMuscles = asArray(exercise?.muscles);
+  return uniqueList(
+    (explicitPrimary.length
+      ? explicitPrimary
+      : currentModelPrimary.length
+        ? currentModelPrimary
+        : legacyMuscles
+    ).map(normalizeTag),
+  );
+}
+
+function getExerciseSecondaryMuscles(exercise) {
+  const explicitSecondary = asArray(exercise?.muscleGroups?.secondary);
+  const currentModelSecondary = asArray(exercise?.muscles?.secondary);
+  const stabilizers = asArray(exercise?.muscles?.stabilizers);
+  return uniqueList(
+    (explicitSecondary.length ? explicitSecondary : [...currentModelSecondary, ...stabilizers]).map(
+      normalizeTag,
+    ),
+  );
+}
+
+function getExerciseMuscles(exercise) {
+  const legacyMuscles = Array.isArray(exercise?.muscles) ? exercise.muscles : [];
+  return uniqueList(
+    [
+      ...legacyMuscles,
+      ...getExercisePrimaryMuscles(exercise),
+      ...getExerciseSecondaryMuscles(exercise),
+    ].map(normalizeTag),
+  );
+}
+
+function getRecoveryReadinessForMuscle(recoveryProfile, muscleId) {
+  const normalizedMuscle = normalizeTag(muscleId);
+  const directValue = recoveryProfile[normalizedMuscle];
+
+  if (directValue !== undefined) {
+    return clampUnit(directValue);
+  }
+
+  const area = getRecoveryAreaForMuscle(normalizedMuscle);
+  if (!area) {
+    return 1;
+  }
+
+  return recoveryProfile[area] === undefined ? 1 : clampUnit(recoveryProfile[area]);
+}
+
+function getRecoveryAreaForMuscle(muscleId) {
+  if (muscleId === 'chest') {
+    return 'chest';
+  }
+
+  if (
+    muscleId === 'back' ||
+    muscleId === 'lats' ||
+    muscleId === 'upper-back' ||
+    muscleId === 'lower-back' ||
+    muscleId === 'spinal-erectors'
+  ) {
+    return 'back';
+  }
+
+  if (
+    muscleId === 'legs' ||
+    muscleId === 'quads' ||
+    muscleId === 'quadriceps' ||
+    muscleId === 'hamstrings' ||
+    muscleId === 'glutes' ||
+    muscleId === 'calves' ||
+    muscleId === 'adductors'
+  ) {
+    return 'legs';
+  }
+
+  if (muscleId === 'shoulders' || muscleId === 'delts' || muscleId === 'rear-delts') {
+    return 'shoulders';
+  }
+
+  if (
+    muscleId === 'arms' ||
+    muscleId === 'biceps' ||
+    muscleId === 'triceps' ||
+    muscleId === 'forearms'
+  ) {
+    return 'arms';
+  }
+
+  if (muscleId === 'core' || muscleId === 'abs' || muscleId === 'obliques') {
+    return 'core';
+  }
+
+  return '';
+}
+
+function getFallbackIntensityValue(exercise, channel) {
+  const type = getExerciseType(exercise);
+  const executionMode = getExerciseExecutionMode(exercise);
+  const impact = normalizeTag(exercise?.safety?.impactLevel);
+
+  if (channel === 'impact') {
+    return INTENSITY_SCORES[impact] || 0.25;
+  }
+
+  if (type === 'cardio') {
+    return channel === 'cardio' || channel === 'endurance'
+      ? 1
+      : channel === 'strength' && getExercisePrimaryMuscles(exercise).includes('full-body')
+        ? 0.6
+        : 0.25;
+  }
+
+  if (type === 'static' || executionMode === 'hold') {
+    return channel === 'endurance' ? 1 : 0.25;
+  }
+
+  if (type === 'yoga') {
+    return channel === 'endurance' ? 0.6 : 0.25;
+  }
+
+  if (type === 'strength') {
+    return channel === 'strength' ? 1 : channel === 'endurance' ? 0.6 : 0.25;
+  }
+
+  return 0;
 }
 
 function hasContraindicationMatch(limitations, contraindications) {
@@ -865,6 +1073,21 @@ function getDominantGoal(profile) {
 
 function normalizeTag(value) {
   return normalizeString(value).toLowerCase().replaceAll(' ', '-');
+}
+
+function normalizeEquipmentId(value) {
+  const normalized = normalizeTag(value);
+
+  return (
+    {
+      bar: 'pull-up-bar',
+      cable: 'cable-station',
+      'cable-machine': 'cable-station',
+      dumbbell: 'dumbbells',
+      machine: 'machines',
+      'resistance-band': 'bands',
+    }[normalized] || normalized
+  );
 }
 
 function normalizeToken(value) {

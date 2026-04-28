@@ -20,9 +20,12 @@ export function renderRecommendationsContentRegion(state) {
   const recommendations = selectRecommendedExercises(state);
   const profile = selectProfile(state);
   const topExercises = recommendations.topExercises || [];
-  const selectedEquipmentCount = Array.isArray(state?.store?.equipment?.selectedIds)
-    ? state.store.equipment.selectedIds.length
-    : 0;
+  const selectedEquipmentCount = new Set([
+    'bodyweight',
+    ...(Array.isArray(state?.store?.equipment?.selectedIds)
+      ? state.store.equipment.selectedIds
+      : []),
+  ]).size;
   const exclusionEntries = Object.entries(recommendations.summary?.excludedByReason || {});
   const scoreParts = [
     ['goalAlignment', 'recommendationsPartGoalAlignment'],

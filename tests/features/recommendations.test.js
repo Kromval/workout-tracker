@@ -9,6 +9,7 @@ import {
   scoreExercise,
   scoreGoalAlignment,
   scoreMovementVariety,
+  scoreRecoveryFit,
 } from '../../js/features/recommendations.js';
 
 describe('recommendation exercise filtering', () => {
@@ -80,6 +81,71 @@ describe('recommendation exercise filtering', () => {
     expect(result.excludedExercises[0].reasons).toEqual([
       RECOMMENDATION_EXCLUSION_REASONS.DUPLICATE_EXERCISE_ID,
     ]);
+  });
+
+  test('treats bodyweight as available for a new profile with no selected equipment', () => {
+    const result = rankExercisesForRecommendations({
+      exercises: [
+        {
+          id: 'push-ups',
+          type: { en: 'strength' },
+          equipment: ['bodyweight'],
+          difficulty: 'beginner',
+          tags: ['bodyweight', 'compound'],
+          movementPatterns: ['horizontal-push'],
+          muscleGroups: { primary: ['chest'], secondary: [] },
+          contraindications: [],
+          intensityProfile: { strength: 'high', cardio: 'low', endurance: 'medium', impact: 'low' },
+        },
+      ],
+      profile: {},
+      equipment: { selectedIds: [] },
+      equipmentCatalog: [{ id: 'bodyweight' }],
+    });
+
+    expect(result.rankedExercises).toHaveLength(1);
+    expect(result.excludedExercises).toHaveLength(0);
+  });
+
+  test('scores current raw exercise records without requiring pre-normalization', () => {
+    const result = rankExercisesForRecommendations({
+      exercises: [
+        {
+          id: 'raw-push-up',
+          names: { en: 'Raw Push-up' },
+          classification: {
+            modality: 'strength',
+            equipment: ['bodyweight'],
+            difficulty: 'beginner',
+            movementPatterns: ['horizontal-push'],
+            bodyPosition: 'prone',
+          },
+          mechanics: {
+            executionMode: 'reps',
+            loadType: 'bodyweight',
+          },
+          muscles: {
+            primary: ['chest'],
+            secondary: ['triceps'],
+            stabilizers: ['core'],
+          },
+          safety: {
+            contraindications: [],
+            impactLevel: 'low',
+          },
+        },
+      ],
+      profile: {
+        trainingLevel: 'beginner',
+        goals: { strength: 1 },
+      },
+      equipment: { selectedIds: [] },
+      equipmentCatalog: [{ id: 'bodyweight' }],
+    });
+
+    expect(result.rankedExercises).toHaveLength(1);
+    expect(result.rankedExercises[0].score).toBeGreaterThan(0.5);
+    expect(result.rankedExercises[0].metadata.requiredEquipmentIds).toEqual(['bodyweight']);
   });
 
   test('supports strict goal filtering and goal affinity metadata', () => {
@@ -209,6 +275,28 @@ describe('recommendation exercise filtering', () => {
     );
 
     expect(score).toBeLessThan(0.65);
+  });
+
+  test('treats an untouched all-zero recovery profile as neutral readiness', () => {
+    expect(
+      scoreRecoveryFit(
+        {
+          muscleGroups: {
+            primary: ['chest', 'triceps'],
+          },
+        },
+        {
+          recoveryProfile: {
+            chest: 0,
+            back: 0,
+            legs: 0,
+            shoulders: 0,
+            arms: 0,
+            core: 0,
+          },
+        },
+      ),
+    ).toBe(1);
   });
 
   test('returns explanation payload with matched signals and penalties', () => {

@@ -135,6 +135,9 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
   const muscleOptions = uniqueStrings(exercises.flatMap((exercise) => exercise.muscles || [])).sort(
     (left, right) => left.localeCompare(right),
   );
+  const movementOptions = uniqueStrings(
+    exercises.flatMap((exercise) => getExerciseMovementPatterns(exercise)),
+  ).sort((left, right) => left.localeCompare(right));
   const equipmentOptions = equipmentCatalog
     .map(
       (item) =>
@@ -197,6 +200,14 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
               <option value="advanced">${t(state, 'trainingLevelOptionAdvanced')}</option>
             </select>
           </label>
+
+          <label class="field" for="workout-exercise-movement-filter">
+            <span>${t(state, 'workoutExerciseMovement')}</span>
+            <select id="workout-exercise-movement-filter" data-workout-exercise-movement-filter ${exercises.length ? '' : 'disabled'}>
+              <option value="">${t(state, 'filterAll')}</option>
+              ${movementOptions.map((pattern) => `<option value="${escapeAttribute(pattern.toLowerCase())}">${escapeHtml(humanizeToken(pattern))}</option>`).join('')}
+            </select>
+          </label>
         </div>
       </details>
 
@@ -231,8 +242,11 @@ export function renderWorkoutExerciseOption(
   const name = getExerciseDisplayName(exercise, language);
   const type = getExerciseTypeLabel(exercise, language);
   const description = localizedText(exercise.shortDescription, language) || t(state, 'emptyValue');
-  const muscles = exercise.muscles || [];
+  const primaryMuscles = getExercisePrimaryMuscles(exercise);
+  const muscles = uniqueStrings([...primaryMuscles, ...(exercise.muscles || [])]);
+  const movementPatterns = getExerciseMovementPatterns(exercise);
   const equipmentIds = getExerciseEquipmentIds(exercise, knownEquipmentIds);
+  const equipmentLabels = getExerciseEquipmentLabels(exercise, state, knownEquipmentIds);
   const exerciseProfileLevel = getExerciseProfileLevel(exercise);
   const equipmentAvailable = isExerciseAvailableForSelectedEquipment(
     exercise,
@@ -240,6 +254,7 @@ export function renderWorkoutExerciseOption(
     knownEquipmentIds,
   );
   const profileCompatible = isExerciseCompatibleWithProfileLevel(exercise, profileTrainingLevel);
+  const intensitySummary = getExerciseIntensitySummary(exercise);
   const searchableText = [
     name,
     localizedText(exercise.name, 'ru'),
@@ -249,21 +264,33 @@ export function renderWorkoutExerciseOption(
     localizedText(exercise.shortDescription, 'en'),
     type,
     exercise.executionMode,
+    exerciseProfileLevel,
     ...muscles,
+    ...movementPatterns,
+    ...equipmentIds,
+    ...equipmentLabels,
     ...(exercise.tags || []),
   ]
     .join(' ')
     .toLowerCase();
+  const classNames = [
+    'workout-exercise-option',
+    equipmentAvailable ? '' : 'workout-exercise-option--unavailable',
+    profileCompatible ? '' : 'workout-exercise-option--above-level',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return `
     <article
-      class="workout-exercise-option"
+      class="${classNames}"
       data-workout-exercise-option
       data-exercise-id="${escapeAttribute(exercise.id)}"
       data-exercise-type="${escapeAttribute(type.toLowerCase())}"
       data-exercise-muscles="${escapeAttribute(muscles.join('|').toLowerCase())}"
       data-exercise-equipment="${escapeAttribute(equipmentIds.join('|'))}"
       data-exercise-profile-level="${escapeAttribute(exerciseProfileLevel)}"
+      data-exercise-movement="${escapeAttribute(movementPatterns.join('|').toLowerCase())}"
       data-exercise-equipment-available="${equipmentAvailable ? 'true' : 'false'}"
       data-exercise-profile-compatible="${profileCompatible ? 'true' : 'false'}"
       data-exercise-search="${escapeAttribute(searchableText)}"
@@ -274,13 +301,31 @@ export function renderWorkoutExerciseOption(
           ${isFavorite ? `<span class="badge">${t(state, 'favoritesLabel')}</span>` : ''}
         </div>
         <p class="muted">${escapeHtml(description)}</p>
+        <dl class="workout-exercise-option__meta">
+          ${renderInlineMeta(state, 'workoutExerciseDifficulty', exerciseProfileLevel || t(state, 'emptyValue'))}
+          ${renderInlineMeta(state, 'workoutExerciseEquipment', equipmentLabels.join(', ') || t(state, 'emptyValue'))}
+          ${renderInlineMeta(state, 'workoutExerciseMovement', movementPatterns.map(humanizeToken).join(', ') || t(state, 'emptyValue'))}
+          ${renderInlineMeta(state, 'workoutExercisePrimaryMuscles', primaryMuscles.map(humanizeToken).join(', ') || t(state, 'emptyValue'))}
+        </dl>
         <div class="chip-list chip-list--muted">
           <span class="chip">${escapeHtml(type)}</span>
+          ${exerciseProfileLevel ? `<span class="chip">${escapeHtml(humanizeToken(exerciseProfileLevel))}</span>` : ''}
+          ${intensitySummary ? `<span class="chip">${escapeHtml(intensitySummary)}</span>` : ''}
           ${muscles
-            .slice(0, 3)
-            .map((muscle) => `<span class="chip">${escapeHtml(muscle)}</span>`)
+            .slice(0, 2)
+            .map((muscle) => `<span class="chip">${escapeHtml(humanizeToken(muscle))}</span>`)
             .join('')}
         </div>
+        ${
+          equipmentAvailable && profileCompatible
+            ? ''
+            : `
+          <div class="workout-exercise-option__warnings">
+            ${equipmentAvailable ? '' : `<span class="badge badge--warning">${t(state, 'workoutExerciseUnavailableEquipment')}</span>`}
+            ${profileCompatible ? '' : `<span class="badge badge--warning">${t(state, 'workoutExerciseAboveProfileLevel')}</span>`}
+          </div>
+        `
+        }
       </div>
       <button class="button button--primary" type="button" data-workout-add-exercise data-workout-add-exercise-id="${escapeAttribute(exercise.id)}">${t(state, 'addExerciseShort')}</button>
     </article>
@@ -293,6 +338,47 @@ export function getExerciseDisplayName(exercise, language) {
 
 export function getExerciseTypeLabel(exercise, language) {
   return localizedText(exercise?.type, language) || exercise?.executionMode || '';
+}
+
+export function getExercisePrimaryMuscles(exercise) {
+  const primary = exercise?.muscleGroups?.primary;
+  return uniqueStrings(
+    Array.isArray(primary) && primary.length ? primary : exercise?.muscles || [],
+  );
+}
+
+export function getExerciseMovementPatterns(exercise) {
+  return uniqueStrings(exercise?.movementPatterns || []);
+}
+
+export function getExerciseEquipmentLabels(exercise, state, knownEquipmentIds = []) {
+  const language = selectLanguage(state);
+  const equipmentCatalog = selectEquipmentCatalog(state);
+  const knownIds = knownEquipmentIds.length
+    ? knownEquipmentIds
+    : equipmentCatalog.map((item) => item.id);
+  const equipmentIds = getExerciseEquipmentIds(exercise, knownIds);
+  const equipmentById = new Map(equipmentCatalog.map((item) => [item.id, item]));
+
+  return equipmentIds.map((equipmentId) => {
+    const equipment = equipmentById.get(equipmentId);
+    return localizedText(equipment?.name, language) || humanizeToken(equipmentId);
+  });
+}
+
+export function getExerciseIntensitySummary(exercise) {
+  const profile = exercise?.intensityProfile || {};
+  const entries = [
+    ['strength', profile.strength],
+    ['cardio', profile.cardio],
+    ['endurance', profile.endurance],
+    ['impact', profile.impact],
+  ].filter(([, value]) => value && value !== 'low');
+
+  return entries
+    .slice(0, 2)
+    .map(([key, value]) => `${humanizeToken(key)}: ${humanizeToken(value)}`)
+    .join(', ');
 }
 
 export function createExerciseMap(exercises) {
@@ -337,4 +423,24 @@ export function formatTempo(tempo, state) {
 
 export function capitalize(value) {
   return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
+}
+
+function renderInlineMeta(state, labelKey, value) {
+  return `
+    <div>
+      <dt>${t(state, labelKey)}</dt>
+      <dd>${escapeHtml(value)}</dd>
+    </div>
+  `;
+}
+
+function humanizeToken(value) {
+  return String(value || '')
+    .trim()
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((part) =>
+      part.length <= 3 ? part.toUpperCase() : part.charAt(0).toUpperCase() + part.slice(1),
+    )
+    .join(' ');
 }

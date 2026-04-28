@@ -3,7 +3,11 @@ import { asArray, normalizeString } from '../core/utils.js';
 const PROFILE_LEVELS = ['beginner', 'intermediate', 'advanced'];
 
 export function getExerciseEquipmentIds(exercise, knownEquipmentIds = []) {
-  const equipment = asArray(exercise?.equipment).map(normalizeEquipmentId);
+  const explicitEquipment = asArray(exercise?.equipment);
+  const classificationEquipment = asArray(exercise?.classification?.equipment);
+  const equipment = (explicitEquipment.length ? explicitEquipment : classificationEquipment).map(
+    normalizeEquipmentId,
+  );
   const tags = asArray(exercise?.tags).map(normalizeTag);
   const knownIds = new Set(asArray(knownEquipmentIds).map(normalizeTag));
   const source = equipment.length > 0 ? equipment : tags;
@@ -12,7 +16,9 @@ export function getExerciseEquipmentIds(exercise, knownEquipmentIds = []) {
 }
 
 export function getExerciseProfileLevel(exercise) {
-  const difficulty = normalizeDifficulty(exercise?.difficulty);
+  const difficulty = normalizeDifficulty(
+    exercise?.difficulty || exercise?.classification?.difficulty,
+  );
   const tags = asArray(exercise?.tags).map(normalizeTag);
   return difficulty || PROFILE_LEVELS.find((level) => tags.includes(level)) || '';
 }
@@ -28,7 +34,7 @@ export function isExerciseAvailableForSelectedEquipment(
     return true;
   }
 
-  const selected = new Set(asArray(selectedEquipmentIds).map(normalizeTag));
+  const selected = new Set(['bodyweight', ...asArray(selectedEquipmentIds).map(normalizeTag)]);
   return requiredEquipmentIds.every((id) => selected.has(id));
 }
 

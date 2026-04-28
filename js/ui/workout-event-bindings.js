@@ -96,7 +96,7 @@ export function bindWorkoutEvents(state) {
   document.addEventListener('change', (event) => {
     if (
       event.target?.matches?.(
-        '[data-workout-exercise-type-filter], [data-workout-exercise-muscle-filter], [data-workout-exercise-equipment-filter], [data-workout-exercise-profile-level-filter]',
+        '[data-workout-exercise-type-filter], [data-workout-exercise-muscle-filter], [data-workout-exercise-equipment-filter], [data-workout-exercise-profile-level-filter], [data-workout-exercise-movement-filter]',
       )
     ) {
       const sidebar = event.target.closest('[data-workout-exercise-sidebar]');

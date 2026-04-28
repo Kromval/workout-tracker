@@ -191,15 +191,27 @@ export function selectExercisesForSlots(rankedExercises = [], slots = [], contex
 
   return asArray(slots)
     .map((slot) => {
-      const candidates = asArray(rankedExercises)
-        .filter((entry) => entry?.exercise?.id && !selectedIds.has(entry.exercise.id))
+      const availableEntries = asArray(rankedExercises).filter(
+        (entry) => entry?.exercise?.id && !selectedIds.has(entry.exercise.id),
+      );
+      const strictCandidates = availableEntries
         .filter((entry) => isExerciseEligibleForSlot(entry.exercise, slot, context))
         .map((entry) => ({
           entry,
           slot,
           selectionScore: scoreSlotSelection(entry, slot, selectedPatterns, context),
-        }))
-        .sort((left, right) => right.selectionScore - left.selectionScore);
+        }));
+      const candidates = (
+        strictCandidates.length
+          ? strictCandidates
+          : availableEntries
+              .filter((entry) => isExerciseFallbackEligibleForSlot(entry.exercise, slot, context))
+              .map((entry) => ({
+                entry,
+                slot: { ...slot, fallback: true },
+                selectionScore: scoreSlotSelection(entry, slot, selectedPatterns, context) * 0.82,
+              }))
+      ).sort((left, right) => right.selectionScore - left.selectionScore);
       const selected = candidates[0] || null;
 
       if (!selected) {
@@ -207,7 +219,7 @@ export function selectExercisesForSlots(rankedExercises = [], slots = [], contex
       }
 
       selectedIds.add(selected.entry.exercise.id);
-      asArray(selected.entry.exercise.movementPatterns).forEach((pattern) => {
+      getExerciseMovementPatterns(selected.entry.exercise).forEach((pattern) => {
         const key = normalizeToken(pattern);
         selectedPatterns.set(key, (selectedPatterns.get(key) || 0) + 1);
       });
@@ -467,9 +479,9 @@ function scoreSlotSelection(entry, slot, selectedPatterns, context) {
 }
 
 function scoreSlotFit(exercise, slot) {
-  const type = normalizeToken(exercise?.type?.en || exercise?.type);
-  const tags = new Set(asArray(exercise?.tags).map(normalizeToken));
-  const mode = normalizeToken(exercise?.executionMode);
+  const type = getExerciseType(exercise);
+  const tags = new Set(getExerciseTags(exercise));
+  const mode = getExerciseExecutionMode(exercise);
   let score = 0.35;
 
   if (asArray(slot?.preferredTypes).map(normalizeToken).includes(type)) {
@@ -502,9 +514,9 @@ function scoreSlotFit(exercise, slot) {
 function isExerciseEligibleForSlot(exercise, slot, context = {}) {
   const role = normalizeToken(slot?.role);
   const workoutType = normalizeToken(context.workoutType);
-  const type = normalizeToken(exercise?.type?.en || exercise?.type);
-  const tags = new Set(asArray(exercise?.tags).map(normalizeToken));
-  const mode = normalizeToken(exercise?.executionMode);
+  const type = getExerciseType(exercise);
+  const tags = new Set(getExerciseTags(exercise));
+  const mode = getExerciseExecutionMode(exercise);
   const preferredTypes = asArray(slot?.preferredTypes).map(normalizeToken);
   const preferredTags = asArray(slot?.preferredTags).map(normalizeToken);
   const hasPreferredType = preferredTypes.length === 0 || preferredTypes.includes(type);
@@ -548,8 +560,38 @@ function isExerciseEligibleForSlot(exercise, slot, context = {}) {
   return hasPreferredType || hasPreferredTag;
 }
 
+function isExerciseFallbackEligibleForSlot(exercise, slot, context = {}) {
+  const role = normalizeToken(slot?.role);
+  const workoutType = normalizeToken(context.workoutType);
+  const type = getExerciseType(exercise);
+  const tags = new Set(getExerciseTags(exercise));
+  const mode = getExerciseExecutionMode(exercise);
+
+  if (workoutType === 'straight' && (role === 'main' || role === 'accessory')) {
+    return type === 'strength' || tags.has('compound');
+  }
+
+  if (role === 'core') {
+    return type === 'static' || type === 'strength' || mode === 'hold';
+  }
+
+  if (role === 'mobility') {
+    return type === 'yoga' || type === 'static' || mode === 'hold' || tags.has('mobility');
+  }
+
+  if (role === 'conditioning' || role === 'finisher') {
+    return type === 'cardio' || type === 'strength' || tags.has('full-body-dynamic');
+  }
+
+  if (role === 'warmup') {
+    return type === 'cardio' || type === 'yoga' || mode === 'time' || tags.has('mobility');
+  }
+
+  return true;
+}
+
 function scoreSelectionDiversity(exercise, selectedPatterns) {
-  const movementPatterns = asArray(exercise?.movementPatterns).map(normalizeToken);
+  const movementPatterns = getExerciseMovementPatterns(exercise);
 
   if (movementPatterns.length === 0) {
     return 0.75;
@@ -569,7 +611,7 @@ function scoreRoleFit(exercise, slot, context) {
   }
 
   const workoutType = normalizeString(context.workoutType);
-  const type = normalizeToken(exercise?.type?.en || exercise?.type);
+  const type = getExerciseType(exercise);
 
   if (workoutType === 'straight' && type === 'strength') {
     return 1;
@@ -579,7 +621,7 @@ function scoreRoleFit(exercise, slot, context) {
 }
 
 function buildEffortPrescription(exercise, prescription) {
-  const executionMode = normalizeString(exercise?.executionMode);
+  const executionMode = getExerciseExecutionMode(exercise);
   const usesDuration = executionMode === 'time' || executionMode === 'hold';
 
   return {
@@ -592,8 +634,8 @@ function buildEffortPrescription(exercise, prescription) {
 }
 
 function isMobilityExercise(exercise) {
-  const type = normalizeToken(exercise?.type?.en || exercise?.type);
-  const tags = new Set(asArray(exercise?.tags).map(normalizeToken));
+  const type = getExerciseType(exercise);
+  const tags = new Set(getExerciseTags(exercise));
 
   return type === 'yoga' || tags.has('yoga') || tags.has('mobility');
 }
@@ -709,14 +751,114 @@ function getLevelVolumeMultiplier(trainingLevel) {
 
 function exerciseTargetsMuscle(exercise, muscleId) {
   const target = normalizeToken(muscleId);
-  return [
-    ...asArray(exercise?.muscles),
-    ...asArray(exercise?.muscleGroups?.primary),
-    ...asArray(exercise?.muscleGroups?.secondary),
-    ...asArray(exercise?.tags),
-  ]
+  return [...getExerciseMuscles(exercise), ...getExerciseTags(exercise)]
     .map(normalizeToken)
     .includes(target);
+}
+
+function getExerciseType(exercise) {
+  const explicitType = normalizeToken(exercise?.type?.en || exercise?.type);
+  const modality = normalizeToken(exercise?.classification?.modality);
+  const type = explicitType || modality;
+
+  if (type === 'cardio' || type === 'static' || type === 'yoga') {
+    return type;
+  }
+
+  if (type === 'strength' || type === 'compound' || type === 'isolation') {
+    return 'strength';
+  }
+
+  return type;
+}
+
+function getExerciseTags(exercise) {
+  const classification = isPlainObject(exercise?.classification) ? exercise.classification : {};
+  const mechanics = isPlainObject(exercise?.mechanics) ? exercise.mechanics : {};
+  const safety = isPlainObject(exercise?.safety) ? exercise.safety : {};
+  const equipment = getExerciseEquipmentIds(exercise);
+  const movementPatterns = getExerciseMovementPatterns(exercise);
+  const type = getExerciseType(exercise);
+  const executionMode = getExerciseExecutionMode(exercise);
+  const impact = normalizeToken(exercise?.intensityProfile?.impact || safety.impactLevel);
+  const tags = [
+    ...asArray(exercise?.tags),
+    type,
+    ...equipment,
+    normalizeToken(exercise?.difficulty || classification.difficulty),
+    ...movementPatterns,
+    normalizeToken(mechanics.loadType),
+    normalizeToken(classification.bodyPosition),
+    impact ? `impact-${impact}` : '',
+    executionMode === 'hold' ? 'hold' : '',
+  ]
+    .map(normalizeToken)
+    .filter(Boolean);
+
+  if (type === 'yoga' || movementPatterns.includes('stretch')) {
+    tags.push('mobility');
+  }
+
+  if (equipment.includes('bodyweight')) {
+    tags.push('home');
+  }
+
+  return uniqueList(tags);
+}
+
+function getExerciseEquipmentIds(exercise) {
+  const explicitEquipment = asArray(exercise?.equipment);
+  const classificationEquipment = asArray(exercise?.classification?.equipment);
+  const source = explicitEquipment.length ? explicitEquipment : classificationEquipment;
+  return uniqueList(source.map(normalizeEquipmentId).filter(Boolean));
+}
+
+function getExerciseMovementPatterns(exercise) {
+  const explicitPatterns = asArray(exercise?.movementPatterns);
+  const classificationPatterns = asArray(exercise?.classification?.movementPatterns);
+  return uniqueList(
+    (explicitPatterns.length ? explicitPatterns : classificationPatterns).map(normalizeToken),
+  );
+}
+
+function getExerciseExecutionMode(exercise) {
+  return normalizeToken(exercise?.executionMode || exercise?.mechanics?.executionMode);
+}
+
+function getExerciseMuscles(exercise) {
+  const legacyMuscles = Array.isArray(exercise?.muscles) ? exercise.muscles : [];
+  const muscleGroups = isPlainObject(exercise?.muscleGroups) ? exercise.muscleGroups : {};
+  const currentMuscles = isPlainObject(exercise?.muscles) ? exercise.muscles : {};
+
+  return uniqueList(
+    [
+      ...legacyMuscles,
+      ...asArray(muscleGroups.primary),
+      ...asArray(muscleGroups.secondary),
+      ...asArray(currentMuscles.primary),
+      ...asArray(currentMuscles.secondary),
+      ...asArray(currentMuscles.stabilizers),
+    ].map(normalizeToken),
+  );
+}
+
+function normalizeEquipmentId(value) {
+  const normalized = normalizeToken(value);
+
+  return (
+    {
+      bar: 'pull-up-bar',
+      cable: 'cable-station',
+      'cable-machine': 'cable-station',
+      dumbbell: 'dumbbells',
+      machine: 'machines',
+      'resistance-band': 'bands',
+    }[normalized] || normalized
+  );
+}
+
+function uniqueList(values) {
+  return Array.from(new Set(asArray(values).filter(Boolean)));
 }
 
 function normalizeToken(value) {

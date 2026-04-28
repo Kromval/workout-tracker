@@ -23,7 +23,7 @@ describe('exercise compatibility helpers', () => {
     ).toEqual(['bodyweight', 'bands', 'dumbbells', 'cable-station']);
   });
 
-  test('allows untagged exercises and respects selected equipment for tagged ones', () => {
+  test('allows untagged and bodyweight exercises while respecting selected external equipment', () => {
     expect(isExerciseAvailableForSelectedEquipment({ tags: ['cardio'] }, [], ['bodyweight'])).toBe(
       true,
     );
@@ -36,7 +36,22 @@ describe('exercise compatibility helpers', () => {
     ).toBe(true);
     expect(
       isExerciseAvailableForSelectedEquipment({ tags: ['bodyweight'] }, [], ['bodyweight']),
+    ).toBe(true);
+    expect(
+      isExerciseAvailableForSelectedEquipment({ tags: ['kettlebell'] }, [], ['kettlebell']),
     ).toBe(false);
+  });
+
+  test('reads equipment and difficulty from the current classification model', () => {
+    const exercise = {
+      classification: {
+        equipment: ['resistance-band'],
+        difficulty: 'intermediate',
+      },
+    };
+
+    expect(getExerciseEquipmentIds(exercise, ['bands'])).toEqual(['bands']);
+    expect(getExerciseProfileLevel(exercise)).toBe('intermediate');
   });
 
   test('supports profile level compatibility as a soft upper bound', () => {

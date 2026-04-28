@@ -5,6 +5,11 @@ import { selectExerciseCatalog, selectLanguage } from '../core/selectors.js';
 import {
   capitalize,
   createExerciseMap,
+  getExerciseEquipmentLabels,
+  getExerciseIntensitySummary,
+  getExerciseMovementPatterns,
+  getExercisePrimaryMuscles,
+  getExerciseTypeLabel,
   renderWorkoutExerciseSidebar,
 } from './workout-renderers.js';
 
@@ -260,7 +265,11 @@ export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem =
   const executionMode = exercise?.executionMode || 'reps';
   const usesDuration = executionMode === 'time' || executionMode === 'hold';
   const effortField = usesDuration ? 'durationSec' : 'reps';
-  const effortValue = usesDuration ? (workoutItem?.durationSec ?? 30) : (workoutItem?.reps ?? 10);
+  const defaults = createWorkoutDraftDefaults(exercise);
+  const effortValue = usesDuration
+    ? (workoutItem?.durationSec ?? defaults.durationSec)
+    : (workoutItem?.reps ?? defaults.reps);
+  const metadata = exercise ? buildWorkoutDraftMetadata(state, exercise) : [];
 
   return `
     <article class="workout-item" data-workout-item data-exercise-id="${escapeAttribute(exerciseId)}" data-execution-mode="${escapeAttribute(executionMode)}" data-order="${escapeAttribute(order)}" role="listitem">
@@ -277,11 +286,29 @@ export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem =
         </div>
       </div>
       ${isMissingExercise ? `<p class="notice" data-type="error">${t(state, 'workoutUnknownExercise')}</p>` : ''}
+      ${
+        metadata.length
+          ? `
+        <dl class="workout-item__meta">
+          ${metadata
+            .map(
+              (item) => `
+            <div>
+              <dt>${escapeHtml(item.label)}</dt>
+              <dd>${escapeHtml(item.value)}</dd>
+            </div>
+          `,
+            )
+            .join('')}
+        </dl>
+      `
+          : ''
+      }
 
       <div class="form-grid workout-item__fields">
         <label class="field">
           <span>${t(state, 'workoutSetsLabel')} *</span>
-          <input data-workout-field="sets" type="number" min="1" step="1" value="${escapeAttribute(workoutItem?.sets ?? 3)}" required inputmode="numeric">
+          <input data-workout-field="sets" type="number" min="1" step="1" value="${escapeAttribute(workoutItem?.sets ?? defaults.sets)}" required inputmode="numeric">
         </label>
 
         <label class="field">
@@ -291,12 +318,12 @@ export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem =
 
         <label class="field">
           <span>${t(state, 'workoutRestBetweenSetsLabel')} *</span>
-          <input data-workout-field="restBetweenSetsSec" type="number" min="0" step="1" value="${escapeAttribute(workoutItem?.restBetweenSetsSec ?? 60)}" required inputmode="numeric">
+          <input data-workout-field="restBetweenSetsSec" type="number" min="0" step="1" value="${escapeAttribute(workoutItem?.restBetweenSetsSec ?? defaults.restBetweenSetsSec)}" required inputmode="numeric">
         </label>
 
         <label class="field">
           <span>${t(state, 'workoutRestAfterExerciseLabel')} *</span>
-          <input data-workout-field="restAfterExerciseSec" type="number" min="0" step="1" value="${escapeAttribute(workoutItem?.restAfterExerciseSec ?? 90)}" required inputmode="numeric">
+          <input data-workout-field="restAfterExerciseSec" type="number" min="0" step="1" value="${escapeAttribute(workoutItem?.restAfterExerciseSec ?? defaults.restAfterExerciseSec)}" required inputmode="numeric">
         </label>
 
         <label class="field form-grid__wide">
@@ -306,4 +333,77 @@ export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem =
       </div>
     </article>
   `;
+}
+
+function buildWorkoutDraftMetadata(state, exercise) {
+  const language = selectLanguage(state);
+  const items = [
+    {
+      label: t(state, 'exerciseType'),
+      value: getExerciseTypeLabel(exercise, language),
+    },
+    {
+      label: t(state, 'workoutExerciseDifficulty'),
+      value: humanizeToken(exercise.difficulty),
+    },
+    {
+      label: t(state, 'workoutExerciseEquipment'),
+      value: getExerciseEquipmentLabels(exercise, state).join(', '),
+    },
+    {
+      label: t(state, 'workoutExercisePrimaryMuscles'),
+      value: getExercisePrimaryMuscles(exercise).map(humanizeToken).join(', '),
+    },
+    {
+      label: t(state, 'workoutExerciseMovement'),
+      value: getExerciseMovementPatterns(exercise).map(humanizeToken).join(', '),
+    },
+    {
+      label: t(state, 'workoutExerciseIntensity'),
+      value: getExerciseIntensitySummary(exercise),
+    },
+    {
+      label: t(state, 'workoutExerciseTempo'),
+      value: exercise.tempo
+        ? `${exercise.tempo.eccentric}-${exercise.tempo.pauseBottom}-${exercise.tempo.concentric}-${exercise.tempo.pauseTop}`
+        : '',
+    },
+  ];
+
+  return items
+    .map((item) => ({
+      ...item,
+      value: item.value || t(state, 'emptyValue'),
+    }))
+    .filter((item) => item.value !== t(state, 'emptyValue'));
+}
+
+function createWorkoutDraftDefaults(exercise) {
+  const type = localizedText(exercise?.type, 'en').toLowerCase();
+  const tags = new Set((exercise?.tags || []).map((tag) => String(tag).toLowerCase()));
+  const difficulty = String(exercise?.difficulty || '').toLowerCase();
+  const executionMode = exercise?.executionMode || 'reps';
+  const intensity = exercise?.intensityProfile || {};
+  const isMobility = type === 'yoga' || tags.has('mobility') || tags.has('recovery');
+  const isCardio = type === 'cardio' || intensity.cardio === 'high';
+  const usesDuration = executionMode === 'time' || executionMode === 'hold';
+
+  return {
+    sets: usesDuration || isMobility ? 1 : difficulty === 'beginner' ? 2 : 3,
+    reps: difficulty === 'advanced' ? 12 : difficulty === 'beginner' ? 8 : 10,
+    durationSec: isMobility || executionMode === 'hold' ? 45 : isCardio ? 60 : 30,
+    restBetweenSetsSec: isMobility ? 15 : isCardio ? 30 : difficulty === 'advanced' ? 90 : 60,
+    restAfterExerciseSec: isMobility ? 15 : isCardio ? 45 : 90,
+  };
+}
+
+function humanizeToken(value) {
+  return String(value || '')
+    .trim()
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((part) =>
+      part.length <= 3 ? part.toUpperCase() : part.charAt(0).toUpperCase() + part.slice(1),
+    )
+    .join(' ');
 }
