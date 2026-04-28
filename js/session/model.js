@@ -16,9 +16,9 @@ export const SESSION_PHASES = Object.freeze({
 export const DEFAULT_REP_DURATION_SEC = 3;
 export const DEFAULT_REP_TEMPO = Object.freeze({
   eccentric: 1,
-  pauseBottom: 0,
+  pauseBottom: 1,
   concentric: 1,
-  pauseTop: 1,
+  pauseTop: 0,
 });
 export const TEMPO_FIELDS = ['eccentric', 'pauseBottom', 'concentric', 'pauseTop'];
 export const REP_PHASE_NAMES = Object.freeze({
