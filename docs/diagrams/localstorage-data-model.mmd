@@ -1,0 +1,96 @@
+%% Модель данных localStorage
+erDiagram
+  STORE {
+    number version
+    object settings
+    object profile
+    object equipment
+    array customExercises
+    array workouts
+    array history
+    object activeSession
+  }
+
+  SETTINGS {
+    string language
+    string theme
+    string density
+    boolean soundEnabled
+    number volume
+    object customAudio
+    array favoriteExerciseIds
+    string calendarViewMode
+    string lastOpenedWorkoutId
+  }
+
+  PROFILE {
+    number age
+    string sex
+    number weight
+    number height
+    string level
+    array goals
+    array bodyFocusGoals
+    array limitations
+    array dislikedExerciseIds
+    array favoriteTags
+    number preferredDurationMin
+  }
+
+  EQUIPMENT {
+    array selectedIds
+    array customItems
+  }
+
+  CUSTOM_EXERCISE {
+    string id
+    object name
+    object shortDescription
+    object instruction
+    array muscles
+    array tags
+    string executionMode
+    array equipment
+    boolean isCustom
+  }
+
+  WORKOUT {
+    string id
+    string title
+    string description
+    datetime createdAt
+    datetime updatedAt
+    array items
+    number defaultRestBetweenExercises
+    array tags
+  }
+
+  HISTORY_ENTRY {
+    string id
+    string workoutId
+    string workoutTitleSnapshot
+    datetime startedAt
+    datetime endedAt
+    number durationSec
+    string status
+    array completedItems
+  }
+
+  ACTIVE_SESSION {
+    number version
+    datetime savedAt
+    string status
+    object workout
+    array steps
+    number currentStepIndex
+    number remainingSec
+    number elapsedSec
+  }
+
+  STORE ||--|| SETTINGS : contains
+  STORE ||--|| PROFILE : contains
+  STORE ||--|| EQUIPMENT : contains
+  STORE ||--o{ CUSTOM_EXERCISE : contains
+  STORE ||--o{ WORKOUT : contains
+  STORE ||--o{ HISTORY_ENTRY : contains
+  STORE ||--o| ACTIVE_SESSION : contains

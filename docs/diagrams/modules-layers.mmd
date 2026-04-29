@@ -1,0 +1,56 @@
+%% Диаграмма слоев и модулей
+flowchart TB
+  subgraph presentation["Представление"]
+    html["index.html"]
+    css["styles"]
+    shell["ui/shell"]
+    pages["pages/renderers"]
+  end
+
+  subgraph interaction["Слой взаимодействия"]
+    nav["ui/navigation"]
+    eventBindings["ui/event-bindings"]
+    actions["ui/actions"]
+    formUtils["ui/form-utils"]
+  end
+
+  subgraph application["Прикладной слой"]
+    state["core/state"]
+    router["core/router"]
+    pwa["core/pwa"]
+    utils["core/utils"]
+  end
+
+  subgraph domain["Доменный слой"]
+    exercises["features/exercises"]
+    recommendations["features/recommendations"]
+    generation["features/workout-generation"]
+    workouts["features/workouts"]
+    history["features/history"]
+    audio["features/audio"]
+    session["session"]
+  end
+
+  subgraph persistence["Хранение"]
+    repositories["storage/*Repository"]
+    store["storage/store"]
+    records["storage/records"]
+    migrations["storage/migrations"]
+    localStorage[("localStorage")]
+  end
+
+  html --> shell
+  css --> shell
+  shell --> pages
+  pages --> state
+  nav --> router
+  eventBindings --> actions
+  actions --> domain
+  router --> state
+  state --> pages
+  pwa --> localStorage
+  domain --> repositories
+  repositories --> records
+  repositories --> store
+  store --> migrations
+  store --> localStorage

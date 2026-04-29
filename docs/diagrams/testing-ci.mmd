@@ -1,0 +1,37 @@
+%% Схема тестирования и CI
+flowchart TD
+  push["Push / Pull Request"]
+  checkout["GitHub Actions:\ncheckout"]
+  install["npm ci"]
+
+  subgraph quality["Проверки качества"]
+    lint["npm run lint"]
+    format["npm run format:check"]
+  end
+
+  subgraph tests["Автоматические тесты"]
+    jest["npm test\nJest unit/integration"]
+    pwaTest["npm test -- tests/pwa/service-worker.test.js"]
+    e2eInstall["Установка браузера Playwright"]
+    e2e["npm run e2e\nSmoke-сценарии"]
+    coverage["npm run coverage\nПорог покрытия"]
+  end
+
+  precache["npm run generate:precache"]
+  result{"Все проверки прошли?"}
+  pass["CI success"]
+  fail["CI failed"]
+
+  push --> checkout --> install
+  install --> lint
+  install --> format
+  install --> jest
+  jest --> pwaTest
+  pwaTest --> precache
+  precache --> e2eInstall --> e2e
+  e2e --> coverage
+  lint --> result
+  format --> result
+  coverage --> result
+  result -- "да" --> pass
+  result -- "нет" --> fail

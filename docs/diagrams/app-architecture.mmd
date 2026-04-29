@@ -1,0 +1,51 @@
+%% Общая архитектура приложения
+flowchart TD
+  browser["Браузер пользователя"]
+  index["index.html"]
+  app["js/app.js"]
+
+  subgraph core["core"]
+    router["router.js\nHash routing"]
+    state["state.js\nГлобальное состояние"]
+    pwa["pwa.js\nРегистрация Service Worker"]
+    selectors["selectors.js\nDOM-селекторы"]
+  end
+
+  subgraph ui["ui"]
+    shell["shell.js\nКаркас интерфейса"]
+    bindings["event-bindings\nОбработчики событий"]
+    actions["actions\nПользовательские действия"]
+  end
+
+  subgraph pages["pages"]
+    renderers["renderers\nРендеринг экранов"]
+    components["components.js\nПереиспользуемые элементы"]
+  end
+
+  subgraph domain["Доменная логика"]
+    features["features\nУпражнения, рекомендации,\nтренировки, история"]
+    session["session\nДвижок активной тренировки"]
+    storage["storage\nlocalStorage, миграции,\nрепозитории"]
+  end
+
+  assets["data, styles, assets"]
+  sw["sw.js\nApp shell cache"]
+
+  browser --> index --> app
+  app --> pwa
+  app --> shell
+  app --> router
+  app --> state
+  state --> renderers
+  router --> state
+  shell --> bindings
+  bindings --> actions
+  actions --> features
+  actions --> session
+  actions --> storage
+  renderers --> components
+  renderers --> features
+  features --> storage
+  session --> storage
+  pwa --> sw
+  sw --> assets

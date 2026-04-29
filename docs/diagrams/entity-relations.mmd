@@ -1,0 +1,61 @@
+%% Связь сущностей: Exercise, Workout, WorkoutItem, HistoryEntry
+erDiagram
+  EXERCISE {
+    string id PK
+    object name
+    string executionMode
+    array muscles
+    array tags
+    array equipment
+    boolean isCustom
+  }
+
+  WORKOUT {
+    string id PK
+    string title
+    string description
+    datetime createdAt
+    datetime updatedAt
+    number defaultRestBetweenExercises
+  }
+
+  WORKOUT_ITEM {
+    string id PK
+    string workoutId FK
+    string exerciseId FK
+    number order
+    number sets
+    number reps
+    number durationSec
+    number restBetweenSetsSec
+    number restAfterExerciseSec
+    string notes
+  }
+
+  HISTORY_ENTRY {
+    string id PK
+    string workoutId FK
+    string workoutTitleSnapshot
+    datetime startedAt
+    datetime endedAt
+    number durationSec
+    string status
+    number totalExercisesCompleted
+    number totalSetsCompleted
+  }
+
+  COMPLETED_ITEM {
+    string workoutItemId
+    string exerciseId
+    object exerciseNameSnapshot
+    number setsCompleted
+    number repsCompleted
+    number durationSec
+    boolean skipped
+  }
+
+  WORKOUT ||--o{ WORKOUT_ITEM : includes
+  EXERCISE ||--o{ WORKOUT_ITEM : referenced_by
+  WORKOUT ||--o{ HISTORY_ENTRY : produces
+  HISTORY_ENTRY ||--o{ COMPLETED_ITEM : stores
+  EXERCISE ||--o{ COMPLETED_ITEM : snapshot_of

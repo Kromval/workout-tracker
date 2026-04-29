@@ -1,0 +1,22 @@
+%% Состояния тренировочной сессии
+stateDiagram-v2
+  [*] --> Idle
+
+  Idle: idle\nСессия создана
+  Running: running\nТаймер идет
+  Paused: paused\nТаймер остановлен
+  Completed: completed\nТренировка завершена
+  Aborted: aborted\nТренировка прервана
+
+  Idle --> Running: start()
+  Running --> Paused: pause()
+  Paused --> Running: resume()
+  Running --> Running: tick() / следующий шаг
+  Running --> Completed: последний шаг завершен
+  Running --> Aborted: abort()
+  Paused --> Aborted: abort()
+  Running --> Running: skipCurrentStep()
+  Running --> Running: addTime() / subtractTime()
+
+  Completed --> [*]
+  Aborted --> [*]

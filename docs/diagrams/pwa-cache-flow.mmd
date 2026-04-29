@@ -1,0 +1,31 @@
+%% PWA cache flow
+flowchart TD
+  install["install event"]
+  openCache["Открыть cache с текущей ревизией"]
+  cacheAppShell["Сохранить APP_SHELL:\nindex.html, CSS, JS,\nmanifest, icons, data"]
+  skipWaiting["skipWaiting()"]
+
+  activate["activate event"]
+  deleteOld["Удалить старые cache-версии"]
+  claimClients["clients.claim()"]
+
+  fetch["fetch GET request"]
+  isNavigation{"Navigation request?"}
+  networkNav["Попробовать network"]
+  cachedIndex["Fallback: cached index.html"]
+  isAsset{"Asset request?"}
+  cacheFirst["Проверить cache"]
+  networkAsset["Fallback: network"]
+  saveAsset["Сохранить успешный response в cache"]
+  response["Вернуть response"]
+
+  install --> openCache --> cacheAppShell --> skipWaiting
+  skipWaiting --> activate --> deleteOld --> claimClients
+  claimClients --> fetch
+  fetch --> isNavigation
+  isNavigation -- "да" --> networkNav --> response
+  networkNav -- "ошибка сети" --> cachedIndex --> response
+  isNavigation -- "нет" --> isAsset
+  isAsset -- "да" --> cacheFirst --> response
+  cacheFirst -- "нет в cache" --> networkAsset --> saveAsset --> response
+  isAsset -- "нет" --> networkAsset

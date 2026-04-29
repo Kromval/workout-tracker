@@ -1,0 +1,19 @@
+%% Поток запуска приложения
+flowchart TD
+  start([Открытие приложения в браузере])
+  loadIndex["Загрузка index.html"]
+  loadApp["Загрузка js/app.js"]
+  registerPwa["Регистрация Service Worker"]
+  initShell["Инициализация shell-интерфейса"]
+  subscribeRender["Подписка renderApp на состояние"]
+  loadStore["Чтение localStorage и нормализация данных"]
+  loadExercises["Загрузка встроенных и пользовательских упражнений"]
+  startRouter["Запуск hash router"]
+  resolveRoute["Определение текущего маршрута"]
+  updateState["Обновление состояния приложения"]
+  renderPage["Рендер активного экрана"]
+  ready([Приложение готово к работе])
+
+  start --> loadIndex --> loadApp --> registerPwa --> initShell
+  initShell --> subscribeRender --> loadStore --> loadExercises
+  loadExercises --> startRouter --> resolveRoute --> updateState --> renderPage --> ready

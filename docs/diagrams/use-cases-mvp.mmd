@@ -1,0 +1,31 @@
+%% Диаграмма вариантов использования: функциональные требования MVP
+flowchart LR
+  user(("Пользователь"))
+
+  subgraph app["Workout Planner"]
+    exercises(["Просмотр каталога упражнений"])
+    filters(["Поиск и фильтрация упражнений"])
+    customExercise(["Создание пользовательского упражнения"])
+    workoutCreate(["Создание тренировки"])
+    workoutEdit(["Редактирование тренировки"])
+    sessionRun(["Запуск тренировочной сессии"])
+    sessionControl(["Пауза, продолжение и пропуск шагов"])
+    history(["Просмотр истории"])
+    progress(["Просмотр календаря и статистики"])
+    dataExport(["Экспорт данных"])
+    dataImport(["Импорт данных"])
+  end
+
+  user --> exercises
+  user --> workoutCreate
+  user --> sessionRun
+  user --> history
+  user --> dataExport
+  user --> dataImport
+
+  exercises --> filters
+  exercises --> customExercise
+  workoutCreate --> workoutEdit
+  sessionRun --> sessionControl
+  sessionRun --> history
+  history --> progress

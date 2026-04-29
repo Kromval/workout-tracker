@@ -1,0 +1,23 @@
+%% Преобразование тренировки в шаги
+flowchart LR
+  workout["Workout\nШаблон тренировки"]
+  items["Workout items\nУпорядоченные упражнения"]
+
+  subgraph itemLoop["Для каждого WorkoutItem"]
+    exerciseStep["Exercise step\nВыполнение подхода"]
+    restSets{"Есть следующий подход?"}
+    restBetweenSets["Rest between sets\nОтдых между подходами"]
+    restExercises{"Есть следующее упражнение?"}
+    restBetweenExercises["Rest between exercises\nОтдых между упражнениями"]
+  end
+
+  steps["Steps[]\nИсполняемая последовательность"]
+  session["WorkoutSession\nТаймер, фазы, прогресс"]
+
+  workout --> items --> exerciseStep
+  exerciseStep --> restSets
+  restSets -- "да" --> restBetweenSets --> exerciseStep
+  restSets -- "нет" --> restExercises
+  restExercises -- "да" --> restBetweenExercises --> exerciseStep
+  restExercises -- "нет" --> steps
+  steps --> session
