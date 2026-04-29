@@ -1,3 +1,6 @@
+/**
+ * @module js/pages/workout-page-renderers
+ */
 import { t } from '../i18n/index.js';
 import { renderEmptyState } from './components.js';
 import { getRouteParams } from '../core/router.js';
@@ -15,10 +18,20 @@ import {
 import { renderWorkoutFormPage } from './form-renderers.js';
 import { renderWorkoutCard, renderWorkoutViewItem } from './workout-renderers.js';
 
+/**
+ * Renders workout create page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutCreatePage(state) {
   return renderWorkoutFormPage(state, null);
 }
 
+/**
+ * Renders workout generate page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutGeneratePage(state) {
   const profile = selectProfile(state);
   const durationMin = profile.sessionDurationMin || 30;
@@ -91,6 +104,11 @@ export function renderWorkoutGeneratePage(state) {
   `;
 }
 
+/**
+ * Renders workout edit page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutEditPage(state) {
   const { id } = getRouteParams();
   const workout = selectWorkoutById(state, id);
@@ -98,6 +116,11 @@ export function renderWorkoutEditPage(state) {
   return renderWorkoutFormPage(state, workout || null, id);
 }
 
+/**
+ * Renders workout view page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutViewPage(state) {
   return `
     <section class="page" data-page-route="workout-view">
@@ -108,6 +131,14 @@ export function renderWorkoutViewPage(state) {
   `;
 }
 
+/**
+ * Renders priority range markup.
+ * @param {object} state state input
+ * @param {string} name name input
+ * @param {string} labelKey label key input
+ * @param {string} [value=0] value input
+ * @returns {string} rendered markup
+ */
 function renderPriorityRange(state, name, labelKey, value = 0) {
   const normalizedValue = normalizePriorityValue(value);
   const id = `workout-generate-${name.replaceAll('.', '-')}`;
@@ -120,11 +151,21 @@ function renderPriorityRange(state, name, labelKey, value = 0) {
   `;
 }
 
+/**
+ * Normalizes priority value.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizePriorityValue(value) {
   const number = Number(value);
   return Number.isFinite(number) ? Math.min(1, Math.max(0, number)) : 0;
 }
 
+/**
+ * Renders workout run page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutRunPage(state) {
   const { id } = getRouteParams();
   const workout = selectWorkoutById(state, id);
@@ -234,6 +275,11 @@ export function renderWorkoutRunPage(state) {
   `;
 }
 
+/**
+ * Renders workout view content region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutViewContentRegion(state) {
   const { id } = getRouteParams();
   const exercises = selectExerciseCatalog(state);

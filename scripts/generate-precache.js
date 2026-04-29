@@ -1,5 +1,12 @@
+/**
+ * @module scripts/generate-precache
+ */
 import { updateServiceWorkerPrecache } from './precache-utils.js';
 
+/**
+ * Module-level result value.
+ * @type {*}
+ */
 const result = updateServiceWorkerPrecache(process.cwd());
 
 if (!result.updated) {

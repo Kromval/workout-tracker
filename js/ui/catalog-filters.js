@@ -1,5 +1,11 @@
+/**
+ * @module js/ui/catalog-filters
+ */
 import { normalizeFormString } from './form-utils.js';
 
+/**
+ * Applies exercise catalog filters.
+ */
 export function applyExerciseCatalogFilters() {
   const searchInput = document.querySelector('[data-exercises-search]');
   const typeSelect = document.querySelector('[data-exercises-type-filter]');

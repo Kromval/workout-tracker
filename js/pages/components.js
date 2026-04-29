@@ -1,6 +1,18 @@
+/**
+ * @module js/pages/components
+ */
 import { t } from '../i18n/index.js';
 import { escapeAttribute, escapeHtml } from '../core/utils.js';
 
+/**
+ * Renders empty state markup.
+ * @param {object} state state input
+ * @param {string} titleKey title key input
+ * @param {string} descriptionKey description key input
+ * @param {string} actionKey action key input
+ * @param {*} actionHref action href input
+ * @returns {string} rendered markup
+ */
 export function renderEmptyState(state, titleKey, descriptionKey, actionKey, actionHref) {
   return `
     <article class="empty-state">
@@ -14,6 +26,13 @@ export function renderEmptyState(state, titleKey, descriptionKey, actionKey, act
   `;
 }
 
+/**
+ * Renders list item markup.
+ * @param {string} name name input
+ * @param {string} value value input
+ * @param {string} [stateOrLanguage="ru"] state or language input
+ * @returns {string} rendered markup
+ */
 export function renderListItem(name, value, stateOrLanguage = 'ru') {
   return `
     <span class="chip chip--editable" data-list-value="${escapeAttribute(value)}">
@@ -24,6 +43,13 @@ export function renderListItem(name, value, stateOrLanguage = 'ru') {
   `;
 }
 
+/**
+ * Creates remove label.
+ * @param {string} name name input
+ * @param {string} value value input
+ * @param {object|string} stateOrLanguage state or language input
+ * @returns {*} result
+ */
 function createRemoveLabel(name, value, stateOrLanguage) {
   return t(stateOrLanguage, 'removeListItemLabel').replace('{item}', value || name);
 }

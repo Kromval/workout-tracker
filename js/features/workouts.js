@@ -1,3 +1,6 @@
+/**
+ * @module js/features/workouts
+ */
 import {
   createWorkout as createStoredWorkout,
   createWorkoutItem as createStoredWorkoutItem,
@@ -11,12 +14,33 @@ import {
   normalizeString,
 } from '../core/utils.js';
 
+/**
+ * Shared default rest between exercises sec constant.
+ * @type {number}
+ */
 const DEFAULT_REST_BETWEEN_EXERCISES_SEC = 90;
+/**
+ * Shared default rest between sets sec constant.
+ * @type {number}
+ */
 const DEFAULT_REST_BETWEEN_SETS_SEC = 60;
+/**
+ * Shared default rep duration sec constant.
+ * @type {number}
+ */
 const DEFAULT_REP_DURATION_SEC = 3;
+/**
+ * Shared tempo fields constant.
+ * @type {Array}
+ */
 const TEMPO_FIELDS = ['eccentric', 'pauseBottom', 'concentric', 'pauseTop'];
 
 // Workout-specific helpers stay UI-agnostic so editor/session flows can reuse them.
+/**
+ * Gets workouts.
+ * @param {object} [store=null] store input
+ * @returns {*} result
+ */
 export function getWorkouts(store = null) {
   const source = Array.isArray(store?.workouts) ? store.workouts : listWorkouts();
   return source.map(normalizeWorkout);
@@ -39,6 +63,11 @@ export function createEmptyWorkout(overrides = {}) {
   );
 }
 
+/**
+ * Creates workout item.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createWorkoutItem(overrides = {}) {
   return normalizeWorkoutItem(
     createStoredWorkoutItem({
@@ -118,10 +147,19 @@ export function calculateWorkoutCaloriesEstimate(workout, exercises = []) {
 }
 
 // Backward-compatible alias used by early workout editor placeholders.
+/**
+ * Creates empty workout draft.
+ * @returns {*} result
+ */
 export function createEmptyWorkoutDraft() {
   return createEmptyWorkout();
 }
 
+/**
+ * Normalizes workout item.
+ * @param {object} [item={}] item input
+ * @returns {*} result
+ */
 function normalizeWorkoutItem(item = {}) {
   const source = isPlainObject(item) ? item : {};
 
@@ -143,6 +181,12 @@ function normalizeWorkoutItem(item = {}) {
   };
 }
 
+/**
+ * Calculates item active duration.
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function calculateItemActiveDuration(item, exercise) {
   if (item.durationSec !== null) {
     return item.sets * item.durationSec;
@@ -155,6 +199,12 @@ function calculateItemActiveDuration(item, exercise) {
   return 0;
 }
 
+/**
+ * Gets rep duration sec.
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getRepDurationSec(item, exercise) {
   const tempo = item.tempoOverride || normalizeTempo(exercise?.tempo);
 
@@ -166,6 +216,11 @@ function getRepDurationSec(item, exercise) {
   return tempoSec > 0 ? tempoSec : DEFAULT_REP_DURATION_SEC;
 }
 
+/**
+ * Creates exercise map.
+ * @param {Array} exercises exercises input
+ * @returns {*} result
+ */
 function createExerciseMap(exercises) {
   return asArray(exercises).reduce((map, exercise) => {
     if (isPlainObject(exercise) && normalizeString(exercise.id)) {
@@ -176,6 +231,11 @@ function createExerciseMap(exercises) {
   }, new Map());
 }
 
+/**
+ * Normalizes tempo.
+ * @param {*} tempo tempo input
+ * @returns {*} result
+ */
 function normalizeTempo(tempo) {
   if (!isPlainObject(tempo)) {
     return null;
@@ -190,6 +250,11 @@ function normalizeTempo(tempo) {
   );
 }
 
+/**
+ * Runs optional non negative integer.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function optionalNonNegativeInteger(value) {
   if (value === null || value === undefined || value === '') {
     return null;
@@ -198,6 +263,11 @@ function optionalNonNegativeInteger(value) {
   return nonNegativeInteger(value, 0);
 }
 
+/**
+ * Runs optional non negative number.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function optionalNonNegativeNumber(value) {
   if (value === null || value === undefined || value === '') {
     return null;
@@ -206,15 +276,30 @@ function optionalNonNegativeNumber(value) {
   return nonNegativeNumber(value, 0);
 }
 
+/**
+ * Normalizes iso date.
+ * @param {string} value value input
+ * @param {number} fallback fallback input
+ * @returns {string} formatted value
+ */
 function normalizeIsoDate(value, fallback) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? fallback : date.toISOString();
 }
 
+/**
+ * Runs now iso.
+ * @returns {string} formatted value
+ */
 function nowIso() {
   return new Date().toISOString();
 }
 
+/**
+ * Creates id.
+ * @param {string} prefix prefix input
+ * @returns {string} formatted value
+ */
 function createId(prefix) {
   const cryptoApi = typeof globalThis !== 'undefined' ? globalThis.crypto : null;
 

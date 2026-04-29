@@ -1,8 +1,18 @@
+/**
+ * @module js/pages/home-stats
+ */
 import { getStatsSummary } from '../features/history.js';
 import { t } from '../i18n/index.js';
 import { asArray, escapeHtml } from '../core/utils.js';
 import { selectLanguage } from '../core/selectors.js';
 
+/**
+ * Renders home stat markup.
+ * @param {object} state state input
+ * @param {string} value value input
+ * @param {string} labelKey label key input
+ * @returns {string} rendered markup
+ */
 export function renderHomeStat(state, value, labelKey) {
   return `
     <div class="home-stat">
@@ -12,6 +22,12 @@ export function renderHomeStat(state, value, labelKey) {
   `;
 }
 
+/**
+ * Renders home activity stats markup.
+ * @param {object} state state input
+ * @param {*} stats stats input
+ * @returns {Array} rendered markup
+ */
 export function renderHomeActivityStats(state, stats) {
   const items = [
     ['homeStatsWeekWorkouts', stats.weekWorkouts],
@@ -46,6 +62,11 @@ export function renderHomeActivityStats(state, stats) {
   `;
 }
 
+/**
+ * Gets home activity stats.
+ * @param {object} [history=[]] history input
+ * @returns {*} result
+ */
 export function getHomeActivityStats(history = []) {
   const entries = asArray(history);
   const summary = getStatsSummary(entries);
@@ -65,6 +86,12 @@ export function getHomeActivityStats(history = []) {
   };
 }
 
+/**
+ * Calculates active day streak.
+ * @param {object} history history input
+ * @param {Date} [now=new Date()] now input
+ * @returns {*} result
+ */
 export function calculateActiveDayStreak(history, now = new Date()) {
   const activeDays = new Set(
     history.map((entry) => normalizeDateKey(entry?.startedAt)).filter(Boolean),
@@ -95,32 +122,65 @@ export function calculateActiveDayStreak(history, now = new Date()) {
   return streak;
 }
 
+/**
+ * Checks whether entry in range.
+ * @param {object} entry entry input
+ * @param {*} start start input
+ * @param {*} end end input
+ * @returns {boolean} predicate result
+ */
 export function isEntryInRange(entry, start, end) {
   const date = new Date(entry?.startedAt);
   return !Number.isNaN(date.getTime()) && date >= start && date < end;
 }
 
+/**
+ * Gets start of week.
+ * @param {*} date date input
+ * @returns {*} result
+ */
 export function getStartOfWeek(date) {
   const day = date.getDay();
   const mondayOffset = day === 0 ? -6 : 1 - day;
   return addDays(startOfDay(date), mondayOffset);
 }
 
+/**
+ * Runs start of day.
+ * @param {*} date date input
+ * @returns {*} result
+ */
 export function startOfDay(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
+/**
+ * Runs add days.
+ * @param {*} date date input
+ * @param {*} days days input
+ * @returns {*} result
+ */
 export function addDays(date, days) {
   const nextDate = new Date(date);
   nextDate.setDate(nextDate.getDate() + days);
   return nextDate;
 }
 
+/**
+ * Normalizes date key.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 export function normalizeDateKey(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? '' : formatDateKey(date);
 }
 
+/**
+ * Formats date key.
+ * @param {*} date date input
+ * @returns {*} result
+ */
 export function formatDateKey(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -128,6 +188,12 @@ export function formatDateKey(date) {
   return `${year}-${month}-${day}`;
 }
 
+/**
+ * Formats compact duration.
+ * @param {number} totalSec total sec input
+ * @param {string} [language="ru"] language input
+ * @returns {*} result
+ */
 export function formatCompactDuration(totalSec, language = 'ru') {
   const seconds = Math.max(0, Math.round(Number(totalSec) || 0));
   const hours = Math.floor(seconds / 3600);

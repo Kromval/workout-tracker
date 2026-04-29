@@ -1,3 +1,6 @@
+/**
+ * @module js/ui/workout-event-bindings
+ */
 import { t } from '../i18n/index.js';
 import {
   applyWorkoutExerciseFilters,
@@ -16,6 +19,10 @@ import {
   syncWorkoutItemsState,
 } from './workout-actions.js';
 
+/**
+ * Binds workout events event listeners.
+ * @param {object} state state input
+ */
 export function bindWorkoutEvents(state) {
   document.addEventListener('click', (event) => {
     const workoutActionButton = event.target?.closest?.('[data-workout-action]');

@@ -1,3 +1,6 @@
+/**
+ * @module tests/security/xss-regression.test
+ */
 import { renderProgressCalendar } from '../../js/features/calendar.js';
 import { renderListItem } from '../../js/pages/components.js';
 import {
@@ -31,9 +34,21 @@ import { IMPORT_MODES, importStore } from '../../js/storage/core.js';
 import { STORAGE_KEY } from '../../js/storage/schema.js';
 import { createMemoryStorage } from '../helpers/memory-storage.js';
 
+/**
+ * Shared xss text constant.
+ * @type {string}
+ */
 const XSS_TEXT =
   '<img data-xss-probe="text" src=x onerror="window.__xssProbe = true"><svg data-xss-probe="text" onload="window.__xssProbe = true"></svg><script data-xss-probe="text">window.__xssProbe = true</script>';
+/**
+ * Shared xss attribute constant.
+ * @type {string}
+ */
 const XSS_ATTRIBUTE = 'x" autofocus onfocus="window.__xssProbe = true" data-xss-probe="attr';
+/**
+ * Shared xss payload constant.
+ * @type {string}
+ */
 const XSS_PAYLOAD = `${XSS_TEXT} ${XSS_ATTRIBUTE}`;
 
 describe('XSS regression coverage', () => {
@@ -112,6 +127,10 @@ describe('XSS regression coverage', () => {
   });
 });
 
+/**
+ * Runs expect markup to keep xss probe inert.
+ * @param {string} markup markup input
+ */
 function expectMarkupToKeepXssProbeInert(markup) {
   expect(markup).not.toMatch(/<\s*(script|svg)\b/i);
   expect(markup).not.toMatch(/<\s*img\b[^>]*\bdata-xss-probe\s*=\s*["']/i);
@@ -119,6 +138,10 @@ function expectMarkupToKeepXssProbeInert(markup) {
   expect(markup).not.toMatch(/\bon(?:error|load|focus)\s*=\s*["']/i);
 }
 
+/**
+ * Creates state with malicious user text.
+ * @returns {*} result
+ */
 function createStateWithMaliciousUserText() {
   const store = createMaliciousImportPayload();
   const state = {
@@ -131,6 +154,10 @@ function createStateWithMaliciousUserText() {
   return state;
 }
 
+/**
+ * Creates malicious import payload.
+ * @returns {*} result
+ */
 function createMaliciousImportPayload() {
   const now = new Date().toISOString();
 

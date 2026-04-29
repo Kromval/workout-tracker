@@ -1,3 +1,6 @@
+/**
+ * @module js/ui/page-updates
+ */
 import {
   renderHomeActivityRegion,
   renderHomeOverviewRegion,
@@ -12,6 +15,12 @@ import {
 } from '../pages/renderers.js';
 import { applyExerciseCatalogFilters } from './catalog-filters.js';
 
+/**
+ * Updates current page.
+ * @param {object} state state input
+ * @param {object} [meta={}] meta input
+ * @returns {*} result
+ */
 export function updateCurrentPage(state, meta = {}) {
   const route = state?.route || 'home';
 
@@ -38,6 +47,12 @@ export function updateCurrentPage(state, meta = {}) {
   return false;
 }
 
+/**
+ * Updates exercises page.
+ * @param {object} state state input
+ * @param {object} meta meta input
+ * @returns {*} result
+ */
 function updateExercisesPage(state, meta) {
   if (
     meta.type === 'settings' &&
@@ -69,6 +84,12 @@ function updateExercisesPage(state, meta) {
   return true;
 }
 
+/**
+ * Updates home page.
+ * @param {object} state state input
+ * @param {object} meta meta input
+ * @returns {*} result
+ */
 function updateHomePage(state, meta) {
   if (
     meta.type === 'settings' &&
@@ -118,6 +139,12 @@ function updateHomePage(state, meta) {
   return true;
 }
 
+/**
+ * Updates workout view page.
+ * @param {object} state state input
+ * @param {object} meta meta input
+ * @returns {*} result
+ */
 function updateWorkoutViewPage(state, meta) {
   if (
     meta.type === 'settings' &&
@@ -147,6 +174,12 @@ function updateWorkoutViewPage(state, meta) {
   return true;
 }
 
+/**
+ * Updates settings page.
+ * @param {object} state state input
+ * @param {object} meta meta input
+ * @returns {*} result
+ */
 function updateSettingsPage(state, meta) {
   if (meta.type === 'equipment') {
     const region = document.querySelector(
@@ -201,6 +234,12 @@ function updateSettingsPage(state, meta) {
   return false;
 }
 
+/**
+ * Updates recommendations page.
+ * @param {object} state state input
+ * @param {object} meta meta input
+ * @returns {*} result
+ */
 function updateRecommendationsPage(state, meta) {
   if (
     meta.type === 'settings' &&
@@ -230,6 +269,12 @@ function updateRecommendationsPage(state, meta) {
   return true;
 }
 
+/**
+ * Runs capture control values.
+ * @param {HTMLElement} root root input
+ * @param {*} selectors selectors input
+ * @returns {*} result
+ */
 function captureControlValues(root, selectors) {
   return selectors.map((selector) => {
     const element = root.querySelector(selector);
@@ -240,6 +285,10 @@ function captureControlValues(root, selectors) {
   });
 }
 
+/**
+ * Runs restore control values.
+ * @param {object} controlState control state input
+ */
 function restoreControlValues(controlState) {
   controlState.forEach(({ selector, value }) => {
     const element = document.querySelector(selector);

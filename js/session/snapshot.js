@@ -1,3 +1,6 @@
+/**
+ * @module js/session/snapshot
+ */
 import { getActiveSession, saveActiveSession, clearActiveSession } from '../storage/core.js';
 import { RESTORABLE_STATUSES, SESSION_SNAPSHOT_VERSION } from './model.js';
 import { normalizeWorkout } from '../features/workouts.js';
@@ -11,6 +14,10 @@ import {
   positiveInteger,
 } from './utils.js';
 
+/**
+ * Gets session snapshot.
+ * @returns {*} result
+ */
 export function getSessionSnapshot() {
   const snapshot = normalizeSessionSnapshot(getActiveSession());
 
@@ -21,6 +28,11 @@ export function getSessionSnapshot() {
   return snapshot;
 }
 
+/**
+ * Saves session snapshot.
+ * @param {object} snapshot snapshot input
+ * @returns {*} result
+ */
 export function saveSessionSnapshot(snapshot) {
   const normalized = normalizeSessionSnapshot(snapshot);
 
@@ -32,10 +44,18 @@ export function saveSessionSnapshot(snapshot) {
   return saveActiveSession(normalized);
 }
 
+/**
+ * Runs discard session snapshot.
+ */
 export function discardSessionSnapshot() {
   clearActiveSession();
 }
 
+/**
+ * Creates persisted session snapshot.
+ * @param {object} snapshot snapshot input
+ * @returns {*} result
+ */
 export function createPersistedSessionSnapshot(snapshot) {
   if (!isPlainObject(snapshot) || !RESTORABLE_STATUSES.includes(snapshot.status)) {
     return null;
@@ -57,6 +77,11 @@ export function createPersistedSessionSnapshot(snapshot) {
   });
 }
 
+/**
+ * Normalizes session snapshot.
+ * @param {object} snapshot snapshot input
+ * @returns {*} result
+ */
 export function normalizeSessionSnapshot(snapshot) {
   if (!isPlainObject(snapshot)) {
     return null;

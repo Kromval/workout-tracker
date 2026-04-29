@@ -1,3 +1,6 @@
+/**
+ * @module js/storage/records
+ */
 import {
   DEFAULT_EQUIPMENT,
   DEFAULT_PROFILE,
@@ -34,6 +37,11 @@ import {
   uniqueStrings,
 } from './helpers.js';
 
+/**
+ * Creates localized text.
+ * @param {string} [value=""] value input
+ * @returns {*} result
+ */
 export function createLocalizedText(value = '') {
   if (isPlainObject(value)) {
     return {
@@ -48,6 +56,11 @@ export function createLocalizedText(value = '') {
   };
 }
 
+/**
+ * Creates exercise.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createExercise(overrides = {}) {
   const now = nowIso();
 
@@ -71,6 +84,11 @@ export function createExercise(overrides = {}) {
   });
 }
 
+/**
+ * Creates workout item.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createWorkoutItem(overrides = {}) {
   return sanitizeWorkoutItem({
     id: createId('workout-item'),
@@ -88,6 +106,11 @@ export function createWorkoutItem(overrides = {}) {
   });
 }
 
+/**
+ * Creates workout.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createWorkout(overrides = {}) {
   const now = nowIso();
 
@@ -106,6 +129,11 @@ export function createWorkout(overrides = {}) {
   });
 }
 
+/**
+ * Creates history entry.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createHistoryEntry(overrides = {}) {
   const now = nowIso();
   const startedAt = normalizeString(overrides.startedAt) || nowIso();
@@ -131,6 +159,11 @@ export function createHistoryEntry(overrides = {}) {
   });
 }
 
+/**
+ * Creates settings.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createSettings(overrides = {}) {
   return sanitizeSettings({
     ...DEFAULT_SETTINGS,
@@ -138,6 +171,11 @@ export function createSettings(overrides = {}) {
   });
 }
 
+/**
+ * Creates profile.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createProfile(overrides = {}) {
   return sanitizeProfile({
     ...DEFAULT_PROFILE,
@@ -145,6 +183,11 @@ export function createProfile(overrides = {}) {
   });
 }
 
+/**
+ * Creates equipment item.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createEquipmentItem(overrides = {}) {
   const now = nowIso();
 
@@ -158,6 +201,11 @@ export function createEquipmentItem(overrides = {}) {
   });
 }
 
+/**
+ * Creates equipment.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function createEquipment(overrides = {}) {
   return sanitizeEquipment({
     ...DEFAULT_EQUIPMENT,
@@ -165,6 +213,10 @@ export function createEquipment(overrides = {}) {
   });
 }
 
+/**
+ * Validates workout for save.
+ * @param {object} workout workout input
+ */
 export function validateWorkoutForSave(workout) {
   const errors = [];
   const source = isPlainObject(workout) ? workout : {};
@@ -200,6 +252,11 @@ export function validateWorkoutForSave(workout) {
   }
 }
 
+/**
+ * Sanitizes store.
+ * @param {object} store store input
+ * @returns {*} result
+ */
 export function sanitizeStore(store) {
   const source = isPlainObject(store) ? store : {};
   const settings = createSettings(source.settings);
@@ -218,6 +275,11 @@ export function sanitizeStore(store) {
   };
 }
 
+/**
+ * Sanitizes settings.
+ * @param {object} settings settings input
+ * @returns {*} result
+ */
 export function sanitizeSettings(settings) {
   const source = isPlainObject(settings) ? settings : {};
   const language = LANGUAGES.includes(source.language)
@@ -247,6 +309,11 @@ export function sanitizeSettings(settings) {
   };
 }
 
+/**
+ * Sanitizes profile.
+ * @param {object} profile profile input
+ * @returns {*} result
+ */
 export function sanitizeProfile(profile) {
   const source = isPlainObject(profile) ? profile : {};
   const goals = sanitizeProfileGoals(source.goals, source.goal);
@@ -287,6 +354,11 @@ export function sanitizeProfile(profile) {
   };
 }
 
+/**
+ * Sanitizes equipment.
+ * @param {object} equipment equipment input
+ * @returns {*} result
+ */
 export function sanitizeEquipment(equipment) {
   const source = isPlainObject(equipment) ? equipment : {};
 
@@ -300,6 +372,11 @@ export function sanitizeEquipment(equipment) {
   };
 }
 
+/**
+ * Sanitizes equipment item.
+ * @param {object} item item input
+ * @returns {*} result
+ */
 export function sanitizeEquipmentItem(item) {
   const source = isPlainObject(item) ? item : {};
   const createdAt = normalizeIsoDate(source.createdAt, nowIso());
@@ -313,6 +390,11 @@ export function sanitizeEquipmentItem(item) {
   };
 }
 
+/**
+ * Sanitizes exercise.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 export function sanitizeExercise(exercise) {
   const source = isPlainObject(exercise) ? exercise : {};
   const createdAt = normalizeIsoDate(source.createdAt, nowIso());
@@ -336,6 +418,11 @@ export function sanitizeExercise(exercise) {
   };
 }
 
+/**
+ * Sanitizes custom exercise.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 export function sanitizeCustomExercise(exercise) {
   return {
     ...sanitizeExercise(exercise),
@@ -343,6 +430,11 @@ export function sanitizeCustomExercise(exercise) {
   };
 }
 
+/**
+ * Sanitizes workout.
+ * @param {object} workout workout input
+ * @returns {*} result
+ */
 export function sanitizeWorkout(workout) {
   const source = isPlainObject(workout) ? workout : {};
 
@@ -363,6 +455,11 @@ export function sanitizeWorkout(workout) {
   };
 }
 
+/**
+ * Sanitizes workout item.
+ * @param {object} item item input
+ * @returns {*} result
+ */
 export function sanitizeWorkoutItem(item) {
   const source = isPlainObject(item) ? item : {};
 
@@ -381,6 +478,11 @@ export function sanitizeWorkoutItem(item) {
   };
 }
 
+/**
+ * Sanitizes history entry.
+ * @param {object} entry entry input
+ * @returns {*} result
+ */
 export function sanitizeHistoryEntry(entry) {
   const source = isPlainObject(entry) ? entry : {};
   const startedAt = normalizeIsoDate(source.startedAt, nowIso());
@@ -406,6 +508,11 @@ export function sanitizeHistoryEntry(entry) {
   };
 }
 
+/**
+ * Sanitizes completed item.
+ * @param {object} item item input
+ * @returns {*} result
+ */
 export function sanitizeCompletedItem(item) {
   const source = isPlainObject(item) ? item : {};
 
@@ -421,6 +528,11 @@ export function sanitizeCompletedItem(item) {
   };
 }
 
+/**
+ * Sanitizes tempo.
+ * @param {*} tempo tempo input
+ * @returns {*} result
+ */
 export function sanitizeTempo(tempo) {
   if (!isPlainObject(tempo)) {
     return null;
@@ -434,6 +546,11 @@ export function sanitizeTempo(tempo) {
   };
 }
 
+/**
+ * Sanitizes custom audio.
+ * @param {*} customAudio custom audio input
+ * @returns {*} result
+ */
 export function sanitizeCustomAudio(customAudio) {
   if (!isPlainObject(customAudio)) {
     return {};
@@ -450,6 +567,11 @@ export function sanitizeCustomAudio(customAudio) {
   }, {});
 }
 
+/**
+ * Sanitizes custom audio entry.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 export function sanitizeCustomAudioEntry(value) {
   if (typeof value === 'string') {
     return normalizeAudioDataUrl(value);
@@ -474,6 +596,11 @@ export function sanitizeCustomAudioEntry(value) {
   };
 }
 
+/**
+ * Normalizes audio data url.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 export function normalizeAudioDataUrl(value) {
   const dataUrl = normalizeString(value);
 
@@ -484,6 +611,11 @@ export function normalizeAudioDataUrl(value) {
   return dataUrl;
 }
 
+/**
+ * Normalizes audio mime.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 export function normalizeAudioMime(value) {
   const mime = normalizeString(value).toLowerCase();
   return ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/ogg'].includes(mime)
@@ -491,11 +623,21 @@ export function normalizeAudioMime(value) {
     : '';
 }
 
+/**
+ * Gets data url mime.
+ * @param {string} dataUrl data url input
+ * @returns {*} result
+ */
 export function getDataUrlMime(dataUrl) {
   const match = dataUrl.match(/^data:([^;,]+)[;,]/);
   return match ? normalizeAudioMime(match[1]) : '';
 }
 
+/**
+ * Sanitizes active session.
+ * @param {*} session session input
+ * @returns {*} result
+ */
 export function sanitizeActiveSession(session) {
   if (!isPlainObject(session)) {
     return null;
@@ -539,6 +681,12 @@ export function sanitizeActiveSession(session) {
   };
 }
 
+/**
+ * Sanitizes profile goals.
+ * @param {object} goals goals input
+ * @param {*} legacyGoal legacy goal input
+ * @returns {*} result
+ */
 function sanitizeProfileGoals(goals, legacyGoal) {
   const source = isPlainObject(goals) ? goals : {};
   const result = PROFILE_SCORING_GOALS.reduce(
@@ -560,6 +708,11 @@ function sanitizeProfileGoals(goals, legacyGoal) {
   };
 }
 
+/**
+ * Sanitizes body focus goals.
+ * @param {object} bodyFocusGoals body focus goals input
+ * @returns {*} result
+ */
 function sanitizeBodyFocusGoals(bodyFocusGoals) {
   const source = isPlainObject(bodyFocusGoals) ? bodyFocusGoals : {};
 
@@ -572,6 +725,11 @@ function sanitizeBodyFocusGoals(bodyFocusGoals) {
   );
 }
 
+/**
+ * Gets legacy goal weights.
+ * @param {*} goal goal input
+ * @returns {*} result
+ */
 function getLegacyGoalWeights(goal) {
   const normalizedGoal = normalizeString(goal);
 
@@ -596,6 +754,12 @@ function getLegacyGoalWeights(goal) {
   return {};
 }
 
+/**
+ * Sanitizes legacy goal.
+ * @param {*} goal goal input
+ * @param {object} goals goals input
+ * @returns {*} result
+ */
 function sanitizeLegacyGoal(goal, goals) {
   const normalizedGoal = normalizeString(goal);
 
@@ -619,6 +783,11 @@ function sanitizeLegacyGoal(goal, goals) {
   return PROFILE_GOALS.includes(topGoal) ? topGoal : 'general-fitness';
 }
 
+/**
+ * Sanitizes profile token list.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function sanitizeProfileTokenList(value) {
   return uniqueStrings(
     (Array.isArray(value) ? value : normalizeString(value).split(/[\n,;]+/)).map((item) =>
@@ -627,6 +796,11 @@ function sanitizeProfileTokenList(value) {
   );
 }
 
+/**
+ * Sanitizes recovery profile.
+ * @param {object} recoveryProfile recovery profile input
+ * @returns {*} result
+ */
 function sanitizeRecoveryProfile(recoveryProfile) {
   const source = isPlainObject(recoveryProfile) ? recoveryProfile : {};
 
@@ -639,6 +813,11 @@ function sanitizeRecoveryProfile(recoveryProfile) {
   );
 }
 
+/**
+ * Sanitizes recent history.
+ * @param {object} recentHistory recent history input
+ * @returns {*} result
+ */
 function sanitizeRecentHistory(recentHistory) {
   const source = isPlainObject(recentHistory) ? recentHistory : {};
   const performedMovementPatterns = isPlainObject(source.performedMovementPatterns)

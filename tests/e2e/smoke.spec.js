@@ -1,5 +1,12 @@
+/**
+ * @module tests/e2e/smoke.spec
+ */
 import { expect, test } from '@playwright/test';
 
+/**
+ * Shared storage key constant.
+ * @type {string}
+ */
 const STORAGE_KEY = 'workout-tracker:data';
 
 test('loads the app shell and home route', async ({ page }) => {
@@ -78,6 +85,11 @@ test('generates and saves a single workout', async ({ page }) => {
   expect(pageErrors).toEqual([]);
 });
 
+/**
+ * Collects page errors.
+ * @param {*} page page input
+ * @returns {*} result
+ */
 function collectPageErrors(page) {
   const errors = [];
   page.on('pageerror', (error) => {
@@ -86,6 +98,12 @@ function collectPageErrors(page) {
   return errors;
 }
 
+/**
+ * Runs start with store.
+ * @param {*} page page input
+ * @param {object} [store=createEmptyStore()] store input
+ * @returns {Promise<void>} completion promise
+ */
 async function startWithStore(page, store = createEmptyStore()) {
   await page.addInitScript(
     ({ key, value }) => {
@@ -97,6 +115,10 @@ async function startWithStore(page, store = createEmptyStore()) {
   );
 }
 
+/**
+ * Creates workout ready store.
+ * @returns {*} result
+ */
 function createWorkoutReadyStore() {
   const store = createEmptyStore();
 
@@ -140,6 +162,10 @@ function createWorkoutReadyStore() {
   return store;
 }
 
+/**
+ * Creates empty store.
+ * @returns {*} result
+ */
 function createEmptyStore() {
   return {
     version: 6,

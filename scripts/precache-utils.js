@@ -1,10 +1,26 @@
+/**
+ * @module scripts/precache-utils
+ */
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
+/**
+ * Shared cache name prefix constant.
+ * @type {string}
+ */
 const CACHE_NAME_PREFIX = 'workout-planner';
+/**
+ * Shared cache revision length constant.
+ * @type {number}
+ */
 const CACHE_REVISION_LENGTH = 12;
 
+/**
+ * Collects app shell.
+ * @param {string} [rootDir=process.cwd()] root dir input
+ * @returns {*} result
+ */
 export function collectAppShell(rootDir = process.cwd()) {
   const context = createCollectContext(rootDir);
 
@@ -15,10 +31,22 @@ export function collectAppShell(rootDir = process.cwd()) {
   return sortAppShellEntries(context.appShell);
 }
 
+/**
+ * Creates cache name.
+ * @param {string} [rootDir=process.cwd()] root dir input
+ * @param {Array} [entries=collectAppShell(rootDir)] entries input
+ * @returns {*} result
+ */
 export function createCacheName(rootDir = process.cwd(), entries = collectAppShell(rootDir)) {
   return `${CACHE_NAME_PREFIX}-${createAppShellRevision(rootDir, entries)}`;
 }
 
+/**
+ * Creates app shell revision.
+ * @param {string} [rootDir=process.cwd()] root dir input
+ * @param {Array} [entries=collectAppShell(rootDir)] entries input
+ * @returns {*} result
+ */
 export function createAppShellRevision(
   rootDir = process.cwd(),
   entries = collectAppShell(rootDir),
@@ -39,6 +67,11 @@ export function createAppShellRevision(
   return hash.digest('hex').slice(0, CACHE_REVISION_LENGTH);
 }
 
+/**
+ * Parses service worker cache name.
+ * @param {string} source source input
+ * @returns {*} result
+ */
 export function parseServiceWorkerCacheName(source) {
   const cacheNameMatch = source.match(/const CACHE_NAME = ['"]([^'"]+)['"];/);
 
@@ -49,10 +82,20 @@ export function parseServiceWorkerCacheName(source) {
   return cacheNameMatch[1];
 }
 
+/**
+ * Formats cache name.
+ * @param {string} cacheName cache name input
+ * @returns {*} result
+ */
 export function formatCacheName(cacheName) {
   return `const CACHE_NAME = '${cacheName}';`;
 }
 
+/**
+ * Parses service worker app shell.
+ * @param {string} source source input
+ * @returns {*} result
+ */
 export function parseServiceWorkerAppShell(source) {
   const appShellMatch = source.match(/const APP_SHELL = \[([\s\S]*?)\];/);
 
@@ -70,10 +113,20 @@ export function parseServiceWorkerAppShell(source) {
   return entries;
 }
 
+/**
+ * Formats app shell.
+ * @param {Array} entries entries input
+ * @returns {*} result
+ */
 export function formatAppShell(entries) {
   return `const APP_SHELL = [\n${entries.map((entry) => `  '${entry}'`).join(',\n')},\n];`;
 }
 
+/**
+ * Updates service worker precache.
+ * @param {string} [rootDir=process.cwd()] root dir input
+ * @returns {*} result
+ */
 export function updateServiceWorkerPrecache(rootDir = process.cwd()) {
   const serviceWorkerPath = path.join(rootDir, 'sw.js');
   const serviceWorker = readFileSync(serviceWorkerPath, 'utf8');
@@ -105,6 +158,12 @@ export function updateServiceWorkerPrecache(rootDir = process.cwd()) {
   };
 }
 
+/**
+ * Runs resolve app shell entry.
+ * @param {string} rootDir root dir input
+ * @param {object} entry entry input
+ * @returns {*} result
+ */
 export function resolveAppShellEntry(rootDir, entry) {
   if (entry === './') {
     return rootDir;
@@ -113,6 +172,11 @@ export function resolveAppShellEntry(rootDir, entry) {
   return path.resolve(rootDir, entry.replace(/^\.\//, ''));
 }
 
+/**
+ * Creates collect context.
+ * @param {string} rootDir root dir input
+ * @returns {*} result
+ */
 function createCollectContext(rootDir) {
   return {
     rootDir,
@@ -124,12 +188,25 @@ function createCollectContext(rootDir) {
   };
 }
 
+/**
+ * Runs to web path.
+ * @param {string} rootDir root dir input
+ * @param {string} filePath file path input
+ * @returns {string} formatted value
+ */
 function toWebPath(rootDir, filePath) {
   const relativePath = path.relative(rootDir, filePath).split(path.sep).join('/');
 
   return relativePath ? `./${relativePath}` : './';
 }
 
+/**
+ * Runs resolve asset url.
+ * @param {object} context context input
+ * @param {string} url url input
+ * @param {string} [baseFilePath=context.rootDir] base file path input
+ * @returns {*} result
+ */
 function resolveAssetUrl(context, url, baseFilePath = context.rootDir) {
   if (!url || /^(?:[a-z]+:)?\/\//i.test(url) || url.startsWith('data:')) {
     return null;
@@ -151,6 +228,11 @@ function resolveAssetUrl(context, url, baseFilePath = context.rootDir) {
   return resolvedPath;
 }
 
+/**
+ * Runs add asset.
+ * @param {object} context context input
+ * @param {string} filePath file path input
+ */
 function addAsset(context, filePath) {
   if (!filePath || !existsSync(filePath)) {
     return;
@@ -164,6 +246,10 @@ function addAsset(context, filePath) {
   }
 }
 
+/**
+ * Collects html assets.
+ * @param {object} context context input
+ */
 function collectHtmlAssets(context) {
   const html = readFileSync(context.indexPath, 'utf8');
   const assetPattern = /<(?:link|script)\b[^>]*\b(?:href|src)=["']([^"']+)["']/gi;
@@ -173,6 +259,10 @@ function collectHtmlAssets(context) {
   }
 }
 
+/**
+ * Collects manifest assets.
+ * @param {object} context context input
+ */
 function collectManifestAssets(context) {
   const manifest = JSON.parse(readFileSync(context.manifestPath, 'utf8'));
   const stack = [manifest];
@@ -197,6 +287,10 @@ function collectManifestAssets(context) {
   }
 }
 
+/**
+ * Collects js imports.
+ * @param {object} context context input
+ */
 function collectJsImports(context) {
   const importPattern =
     /\b(?:import|export)\s+(?:[\s\S]*?\s+from\s*)?["']([^"']+)["']|import\s*\(\s*["']([^"']+)["']\s*\)/g;
@@ -217,6 +311,11 @@ function collectJsImports(context) {
   }
 }
 
+/**
+ * Runs sort app shell entries.
+ * @param {*} appShell app shell input
+ * @returns {*} result
+ */
 function sortAppShellEntries(appShell) {
   return [...appShell].sort((left, right) => {
     if (left === './') return -1;

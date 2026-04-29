@@ -1,4 +1,11 @@
+/**
+ * @module js/features/exercises-data
+ */
 // Generated from data/exercises.json. Keep this module static so built-in exercises work without fetch or a server.
+/**
+ * Module-level built in exercise records value.
+ * @type {Array}
+ */
 export const builtInExerciseRecords = [
   {
     id: 'push-ups',

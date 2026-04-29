@@ -1,3 +1,6 @@
+/**
+ * @module tests/session/ui-format.test
+ */
 import {
   buildSessionSummary,
   formatNextStep,
@@ -15,6 +18,10 @@ import {
   roundToOneDecimal,
 } from '../../js/session/ui-format.js';
 
+/**
+ * Module-level state value.
+ * @type {object}
+ */
 const state = { settings: { language: 'en' } };
 
 describe('session UI format helpers', () => {

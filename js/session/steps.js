@@ -1,3 +1,6 @@
+/**
+ * @module js/session/steps
+ */
 import {
   DEFAULT_REP_DURATION_SEC,
   DEFAULT_REP_TEMPO,
@@ -10,6 +13,12 @@ import {
 import { normalizeWorkout } from '../features/workouts.js';
 import { asArray, isPlainObject, nonNegativeNumber, normalizeString } from './utils.js';
 
+/**
+ * Builds workout steps.
+ * @param {object} workout workout input
+ * @param {Array} [exercises=[]] exercises input
+ * @returns {*} result
+ */
 export function buildWorkoutSteps(workout, exercises = []) {
   const normalizedWorkout = normalizeWorkout(workout);
   const exerciseMap = createExerciseMap(exercises);
@@ -40,6 +49,14 @@ export function buildWorkoutSteps(workout, exercises = []) {
   });
 }
 
+/**
+ * Creates exercise step.
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @param {number} exerciseIndex exercise index input
+ * @param {number} setIndex set index input
+ * @returns {*} result
+ */
 function createExerciseStep(item, exercise, exerciseIndex, setIndex) {
   const effort = createExerciseEffort(item, exercise);
 
@@ -63,6 +80,14 @@ function createExerciseStep(item, exercise, exerciseIndex, setIndex) {
   };
 }
 
+/**
+ * Creates rest between sets step.
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @param {number} exerciseIndex exercise index input
+ * @param {number} setIndex set index input
+ * @returns {*} result
+ */
 function createRestBetweenSetsStep(item, exercise, exerciseIndex, setIndex) {
   return {
     id: `${item.id}:set-${setIndex + 1}:rest`,
@@ -80,6 +105,14 @@ function createRestBetweenSetsStep(item, exercise, exerciseIndex, setIndex) {
   };
 }
 
+/**
+ * Creates rest between exercises step.
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @param {number} exerciseIndex exercise index input
+ * @param {number} durationSec duration sec input
+ * @returns {*} result
+ */
 function createRestBetweenExercisesStep(item, exercise, exerciseIndex, durationSec) {
   return {
     id: `${item.id}:rest-after-exercise`,
@@ -97,6 +130,12 @@ function createRestBetweenExercisesStep(item, exercise, exerciseIndex, durationS
   };
 }
 
+/**
+ * Creates exercise effort.
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function createExerciseEffort(item, exercise) {
   const executionMode = resolveExecutionMode(item, exercise);
 
@@ -133,6 +172,12 @@ function createExerciseEffort(item, exercise) {
   };
 }
 
+/**
+ * Runs resolve execution mode.
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function resolveExecutionMode(item, exercise) {
   const exerciseMode = normalizeString(exercise?.executionMode);
 
@@ -155,6 +200,12 @@ function resolveExecutionMode(item, exercise) {
   return exerciseMode || EXECUTION_MODES.CUSTOM;
 }
 
+/**
+ * Gets tempo details.
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getTempoDetails(item, exercise) {
   const tempoOverride = normalizeTempo(item.tempoOverride);
   const exerciseTempo = normalizeTempo(exercise?.tempo);
@@ -185,6 +236,11 @@ function getTempoDetails(item, exercise) {
   };
 }
 
+/**
+ * Creates tempo rep phases.
+ * @param {*} tempo tempo input
+ * @returns {*} result
+ */
 function createTempoRepPhases(tempo) {
   return REP_PHASE_SEQUENCE.map((phase, phaseIndex) => ({
     key: phase.key,
@@ -195,10 +251,19 @@ function createTempoRepPhases(tempo) {
   }));
 }
 
+/**
+ * Creates default rep phases.
+ * @returns {*} result
+ */
 function createDefaultRepPhases() {
   return createTempoRepPhases(DEFAULT_REP_TEMPO);
 }
 
+/**
+ * Creates exercise map.
+ * @param {Array} exercises exercises input
+ * @returns {*} result
+ */
 function createExerciseMap(exercises) {
   return asArray(exercises).reduce((map, exercise) => {
     if (isPlainObject(exercise) && normalizeString(exercise.id)) {
@@ -209,6 +274,11 @@ function createExerciseMap(exercises) {
   }, new Map());
 }
 
+/**
+ * Normalizes tempo.
+ * @param {*} tempo tempo input
+ * @returns {*} result
+ */
 function normalizeTempo(tempo) {
   if (!isPlainObject(tempo)) {
     return null;

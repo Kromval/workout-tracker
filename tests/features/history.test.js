@@ -1,3 +1,6 @@
+/**
+ * @module tests/features/history.test
+ */
 import {
   createHistoryEntry,
   getHistory,

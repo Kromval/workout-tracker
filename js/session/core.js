@@ -1,3 +1,6 @@
+/**
+ * @module js/session/core
+ */
 import {
   DEFAULT_SNAPSHOT_SAVE_INTERVAL_MS,
   EXECUTION_MODES,
@@ -69,6 +72,12 @@ export function restoreWorkoutSession(
   return session;
 }
 
+/**
+ * Runs restore active workout session.
+ * @param {Array} [exercises=[]] exercises input
+ * @param {object} [options={}] options input
+ * @returns {*} result
+ */
 export function restoreActiveWorkoutSession(exercises = [], options = {}) {
   return restoreWorkoutSession(getSessionSnapshot(), exercises, options);
 }
@@ -77,6 +86,12 @@ export function restoreActiveWorkoutSession(exercises = [], options = {}) {
  * Expands workout items into executable exercise/rest steps used by the timer.
  */
 export class WorkoutSession {
+  /**
+   * Initializes the instance state.
+   * @param {object} workout workout input
+   * @param {Array} [exercises=[]] exercises input
+   * @param {object} [options={}] options input
+   */
   constructor(workout, exercises = [], options = {}) {
     this.workout = normalizeWorkout(workout);
     this.steps = buildWorkoutSteps(this.workout, exercises);
@@ -103,6 +118,10 @@ export class WorkoutSession {
     this.lastSnapshotSavedAt = 0;
   }
 
+  /**
+   * Runs start.
+   * @returns {*} result
+   */
   start() {
     if (this.status !== SESSION_STATUSES.IDLE) {
       return this.getSnapshot();
@@ -124,6 +143,10 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Runs pause.
+   * @returns {*} result
+   */
   pause() {
     if (this.status !== SESSION_STATUSES.RUNNING) {
       return this.getSnapshot();
@@ -135,6 +158,10 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Runs resume.
+   * @returns {*} result
+   */
   resume() {
     if (this.status !== SESSION_STATUSES.PAUSED) {
       return this.getSnapshot();
@@ -160,6 +187,11 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Runs add time.
+   * @param {number} seconds seconds input
+   * @returns {*} result
+   */
   addTime(seconds) {
     if (!this.isActive()) {
       return this.getSnapshot();
@@ -179,6 +211,11 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Runs subtract time.
+   * @param {number} seconds seconds input
+   * @returns {*} result
+   */
   subtractTime(seconds) {
     if (!this.isActive()) {
       return this.getSnapshot();
@@ -204,6 +241,10 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Runs abort.
+   * @returns {*} result
+   */
   abort() {
     if (this.status === SESSION_STATUSES.COMPLETED || this.status === SESSION_STATUSES.ABORTED) {
       return this.getSnapshot();
@@ -218,6 +259,10 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Gets snapshot.
+   * @returns {*} result
+   */
   getSnapshot() {
     const currentStep = this.getCurrentStep();
     const totalRemainingSec = this.calculateTotalRemainingSec();
@@ -252,6 +297,10 @@ export class WorkoutSession {
     });
   }
 
+  /**
+   * Runs tick.
+   * @returns {*} result
+   */
   tick() {
     if (this.status !== SESSION_STATUSES.RUNNING || !this.getCurrentStep()) {
       return this.getSnapshot();
@@ -270,6 +319,12 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Runs complete.
+   * @param {*} [previousStepOverride=undefined] previous step override input
+   * @param {*} [previousPhaseOverride=undefined] previous phase override input
+   * @returns {*} result
+   */
   complete(previousStepOverride = undefined, previousPhaseOverride = undefined) {
     if (this.status === SESSION_STATUSES.COMPLETED) {
       return this.getSnapshot();
@@ -294,6 +349,12 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Runs restore.
+   * @param {object} snapshot snapshot input
+   * @param {object} [options={}] options input
+   * @returns {*} result
+   */
   restore(snapshot, options = {}) {
     const normalizedSnapshot = normalizeSessionSnapshot(snapshot);
 
@@ -320,14 +381,26 @@ export class WorkoutSession {
     return true;
   }
 
+  /**
+   * Checks whether active.
+   * @returns {boolean} predicate result
+   */
   isActive() {
     return this.status === SESSION_STATUSES.RUNNING || this.status === SESSION_STATUSES.PAUSED;
   }
 
+  /**
+   * Gets current step.
+   * @returns {*} result
+   */
   getCurrentStep() {
     return this.steps[this.currentStepIndex] || null;
   }
 
+  /**
+   * Gets current step elapsed sec.
+   * @returns {*} result
+   */
   getCurrentStepElapsedSec() {
     if (!this.getCurrentStep()) {
       return 0;
@@ -336,6 +409,10 @@ export class WorkoutSession {
     return Math.max(0, this.stepDurations[this.currentStepIndex] - this.remainingSec);
   }
 
+  /**
+   * Calculates total remaining sec.
+   * @returns {*} result
+   */
   calculateTotalRemainingSec() {
     if (!this.getCurrentStep()) {
       return 0;
@@ -348,6 +425,10 @@ export class WorkoutSession {
     return this.remainingSec + futureStepsSec;
   }
 
+  /**
+   * Runs advance step.
+   * @returns {*} result
+   */
   advanceStep() {
     const previousPhase = this.currentPhase;
     const previousStep = this.getCurrentStep();
@@ -369,6 +450,9 @@ export class WorkoutSession {
     return this.getSnapshot();
   }
 
+  /**
+   * Runs advance past zero duration steps.
+   */
   advancePastZeroDurationSteps() {
     while (
       this.status === SESSION_STATUSES.RUNNING &&
@@ -379,6 +463,9 @@ export class WorkoutSession {
     }
   }
 
+  /**
+   * Runs start timer.
+   */
   startTimer() {
     if (this.timerId || typeof this.setInterval !== 'function') {
       return;
@@ -387,6 +474,9 @@ export class WorkoutSession {
     this.timerId = this.setInterval(() => this.tick(), this.intervalMs);
   }
 
+  /**
+   * Runs stop timer.
+   */
   stopTimer() {
     if (!this.timerId || typeof this.clearInterval !== 'function') {
       this.timerId = null;
@@ -397,15 +487,28 @@ export class WorkoutSession {
     this.timerId = null;
   }
 
+  /**
+   * Runs notify tick.
+   */
   notifyTick() {
     this.hooks.onTick(this.getSnapshot());
   }
 
+  /**
+   * Runs notify step change.
+   * @param {*} previousStep previous step input
+   * @param {*} currentStep current step input
+   */
   notifyStepChange(previousStep, currentStep) {
     this.playStepSignals(previousStep, currentStep);
     this.hooks.onStepChange(this.getSnapshot(), clone(previousStep), clone(currentStep));
   }
 
+  /**
+   * Runs notify phase change.
+   * @param {*} previousPhase previous phase input
+   * @param {*} currentPhase current phase input
+   */
   notifyPhaseChange(previousPhase, currentPhase) {
     if (getPhaseSignature(previousPhase) === getPhaseSignature(currentPhase)) {
       return;
@@ -415,6 +518,11 @@ export class WorkoutSession {
     this.hooks.onPhaseChange(this.getSnapshot(), clone(previousPhase), clone(currentPhase));
   }
 
+  /**
+   * Runs play step signals.
+   * @param {*} previousStep previous step input
+   * @param {*} currentStep current step input
+   */
   playStepSignals(previousStep, currentStep) {
     if (isRestStep(previousStep)) {
       this.playAudioSignal('restEnd');
@@ -433,6 +541,11 @@ export class WorkoutSession {
     }
   }
 
+  /**
+   * Runs play phase signal.
+   * @param {*} previousPhase previous phase input
+   * @param {*} currentPhase current phase input
+   */
   playPhaseSignal(previousPhase, currentPhase) {
     if (
       previousPhase?.type === 'rep' &&
@@ -444,18 +557,28 @@ export class WorkoutSession {
     }
   }
 
+  /**
+   * Runs play audio signal.
+   * @param {string} eventName event name input
+   */
   playAudioSignal(eventName) {
     if (this.audioEnabled) {
       playSignal(eventName);
     }
   }
 
+  /**
+   * Runs stop audio signals.
+   */
   stopAudioSignals() {
     if (this.audioEnabled) {
       stopAudioSignals();
     }
   }
 
+  /**
+   * Runs sync current phase.
+   */
   syncCurrentPhase() {
     const previousPhase = this.currentPhase;
     const currentPhase = this.resolveCurrentPhase();
@@ -463,6 +586,10 @@ export class WorkoutSession {
     this.notifyPhaseChange(previousPhase, currentPhase);
   }
 
+  /**
+   * Runs resolve current phase.
+   * @returns {*} result
+   */
   resolveCurrentPhase() {
     const step = this.getCurrentStep();
 
@@ -483,6 +610,11 @@ export class WorkoutSession {
     return this.createSessionPhase(step.phase, step);
   }
 
+  /**
+   * Runs resolve current rep phase.
+   * @param {number} step step input
+   * @returns {*} result
+   */
   resolveCurrentRepPhase(step) {
     const reps = positiveInteger(step.reps);
     const repDurationSec = nonNegativeNumber(step.effort?.repDurationSec, 0);
@@ -532,6 +664,13 @@ export class WorkoutSession {
       : null;
   }
 
+  /**
+   * Creates rep phase.
+   * @param {number} step step input
+   * @param {*} phase phase input
+   * @param {*} progress progress input
+   * @returns {*} result
+   */
   createRepPhase(step, phase, progress) {
     const repNumber = progress.repIndex + 1;
     const durationSec = nonNegativeNumber(phase.durationSec, 0);
@@ -563,6 +702,12 @@ export class WorkoutSession {
     };
   }
 
+  /**
+   * Creates session phase.
+   * @param {string} key key input
+   * @param {number} step step input
+   * @returns {*} result
+   */
   createSessionPhase(key, step) {
     const scope = {
       exerciseIndex: step?.exerciseIndex ?? null,
@@ -590,6 +735,11 @@ export class WorkoutSession {
     };
   }
 
+  /**
+   * Runs can restore from snapshot.
+   * @param {object} snapshot snapshot input
+   * @returns {boolean} predicate result
+   */
   canRestoreFromSnapshot(snapshot) {
     if (!RESTORABLE_STATUSES.includes(snapshot.status)) {
       return false;
@@ -610,6 +760,11 @@ export class WorkoutSession {
     return Number.isInteger(currentDurationSec) && snapshot.remainingSec <= currentDurationSec;
   }
 
+  /**
+   * Runs persist snapshot.
+   * @param {*} [force=false] force input
+   * @returns {*} result
+   */
   persistSnapshot(force = false) {
     if (!this.persistenceEnabled || !this.isActive()) {
       return this.getSnapshot();
@@ -637,6 +792,9 @@ export class WorkoutSession {
     return snapshot;
   }
 
+  /**
+   * Runs discard persisted snapshot.
+   */
   discardPersistedSnapshot() {
     try {
       discardSessionSnapshot();

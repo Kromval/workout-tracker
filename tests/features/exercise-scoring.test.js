@@ -1,3 +1,6 @@
+/**
+ * @module tests/features/exercise-scoring.test
+ */
 import {
   DEFAULT_SCORING_WEIGHTS,
   rankRecommendedExercises,

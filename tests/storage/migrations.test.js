@@ -1,3 +1,6 @@
+/**
+ * @module tests/storage/migrations.test
+ */
 import { jest } from '@jest/globals';
 import {
   getStorageVersion,

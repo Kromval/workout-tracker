@@ -1,3 +1,10 @@
+/**
+ * @module tests/helpers/memory-storage
+ */
+/**
+ * Creates memory storage.
+ * @returns {*} result
+ */
 export function createMemoryStorage() {
   const values = new Map();
 

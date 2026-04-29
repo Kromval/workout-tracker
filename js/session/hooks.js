@@ -1,5 +1,13 @@
+/**
+ * @module js/session/hooks
+ */
 import { noop } from './utils.js';
 
+/**
+ * Normalizes hooks.
+ * @param {object} options options input
+ * @returns {*} result
+ */
 export function normalizeHooks(options) {
   return {
     onTick: normalizeHook(options.onTick),
@@ -10,6 +18,11 @@ export function normalizeHooks(options) {
   };
 }
 
+/**
+ * Normalizes hook.
+ * @param {Function} callback callback input
+ * @returns {*} result
+ */
 function normalizeHook(callback) {
   return typeof callback === 'function' ? callback : noop;
 }

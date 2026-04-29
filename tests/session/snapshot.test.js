@@ -1,3 +1,6 @@
+/**
+ * @module tests/session/snapshot.test
+ */
 import {
   createPersistedSessionSnapshot,
   discardSessionSnapshot,
@@ -7,6 +10,10 @@ import {
 } from '../../js/session/snapshot.js';
 import { createMemoryStorage } from '../helpers/memory-storage.js';
 
+/**
+ * Module-level base snapshot value.
+ * @type {object}
+ */
 const baseSnapshot = {
   version: 1,
   savedAt: '2026-04-01T10:00:00.000Z',

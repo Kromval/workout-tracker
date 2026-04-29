@@ -1,3 +1,6 @@
+/**
+ * @module js/storage/core
+ */
 import {
   AUDIO_EVENTS,
   DEFAULT_STORE,
@@ -104,6 +107,10 @@ export {
   setActiveSession,
 } from './sessionRepository.js';
 
+/**
+ * Runs export store.
+ * @returns {*} result
+ */
 export function exportStore() {
   const store = loadStore();
   const exportData = EXPORT_DATA_KEYS.reduce((result, key) => {
@@ -123,6 +130,12 @@ export function exportStore() {
   );
 }
 
+/**
+ * Runs import store.
+ * @param {string} json json input
+ * @param {object} [options={}] options input
+ * @returns {*} result
+ */
 export function importStore(json, options = {}) {
   const mode = options.mode === IMPORT_MODES.REPLACE ? IMPORT_MODES.REPLACE : IMPORT_MODES.MERGE;
   const parsed = parseImportJson(json);
@@ -135,32 +148,64 @@ export function importStore(json, options = {}) {
   return saveStore(nextStore);
 }
 
+/**
+ * Gets custom exercises.
+ * @returns {*} result
+ */
 export function getCustomExercises() {
   return sortByUpdatedAtDesc(loadStore().customExercises);
 }
 
+/**
+ * Sets custom exercises.
+ * @param {Array} exercises exercises input
+ * @returns {*} result
+ */
 export function setCustomExercises(exercises) {
   const store = loadStore();
   store.customExercises = sortByUpdatedAtDesc(asArray(exercises).map(sanitizeCustomExercise));
   return saveStore(store).customExercises;
 }
 
+/**
+ * Runs list custom exercises.
+ * @returns {*} result
+ */
 export function listCustomExercises() {
   return getCustomExercises();
 }
 
+/**
+ * Reads all custom exercises.
+ * @returns {*} result
+ */
 export function readAllCustomExercises() {
   return getCustomExercises();
 }
 
+/**
+ * Gets custom exercise.
+ * @param {string} id id input
+ * @returns {*} result
+ */
 export function getCustomExercise(id) {
   return findById(loadStore().customExercises, id);
 }
 
+/**
+ * Reads custom exercise by id.
+ * @param {string} id id input
+ * @returns {*} result
+ */
 export function readCustomExerciseById(id) {
   return getCustomExercise(id);
 }
 
+/**
+ * Creates custom exercise.
+ * @param {object} [exercise={}] exercise input
+ * @returns {*} result
+ */
 export function createCustomExercise(exercise = {}) {
   const store = loadStore();
   const now = nowIso();
@@ -179,6 +224,11 @@ export function createCustomExercise(exercise = {}) {
   return saveStore(store).customExercises.find((item) => item.id === normalized.id);
 }
 
+/**
+ * Saves custom exercise.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 export function saveCustomExercise(exercise) {
   if (!isPlainObject(exercise)) {
     throw new TypeError('Custom exercise must be an object.');
@@ -203,6 +253,12 @@ export function saveCustomExercise(exercise) {
   return saveStore(store).customExercises.find((item) => item.id === normalized.id);
 }
 
+/**
+ * Updates custom exercise.
+ * @param {string} id id input
+ * @param {object} [patch={}] patch input
+ * @returns {*} result
+ */
 export function updateCustomExercise(id, patch = {}) {
   const store = loadStore();
   const existing = findById(store.customExercises, id);
@@ -224,6 +280,11 @@ export function updateCustomExercise(id, patch = {}) {
   return saveStore(store).customExercises.find((item) => item.id === normalized.id);
 }
 
+/**
+ * Deletes custom exercise.
+ * @param {string} id id input
+ * @returns {*} result
+ */
 export function deleteCustomExercise(id) {
   const store = loadStore();
   const initialLength = store.customExercises.length;
@@ -235,6 +296,11 @@ export function deleteCustomExercise(id) {
   return store.customExercises.length !== initialLength;
 }
 
+/**
+ * Parses import json.
+ * @param {string} json json input
+ * @returns {*} result
+ */
 function parseImportJson(json) {
   if (typeof json !== 'string') {
     return json;
@@ -252,6 +318,11 @@ function parseImportJson(json) {
   }
 }
 
+/**
+ * Validates import payload.
+ * @param {object} payload payload input
+ * @returns {*} result
+ */
 function validateImportPayload(payload) {
   if (!isPlainObject(payload)) {
     throwImportValidationError(['Корневой элемент JSON должен быть объектом.']);
@@ -375,6 +446,11 @@ function validateImportPayload(payload) {
   }, {});
 }
 
+/**
+ * Creates replace store.
+ * @param {object} payload payload input
+ * @returns {*} result
+ */
 function createReplaceStore(payload) {
   return {
     ...DEFAULT_STORE,
@@ -385,6 +461,12 @@ function createReplaceStore(payload) {
   };
 }
 
+/**
+ * Creates merged store.
+ * @param {object} currentStore current store input
+ * @param {object} payload payload input
+ * @returns {*} result
+ */
 function createMergedStore(currentStore, payload) {
   const nextStore = clone(currentStore);
 
@@ -407,6 +489,12 @@ function createMergedStore(currentStore, payload) {
   return nextStore;
 }
 
+/**
+ * Merges imported settings.
+ * @param {object} currentSettings current settings input
+ * @param {object} payload payload input
+ * @returns {*} result
+ */
 function mergeImportedSettings(currentSettings, payload) {
   const importedSettings = isPlainObject(payload.settings) ? payload.settings : {};
 
@@ -426,6 +514,11 @@ function mergeImportedSettings(currentSettings, payload) {
   });
 }
 
+/**
+ * Runs without legacy fields.
+ * @param {object} payload payload input
+ * @returns {*} result
+ */
 function withoutLegacyFields(payload) {
   const nextPayload = clone(payload);
   delete nextPayload.favorites;
@@ -433,6 +526,12 @@ function withoutLegacyFields(payload) {
   return nextPayload;
 }
 
+/**
+ * Merges imported profile.
+ * @param {object} currentProfile current profile input
+ * @param {object} payload payload input
+ * @returns {*} result
+ */
 function mergeImportedProfile(currentProfile, payload) {
   const importedProfile = isPlainObject(payload.profile) ? payload.profile : {};
 
@@ -470,6 +569,12 @@ function mergeImportedProfile(currentProfile, payload) {
   });
 }
 
+/**
+ * Merges imported equipment.
+ * @param {object} currentEquipment current equipment input
+ * @param {object} payload payload input
+ * @returns {*} result
+ */
 function mergeImportedEquipment(currentEquipment, payload) {
   const importedEquipment = isPlainObject(payload.equipment) ? payload.equipment : {};
 
@@ -487,6 +592,12 @@ function mergeImportedEquipment(currentEquipment, payload) {
   });
 }
 
+/**
+ * Validates object array.
+ * @param {Array} items items input
+ * @param {string} key key input
+ * @param {Array} errors errors input
+ */
 function validateObjectArray(items, key, errors) {
   items.forEach((item, index) => {
     if (!isPlainObject(item)) {
@@ -495,6 +606,10 @@ function validateObjectArray(items, key, errors) {
   });
 }
 
+/**
+ * Runs throw import validation error.
+ * @param {*} details details input
+ */
 function throwImportValidationError(details) {
   const error = new Error(`Не удалось импортировать данные: ${details.join(' ')}`);
   error.name = 'ImportValidationError';
@@ -502,6 +617,11 @@ function throwImportValidationError(details) {
   throw error;
 }
 
+/**
+ * Checks whether valid import audio value.
+ * @param {string} value value input
+ * @returns {boolean} predicate result
+ */
 function isValidImportAudioValue(value) {
   if (typeof value === 'string') {
     return true;

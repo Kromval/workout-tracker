@@ -1,3 +1,6 @@
+/**
+ * @module tests/features/recommendations.test
+ */
 import {
   RECOMMENDATION_EXCLUSION_REASONS,
   buildExerciseRecommendationMetadata,

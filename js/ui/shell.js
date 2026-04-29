@@ -1,3 +1,6 @@
+/**
+ * @module js/ui/shell
+ */
 import { pageRenderers } from '../pages/renderers.js';
 import { defaultRoute } from '../core/router.js';
 import { initWorkoutRunUi } from '../session/ui.js';
@@ -16,6 +19,10 @@ import {
   updateShellLabels,
 } from './shell-chrome.js';
 
+/**
+ * Module-level mounted route value.
+ * @type {string}
+ */
 let mountedRoute = '';
 
 /**

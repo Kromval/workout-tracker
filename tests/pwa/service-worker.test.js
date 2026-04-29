@@ -1,3 +1,6 @@
+/**
+ * @module tests/pwa/service-worker.test
+ */
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
@@ -8,6 +11,10 @@ import {
   resolveAppShellEntry,
 } from '../../scripts/precache-utils.js';
 
+/**
+ * Module-level root dir value.
+ * @type {*}
+ */
 const rootDir = path.resolve('.');
 
 describe('service worker app shell precache', () => {

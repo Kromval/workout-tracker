@@ -1,3 +1,6 @@
+/**
+ * @module tests/session/core.test
+ */
 import { jest } from '@jest/globals';
 import {
   createWorkoutSession,
@@ -7,6 +10,10 @@ import {
 import { saveSessionSnapshot } from '../../js/session/snapshot.js';
 import { createMemoryStorage } from '../helpers/memory-storage.js';
 
+/**
+ * Module-level workout value.
+ * @type {object}
+ */
 const workout = {
   id: 'workout-a',
   title: 'Workout',
@@ -27,6 +34,10 @@ const workout = {
   ],
 };
 
+/**
+ * Module-level exercises value.
+ * @type {Array}
+ */
 const exercises = [
   { id: 'push-up', executionMode: 'reps' },
   { id: 'plank', executionMode: 'time' },

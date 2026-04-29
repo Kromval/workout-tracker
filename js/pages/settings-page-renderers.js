@@ -1,3 +1,6 @@
+/**
+ * @module js/pages/settings-page-renderers
+ */
 import { audioEvents } from '../features/audio.js';
 import { SUPPORTED_CONTRAINDICATION_TAGS } from '../features/contraindications.js';
 import { localizedText, t } from '../i18n/index.js';
@@ -18,15 +21,36 @@ import {
 import { renderCustomAudioRow } from './settings-renderers.js';
 import { capitalize } from './workout-renderers.js';
 
+/**
+ * Shared profile select options constant.
+ * @type {object}
+ */
 const PROFILE_SELECT_OPTIONS = {
   sex: ['', 'male', 'female'],
   trainingLevel: ['', 'beginner', 'intermediate', 'advanced'],
   goal: ['', 'strength', 'hypertrophy', 'endurance', 'fat-loss', 'general-fitness'],
 };
+/**
+ * Shared profile goal fields constant.
+ * @type {Array}
+ */
 const PROFILE_GOAL_FIELDS = ['strength', 'hypertrophy', 'endurance', 'fatLoss', 'mobility'];
+/**
+ * Shared profile body focus fields constant.
+ * @type {Array}
+ */
 const PROFILE_BODY_FOCUS_FIELDS = ['upperBody', 'lowerBody', 'vTaper', 'core', 'arms', 'glutes'];
+/**
+ * Shared profile recovery fields constant.
+ * @type {Array}
+ */
 const PROFILE_RECOVERY_FIELDS = ['chest', 'back', 'legs', 'shoulders', 'arms', 'core'];
 
+/**
+ * Renders settings page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderSettingsPage(state) {
   return `
     <section class="page" data-page-route="settings">
@@ -75,6 +99,11 @@ export function renderSettingsPage(state) {
   `;
 }
 
+/**
+ * Renders settings interface region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderSettingsInterfaceRegion(state) {
   const { settings } = state;
   const volumePercent = Math.round(settings.volume * 100);
@@ -129,6 +158,11 @@ export function renderSettingsInterfaceRegion(state) {
   `;
 }
 
+/**
+ * Renders settings profile region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderSettingsProfileRegion(state) {
   const profile = selectProfile(state);
   const language = selectLanguage(state);
@@ -217,6 +251,11 @@ export function renderSettingsProfileRegion(state) {
   `;
 }
 
+/**
+ * Renders settings equipment region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderSettingsEquipmentRegion(state) {
   const equipment = selectEquipmentCatalog(state);
   const selectedEquipmentIds = selectEquipmentSelectedIdSet(state);
@@ -250,6 +289,11 @@ export function renderSettingsEquipmentRegion(state) {
   `;
 }
 
+/**
+ * Renders settings audio region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderSettingsAudioRegion(state) {
   const { settings } = state;
 
@@ -269,6 +313,15 @@ export function renderSettingsAudioRegion(state) {
   `;
 }
 
+/**
+ * Renders profile number field markup.
+ * @param {object} state state input
+ * @param {string} fieldName field name input
+ * @param {string} labelKey label key input
+ * @param {string} value value input
+ * @param {object} [options={}] options input
+ * @returns {string} rendered markup
+ */
 function renderProfileNumberField(state, fieldName, labelKey, value, options = {}) {
   const id = `profile-${fieldName}`;
   const { min = 0, max = '', step = 1 } = options;
@@ -290,6 +343,15 @@ function renderProfileNumberField(state, fieldName, labelKey, value, options = {
   `;
 }
 
+/**
+ * Renders profile priority field markup.
+ * @param {object} state state input
+ * @param {string} fieldName field name input
+ * @param {string} labelKey label key input
+ * @param {string} value value input
+ * @param {object} [options={}] options input
+ * @returns {string} rendered markup
+ */
 function renderProfilePriorityField(state, fieldName, labelKey, value, options = {}) {
   const id = `profile-${fieldName}`;
   const numberValue = value ?? 0;
@@ -327,6 +389,15 @@ function renderProfilePriorityField(state, fieldName, labelKey, value, options =
   `;
 }
 
+/**
+ * Renders profile select field markup.
+ * @param {object} state state input
+ * @param {string} fieldName field name input
+ * @param {string} labelKey label key input
+ * @param {string} value value input
+ * @param {Array} optionValues option values input
+ * @returns {string} rendered markup
+ */
 function renderProfileSelectField(state, fieldName, labelKey, value, optionValues) {
   const id = `profile-${fieldName}`;
 
@@ -345,6 +416,12 @@ function renderProfileSelectField(state, fieldName, labelKey, value, optionValue
   `;
 }
 
+/**
+ * Builds profile option message key.
+ * @param {string} fieldName field name input
+ * @param {string} optionValue option value input
+ * @returns {*} result
+ */
 function buildProfileOptionMessageKey(fieldName, optionValue) {
   if (!optionValue) {
     return `${fieldName}OptionEmpty`;
@@ -358,6 +435,12 @@ function buildProfileOptionMessageKey(fieldName, optionValue) {
   return `${fieldName}Option${normalized}`;
 }
 
+/**
+ * Renders profile picker field markup.
+ * @param {object} state state input
+ * @param {*} config config input
+ * @returns {string} rendered markup
+ */
 function renderProfilePickerField(state, config) {
   const selectedValues = asArray(config.selectedValues);
   const selectedLabels = selectedValues
@@ -392,6 +475,12 @@ function renderProfilePickerField(state, config) {
   `;
 }
 
+/**
+ * Renders profile picker modal markup.
+ * @param {object} state state input
+ * @param {*} config config input
+ * @returns {string} rendered markup
+ */
 function renderProfilePickerModal(state, config) {
   return `
     <div
@@ -451,6 +540,12 @@ function renderProfilePickerModal(state, config) {
   `;
 }
 
+/**
+ * Builds profile picker configs.
+ * @param {object} state state input
+ * @param {object} context context input
+ * @returns {*} result
+ */
 function buildProfilePickerConfigs(state, context) {
   const limitationsGroups = buildLimitationsPickerGroups(state);
   const dislikedExerciseGroups = buildDislikedExercisePickerGroups(
@@ -491,6 +586,11 @@ function buildProfilePickerConfigs(state, context) {
   };
 }
 
+/**
+ * Builds profile picker config.
+ * @param {*} config config input
+ * @returns {*} result
+ */
 function buildProfilePickerConfig(config) {
   const selectedValues = uniqueStrings(
     asArray(config.selectedValues).map((item) => normalizeString(item).toLowerCase()),
@@ -523,6 +623,11 @@ function buildProfilePickerConfig(config) {
   };
 }
 
+/**
+ * Builds limitations picker groups.
+ * @param {object} state state input
+ * @returns {*} result
+ */
 function buildLimitationsPickerGroups(state) {
   const groups = new Map([
     ['joint', { label: t(state, 'profilePickerGroupJoints'), options: [] }],
@@ -543,6 +648,12 @@ function buildLimitationsPickerGroups(state) {
   return Array.from(groups.values());
 }
 
+/**
+ * Builds disliked exercise picker groups.
+ * @param {Array} exercises exercises input
+ * @param {string} language language input
+ * @returns {*} result
+ */
 function buildDislikedExercisePickerGroups(exercises, language) {
   const groupMap = new Map();
 
@@ -575,6 +686,13 @@ function buildDislikedExercisePickerGroups(exercises, language) {
     }));
 }
 
+/**
+ * Builds preferred tags picker groups.
+ * @param {object} state state input
+ * @param {Array} exercises exercises input
+ * @param {object} equipmentCatalog equipment catalog input
+ * @returns {*} result
+ */
 function buildPreferredTagsPickerGroups(state, exercises, equipmentCatalog) {
   const equipmentIds = new Set(
     asArray(equipmentCatalog)
@@ -651,10 +769,21 @@ function buildPreferredTagsPickerGroups(state, exercises, equipmentCatalog) {
     .filter((group) => group.options.length > 0);
 }
 
+/**
+ * Selects selected value includes from application state.
+ * @param {Array} selectedValues selected values input
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function selectedValueIncludes(selectedValues, value) {
   return asArray(selectedValues).includes(value);
 }
 
+/**
+ * Runs humanize token.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function humanizeToken(value) {
   const normalized = normalizeString(value);
 
@@ -671,6 +800,13 @@ function humanizeToken(value) {
     .join(' ');
 }
 
+/**
+ * Renders equipment option markup.
+ * @param {object} state state input
+ * @param {object} item item input
+ * @param {boolean} isSelected is selected input
+ * @returns {string} rendered markup
+ */
 function renderEquipmentOption(state, item, isSelected) {
   const language = selectLanguage(state);
   const itemName = localizedText(item.name, language) || item.id || t(state, 'emptyValue');

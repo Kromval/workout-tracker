@@ -1,6 +1,16 @@
+/**
+ * @module js/pages/settings-renderers
+ */
 import { t } from '../i18n/index.js';
 import { escapeAttribute, escapeHtml } from '../core/utils.js';
 
+/**
+ * Renders custom audio row markup.
+ * @param {object} state state input
+ * @param {string} eventName event name input
+ * @param {object} audioEntry audio entry input
+ * @returns {string} rendered markup
+ */
 export function renderCustomAudioRow(state, eventName, audioEntry) {
   const hasAudio = Boolean(getCustomAudioDataUrl(audioEntry));
   const fileName = getCustomAudioName(audioEntry) || t(state, 'customAudioDefault');
@@ -25,6 +35,11 @@ export function renderCustomAudioRow(state, eventName, audioEntry) {
   `;
 }
 
+/**
+ * Formats file size.
+ * @param {*} bytes bytes input
+ * @returns {*} result
+ */
 export function formatFileSize(bytes) {
   const size = Math.max(0, Number(bytes) || 0);
 
@@ -39,6 +54,11 @@ export function formatFileSize(bytes) {
   return `${(size / 1024 / 1024).toFixed(1)} MB`;
 }
 
+/**
+ * Gets custom audio data url.
+ * @param {object} audioEntry audio entry input
+ * @returns {*} result
+ */
 export function getCustomAudioDataUrl(audioEntry) {
   if (typeof audioEntry === 'string') {
     return audioEntry;
@@ -47,6 +67,11 @@ export function getCustomAudioDataUrl(audioEntry) {
   return audioEntry?.dataUrl || '';
 }
 
+/**
+ * Gets custom audio name.
+ * @param {object} audioEntry audio entry input
+ * @returns {*} result
+ */
 export function getCustomAudioName(audioEntry) {
   if (typeof audioEntry === 'string') {
     return audioEntry ? 'Data URL' : '';
@@ -55,6 +80,11 @@ export function getCustomAudioName(audioEntry) {
   return audioEntry?.name || '';
 }
 
+/**
+ * Gets custom audio size.
+ * @param {object} audioEntry audio entry input
+ * @returns {*} result
+ */
 export function getCustomAudioSize(audioEntry) {
   if (!audioEntry || typeof audioEntry === 'string') {
     return 0;

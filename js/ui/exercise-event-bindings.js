@@ -1,6 +1,13 @@
+/**
+ * @module js/ui/exercise-event-bindings
+ */
 import { applyExerciseCatalogFilters } from './catalog-filters.js';
 import { handleExerciseAction, handleExerciseFormSubmit } from './exercise-actions.js';
 
+/**
+ * Binds exercise events event listeners.
+ * @param {object} state state input
+ */
 export function bindExerciseEvents(state) {
   document.addEventListener('click', (event) => {
     const exerciseActionButton = event.target?.closest?.('[data-exercise-action]');

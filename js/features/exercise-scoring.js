@@ -1,3 +1,6 @@
+/**
+ * @module js/features/exercise-scoring
+ */
 import {
   DEFAULT_RECOMMENDATION_WEIGHTS,
   rankExercisesForRecommendations,
@@ -173,6 +176,11 @@ export function scoreContraindicationRisk(user, exercise) {
   return clampUnit(1 - scoreSafety(user, exercise));
 }
 
+/**
+ * Runs map ranked exercise.
+ * @param {object} entry entry input
+ * @returns {*} result
+ */
 function mapRankedExercise(entry) {
   return {
     exercise: entry.exercise,
@@ -186,6 +194,11 @@ function mapRankedExercise(entry) {
   };
 }
 
+/**
+ * Runs map parts.
+ * @param {object} parts parts input
+ * @returns {*} result
+ */
 function mapParts(parts) {
   return {
     goalAlignment: parts.goalAlignment,
@@ -200,6 +213,12 @@ function mapParts(parts) {
   };
 }
 
+/**
+ * Runs map penalties.
+ * @param {object} parts parts input
+ * @param {Array} [explanationPenalties=[]] explanation penalties input
+ * @returns {*} result
+ */
 function mapPenalties(parts, explanationPenalties = []) {
   return {
     fatiguePenalty: clampUnit(1 - parts.movementVariety),
@@ -208,6 +227,11 @@ function mapPenalties(parts, explanationPenalties = []) {
   };
 }
 
+/**
+ * Runs clamp unit.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function clampUnit(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) {

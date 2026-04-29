@@ -1,3 +1,6 @@
+/**
+ * @module tests/storage/repositories.test
+ */
 import {
   createCustomEquipmentRecord,
   deleteCustomEquipmentRecord,
@@ -44,6 +47,11 @@ import {
 } from '../../js/storage/historyRepository.js';
 import { createMemoryStorage } from '../helpers/memory-storage.js';
 
+/**
+ * Runs valid workout.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 function validWorkout(overrides = {}) {
   return {
     title: 'Strength',

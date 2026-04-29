@@ -1,3 +1,6 @@
+/**
+ * @module js/pages/exercise-page-renderers
+ */
 import {
   getExerciseEquipmentIds,
   getExerciseProfileLevel,
@@ -18,6 +21,11 @@ import { asArray, escapeAttribute, escapeHtml, normalizeString } from '../core/u
 import { renderExerciseFormPage } from './form-renderers.js';
 import { formatTempo, renderChips, renderDetail, renderText } from './workout-renderers.js';
 
+/**
+ * Renders exercises page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderExercisesPage(state) {
   return `
     <section class="page exercises-page" data-page-route="exercises">
@@ -32,6 +40,11 @@ export function renderExercisesPage(state) {
   `;
 }
 
+/**
+ * Renders exercise view page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderExerciseViewPage(state) {
   const language = selectLanguage(state);
   const { id } = getRouteParams();
@@ -118,10 +131,20 @@ export function renderExerciseViewPage(state) {
   `;
 }
 
+/**
+ * Renders exercise create page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderExerciseCreatePage(state) {
   return renderExerciseFormPage(state, null);
 }
 
+/**
+ * Renders exercise edit page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderExerciseEditPage(state) {
   const { id } = getRouteParams();
   const exercise = selectExerciseCatalog(state).find((item) => item.id === id && item.isCustom);
@@ -129,6 +152,11 @@ export function renderExerciseEditPage(state) {
   return renderExerciseFormPage(state, exercise || null, id);
 }
 
+/**
+ * Renders exercises catalog region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderExercisesCatalogRegion(state) {
   const language = selectLanguage(state);
   const exercises = selectExerciseCatalog(state);

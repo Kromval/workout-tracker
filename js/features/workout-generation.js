@@ -1,3 +1,6 @@
+/**
+ * @module js/features/workout-generation
+ */
 import { asArray, isPlainObject, nonNegativeNumber, normalizeString } from '../core/utils.js';
 import { rankExercisesForRecommendations } from './recommendations.js';
 import {
@@ -7,6 +10,10 @@ import {
   normalizeWorkout,
 } from './workouts.js';
 
+/**
+ * Shared single workout types constant.
+ * @type {Readonly<Array>}
+ */
 export const SINGLE_WORKOUT_TYPES = Object.freeze([
   'auto',
   'straight',
@@ -15,13 +22,42 @@ export const SINGLE_WORKOUT_TYPES = Object.freeze([
   'mobility',
 ]);
 
+/**
+ * Shared resolved single workout types constant.
+ * @type {Set}
+ */
 const RESOLVED_SINGLE_WORKOUT_TYPES = new Set(['straight', 'circuit', 'interval', 'mobility']);
+/**
+ * Shared default target duration min constant.
+ * @type {number}
+ */
 const DEFAULT_TARGET_DURATION_MIN = 30;
+/**
+ * Shared min target duration min constant.
+ * @type {number}
+ */
 const MIN_TARGET_DURATION_MIN = 10;
+/**
+ * Shared max target duration min constant.
+ * @type {number}
+ */
 const MAX_TARGET_DURATION_MIN = 120;
+/**
+ * Shared target duration tolerance constant.
+ * @type {number}
+ */
 const TARGET_DURATION_TOLERANCE = 0.12;
+/**
+ * Shared min workout items constant.
+ * @type {number}
+ */
 const MIN_WORKOUT_ITEMS = 3;
 
+/**
+ * Creates single workout recommendation.
+ * @param {object} [options={}] options input
+ * @returns {*} result
+ */
 export function createSingleWorkoutRecommendation(options = {}) {
   const request = normalizeSingleWorkoutRequest(options.request || options);
   const profile = applyPriorityOverrides(
@@ -98,6 +134,11 @@ export function createSingleWorkoutRecommendation(options = {}) {
   };
 }
 
+/**
+ * Normalizes single workout request.
+ * @param {object} [request={}] request input
+ * @returns {*} result
+ */
 export function normalizeSingleWorkoutRequest(request = {}) {
   const source = isPlainObject(request) ? request : {};
   const targetDurationMin = clampNumber(
@@ -118,6 +159,11 @@ export function normalizeSingleWorkoutRequest(request = {}) {
   };
 }
 
+/**
+ * Selects single workout type from application state.
+ * @param {object} [request={}] request input
+ * @returns {*} result
+ */
 export function selectSingleWorkoutType(request = {}) {
   const requestedType = normalizeString(request.workoutType);
 
@@ -141,6 +187,11 @@ export function selectSingleWorkoutType(request = {}) {
   return 'straight';
 }
 
+/**
+ * Builds single workout template.
+ * @param {object} [request={}] request input
+ * @returns {*} result
+ */
 export function buildSingleWorkoutTemplate(request = {}) {
   const workoutType = RESOLVED_SINGLE_WORKOUT_TYPES.has(request.workoutType)
     ? request.workoutType
@@ -185,6 +236,13 @@ export function buildSingleWorkoutTemplate(request = {}) {
   };
 }
 
+/**
+ * Selects exercises for slots from application state.
+ * @param {Array} [rankedExercises=[]] ranked exercises input
+ * @param {Array} [slots=[]] slots input
+ * @param {string} [context={}] context input
+ * @returns {*} result
+ */
 export function selectExercisesForSlots(rankedExercises = [], slots = [], context = {}) {
   const selectedIds = new Set();
   const selectedPatterns = new Map();
@@ -229,6 +287,12 @@ export function selectExercisesForSlots(rankedExercises = [], slots = [], contex
     .filter(Boolean);
 }
 
+/**
+ * Runs prescribe workout item.
+ * @param {object} exercise exercise input
+ * @param {string} [context={}] context input
+ * @returns {*} result
+ */
 export function prescribeWorkoutItem(exercise, context = {}) {
   const slotRole = normalizeString(context.slot?.role);
   const workoutType = normalizeString(context.workoutType);
@@ -314,6 +378,13 @@ export function prescribeWorkoutItem(exercise, context = {}) {
   });
 }
 
+/**
+ * Runs fit workout to duration.
+ * @param {object} workout workout input
+ * @param {number} targetDurationMin target duration min input
+ * @param {Array} [exercises=[]] exercises input
+ * @returns {*} result
+ */
 export function fitWorkoutToDuration(workout, targetDurationMin, exercises = []) {
   const targetSec =
     clampNumber(
@@ -350,6 +421,13 @@ export function fitWorkoutToDuration(workout, targetDurationMin, exercises = [])
   return normalizeWorkout(fittedWorkout);
 }
 
+/**
+ * Applies priority overrides.
+ * @param {object} profile profile input
+ * @param {object} priorities priorities input
+ * @param {boolean} hasPriorityOverrides has priority overrides input
+ * @returns {*} result
+ */
 function applyPriorityOverrides(profile, priorities, hasPriorityOverrides) {
   const source = isPlainObject(profile) ? profile : {};
 
@@ -372,6 +450,11 @@ function applyPriorityOverrides(profile, priorities, hasPriorityOverrides) {
   };
 }
 
+/**
+ * Normalizes priorities.
+ * @param {object} priorities priorities input
+ * @returns {*} result
+ */
 function normalizePriorities(priorities) {
   const source = isPlainObject(priorities) ? priorities : {};
 
@@ -381,6 +464,11 @@ function normalizePriorities(priorities) {
   };
 }
 
+/**
+ * Normalizes goal weights.
+ * @param {object} goals goals input
+ * @returns {*} result
+ */
 function normalizeGoalWeights(goals) {
   const source = isPlainObject(goals) ? goals : {};
 
@@ -393,6 +481,11 @@ function normalizeGoalWeights(goals) {
   };
 }
 
+/**
+ * Normalizes unit record.
+ * @param {object} record record input
+ * @returns {*} result
+ */
 function normalizeUnitRecord(record) {
   const source = isPlainObject(record) ? record : {};
 
@@ -405,6 +498,11 @@ function normalizeUnitRecord(record) {
   );
 }
 
+/**
+ * Builds straight slots.
+ * @param {number} targetDurationMin target duration min input
+ * @returns {*} result
+ */
 function buildStraightSlots(targetDurationMin) {
   const slots = [];
 
@@ -431,6 +529,12 @@ function buildStraightSlots(targetDurationMin) {
   return slots;
 }
 
+/**
+ * Builds conditioning slots.
+ * @param {number} targetDurationMin target duration min input
+ * @param {boolean} isInterval is interval input
+ * @returns {*} result
+ */
 function buildConditioningSlots(targetDurationMin, isInterval) {
   const slots = [createSlot('warmup', ['cardio', 'yoga'], ['warmup', 'mobility', 'full-body'])];
   const targetCount = targetDurationMin >= 40 ? 7 : targetDurationMin >= 25 ? 6 : 5;
@@ -449,6 +553,11 @@ function buildConditioningSlots(targetDurationMin, isInterval) {
   return slots;
 }
 
+/**
+ * Builds mobility slots.
+ * @param {number} targetDurationMin target duration min input
+ * @returns {*} result
+ */
 function buildMobilitySlots(targetDurationMin) {
   const targetCount = targetDurationMin >= 40 ? 7 : targetDurationMin >= 25 ? 6 : 4;
 
@@ -461,6 +570,13 @@ function buildMobilitySlots(targetDurationMin) {
   );
 }
 
+/**
+ * Creates slot.
+ * @param {*} role role input
+ * @param {*} preferredTypes preferred types input
+ * @param {Array} preferredTags preferred tags input
+ * @returns {*} result
+ */
 function createSlot(role, preferredTypes, preferredTags) {
   return {
     role,
@@ -469,6 +585,14 @@ function createSlot(role, preferredTypes, preferredTags) {
   };
 }
 
+/**
+ * Scores slot selection.
+ * @param {object} entry entry input
+ * @param {object} slot slot input
+ * @param {Array} selectedPatterns selected patterns input
+ * @param {object} context context input
+ * @returns {*} result
+ */
 function scoreSlotSelection(entry, slot, selectedPatterns, context) {
   const recommendationScore = nonNegativeNumber(entry?.score);
   const slotFit = scoreSlotFit(entry?.exercise, slot);
@@ -478,6 +602,12 @@ function scoreSlotSelection(entry, slot, selectedPatterns, context) {
   return recommendationScore * 0.62 + slotFit * 0.22 + diversityFit * 0.1 + roleFit * 0.06;
 }
 
+/**
+ * Scores slot fit.
+ * @param {object} exercise exercise input
+ * @param {object} slot slot input
+ * @returns {*} result
+ */
 function scoreSlotFit(exercise, slot) {
   const type = getExerciseType(exercise);
   const tags = new Set(getExerciseTags(exercise));
@@ -511,6 +641,13 @@ function scoreSlotFit(exercise, slot) {
   return clampUnit(score);
 }
 
+/**
+ * Checks whether exercise eligible for slot.
+ * @param {object} exercise exercise input
+ * @param {object} slot slot input
+ * @param {string} [context={}] context input
+ * @returns {boolean} predicate result
+ */
 function isExerciseEligibleForSlot(exercise, slot, context = {}) {
   const role = normalizeToken(slot?.role);
   const workoutType = normalizeToken(context.workoutType);
@@ -560,6 +697,13 @@ function isExerciseEligibleForSlot(exercise, slot, context = {}) {
   return hasPreferredType || hasPreferredTag;
 }
 
+/**
+ * Checks whether exercise fallback eligible for slot.
+ * @param {object} exercise exercise input
+ * @param {object} slot slot input
+ * @param {string} [context={}] context input
+ * @returns {boolean} predicate result
+ */
 function isExerciseFallbackEligibleForSlot(exercise, slot, context = {}) {
   const role = normalizeToken(slot?.role);
   const workoutType = normalizeToken(context.workoutType);
@@ -590,6 +734,12 @@ function isExerciseFallbackEligibleForSlot(exercise, slot, context = {}) {
   return true;
 }
 
+/**
+ * Scores selection diversity.
+ * @param {object} exercise exercise input
+ * @param {Array} selectedPatterns selected patterns input
+ * @returns {*} result
+ */
 function scoreSelectionDiversity(exercise, selectedPatterns) {
   const movementPatterns = getExerciseMovementPatterns(exercise);
 
@@ -605,6 +755,13 @@ function scoreSelectionDiversity(exercise, selectedPatterns) {
   return clampUnit(1 - overlapCount * 0.25);
 }
 
+/**
+ * Scores role fit.
+ * @param {object} exercise exercise input
+ * @param {object} slot slot input
+ * @param {object} context context input
+ * @returns {*} result
+ */
 function scoreRoleFit(exercise, slot, context) {
   if (slot?.role !== 'main') {
     return 0.7;
@@ -620,6 +777,12 @@ function scoreRoleFit(exercise, slot, context) {
   return 0.7;
 }
 
+/**
+ * Builds effort prescription.
+ * @param {object} exercise exercise input
+ * @param {object} prescription prescription input
+ * @returns {*} result
+ */
 function buildEffortPrescription(exercise, prescription) {
   const executionMode = getExerciseExecutionMode(exercise);
   const usesDuration = executionMode === 'time' || executionMode === 'hold';
@@ -633,6 +796,11 @@ function buildEffortPrescription(exercise, prescription) {
   };
 }
 
+/**
+ * Checks whether mobility exercise.
+ * @param {object} exercise exercise input
+ * @returns {boolean} predicate result
+ */
 function isMobilityExercise(exercise) {
   const type = getExerciseType(exercise);
   const tags = new Set(getExerciseTags(exercise));
@@ -640,6 +808,11 @@ function isMobilityExercise(exercise) {
   return type === 'yoga' || tags.has('yoga') || tags.has('mobility');
 }
 
+/**
+ * Runs reduce workout volume.
+ * @param {object} workout workout input
+ * @returns {*} result
+ */
 function reduceWorkoutVolume(workout) {
   const normalizedWorkout = normalizeWorkout(workout);
   const items = [...normalizedWorkout.items];
@@ -671,6 +844,11 @@ function reduceWorkoutVolume(workout) {
   return normalizedWorkout;
 }
 
+/**
+ * Runs increase workout volume.
+ * @param {object} workout workout input
+ * @returns {*} result
+ */
 function increaseWorkoutVolume(workout) {
   const normalizedWorkout = normalizeWorkout(workout);
   const expandableItem = normalizedWorkout.items.find(
@@ -696,6 +874,13 @@ function increaseWorkoutVolume(workout) {
   return normalizedWorkout;
 }
 
+/**
+ * Updates workout item.
+ * @param {object} workout workout input
+ * @param {string} itemId item id input
+ * @param {object} patch patch input
+ * @returns {*} result
+ */
 function updateWorkoutItem(workout, itemId, patch) {
   return normalizeWorkout({
     ...workout,
@@ -703,10 +888,21 @@ function updateWorkoutItem(workout, itemId, patch) {
   });
 }
 
+/**
+ * Checks whether warmup item.
+ * @param {object} item item input
+ * @returns {boolean} predicate result
+ */
 function isWarmupItem(item) {
   return item.order === 0;
 }
 
+/**
+ * Builds workout title.
+ * @param {string} workoutType workout type input
+ * @param {number} targetDurationMin target duration min input
+ * @returns {*} result
+ */
 function buildWorkoutTitle(workoutType, targetDurationMin) {
   const labels = {
     straight: 'Recommended workout',
@@ -718,11 +914,22 @@ function buildWorkoutTitle(workoutType, targetDurationMin) {
   return `${labels[workoutType] || labels.straight}, ${targetDurationMin} min`;
 }
 
+/**
+ * Builds workout description.
+ * @param {string} workoutType workout type input
+ * @param {Array} selectedEntries selected entries input
+ * @returns {*} result
+ */
 function buildWorkoutDescription(workoutType, selectedEntries) {
   const selectedRoles = selectedEntries.map((selection) => selection.slot.role).join(', ');
   return `Generated ${workoutType} workout. Slots: ${selectedRoles}.`;
 }
 
+/**
+ * Gets dominant goal id.
+ * @param {object} profile profile input
+ * @returns {*} result
+ */
 function getDominantGoalId(profile) {
   const goals = normalizeGoalWeights(profile?.goals);
   const entries = Object.entries(goals).sort((left, right) => right[1] - left[1]);
@@ -735,6 +942,11 @@ function getDominantGoalId(profile) {
   return goal === 'fat-loss' ? 'fatLoss' : goal || 'generalFitness';
 }
 
+/**
+ * Gets level volume multiplier.
+ * @param {*} trainingLevel training level input
+ * @returns {*} result
+ */
 function getLevelVolumeMultiplier(trainingLevel) {
   const level = normalizeToken(trainingLevel);
 
@@ -749,6 +961,12 @@ function getLevelVolumeMultiplier(trainingLevel) {
   return 0.8;
 }
 
+/**
+ * Runs exercise targets muscle.
+ * @param {object} exercise exercise input
+ * @param {string} muscleId muscle id input
+ * @returns {*} result
+ */
 function exerciseTargetsMuscle(exercise, muscleId) {
   const target = normalizeToken(muscleId);
   return [...getExerciseMuscles(exercise), ...getExerciseTags(exercise)]
@@ -756,6 +974,11 @@ function exerciseTargetsMuscle(exercise, muscleId) {
     .includes(target);
 }
 
+/**
+ * Gets exercise type.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseType(exercise) {
   const explicitType = normalizeToken(exercise?.type?.en || exercise?.type);
   const modality = normalizeToken(exercise?.classification?.modality);
@@ -772,6 +995,11 @@ function getExerciseType(exercise) {
   return type;
 }
 
+/**
+ * Gets exercise tags.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseTags(exercise) {
   const classification = isPlainObject(exercise?.classification) ? exercise.classification : {};
   const mechanics = isPlainObject(exercise?.mechanics) ? exercise.mechanics : {};
@@ -806,6 +1034,11 @@ function getExerciseTags(exercise) {
   return uniqueList(tags);
 }
 
+/**
+ * Gets exercise equipment ids.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseEquipmentIds(exercise) {
   const explicitEquipment = asArray(exercise?.equipment);
   const classificationEquipment = asArray(exercise?.classification?.equipment);
@@ -813,6 +1046,11 @@ function getExerciseEquipmentIds(exercise) {
   return uniqueList(source.map(normalizeEquipmentId).filter(Boolean));
 }
 
+/**
+ * Gets exercise movement patterns.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseMovementPatterns(exercise) {
   const explicitPatterns = asArray(exercise?.movementPatterns);
   const classificationPatterns = asArray(exercise?.classification?.movementPatterns);
@@ -821,10 +1059,20 @@ function getExerciseMovementPatterns(exercise) {
   );
 }
 
+/**
+ * Gets exercise execution mode.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseExecutionMode(exercise) {
   return normalizeToken(exercise?.executionMode || exercise?.mechanics?.executionMode);
 }
 
+/**
+ * Gets exercise muscles.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseMuscles(exercise) {
   const legacyMuscles = Array.isArray(exercise?.muscles) ? exercise.muscles : [];
   const muscleGroups = isPlainObject(exercise?.muscleGroups) ? exercise.muscleGroups : {};
@@ -842,6 +1090,11 @@ function getExerciseMuscles(exercise) {
   );
 }
 
+/**
+ * Normalizes equipment id.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeEquipmentId(value) {
   const normalized = normalizeToken(value);
 
@@ -857,18 +1110,40 @@ function normalizeEquipmentId(value) {
   );
 }
 
+/**
+ * Runs unique list.
+ * @param {Array} values values input
+ * @returns {*} result
+ */
 function uniqueList(values) {
   return Array.from(new Set(asArray(values).filter(Boolean)));
 }
 
+/**
+ * Normalizes token.
+ * @param {string} value value input
+ * @returns {string} formatted value
+ */
 function normalizeToken(value) {
   return normalizeString(value).toLowerCase();
 }
 
+/**
+ * Runs clamp unit.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function clampUnit(value) {
   return clampNumber(nonNegativeNumber(value), 0, 1);
 }
 
+/**
+ * Runs clamp number.
+ * @param {string} value value input
+ * @param {number} min min input
+ * @param {number} max max input
+ * @returns {*} result
+ */
 function clampNumber(value, min, max) {
   return Math.min(max, Math.max(min, Number(value) || 0));
 }

@@ -1,3 +1,6 @@
+/**
+ * @module tests/features/exercise-compatibility.test
+ */
 import {
   getExerciseEquipmentIds,
   getExerciseProfileLevel,

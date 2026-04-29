@@ -1,3 +1,6 @@
+/**
+ * @module js/ui/settings-event-bindings
+ */
 import { t } from '../i18n/index.js';
 import {
   applyProfilePicker,
@@ -17,6 +20,10 @@ import {
   updateVolumeOutput,
 } from './settings-actions.js';
 
+/**
+ * Binds settings events event listeners.
+ * @param {object} state state input
+ */
 export function bindSettingsEvents(state) {
   document.addEventListener('click', (event) => {
     const profilePickerOpenButton = event.target?.closest?.('[data-profile-picker-open]');

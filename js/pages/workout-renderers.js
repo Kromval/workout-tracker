@@ -1,3 +1,6 @@
+/**
+ * @module js/pages/workout-renderers
+ */
 import { localizedText, t } from '../i18n/index.js';
 import {
   escapeAttribute,
@@ -24,6 +27,14 @@ import {
   calculateWorkoutCaloriesEstimate,
 } from '../features/workouts.js';
 
+/**
+ * Renders workout view item markup.
+ * @param {object} state state input
+ * @param {object} item item input
+ * @param {object} exercise exercise input
+ * @param {number} index index input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutViewItem(state, item, exercise, index) {
   const language = selectLanguage(state);
   const name = localizedText(exercise?.name, language) || item.exerciseId || t(state, 'emptyValue');
@@ -53,6 +64,14 @@ export function renderWorkoutViewItem(state, item, exercise, index) {
   `;
 }
 
+/**
+ * Renders workout card markup.
+ * @param {object} state state input
+ * @param {object} workout workout input
+ * @param {Array} exercises exercises input
+ * @param {object} [options={}] options input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutCard(state, workout, exercises, options = {}) {
   const isPresetCard = Boolean(options.isPresetCard);
   const language = selectLanguage(state);
@@ -113,6 +132,12 @@ export function renderWorkoutCard(state, workout, exercises, options = {}) {
   `;
 }
 
+/**
+ * Renders workout exercise sidebar markup.
+ * @param {object} state state input
+ * @param {Array} exercises exercises input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutExerciseSidebar(state, exercises) {
   const language = selectLanguage(state);
   const profile = selectProfile(state);
@@ -230,6 +255,16 @@ export function renderWorkoutExerciseSidebar(state, exercises) {
   `;
 }
 
+/**
+ * Renders workout exercise option markup.
+ * @param {object} state state input
+ * @param {object} exercise exercise input
+ * @param {boolean} isFavorite is favorite input
+ * @param {Array} [knownEquipmentIds=[]] known equipment ids input
+ * @param {Array} [selectedEquipmentIds=[]] selected equipment ids input
+ * @param {*} [profileTrainingLevel=""] profile training level input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutExerciseOption(
   state,
   exercise,
@@ -332,14 +367,31 @@ export function renderWorkoutExerciseOption(
   `;
 }
 
+/**
+ * Gets exercise display name.
+ * @param {object} exercise exercise input
+ * @param {string} language language input
+ * @returns {*} result
+ */
 export function getExerciseDisplayName(exercise, language) {
   return localizedText(exercise?.name, language) || exercise?.id || '';
 }
 
+/**
+ * Gets exercise type label.
+ * @param {object} exercise exercise input
+ * @param {string} language language input
+ * @returns {*} result
+ */
 export function getExerciseTypeLabel(exercise, language) {
   return localizedText(exercise?.type, language) || exercise?.executionMode || '';
 }
 
+/**
+ * Gets exercise primary muscles.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 export function getExercisePrimaryMuscles(exercise) {
   const primary = exercise?.muscleGroups?.primary;
   return uniqueStrings(
@@ -347,10 +399,22 @@ export function getExercisePrimaryMuscles(exercise) {
   );
 }
 
+/**
+ * Gets exercise movement patterns.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 export function getExerciseMovementPatterns(exercise) {
   return uniqueStrings(exercise?.movementPatterns || []);
 }
 
+/**
+ * Gets exercise equipment labels.
+ * @param {object} exercise exercise input
+ * @param {object} state state input
+ * @param {Array} [knownEquipmentIds=[]] known equipment ids input
+ * @returns {*} result
+ */
 export function getExerciseEquipmentLabels(exercise, state, knownEquipmentIds = []) {
   const language = selectLanguage(state);
   const equipmentCatalog = selectEquipmentCatalog(state);
@@ -366,6 +430,11 @@ export function getExerciseEquipmentLabels(exercise, state, knownEquipmentIds = 
   });
 }
 
+/**
+ * Gets exercise intensity summary.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 export function getExerciseIntensitySummary(exercise) {
   const profile = exercise?.intensityProfile || {};
   const entries = [
@@ -381,6 +450,11 @@ export function getExerciseIntensitySummary(exercise) {
     .join(', ');
 }
 
+/**
+ * Creates exercise map.
+ * @param {Array} exercises exercises input
+ * @returns {*} result
+ */
 export function createExerciseMap(exercises) {
   return exercises.reduce((map, exercise) => {
     map.set(exercise.id, exercise);
@@ -388,6 +462,13 @@ export function createExerciseMap(exercises) {
   }, new Map());
 }
 
+/**
+ * Renders detail markup.
+ * @param {object} state state input
+ * @param {string} labelKey label key input
+ * @param {string} value value input
+ * @returns {string} rendered markup
+ */
 export function renderDetail(state, labelKey, value) {
   return `
     <div class="detail">
@@ -397,10 +478,23 @@ export function renderDetail(state, labelKey, value) {
   `;
 }
 
+/**
+ * Renders text markup.
+ * @param {string} value value input
+ * @param {string} language language input
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderText(value, language, state) {
   return escapeHtml(localizedText(value, language) || t(state, 'emptyValue'));
 }
 
+/**
+ * Renders chips markup.
+ * @param {Array} items items input
+ * @param {object} state state input
+ * @returns {Array} rendered markup
+ */
 export function renderChips(items, state) {
   if (!items.length) {
     return `<span class="muted">${t(state, 'emptyValue')}</span>`;
@@ -413,6 +507,12 @@ export function renderChips(items, state) {
   `;
 }
 
+/**
+ * Formats tempo.
+ * @param {*} tempo tempo input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function formatTempo(tempo, state) {
   if (!tempo) {
     return t(state, 'emptyValue');
@@ -421,10 +521,22 @@ export function formatTempo(tempo, state) {
   return `${tempo.eccentric}-${tempo.pauseBottom}-${tempo.concentric}-${tempo.pauseTop}`;
 }
 
+/**
+ * Runs capitalize.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 export function capitalize(value) {
   return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
 
+/**
+ * Renders inline meta markup.
+ * @param {object} state state input
+ * @param {string} labelKey label key input
+ * @param {string} value value input
+ * @returns {string} rendered markup
+ */
 function renderInlineMeta(state, labelKey, value) {
   return `
     <div>
@@ -434,6 +546,11 @@ function renderInlineMeta(state, labelKey, value) {
   `;
 }
 
+/**
+ * Runs humanize token.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function humanizeToken(value) {
   return String(value || '')
     .trim()

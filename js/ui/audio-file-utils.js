@@ -1,3 +1,10 @@
+/**
+ * @module js/ui/audio-file-utils
+ */
+/**
+ * Supported custom audio MIME types.
+ * @type {Set}
+ */
 const CUSTOM_AUDIO_TYPES = new Set([
   'audio/mpeg',
   'audio/mp3',
@@ -6,6 +13,11 @@ const CUSTOM_AUDIO_TYPES = new Set([
   'audio/ogg',
 ]);
 
+/**
+ * Checks whether supported audio file.
+ * @param {File} file file input
+ * @returns {boolean} predicate result
+ */
 export function isSupportedAudioFile(file) {
   const type = String(file.type || '').toLowerCase();
   return (
@@ -14,6 +26,11 @@ export function isSupportedAudioFile(file) {
   );
 }
 
+/**
+ * Gets audio mime from name.
+ * @param {string} name name input
+ * @returns {*} result
+ */
 export function getAudioMimeFromName(name) {
   const normalizedName = String(name || '').toLowerCase();
 
@@ -24,6 +41,11 @@ export function getAudioMimeFromName(name) {
   return 'audio/mpeg';
 }
 
+/**
+ * Reads file as data url.
+ * @param {File} file file input
+ * @returns {*} result
+ */
 export function readFileAsDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -35,6 +57,12 @@ export function readFileAsDataUrl(file) {
   });
 }
 
+/**
+ * Normalizes audio data url.
+ * @param {string} dataUrl data url input
+ * @param {string} mimeType mime type input
+ * @returns {*} result
+ */
 export function normalizeAudioDataUrl(dataUrl, mimeType) {
   const value = String(dataUrl || '');
 

@@ -1,3 +1,6 @@
+/**
+ * @module tests/features/contraindications.test
+ */
 import {
   getContraindicationRelatedJoints,
   getContraindicationRelatedMuscles,

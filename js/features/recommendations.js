@@ -1,3 +1,6 @@
+/**
+ * @module js/features/recommendations
+ */
 import { asArray, isPlainObject, normalizeString } from '../core/utils.js';
 import { getEquipmentCatalog } from './equipment.js';
 import {
@@ -43,18 +46,34 @@ export const DEFAULT_RECOMMENDATION_WEIGHTS = Object.freeze({
   timeFit: 0.02,
 });
 
+/**
+ * Shared goal modes constant.
+ * @type {Set}
+ */
 const GOAL_MODES = new Set(['prefer', 'require', 'off']);
+/**
+ * Shared level ranks constant.
+ * @type {Readonly<object>}
+ */
 const LEVEL_RANKS = Object.freeze({
   beginner: 1,
   novice: 2,
   intermediate: 3,
   advanced: 4,
 });
+/**
+ * Shared intensity scores constant.
+ * @type {Readonly<object>}
+ */
 const INTENSITY_SCORES = Object.freeze({
   low: 0.25,
   medium: 0.6,
   high: 1,
 });
+/**
+ * Shared goal tags by goal constant.
+ * @type {Readonly<object>}
+ */
 const GOAL_TAGS_BY_GOAL = Object.freeze({
   strength: ['strength'],
   hypertrophy: ['strength', 'compound'],
@@ -62,6 +81,10 @@ const GOAL_TAGS_BY_GOAL = Object.freeze({
   'fat-loss': ['cardio', 'conditioning'],
   'general-fitness': ['strength', 'cardio', 'yoga', 'static', 'hold', 'compound'],
 });
+/**
+ * Shared type goals by type constant.
+ * @type {Readonly<object>}
+ */
 const TYPE_GOALS_BY_TYPE = Object.freeze({
   strength: ['strength', 'hypertrophy', 'general-fitness'],
   cardio: ['endurance', 'fat-loss', 'general-fitness'],
@@ -579,6 +602,14 @@ export function scoreTimeFit(exercise, profile, context = {}) {
   return clampUnit(1 - differenceRatio);
 }
 
+/**
+ * Builds explanation payload.
+ * @param {object} parts parts input
+ * @param {object} exercise exercise input
+ * @param {object} profile profile input
+ * @param {object} context context input
+ * @returns {*} result
+ */
 function buildExplanationPayload(parts, exercise, profile, context) {
   const matchedSignals = [];
   const penalties = [];
@@ -649,10 +680,21 @@ function buildExplanationPayload(parts, exercise, profile, context) {
   };
 }
 
+/**
+ * Gets selected equipment ids.
+ * @param {object} equipment equipment input
+ * @returns {*} result
+ */
 function getSelectedEquipmentIds(equipment) {
   return uniqueList(['bodyweight', ...asArray(equipment?.selectedIds).map(normalizeTag)]);
 }
 
+/**
+ * Gets normalized equipment catalog.
+ * @param {object} equipmentCatalog equipment catalog input
+ * @param {object} equipment equipment input
+ * @returns {*} result
+ */
 function getNormalizedEquipmentCatalog(equipmentCatalog, equipment) {
   const catalog = asArray(equipmentCatalog);
 
@@ -671,6 +713,11 @@ function getNormalizedEquipmentCatalog(equipmentCatalog, equipment) {
     .filter((item) => Boolean(item.id));
 }
 
+/**
+ * Normalizes profile.
+ * @param {object} profile profile input
+ * @returns {*} result
+ */
 function normalizeProfile(profile) {
   const source = isPlainObject(profile) ? profile : {};
   const goals = isPlainObject(source.goals) ? source.goals : {};
@@ -696,6 +743,12 @@ function normalizeProfile(profile) {
   };
 }
 
+/**
+ * Normalizes recommendation context.
+ * @param {string} [context={}] context input
+ * @param {object} [profile={}] profile input
+ * @returns {*} result
+ */
 function normalizeRecommendationContext(context = {}, profile = {}) {
   const source = isPlainObject(context) ? context : {};
 
@@ -706,6 +759,11 @@ function normalizeRecommendationContext(context = {}, profile = {}) {
   };
 }
 
+/**
+ * Normalizes recent history.
+ * @param {object} recentHistory recent history input
+ * @returns {*} result
+ */
 function normalizeRecentHistory(recentHistory) {
   const source = isPlainObject(recentHistory) ? recentHistory : {};
   const performedMovementPatterns = isPlainObject(source.performedMovementPatterns)
@@ -726,6 +784,11 @@ function normalizeRecentHistory(recentHistory) {
   };
 }
 
+/**
+ * Gets normalized goal weights.
+ * @param {object} profile profile input
+ * @returns {*} result
+ */
 function getNormalizedGoalWeights(profile) {
   const weights = {
     ...profile.goals,
@@ -765,11 +828,21 @@ function getNormalizedGoalWeights(profile) {
   return weights;
 }
 
+/**
+ * Normalizes goal mode.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeGoalMode(value) {
   const mode = normalizeTag(value) || 'prefer';
   return GOAL_MODES.has(mode) ? mode : 'prefer';
 }
 
+/**
+ * Normalizes weights.
+ * @param {object} [weights={}] weights input
+ * @returns {*} result
+ */
 function normalizeWeights(weights = {}) {
   return {
     ...DEFAULT_RECOMMENDATION_WEIGHTS,
@@ -777,6 +850,12 @@ function normalizeWeights(weights = {}) {
   };
 }
 
+/**
+ * Gets intensity value.
+ * @param {object} exercise exercise input
+ * @param {*} channel channel input
+ * @returns {*} result
+ */
 function getIntensityValue(exercise, channel) {
   const profile = isPlainObject(exercise?.intensityProfile) ? exercise.intensityProfile : {};
   const value = profile[channel];
@@ -788,6 +867,11 @@ function getIntensityValue(exercise, channel) {
   return INTENSITY_SCORES[normalizeTag(value)] || getFallbackIntensityValue(exercise, channel);
 }
 
+/**
+ * Gets mobility signal.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getMobilitySignal(exercise) {
   const type = getExerciseType(exercise);
   const tags = new Set(getExerciseTags(exercise));
@@ -804,6 +888,11 @@ function getMobilitySignal(exercise) {
   return 0;
 }
 
+/**
+ * Runs estimate exercise duration min.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function estimateExerciseDurationMin(exercise) {
   const executionMode = getExerciseExecutionMode(exercise);
   const intensity = Math.max(
@@ -823,6 +912,11 @@ function estimateExerciseDurationMin(exercise) {
   return 4 + intensity * 4;
 }
 
+/**
+ * Gets exercise type.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseType(exercise) {
   const explicitType = normalizeTag(exercise?.type?.en || exercise?.type);
   const modality = normalizeTag(exercise?.classification?.modality);
@@ -839,6 +933,11 @@ function getExerciseType(exercise) {
   return type;
 }
 
+/**
+ * Gets exercise tags.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseTags(exercise) {
   const classification = isPlainObject(exercise?.classification) ? exercise.classification : {};
   const mechanics = isPlainObject(exercise?.mechanics) ? exercise.mechanics : {};
@@ -873,6 +972,11 @@ function getExerciseTags(exercise) {
   return uniqueList(tags);
 }
 
+/**
+ * Gets exercise required equipment ids.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseRequiredEquipmentIds(exercise) {
   const explicitEquipment = asArray(exercise?.equipment);
   const classificationEquipment = asArray(exercise?.classification?.equipment);
@@ -880,6 +984,11 @@ function getExerciseRequiredEquipmentIds(exercise) {
   return uniqueList(source.map(normalizeEquipmentId).filter(Boolean));
 }
 
+/**
+ * Gets exercise movement patterns.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseMovementPatterns(exercise) {
   const explicitPatterns = asArray(exercise?.movementPatterns);
   const classificationPatterns = asArray(exercise?.classification?.movementPatterns);
@@ -888,10 +997,20 @@ function getExerciseMovementPatterns(exercise) {
   );
 }
 
+/**
+ * Gets exercise execution mode.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseExecutionMode(exercise) {
   return normalizeTag(exercise?.executionMode || exercise?.mechanics?.executionMode);
 }
 
+/**
+ * Gets exercise primary muscles.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExercisePrimaryMuscles(exercise) {
   const explicitPrimary = asArray(exercise?.muscleGroups?.primary);
   const currentModelPrimary = asArray(exercise?.muscles?.primary);
@@ -906,6 +1025,11 @@ function getExercisePrimaryMuscles(exercise) {
   );
 }
 
+/**
+ * Gets exercise secondary muscles.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseSecondaryMuscles(exercise) {
   const explicitSecondary = asArray(exercise?.muscleGroups?.secondary);
   const currentModelSecondary = asArray(exercise?.muscles?.secondary);
@@ -917,6 +1041,11 @@ function getExerciseSecondaryMuscles(exercise) {
   );
 }
 
+/**
+ * Gets exercise muscles.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getExerciseMuscles(exercise) {
   const legacyMuscles = Array.isArray(exercise?.muscles) ? exercise.muscles : [];
   return uniqueList(
@@ -928,6 +1057,12 @@ function getExerciseMuscles(exercise) {
   );
 }
 
+/**
+ * Gets recovery readiness for muscle.
+ * @param {object} recoveryProfile recovery profile input
+ * @param {string} muscleId muscle id input
+ * @returns {*} result
+ */
 function getRecoveryReadinessForMuscle(recoveryProfile, muscleId) {
   const normalizedMuscle = normalizeTag(muscleId);
   const directValue = recoveryProfile[normalizedMuscle];
@@ -944,6 +1079,11 @@ function getRecoveryReadinessForMuscle(recoveryProfile, muscleId) {
   return recoveryProfile[area] === undefined ? 1 : clampUnit(recoveryProfile[area]);
 }
 
+/**
+ * Gets recovery area for muscle.
+ * @param {string} muscleId muscle id input
+ * @returns {*} result
+ */
 function getRecoveryAreaForMuscle(muscleId) {
   if (muscleId === 'chest') {
     return 'chest';
@@ -991,6 +1131,12 @@ function getRecoveryAreaForMuscle(muscleId) {
   return '';
 }
 
+/**
+ * Gets fallback intensity value.
+ * @param {object} exercise exercise input
+ * @param {*} channel channel input
+ * @returns {*} result
+ */
 function getFallbackIntensityValue(exercise, channel) {
   const type = getExerciseType(exercise);
   const executionMode = getExerciseExecutionMode(exercise);
@@ -1023,6 +1169,12 @@ function getFallbackIntensityValue(exercise, channel) {
   return 0;
 }
 
+/**
+ * Checks whether contraindication match.
+ * @param {*} limitations limitations input
+ * @param {*} contraindications contraindications input
+ * @returns {boolean} predicate result
+ */
 function hasContraindicationMatch(limitations, contraindications) {
   const normalizedLimitations = new Set([
     ...asArray(limitations).map(normalizeTag),
@@ -1044,6 +1196,12 @@ function hasContraindicationMatch(limitations, contraindications) {
   });
 }
 
+/**
+ * Checks whether token overlap.
+ * @param {*} limitations limitations input
+ * @param {*} token token input
+ * @returns {boolean} predicate result
+ */
 function hasTokenOverlap(limitations, token) {
   if (!token) {
     return false;
@@ -1064,6 +1222,11 @@ function hasTokenOverlap(limitations, token) {
   return false;
 }
 
+/**
+ * Gets dominant goal.
+ * @param {object} profile profile input
+ * @returns {*} result
+ */
 function getDominantGoal(profile) {
   const normalizedGoals = getNormalizedGoalWeights(profile);
   const topGoal = Object.entries(normalizedGoals).sort((left, right) => right[1] - left[1])[0];
@@ -1071,10 +1234,20 @@ function getDominantGoal(profile) {
   return topGoal?.[0] || normalizeTag(profile?.goal) || 'general-fitness';
 }
 
+/**
+ * Normalizes tag.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeTag(value) {
   return normalizeString(value).toLowerCase().replaceAll(' ', '-');
 }
 
+/**
+ * Normalizes equipment id.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeEquipmentId(value) {
   const normalized = normalizeTag(value);
 
@@ -1090,15 +1263,30 @@ function normalizeEquipmentId(value) {
   );
 }
 
+/**
+ * Normalizes token.
+ * @param {string} value value input
+ * @returns {string} formatted value
+ */
 function normalizeToken(value) {
   return normalizeTag(value);
 }
 
+/**
+ * Runs non negative number.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function nonNegativeNumber(value) {
   const number = Number(value);
   return Number.isFinite(number) && number >= 0 ? number : 0;
 }
 
+/**
+ * Runs clamp unit.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function clampUnit(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) {
@@ -1108,10 +1296,20 @@ function clampUnit(value) {
   return Math.min(1, Math.max(0, number));
 }
 
+/**
+ * Runs unique list.
+ * @param {Array} values values input
+ * @returns {*} result
+ */
 function uniqueList(values) {
   return Array.from(new Set(asArray(values).filter(Boolean)));
 }
 
+/**
+ * Runs count excluded reasons.
+ * @param {Array} excludedExercises excluded exercises input
+ * @returns {*} result
+ */
 function countExcludedReasons(excludedExercises) {
   return excludedExercises.reduce((result, entry) => {
     entry.reasons.forEach((reason) => {

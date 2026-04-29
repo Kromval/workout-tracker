@@ -1,3 +1,6 @@
+/**
+ * @module js/ui/settings-actions
+ */
 import { preview as previewAudio, setVolume, stopAll } from '../features/audio.js';
 import { t } from '../i18n/index.js';
 import { refreshStore, updateEquipment, updateProfile, updateSettings } from '../core/state.js';
@@ -23,8 +26,17 @@ import {
 import { setPendingNotice } from './notices.js';
 import { asArray, normalizeString } from '../core/utils.js';
 
+/**
+ * Shared custom audio max bytes constant.
+ * @type {*}
+ */
 const CUSTOM_AUDIO_MAX_BYTES = 512 * 1024;
 
+/**
+ * Handles setting change interactions.
+ * @param {*} input input input
+ * @param {object} state state input
+ */
 export function handleSettingChange(input, state) {
   const settingName = input.dataset.setting;
   const settingsPatch = {};
@@ -48,6 +60,11 @@ export function handleSettingChange(input, state) {
   updateSettings(settingsPatch);
 }
 
+/**
+ * Handles profile change interactions.
+ * @param {*} input input input
+ * @param {object} state state input
+ */
 export function handleProfileChange(input, state) {
   const fieldName = input.dataset.profileField;
 
@@ -72,6 +89,11 @@ export function handleProfileChange(input, state) {
   setProfileStatus(t(state, 'settingsSaved'));
 }
 
+/**
+ * Runs open profile picker.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function openProfilePicker(button, state) {
   const fieldName = normalizeString(button?.dataset?.profilePickerOpen);
 
@@ -95,6 +117,10 @@ export function openProfilePicker(button, state) {
   }
 }
 
+/**
+ * Runs close profile picker.
+ * @param {string} [source=null] source input
+ */
 export function closeProfilePicker(source = null) {
   let modal = null;
 
@@ -120,6 +146,11 @@ export function closeProfilePicker(source = null) {
   }
 }
 
+/**
+ * Applies profile picker.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function applyProfilePicker(button, state) {
   const modal = button?.closest?.('[data-profile-picker-modal]');
   const fieldName = normalizeString(modal?.dataset?.profilePickerModal);
@@ -138,10 +169,18 @@ export function applyProfilePicker(button, state) {
   closeProfilePicker(modal);
 }
 
+/**
+ * Runs close opened profile picker.
+ */
 export function closeOpenedProfilePicker() {
   closeProfilePicker();
 }
 
+/**
+ * Handles equipment toggle interactions.
+ * @param {*} input input input
+ * @param {object} state state input
+ */
 export function handleEquipmentToggle(input, state) {
   const equipmentId = input.dataset.equipmentToggle;
 
@@ -166,6 +205,10 @@ export function handleEquipmentToggle(input, state) {
   setEquipmentStatus(t(state, 'settingsSaved'));
 }
 
+/**
+ * Handles equipment add interactions.
+ * @param {object} state state input
+ */
 export function handleEquipmentAdd(state) {
   const input = document.querySelector('[data-equipment-custom-input]');
   const name = normalizeString(input?.value);
@@ -185,6 +228,11 @@ export function handleEquipmentAdd(state) {
   setEquipmentStatus(t(state, 'equipmentAdded'));
 }
 
+/**
+ * Handles equipment remove interactions.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function handleEquipmentRemove(button, state) {
   const equipmentId = button.dataset.equipmentRemove;
 
@@ -203,6 +251,10 @@ export function handleEquipmentRemove(button, state) {
   setEquipmentStatus(t(state, 'equipmentRemoved'));
 }
 
+/**
+ * Updates volume output.
+ * @param {number} volume volume input
+ */
 export function updateVolumeOutput(volume) {
   const output = document.querySelector('#setting-volume-value');
   if (output) {
@@ -210,6 +262,12 @@ export function updateVolumeOutput(volume) {
   }
 }
 
+/**
+ * Handles custom audio upload interactions.
+ * @param {*} input input input
+ * @param {object} state state input
+ * @returns {Promise<void>} completion promise
+ */
 export async function handleCustomAudioUpload(input, state) {
   const eventName = input.dataset.customAudioUpload;
   const file = input.files?.[0];
@@ -250,6 +308,11 @@ export async function handleCustomAudioUpload(input, state) {
   }
 }
 
+/**
+ * Handles custom audio reset interactions.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function handleCustomAudioReset(button, state) {
   const eventName = button.dataset.customAudioReset;
 
@@ -263,10 +326,18 @@ export function handleCustomAudioReset(button, state) {
   setCustomAudioStatus(t(state, 'customAudioRemoved'));
 }
 
+/**
+ * Handles audio preview interactions.
+ * @param {HTMLElement} button button input
+ */
 export function handleAudioPreview(button) {
   previewAudio(button.dataset.customAudioPreview);
 }
 
+/**
+ * Handles export data interactions.
+ * @param {object} state state input
+ */
 export function handleExportData(state) {
   const json = exportStore();
   const blob = new Blob([json], { type: 'application/json' });
@@ -283,6 +354,12 @@ export function handleExportData(state) {
   setImportExportStatus(t(state, 'exportReady'));
 }
 
+/**
+ * Handles import data interactions.
+ * @param {*} input input input
+ * @param {object} state state input
+ * @returns {Promise<void>} completion promise
+ */
 export async function handleImportData(input, state) {
   const file = input.files?.[0];
   if (!file) return;
@@ -316,6 +393,11 @@ export async function handleImportData(input, state) {
   }
 }
 
+/**
+ * Sets custom audio status.
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ */
 function setCustomAudioStatus(message, type = 'success') {
   const status = document.querySelector('#custom-audio-status');
   if (!status) return;
@@ -328,6 +410,11 @@ function setCustomAudioStatus(message, type = 'success') {
   }
 }
 
+/**
+ * Sets import export status.
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ */
 function setImportExportStatus(message, type = 'success') {
   const status = document.querySelector('#import-export-status');
   if (!status) return;
@@ -340,6 +427,11 @@ function setImportExportStatus(message, type = 'success') {
   }
 }
 
+/**
+ * Sets profile status.
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ */
 function setProfileStatus(message, type = 'success') {
   const status = document.querySelector('#profile-status');
   if (!status) return;
@@ -352,6 +444,11 @@ function setProfileStatus(message, type = 'success') {
   }
 }
 
+/**
+ * Sets equipment status.
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ */
 function setEquipmentStatus(message, type = 'success') {
   const status = document.querySelector('#equipment-status');
   if (!status) return;
@@ -364,6 +461,13 @@ function setEquipmentStatus(message, type = 'success') {
   }
 }
 
+/**
+ * Builds profile patch.
+ * @param {object} currentProfile current profile input
+ * @param {string} fieldName field name input
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function buildProfilePatch(currentProfile, fieldName, value) {
   if (!fieldName.includes('.')) {
     return { [fieldName]: value };
@@ -383,6 +487,11 @@ function buildProfilePatch(currentProfile, fieldName, value) {
   };
 }
 
+/**
+ * Parses comma separated list.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function parseCommaSeparatedList(value) {
   return normalizeString(value)
     .split(/[\n,;]+/)
@@ -390,10 +499,20 @@ function parseCommaSeparatedList(value) {
     .filter(Boolean);
 }
 
+/**
+ * Gets profile picker modal.
+ * @param {string} fieldName field name input
+ * @returns {*} result
+ */
 function getProfilePickerModal(fieldName) {
   return document.querySelector(`[data-profile-picker-modal="${fieldName}"]`);
 }
 
+/**
+ * Runs sync profile picker selections.
+ * @param {*} modal modal input
+ * @param {object} state state input
+ */
 function syncProfilePickerSelections(modal, state) {
   const fieldName = normalizeString(modal?.dataset?.profilePickerModal);
   const selectedValues = new Set(asArray(selectProfile(state)?.[fieldName]));
@@ -403,6 +522,12 @@ function syncProfilePickerSelections(modal, state) {
   });
 }
 
+/**
+ * Runs sync profile field inputs.
+ * @param {string} fieldName field name input
+ * @param {string} rawValue raw value input
+ * @param {*} sourceInput source input input
+ */
 function syncProfileFieldInputs(fieldName, rawValue, sourceInput) {
   document.querySelectorAll(`[data-profile-field="${fieldName}"]`).forEach((element) => {
     if (element === sourceInput) {

@@ -1,12 +1,31 @@
+/**
+ * @module scripts/e2e-server
+ */
 import { createReadStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import path from 'node:path';
 
+/**
+ * Module-level root dir value.
+ * @type {*}
+ */
 const rootDir = process.cwd();
+/**
+ * Module-level host value.
+ * @type {*}
+ */
 const host = process.env.HOST || '127.0.0.1';
+/**
+ * Module-level port value.
+ * @type {*}
+ */
 const port = Number(process.env.PORT || 4173);
 
+/**
+ * Module-level mime types value.
+ * @type {Map}
+ */
 const mimeTypes = new Map([
   ['.css', 'text/css; charset=utf-8'],
   ['.html', 'text/html; charset=utf-8'],
@@ -18,6 +37,10 @@ const mimeTypes = new Map([
   ['.webmanifest', 'application/manifest+json; charset=utf-8'],
 ]);
 
+/**
+ * Module-level server value.
+ * @type {*}
+ */
 const server = createServer(async (request, response) => {
   try {
     const requestUrl = new URL(request.url || '/', `http://${request.headers.host || host}`);
@@ -56,11 +79,22 @@ server.listen(port, host, () => {
   console.log(`E2E static server listening on http://${host}:${port}`);
 });
 
+/**
+ * Checks whether inside root.
+ * @param {string} filePath file path input
+ * @returns {boolean} predicate result
+ */
 function isInsideRoot(filePath) {
   const relativePath = path.relative(rootDir, filePath);
   return Boolean(relativePath) && !relativePath.startsWith('..') && !path.isAbsolute(relativePath);
 }
 
+/**
+ * Runs send text.
+ * @param {*} response response input
+ * @param {*} statusCode status code input
+ * @param {string} message message input
+ */
 function sendText(response, statusCode, message) {
   response.writeHead(statusCode, {
     'Content-Type': 'text/plain; charset=utf-8',

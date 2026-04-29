@@ -1,3 +1,6 @@
+/**
+ * @module js/pages/form-renderers
+ */
 import { localizedText, t } from '../i18n/index.js';
 import { renderEmptyState, renderListItem } from './components.js';
 import { escapeAttribute, escapeHtml } from '../core/utils.js';
@@ -13,9 +16,24 @@ import {
   renderWorkoutExerciseSidebar,
 } from './workout-renderers.js';
 
+/**
+ * Shared execution modes constant.
+ * @type {Array}
+ */
 const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
+/**
+ * Shared tempo fields constant.
+ * @type {Array}
+ */
 const TEMPO_FIELDS = ['eccentric', 'pauseBottom', 'concentric', 'pauseTop'];
 
+/**
+ * Renders workout form page markup.
+ * @param {object} state state input
+ * @param {object} workout workout input
+ * @param {string} [requestedId=""] requested id input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutFormPage(state, workout, requestedId = '') {
   const exercises = selectExerciseCatalog(state);
   const hasExercises = exercises.length > 0;
@@ -109,6 +127,13 @@ export function renderWorkoutFormPage(state, workout, requestedId = '') {
   `;
 }
 
+/**
+ * Renders exercise form page markup.
+ * @param {object} state state input
+ * @param {object} exercise exercise input
+ * @param {string} [requestedId=""] requested id input
+ * @returns {string} rendered markup
+ */
 export function renderExerciseFormPage(state, exercise, requestedId = '') {
   const isEdit = Boolean(exercise);
 
@@ -209,6 +234,15 @@ export function renderExerciseFormPage(state, exercise, requestedId = '') {
   `;
 }
 
+/**
+ * Renders text field markup.
+ * @param {object} state state input
+ * @param {string} name name input
+ * @param {string} labelKey label key input
+ * @param {string} [value=""] value input
+ * @param {*} [required=false] required input
+ * @returns {string} rendered markup
+ */
 export function renderTextField(state, name, labelKey, value = '', required = false) {
   const id = `exercise-${name.replaceAll('.', '-')}`;
   return `
@@ -219,6 +253,14 @@ export function renderTextField(state, name, labelKey, value = '', required = fa
   `;
 }
 
+/**
+ * Renders textarea field markup.
+ * @param {object} state state input
+ * @param {string} name name input
+ * @param {string} labelKey label key input
+ * @param {string} [value=""] value input
+ * @returns {string} rendered markup
+ */
 export function renderTextareaField(state, name, labelKey, value = '') {
   const id = `exercise-${name.replaceAll('.', '-')}`;
   return `
@@ -229,6 +271,14 @@ export function renderTextareaField(state, name, labelKey, value = '') {
   `;
 }
 
+/**
+ * Renders number field markup.
+ * @param {object} state state input
+ * @param {string} name name input
+ * @param {string} labelKey label key input
+ * @param {string} [value=0] value input
+ * @returns {string} rendered markup
+ */
 export function renderNumberField(state, name, labelKey, value = 0) {
   const id = `exercise-${name.replaceAll('.', '-')}`;
   return `
@@ -239,6 +289,14 @@ export function renderNumberField(state, name, labelKey, value = 0) {
   `;
 }
 
+/**
+ * Renders editable list markup.
+ * @param {object} state state input
+ * @param {string} name name input
+ * @param {string} labelKey label key input
+ * @param {Array} values values input
+ * @returns {string} rendered markup
+ */
 export function renderEditableList(state, name, labelKey, values) {
   const inputId = `exercise-${name}-entry`;
   return `
@@ -257,6 +315,14 @@ export function renderEditableList(state, name, labelKey, values) {
   `;
 }
 
+/**
+ * Renders workout draft item markup.
+ * @param {object} state state input
+ * @param {object} exercise exercise input
+ * @param {*} [order=0] order input
+ * @param {object} [workoutItem=null] workout item input
+ * @returns {string} rendered markup
+ */
 export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem = null) {
   const language = selectLanguage(state);
   const exerciseId = exercise?.id || workoutItem?.exerciseId || '';
@@ -335,6 +401,12 @@ export function renderWorkoutDraftItem(state, exercise, order = 0, workoutItem =
   `;
 }
 
+/**
+ * Builds workout draft metadata.
+ * @param {object} state state input
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function buildWorkoutDraftMetadata(state, exercise) {
   const language = selectLanguage(state);
   const items = [
@@ -378,6 +450,11 @@ function buildWorkoutDraftMetadata(state, exercise) {
     .filter((item) => item.value !== t(state, 'emptyValue'));
 }
 
+/**
+ * Creates workout draft defaults.
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function createWorkoutDraftDefaults(exercise) {
   const type = localizedText(exercise?.type, 'en').toLowerCase();
   const tags = new Set((exercise?.tags || []).map((tag) => String(tag).toLowerCase()));
@@ -397,6 +474,11 @@ function createWorkoutDraftDefaults(exercise) {
   };
 }
 
+/**
+ * Runs humanize token.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function humanizeToken(value) {
   return String(value || '')
     .trim()

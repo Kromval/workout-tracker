@@ -1,5 +1,11 @@
+/**
+ * @module js/ui/shell-event-bindings
+ */
 import { closeNavMenu } from './shell-chrome.js';
 
+/**
+ * Binds shell chrome events event listeners.
+ */
 export function bindShellChromeEvents() {
   document.addEventListener('click', (event) => {
     if (

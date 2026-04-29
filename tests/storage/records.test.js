@@ -1,3 +1,6 @@
+/**
+ * @module tests/storage/records.test
+ */
 import {
   createEquipment,
   createProfile,

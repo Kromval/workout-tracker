@@ -1,3 +1,6 @@
+/**
+ * @module js/ui/exercise-actions
+ */
 import { localizedText, t } from '../i18n/index.js';
 import { refreshStore, updateProfile } from '../core/state.js';
 import { selectExerciseCatalog, selectLanguage, selectProfile } from '../core/selectors.js';
@@ -19,6 +22,11 @@ import {
 } from './form-utils.js';
 import { navigateWithNotice, setPendingNotice } from './notices.js';
 
+/**
+ * Handles exercise action interactions.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function handleExerciseAction(button, state) {
   const exerciseId = button.dataset.exerciseId;
   const action = button.dataset.exerciseAction;
@@ -92,6 +100,11 @@ export function handleExerciseAction(button, state) {
   }
 }
 
+/**
+ * Handles exercise form submit interactions.
+ * @param {HTMLFormElement} form form input
+ * @param {object} state state input
+ */
 export function handleExerciseFormSubmit(form, state) {
   clearExerciseFormStatus(form);
   clearFormInvalidState(form);
@@ -186,11 +199,23 @@ export function handleExerciseFormSubmit(form, state) {
   }
 }
 
+/**
+ * Gets localized exercise name.
+ * @param {object} exercise exercise input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 function getLocalizedExerciseName(exercise, state) {
   const language = selectLanguage(state);
   return localizedText(exercise.name, language) || exercise.id;
 }
 
+/**
+ * Sets exercise form status.
+ * @param {HTMLFormElement} form form input
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ */
 function setExerciseFormStatus(form, message, type = 'success') {
   const status = form.querySelector('[data-exercise-form-status]');
   if (!status) return;
@@ -203,6 +228,10 @@ function setExerciseFormStatus(form, message, type = 'success') {
   }
 }
 
+/**
+ * Runs clear exercise form status.
+ * @param {HTMLFormElement} form form input
+ */
 function clearExerciseFormStatus(form) {
   setExerciseFormStatus(form, '');
 }

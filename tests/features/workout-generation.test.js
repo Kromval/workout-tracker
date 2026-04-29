@@ -1,3 +1,6 @@
+/**
+ * @module tests/features/workout-generation.test
+ */
 import {
   createSingleWorkoutRecommendation,
   fitWorkoutToDuration,
@@ -11,9 +14,22 @@ import {
   createEmptyWorkout,
 } from '../../js/features/workouts.js';
 
+/**
+ * Module-level equipment catalog value.
+ * @type {Array}
+ */
 const equipmentCatalog = [{ id: 'bodyweight' }];
+/**
+ * Module-level equipment value.
+ * @type {object}
+ */
 const equipment = { selectedIds: ['bodyweight'] };
 
+/**
+ * Creates exercise.
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 function createExercise(overrides = {}) {
   const type = overrides.type || 'strength';
 
@@ -50,6 +66,10 @@ function createExercise(overrides = {}) {
   };
 }
 
+/**
+ * Creates raw exercise.
+ * @returns {*} result
+ */
 function createRawExercise({
   id,
   modality = 'strength',

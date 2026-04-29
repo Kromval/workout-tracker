@@ -1,3 +1,6 @@
+/**
+ * @module js/features/exercises
+ */
 import { listCustomExercises } from '../storage/core.js';
 import { builtInExerciseRecords } from './exercises-data.js';
 import {
@@ -9,11 +12,31 @@ import {
 } from '../core/utils.js';
 import { normalizeContraindicationTags } from './contraindications.js';
 
+/**
+ * Shared execution modes constant.
+ * @type {Array}
+ */
 const EXECUTION_MODES = ['reps', 'time', 'hold', 'custom'];
+/**
+ * Shared tempo fields constant.
+ * @type {Array}
+ */
 const TEMPO_FIELDS = ['eccentric', 'concentric', 'pauseTop', 'pauseBottom'];
+/**
+ * Shared difficulty levels constant.
+ * @type {Array}
+ */
 const DIFFICULTY_LEVELS = ['beginner', 'intermediate', 'advanced'];
 
+/**
+ * Module-level built in exercises value.
+ * @type {*}
+ */
 let builtInExercises = normalizeBuiltInExercises();
+/**
+ * Module-level built in exercises promise value.
+ * @type {*}
+ */
 let builtInExercisesPromise = null;
 
 /**
@@ -30,6 +53,10 @@ export async function loadExercises() {
   return builtInExercises;
 }
 
+/**
+ * Normalizes built in exercises.
+ * @returns {*} result
+ */
 function normalizeBuiltInExercises() {
   return asArray(builtInExerciseRecords).map((exercise) =>
     normalizeExerciseRecord(exercise, false),
@@ -54,15 +81,31 @@ export function getExerciseCatalog(state) {
   return [...builtIns, ...customExercises];
 }
 
+/**
+ * Gets built in exercises.
+ * @returns {*} result
+ */
 export function getBuiltInExercises() {
   return [...builtInExercises];
 }
 
+/**
+ * Checks whether built in exercise id.
+ * @param {string} id id input
+ * @param {object} [state=null] state input
+ * @returns {boolean} predicate result
+ */
 export function isBuiltInExerciseId(id, state = null) {
   const source = state ? state.exercises : builtInExercises;
   return asArray(source).some((exercise) => exercise.id === normalizeString(id));
 }
 
+/**
+ * Normalizes exercise record.
+ * @param {object} exercise exercise input
+ * @param {boolean} isCustom is custom input
+ * @returns {*} result
+ */
 function normalizeExerciseRecord(exercise, isCustom) {
   const source = isPlainObject(exercise) ? exercise : {};
   const migrated = migrateExerciseRecord(source);
@@ -92,6 +135,11 @@ function normalizeExerciseRecord(exercise, isCustom) {
   };
 }
 
+/**
+ * Runs migrate exercise record.
+ * @param {object} source source input
+ * @returns {*} result
+ */
 function migrateExerciseRecord(source) {
   if (!isNewExerciseRecord(source)) {
     return source;
@@ -155,6 +203,11 @@ function migrateExerciseRecord(source) {
   };
 }
 
+/**
+ * Checks whether new exercise record.
+ * @param {object} source source input
+ * @returns {boolean} predicate result
+ */
 function isNewExerciseRecord(source) {
   return (
     isPlainObject(source.classification) ||
@@ -165,6 +218,11 @@ function isNewExerciseRecord(source) {
   );
 }
 
+/**
+ * Gets legacy type.
+ * @param {*} modality modality input
+ * @returns {*} result
+ */
 function getLegacyType(modality) {
   const normalized = normalizeString(modality).toLowerCase();
 
@@ -183,6 +241,11 @@ function getLegacyType(modality) {
   return { ru: 'силовое', en: 'strength' };
 }
 
+/**
+ * Builds migrated tags.
+ * @param {object} metadata metadata input
+ * @returns {*} result
+ */
 function buildMigratedTags(metadata) {
   const typeTag = normalizeString(metadata.type?.en).toLowerCase();
   const tags = [
@@ -210,6 +273,11 @@ function buildMigratedTags(metadata) {
   return uniqueStrings(tags);
 }
 
+/**
+ * Runs estimate calories.
+ * @param {object} metadata metadata input
+ * @returns {*} result
+ */
 function estimateCalories(metadata) {
   const modality = normalizeString(metadata.modality).toLowerCase();
   const impact = normalizeString(metadata.impact).toLowerCase();
@@ -229,6 +297,11 @@ function estimateCalories(metadata) {
   return 6;
 }
 
+/**
+ * Builds intensity profile.
+ * @param {object} metadata metadata input
+ * @returns {*} result
+ */
 function buildIntensityProfile(metadata) {
   const modality = normalizeString(metadata.modality).toLowerCase();
   const impact = ['low', 'medium', 'high'].includes(metadata.impact) ? metadata.impact : 'low';
@@ -272,6 +345,11 @@ function buildIntensityProfile(metadata) {
   };
 }
 
+/**
+ * Normalizes localized text.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeLocalizedText(value) {
   if (isPlainObject(value)) {
     return {
@@ -286,6 +364,11 @@ function normalizeLocalizedText(value) {
   };
 }
 
+/**
+ * Normalizes tempo.
+ * @param {*} tempo tempo input
+ * @returns {*} result
+ */
 function normalizeTempo(tempo) {
   if (!isPlainObject(tempo)) {
     return null;
@@ -300,15 +383,30 @@ function normalizeTempo(tempo) {
   );
 }
 
+/**
+ * Normalizes difficulty.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeDifficulty(value) {
   const difficulty = normalizeString(value).toLowerCase();
   return DIFFICULTY_LEVELS.includes(difficulty) ? difficulty : '';
 }
 
+/**
+ * Normalizes equipment.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeEquipment(value) {
   return uniqueStrings(asArray(value).map(normalizeEquipmentId));
 }
 
+/**
+ * Normalizes equipment id.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeEquipmentId(value) {
   const normalized = normalizeString(value).toLowerCase().replaceAll(' ', '-');
 
@@ -324,6 +422,11 @@ function normalizeEquipmentId(value) {
   );
 }
 
+/**
+ * Normalizes muscle groups.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeMuscleGroups(value) {
   const source = isPlainObject(value) ? value : {};
 
@@ -333,6 +436,11 @@ function normalizeMuscleGroups(value) {
   };
 }
 
+/**
+ * Normalizes intensity profile.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeIntensityProfile(value) {
   const source = isPlainObject(value) ? value : {};
 

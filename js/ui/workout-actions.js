@@ -1,3 +1,6 @@
+/**
+ * @module js/ui/workout-actions
+ */
 import { localizedText, t } from '../i18n/index.js';
 import { renderListItem, renderWorkoutDraftItem } from '../pages/renderers.js';
 import { getPopularPresetWorkout } from '../features/presets.js';
@@ -21,8 +24,17 @@ import {
 import { clearFormInvalidState, markInvalidControls, normalizeFormString } from './form-utils.js';
 import { navigateWithNotice, setPendingNotice } from './notices.js';
 
+/**
+ * Module-level dragged workout item value.
+ * @type {*}
+ */
 let draggedWorkoutItem = null;
 
+/**
+ * Handles workout action interactions.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function handleWorkoutAction(button, state) {
   const workoutId = button.dataset.workoutId;
   const action = button.dataset.workoutAction;
@@ -55,6 +67,11 @@ export function handleWorkoutAction(button, state) {
   }
 }
 
+/**
+ * Handles preset workout action interactions.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function handlePresetWorkoutAction(button, state) {
   const presetId = button.dataset.presetWorkoutId;
   const action = button.dataset.presetWorkoutAction;
@@ -109,6 +126,11 @@ export function handlePresetWorkoutAction(button, state) {
   );
 }
 
+/**
+ * Handles workout generation form submit interactions.
+ * @param {HTMLFormElement} form form input
+ * @param {object} state state input
+ */
 export function handleWorkoutGenerationFormSubmit(form, state) {
   const status = form.querySelector('[data-workout-generation-status]');
 
@@ -158,6 +180,11 @@ export function handleWorkoutGenerationFormSubmit(form, state) {
   }
 }
 
+/**
+ * Handles editable list add interactions.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function handleEditableListAdd(button, state) {
   const name = button.dataset.listAdd;
   const root = button.closest(`[data-editable-list="${name}"]`);
@@ -179,6 +206,11 @@ export function handleEditableListAdd(button, state) {
   input.focus();
 }
 
+/**
+ * Reads workout generation priorities.
+ * @param {object} formData form data input
+ * @returns {*} result
+ */
 function readWorkoutGenerationPriorities(formData) {
   return {
     goals: {
@@ -199,11 +231,23 @@ function readWorkoutGenerationPriorities(formData) {
   };
 }
 
+/**
+ * Reads priority value.
+ * @param {object} formData form data input
+ * @param {string} fieldName field name input
+ * @returns {*} result
+ */
 function readPriorityValue(formData, fieldName) {
   const value = Number(formData.get(fieldName));
   return Number.isFinite(value) ? Math.min(1, Math.max(0, value)) : 0;
 }
 
+/**
+ * Sets generation status.
+ * @param {HTMLElement} status status input
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ */
 function setGenerationStatus(status, message, type = 'success') {
   if (!status) return;
 
@@ -215,10 +259,19 @@ function setGenerationStatus(status, message, type = 'success') {
   }
 }
 
+/**
+ * Runs clear generation status.
+ * @param {HTMLElement} status status input
+ */
 function clearGenerationStatus(status) {
   setGenerationStatus(status, '');
 }
 
+/**
+ * Handles workout add exercise interactions.
+ * @param {HTMLElement} button button input
+ * @param {object} state state input
+ */
 export function handleWorkoutAddExercise(button, state) {
   const form = button.closest('[data-workout-form]');
   const picker = form?.querySelector('[data-workout-exercise-picker]');
@@ -237,6 +290,10 @@ export function handleWorkoutAddExercise(button, state) {
   clearWorkoutFormStatus(form);
 }
 
+/**
+ * Applies workout exercise filters.
+ * @param {HTMLElement} sidebar sidebar input
+ */
 export function applyWorkoutExerciseFilters(sidebar) {
   if (!sidebar) return;
 
@@ -313,6 +370,10 @@ export function applyWorkoutExerciseFilters(sidebar) {
   if (empty) empty.hidden = visibleCount > 0;
 }
 
+/**
+ * Handles workout item move interactions.
+ * @param {HTMLElement} button button input
+ */
 export function handleWorkoutItemMove(button) {
   const item = button.closest('[data-workout-item]');
   const direction = button.dataset.workoutMove;
@@ -330,6 +391,10 @@ export function handleWorkoutItemMove(button) {
   syncWorkoutItemsState(item.closest('[data-workout-form]'));
 }
 
+/**
+ * Runs sync workout items state.
+ * @param {HTMLFormElement} [form] form input
+ */
 export function syncWorkoutItemsState(form = document.querySelector('[data-workout-form]')) {
   const itemsRoot = form?.querySelector?.('[data-workout-items]');
   if (!itemsRoot) return;
@@ -357,6 +422,11 @@ export function syncWorkoutItemsState(form = document.querySelector('[data-worko
   });
 }
 
+/**
+ * Handles workout drag start interactions.
+ * @param {Event} event event input
+ * @param {HTMLElement} handle handle input
+ */
 export function handleWorkoutDragStart(event, handle) {
   const item = handle.closest('[data-workout-item]');
   if (!item) return;
@@ -367,6 +437,11 @@ export function handleWorkoutDragStart(event, handle) {
   event.dataTransfer.setData('text/plain', item.dataset.order || '');
 }
 
+/**
+ * Handles workout drag over interactions.
+ * @param {Event} event event input
+ * @param {HTMLElement} itemsRoot items root input
+ */
 export function handleWorkoutDragOver(event, itemsRoot) {
   event.preventDefault();
   event.dataTransfer.dropEffect = 'move';
@@ -388,15 +463,27 @@ export function handleWorkoutDragOver(event, itemsRoot) {
   syncWorkoutItemsState(itemsRoot.closest('[data-workout-form]'));
 }
 
+/**
+ * Runs clear workout drag state.
+ */
 export function clearWorkoutDragState() {
   draggedWorkoutItem?.classList.remove('workout-item--dragging');
   draggedWorkoutItem = null;
 }
 
+/**
+ * Checks whether dragged workout item.
+ * @returns {boolean} predicate result
+ */
 export function hasDraggedWorkoutItem() {
   return Boolean(draggedWorkoutItem);
 }
 
+/**
+ * Handles workout form submit interactions.
+ * @param {HTMLFormElement} form form input
+ * @param {object} state state input
+ */
 export function handleWorkoutFormSubmit(form, state) {
   clearWorkoutFormStatus(form);
   clearFormInvalidState(form);
@@ -484,6 +571,12 @@ export function handleWorkoutFormSubmit(form, state) {
   }
 }
 
+/**
+ * Sets workout form status.
+ * @param {HTMLFormElement} form form input
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ */
 export function setWorkoutFormStatus(form, message, type = 'success') {
   const status = form?.querySelector?.('[data-workout-form-status]');
   if (!status) return;
@@ -496,6 +589,14 @@ export function setWorkoutFormStatus(form, message, type = 'success') {
   }
 }
 
+/**
+ * Reads workout integer.
+ * @param {*} row row input
+ * @param {string} fieldName field name input
+ * @param {object} options options input
+ * @param {Array} errors errors input
+ * @returns {*} result
+ */
 function readWorkoutInteger(row, fieldName, options, errors) {
   const input = row.querySelector(`[data-workout-field="${fieldName}"]`);
   const value = Number(input?.value);
@@ -511,6 +612,10 @@ function readWorkoutInteger(row, fieldName, options, errors) {
   return value;
 }
 
+/**
+ * Runs clear workout form status.
+ * @param {HTMLFormElement} form form input
+ */
 function clearWorkoutFormStatus(form) {
   setWorkoutFormStatus(form, '');
 }

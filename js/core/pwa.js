@@ -1,3 +1,9 @@
+/**
+ * @module js/core/pwa
+ */
+/**
+ * Registers the application service worker when supported.
+ */
 export function registerServiceWorker() {
   if (!('serviceWorker' in navigator) || window.location.protocol === 'file:') {
     return;

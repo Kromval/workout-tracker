@@ -1,3 +1,6 @@
+/**
+ * @module tests/pages/workout-create-renderers.test
+ */
 import { renderWorkoutDraftItem, renderWorkoutFormPage } from '../../js/pages/form-renderers.js';
 import { renderWorkoutExerciseOption } from '../../js/pages/workout-renderers.js';
 
@@ -65,6 +68,10 @@ describe('workout create renderers', () => {
   });
 });
 
+/**
+ * Creates workout create state.
+ * @returns {*} result
+ */
 function createWorkoutCreateState() {
   const exercise = {
     id: 'split-squat-press',

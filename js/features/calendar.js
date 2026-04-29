@@ -1,14 +1,35 @@
+/**
+ * @module js/features/calendar
+ */
 import { asArray, escapeAttribute, escapeHtml, normalizeString } from '../core/utils.js';
 import { t } from '../i18n/index.js';
 
+/**
+ * Shared weekday labels constant.
+ * @type {object}
+ */
 const WEEKDAY_LABELS = {
   ru: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
   en: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
 };
 
+/**
+ * Module-level visible month value.
+ * @type {*}
+ */
 let visibleMonth = startOfMonth(new Date());
+/**
+ * Module-level selected date key value.
+ * @type {*}
+ */
 let selectedDateKey = formatDateKey(new Date());
 
+/**
+ * Renders progress calendar markup.
+ * @param {object} [history=[]] history input
+ * @param {object} [options={}] options input
+ * @returns {string} rendered markup
+ */
 export function renderProgressCalendar(history = [], options = {}) {
   const language = getLanguage(options.language);
   const days = groupEntriesByDay(history);
@@ -48,6 +69,10 @@ export function renderProgressCalendar(history = [], options = {}) {
   `;
 }
 
+/**
+ * Runs move progress calendar month.
+ * @param {*} delta delta input
+ */
 export function moveProgressCalendarMonth(delta) {
   const nextMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + delta, 1);
   visibleMonth = startOfMonth(nextMonth);
@@ -57,6 +82,10 @@ export function moveProgressCalendarMonth(delta) {
   }
 }
 
+/**
+ * Selects progress calendar day from application state.
+ * @param {string} dateKey date key input
+ */
 export function selectProgressCalendarDay(dateKey) {
   if (!isDateKey(dateKey)) {
     return;
@@ -66,6 +95,11 @@ export function selectProgressCalendarDay(dateKey) {
   visibleMonth = startOfMonth(parseDateKey(dateKey));
 }
 
+/**
+ * Renders weekday header markup.
+ * @param {string} language language input
+ * @returns {string} rendered markup
+ */
 function renderWeekdayHeader(language) {
   return WEEKDAY_LABELS[language]
     .map(
@@ -75,6 +109,14 @@ function renderWeekdayHeader(language) {
     .join('');
 }
 
+/**
+ * Renders month days markup.
+ * @param {*} monthDate month date input
+ * @param {*} days days input
+ * @param {boolean} activeDateKey active date key input
+ * @param {string} language language input
+ * @returns {Array} rendered markup
+ */
 function renderMonthDays(monthDate, days, activeDateKey, language) {
   const todayKey = formatDateKey(new Date());
   const cells = getMonthCells(monthDate);
@@ -113,6 +155,12 @@ function renderMonthDays(monthDate, days, activeDateKey, language) {
     .join('');
 }
 
+/**
+ * Renders day entries markup.
+ * @param {Array} entries entries input
+ * @param {string} language language input
+ * @returns {Array} rendered markup
+ */
 function renderDayEntries(entries, language) {
   if (!entries.length) {
     return `<p class="muted progress-calendar__empty">${t(language, 'calendarNoWorkouts')}</p>`;
@@ -125,6 +173,12 @@ function renderDayEntries(entries, language) {
   `;
 }
 
+/**
+ * Renders day entry markup.
+ * @param {object} entry entry input
+ * @param {string} language language input
+ * @returns {string} rendered markup
+ */
 function renderDayEntry(entry, language) {
   const status = getStatus(entry.status);
   const title =
@@ -146,10 +200,24 @@ function renderDayEntry(entry, language) {
   `;
 }
 
+/**
+ * Formats workout count.
+ * @param {number} count count input
+ * @param {string} language language input
+ * @returns {*} result
+ */
 function formatWorkoutCount(count, language) {
   return t(language, 'calendarWorkoutCount').replace('{count}', String(count));
 }
 
+/**
+ * Gets day aria label.
+ * @param {*} date date input
+ * @param {number} entryCount entry count input
+ * @param {boolean} isSelected is selected input
+ * @param {string} language language input
+ * @returns {*} result
+ */
 function getDayAriaLabel(date, entryCount, isSelected, language) {
   const parts = [
     formatDayLabel(formatDateKey(date), language),
@@ -167,6 +235,11 @@ function getDayAriaLabel(date, entryCount, isSelected, language) {
   return parts.join(', ');
 }
 
+/**
+ * Runs group entries by day.
+ * @param {object} history history input
+ * @returns {*} result
+ */
 function groupEntriesByDay(history) {
   return asArray(history).reduce((days, entry) => {
     const dateKey = normalizeDateKey(entry?.startedAt);
@@ -180,6 +253,11 @@ function groupEntriesByDay(history) {
   }, {});
 }
 
+/**
+ * Gets month cells.
+ * @param {*} monthDate month date input
+ * @returns {*} result
+ */
 function getMonthCells(monthDate) {
   const firstDay = startOfMonth(monthDate);
   const startOffset = (firstDay.getDay() + 6) % 7;
@@ -193,21 +271,41 @@ function getMonthCells(monthDate) {
   });
 }
 
+/**
+ * Runs start of month.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function startOfMonth(value) {
   const date = value instanceof Date ? value : new Date(value);
   return new Date(date.getFullYear(), date.getMonth(), 1);
 }
 
+/**
+ * Normalizes date key.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeDateKey(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? '' : formatDateKey(date);
 }
 
+/**
+ * Parses date key.
+ * @param {string} dateKey date key input
+ * @returns {*} result
+ */
 function parseDateKey(dateKey) {
   const [year, month, day] = dateKey.split('-').map(Number);
   return new Date(year, month - 1, day);
 }
 
+/**
+ * Formats date key.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function formatDateKey(value) {
   const date = value instanceof Date ? value : new Date(value);
   const year = date.getFullYear();
@@ -216,6 +314,11 @@ function formatDateKey(value) {
   return `${year}-${month}-${day}`;
 }
 
+/**
+ * Formats month key.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function formatMonthKey(value) {
   if (typeof value === 'string') {
     return value.slice(0, 7);
@@ -227,6 +330,12 @@ function formatMonthKey(value) {
   return `${year}-${month}`;
 }
 
+/**
+ * Formats month label.
+ * @param {string} value value input
+ * @param {string} language language input
+ * @returns {*} result
+ */
 function formatMonthLabel(value, language) {
   return new Intl.DateTimeFormat(language, {
     month: 'long',
@@ -234,6 +343,12 @@ function formatMonthLabel(value, language) {
   }).format(value);
 }
 
+/**
+ * Formats day label.
+ * @param {string} dateKey date key input
+ * @param {string} language language input
+ * @returns {*} result
+ */
 function formatDayLabel(dateKey, language) {
   return new Intl.DateTimeFormat(language, {
     day: 'numeric',
@@ -242,6 +357,12 @@ function formatDayLabel(dateKey, language) {
   }).format(parseDateKey(dateKey));
 }
 
+/**
+ * Formats time.
+ * @param {string} value value input
+ * @param {string} language language input
+ * @returns {*} result
+ */
 function formatTime(value, language) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
@@ -254,14 +375,29 @@ function formatTime(value, language) {
   }).format(date);
 }
 
+/**
+ * Gets language.
+ * @param {string} language language input
+ * @returns {*} result
+ */
 function getLanguage(language) {
   return language === 'en' ? 'en' : 'ru';
 }
 
+/**
+ * Gets status.
+ * @param {HTMLElement} status status input
+ * @returns {*} result
+ */
 function getStatus(status) {
   return ['completed', 'aborted', 'interrupted'].includes(status) ? status : 'completed';
 }
 
+/**
+ * Checks whether date key.
+ * @param {string} value value input
+ * @returns {boolean} predicate result
+ */
 function isDateKey(value) {
   return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
 }

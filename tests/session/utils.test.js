@@ -1,3 +1,6 @@
+/**
+ * @module tests/session/utils.test
+ */
 import {
   asArray,
   clone,

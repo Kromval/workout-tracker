@@ -1,5 +1,12 @@
+/**
+ * @module js/features/contraindications
+ */
 import { asArray, normalizeString, uniqueStrings } from '../core/utils.js';
 
+/**
+ * Shared legacy contraindication aliases constant.
+ * @type {Readonly<object>}
+ */
 const LEGACY_CONTRAINDICATION_ALIASES = Object.freeze({
   'ankle-issues': ['joint-ankle-instability'],
   'ankle-pain': ['joint-ankle-pain'],
@@ -180,6 +187,11 @@ export function getContraindicationRelatedJoints(tag) {
   return [...(getContraindicationDefinition(tag)?.jointTags || [])];
 }
 
+/**
+ * Runs to token.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function toToken(value) {
   return normalizeString(value).toLowerCase().replaceAll('/', '-').replaceAll(' ', '-');
 }

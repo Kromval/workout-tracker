@@ -1,3 +1,10 @@
+/**
+ * @module js/features/body-focus
+ */
+/**
+ * Muscle groups matched to body-focus profile goals.
+ * @type {*}
+ */
 export const BODY_FOCUS_MUSCLE_GROUPS = Object.freeze({
   upperBody: Object.freeze([
     'chest',
@@ -24,6 +31,11 @@ export const BODY_FOCUS_MUSCLE_GROUPS = Object.freeze({
   glutes: Object.freeze(['glutes', 'hamstrings']),
 });
 
+/**
+ * Gets body focus muscle groups.
+ * @param {string} goalId goal id input
+ * @returns {*} result
+ */
 export function getBodyFocusMuscleGroups(goalId) {
   return BODY_FOCUS_MUSCLE_GROUPS[goalId] || [];
 }

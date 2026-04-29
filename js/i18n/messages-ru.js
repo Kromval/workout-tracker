@@ -1,3 +1,10 @@
+/**
+ * @module js/i18n/messages-ru
+ */
+/**
+ * Russian localized message catalog.
+ * @type {object}
+ */
 export const ruMessages = {
   appBrand: 'Планировщик тренировок',
   appBrandMark: 'ПТ',

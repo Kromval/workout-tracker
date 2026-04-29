@@ -1,3 +1,6 @@
+/**
+ * @module js/ui/shell-chrome
+ */
 import { t } from '../i18n/index.js';
 import { routes } from '../core/router.js';
 import {
@@ -9,9 +12,17 @@ import {
 import { updateSettings } from '../core/state.js';
 import { navRoutes, routeLabels } from './navigation.js';
 
+/**
+ * Module-level theme query value.
+ * @type {*}
+ */
 const themeQuery =
   typeof window !== 'undefined' ? window.matchMedia?.('(prefers-color-scheme: dark)') : null;
 
+/**
+ * Renders nav markup.
+ * @param {object} state state input
+ */
 export function renderNav(state) {
   const nav = document.querySelector('#app-nav');
   const mobileNav = document.querySelector('#mobile-app-nav');
@@ -39,6 +50,10 @@ export function renderNav(state) {
     ?.setAttribute('aria-label', t(state, 'navigationToggleLabel'));
 }
 
+/**
+ * Binds header controls event listeners.
+ * @param {object} state state input
+ */
 export function bindHeaderControls(state) {
   document.querySelector('#nav-toggle')?.addEventListener('click', () => {
     const nav = document.querySelector('#app-nav');
@@ -81,6 +96,9 @@ export function bindHeaderControls(state) {
   });
 }
 
+/**
+ * Runs close nav menu.
+ */
 export function closeNavMenu() {
   const nav = document.querySelector('#app-nav');
   const button = document.querySelector('#nav-toggle');
@@ -94,6 +112,10 @@ export function closeNavMenu() {
   closeMobileNavMenu();
 }
 
+/**
+ * Updates header controls.
+ * @param {object} state state input
+ */
 export function updateHeaderControls(state) {
   const languageToggle = document.querySelector('#language-toggle');
   if (languageToggle) {
@@ -108,6 +130,10 @@ export function updateHeaderControls(state) {
   }
 }
 
+/**
+ * Updates shell labels.
+ * @param {object} state state input
+ */
 export function updateShellLabels(state) {
   const brandText = document.querySelector('#app-brand-text');
   const brandMark = document.querySelector('#app-brand-mark');
@@ -129,22 +155,43 @@ export function updateShellLabels(state) {
   document.title = route === 'home' ? brand : `${routeTitle} - ${brand}`;
 }
 
+/**
+ * Applies theme.
+ * @param {string} theme theme input
+ */
 export function applyTheme(theme) {
   document.documentElement.dataset.theme = getResolvedTheme(theme);
 }
 
+/**
+ * Applies density.
+ * @param {string} density density input
+ */
 export function applyDensity(density) {
   document.documentElement.dataset.density = density === 'compact' ? 'compact' : 'comfortable';
 }
 
+/**
+ * Gets resolved theme.
+ * @param {string} theme theme input
+ * @returns {*} result
+ */
 export function getResolvedTheme(theme) {
   return theme === 'system' ? (themeQuery?.matches ? 'dark' : 'light') : theme;
 }
 
+/**
+ * Runs sync document language.
+ * @param {object} state state input
+ */
 export function syncDocumentLanguage(state) {
   document.documentElement.lang = selectLanguage(state);
 }
 
+/**
+ * Binds system theme listener event listeners.
+ * @param {object} state state input
+ */
 export function bindSystemThemeListener(state) {
   const handleSystemThemeChange = () => {
     if (selectTheme(state) === 'system') {
@@ -160,6 +207,11 @@ export function bindSystemThemeListener(state) {
   }
 }
 
+/**
+ * Renders mobile app nav markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 function renderMobileAppNav(state) {
   const route = selectRoute(state);
   const lastWorkout = selectLastOpenedWorkout(state);
@@ -230,6 +282,9 @@ function renderMobileAppNav(state) {
   `;
 }
 
+/**
+ * Runs close mobile nav menu.
+ */
 function closeMobileNavMenu() {
   const menu = document.querySelector('[data-mobile-nav-menu]');
   const button = document.querySelector('[data-mobile-nav-more]');

@@ -1,5 +1,16 @@
-const CACHE_NAME = 'workout-planner-7c2ee4b211ed';
+/**
+ * @module sw
+ */
+/**
+ * Cache name used by the service worker.
+ * @type {string}
+ */
+const CACHE_NAME = 'workout-planner-41cb2eccc93d';
 
+/**
+ * Application shell assets precached by the service worker.
+ * @type {Array}
+ */
 const APP_SHELL = [
   './',
   './index.html',

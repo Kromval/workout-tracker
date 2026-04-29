@@ -1,3 +1,10 @@
+/**
+ * @module js/ui/navigation
+ */
+/**
+ * Shared route labels constant.
+ * @type {object}
+ */
 export const routeLabels = {
   home: 'navHome',
   exercises: 'navExercises',
@@ -12,6 +19,10 @@ export const routeLabels = {
   settings: 'navSettings',
 };
 
+/**
+ * Module-level nav routes value.
+ * @type {Array}
+ */
 export const navRoutes = [
   'home',
   'exercises',

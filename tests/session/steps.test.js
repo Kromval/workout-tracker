@@ -1,3 +1,6 @@
+/**
+ * @module tests/session/steps.test
+ */
 import { buildWorkoutSteps } from '../../js/session/steps.js';
 
 describe('session steps', () => {

@@ -1,7 +1,14 @@
+/**
+ * @module eslint.config
+ */
 import js from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import globals from 'globals';
 
+/**
+ * Default export for eslint.config.
+ * @type {Array}
+ */
 export default [
   {
     ignores: ['node_modules/**', 'coverage/**', 'js/features/exercises-data.js'],

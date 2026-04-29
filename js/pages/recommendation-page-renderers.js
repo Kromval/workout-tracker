@@ -1,3 +1,6 @@
+/**
+ * @module js/pages/recommendation-page-renderers
+ */
 import { BODY_FOCUS_MUSCLE_GROUPS } from '../features/body-focus.js';
 import { localizedText, t } from '../i18n/index.js';
 import { renderEmptyState } from './components.js';
@@ -5,6 +8,11 @@ import { selectLanguage, selectProfile, selectRecommendedExercises } from '../co
 import { asArray, escapeAttribute, escapeHtml } from '../core/utils.js';
 import { capitalize } from './workout-renderers.js';
 
+/**
+ * Renders recommendations page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderRecommendationsPage(state) {
   return `
     <section class="page" data-page-route="recommendations">
@@ -15,6 +23,11 @@ export function renderRecommendationsPage(state) {
   `;
 }
 
+/**
+ * Renders recommendations content region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderRecommendationsContentRegion(state) {
   const language = selectLanguage(state);
   const recommendations = selectRecommendedExercises(state);
@@ -140,6 +153,11 @@ export function renderRecommendationsContentRegion(state) {
   `;
 }
 
+/**
+ * Gets recommendation reason message key.
+ * @param {*} reason reason input
+ * @returns {*} result
+ */
 function getRecommendationReasonMessageKey(reason) {
   const normalized = String(reason || '')
     .split('-')
@@ -149,11 +167,23 @@ function getRecommendationReasonMessageKey(reason) {
   return `recommendationsReason${normalized}`;
 }
 
+/**
+ * Formats recommendation score.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function formatRecommendationScore(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number.toFixed(2) : '0.00';
 }
 
+/**
+ * Gets recommendation focus summary.
+ * @param {object} state state input
+ * @param {object} profile profile input
+ * @param {object} exercise exercise input
+ * @returns {*} result
+ */
 function getRecommendationFocusSummary(state, profile, exercise) {
   const bodyFocusGoals = profile?.bodyFocusGoals || {};
   const primaryMuscles = new Set(asArray(exercise?.muscleGroups?.primary));

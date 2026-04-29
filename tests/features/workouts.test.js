@@ -1,3 +1,6 @@
+/**
+ * @module tests/features/workouts.test
+ */
 import {
   calculateEstimatedWorkoutDuration,
   calculateWorkoutCaloriesEstimate,

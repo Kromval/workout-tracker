@@ -1,7 +1,14 @@
+/**
+ * @module scripts/check-storage-migrations
+ */
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+/**
+ * Runs main.
+ * @returns {Promise<void>} completion promise
+ */
 async function main() {
   const memoryStorage = createMemoryStorage();
   globalThis.window = { localStorage: memoryStorage };
@@ -88,6 +95,10 @@ async function main() {
   console.log('storage migrations ok');
 }
 
+/**
+ * Creates memory storage.
+ * @returns {*} result
+ */
 function createMemoryStorage() {
   const values = new Map();
 

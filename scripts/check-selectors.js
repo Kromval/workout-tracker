@@ -1,7 +1,14 @@
+/**
+ * @module scripts/check-selectors
+ */
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+/**
+ * Runs main.
+ * @returns {Promise<void>} completion promise
+ */
 async function main() {
   const selectors = await import(pathToFileURL(path.resolve('js/core/selectors.js')));
 

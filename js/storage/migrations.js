@@ -1,3 +1,6 @@
+/**
+ * @module js/storage/migrations
+ */
 import { DEFAULT_STORE, MIN_SUPPORTED_STORAGE_VERSION, STORAGE_VERSION } from './schema.js';
 import {
   clone,
@@ -8,6 +11,10 @@ import {
 } from './helpers.js';
 import { sanitizeCustomAudio, sanitizeStore } from './records.js';
 
+/**
+ * Shared migrations constant.
+ * @type {Readonly<object>}
+ */
 const MIGRATIONS = Object.freeze({
   1: migrateV1ToV2,
   2: migrateV2ToV3,
@@ -16,6 +23,11 @@ const MIGRATIONS = Object.freeze({
   5: migrateV5ToV6,
 });
 
+/**
+ * Runs migrate store.
+ * @param {object} store store input
+ * @returns {*} result
+ */
 export function migrateStore(store) {
   const source = isPlainObject(store) ? clone(store) : clone(DEFAULT_STORE);
   let version = getStorageVersion(source.version);
@@ -44,15 +56,30 @@ export function migrateStore(store) {
   return sanitizeStore(nextStore);
 }
 
+/**
+ * Checks whether future storage version.
+ * @param {object} store store input
+ * @returns {boolean} predicate result
+ */
 export function isFutureStorageVersion(store) {
   return isPlainObject(store) && getStorageVersion(store.version) > STORAGE_VERSION;
 }
 
+/**
+ * Gets storage version.
+ * @param {*} version version input
+ * @returns {*} result
+ */
 export function getStorageVersion(version) {
   const normalized = nonNegativeInteger(version, MIN_SUPPORTED_STORAGE_VERSION);
   return normalized >= MIN_SUPPORTED_STORAGE_VERSION ? normalized : MIN_SUPPORTED_STORAGE_VERSION;
 }
 
+/**
+ * Runs migrate v1 to v2.
+ * @param {object} store store input
+ * @returns {*} result
+ */
 function migrateV1ToV2(store) {
   const nextStore = {
     ...clone(DEFAULT_STORE),
@@ -82,6 +109,11 @@ function migrateV1ToV2(store) {
   return nextStore;
 }
 
+/**
+ * Runs migrate v2 to v3.
+ * @param {object} store store input
+ * @returns {*} result
+ */
 function migrateV2ToV3(store) {
   const nextStore = {
     ...clone(DEFAULT_STORE),
@@ -108,6 +140,11 @@ function migrateV2ToV3(store) {
   return nextStore;
 }
 
+/**
+ * Runs migrate v1 active session.
+ * @param {*} session session input
+ * @returns {*} result
+ */
 function migrateV1ActiveSession(session) {
   if (!isPlainObject(session)) {
     return null;
@@ -125,6 +162,11 @@ function migrateV1ActiveSession(session) {
   };
 }
 
+/**
+ * Runs migrate v3 to v4.
+ * @param {object} store store input
+ * @returns {*} result
+ */
 function migrateV3ToV4(store) {
   return {
     ...clone(DEFAULT_STORE),
@@ -133,6 +175,11 @@ function migrateV3ToV4(store) {
   };
 }
 
+/**
+ * Runs migrate v4 to v5.
+ * @param {object} store store input
+ * @returns {*} result
+ */
 function migrateV4ToV5(store) {
   const nextStore = {
     ...clone(DEFAULT_STORE),
@@ -151,6 +198,11 @@ function migrateV4ToV5(store) {
   return nextStore;
 }
 
+/**
+ * Runs migrate v5 to v6.
+ * @param {object} store store input
+ * @returns {*} result
+ */
 function migrateV5ToV6(store) {
   const nextStore = {
     ...clone(DEFAULT_STORE),
@@ -171,6 +223,11 @@ function migrateV5ToV6(store) {
   return nextStore;
 }
 
+/**
+ * Runs migrate legacy goals.
+ * @param {*} goal goal input
+ * @returns {*} result
+ */
 function migrateLegacyGoals(goal) {
   const base = clone(DEFAULT_STORE.profile.goals);
   const normalizedGoal = normalizeString(goal);
@@ -207,6 +264,11 @@ function migrateLegacyGoals(goal) {
   return base;
 }
 
+/**
+ * Runs migrate legacy limitations.
+ * @param {*} limitations limitations input
+ * @returns {*} result
+ */
 function migrateLegacyLimitations(limitations) {
   if (Array.isArray(limitations)) {
     return limitations;

@@ -1,3 +1,6 @@
+/**
+ * @module tests/storage/core.test
+ */
 import { jest } from '@jest/globals';
 import {
   DEFAULT_STORE,

@@ -1,8 +1,17 @@
+/**
+ * @module js/session/ui-format
+ */
 import { localizedText, t } from '../i18n/index.js';
 import { SESSION_STATUSES } from './core.js';
 import { escapeHtml } from '../core/utils.js';
 import { selectLanguage } from '../core/selectors.js';
 
+/**
+ * Renders finish stat markup.
+ * @param {string} label label input
+ * @param {string} value value input
+ * @returns {string} rendered markup
+ */
 export function renderFinishStat(label, value) {
   return `
     <article class="session-finish__stat">
@@ -12,6 +21,11 @@ export function renderFinishStat(label, value) {
   `;
 }
 
+/**
+ * Builds session summary.
+ * @param {object} snapshot snapshot input
+ * @returns {*} result
+ */
 export function buildSessionSummary(snapshot) {
   const completedExerciseSteps = getCompletedExerciseSteps(snapshot);
   const completedByItem = completedExerciseSteps.reduce((items, step) => {
@@ -66,6 +80,11 @@ export function buildSessionSummary(snapshot) {
   };
 }
 
+/**
+ * Gets completed exercise steps.
+ * @param {object} snapshot snapshot input
+ * @returns {*} result
+ */
 export function getCompletedExerciseSteps(snapshot) {
   const steps = Array.isArray(snapshot.steps) ? snapshot.steps : [];
   const currentStepIndex = Number.isInteger(snapshot.currentStepIndex)
@@ -77,21 +96,42 @@ export function getCompletedExerciseSteps(snapshot) {
   return steps.slice(0, completedThroughIndex).filter((step) => step?.type === 'exercise');
 }
 
+/**
+ * Gets step calories.
+ * @param {number} step step input
+ * @returns {*} result
+ */
 export function getStepCalories(step) {
   const caloriesPerMinute = Math.max(0, Number(step.exercise?.estimatedCalories) || 0);
   const durationSec = Math.max(0, Number(step.durationSec) || 0);
   return (durationSec / 60) * caloriesPerMinute;
 }
 
+/**
+ * Runs round to one decimal.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 export function roundToOneDecimal(value) {
   return Math.round(Math.max(0, Number(value) || 0) * 10) / 10;
 }
 
+/**
+ * Gets next step.
+ * @param {object} snapshot snapshot input
+ * @returns {*} result
+ */
 export function getNextStep(snapshot) {
   const nextIndex = snapshot.currentStepIndex + 1;
   return snapshot.steps?.[nextIndex] || null;
 }
 
+/**
+ * Gets step exercise name.
+ * @param {number} step step input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function getStepExerciseName(step, state) {
   if (!step) {
     return t(state, 'sessionFinished');
@@ -104,6 +144,12 @@ export function getStepExerciseName(step, state) {
   );
 }
 
+/**
+ * Gets step kind label.
+ * @param {number} step step input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function getStepKindLabel(step, state) {
   if (!step) {
     return t(state, 'sessionNoCurrentStep');
@@ -120,6 +166,12 @@ export function getStepKindLabel(step, state) {
   return t(state, 'sessionRestBetweenExercises');
 }
 
+/**
+ * Formats set counter.
+ * @param {number} step step input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function formatSetCounter(step, state) {
   if (!step?.setNumber || !step?.totalSets) {
     return t(state, 'sessionNotApplicable');
@@ -128,6 +180,13 @@ export function formatSetCounter(step, state) {
   return `${step.setNumber} / ${step.totalSets}`;
 }
 
+/**
+ * Formats rep counter.
+ * @param {number} step step input
+ * @param {*} phase phase input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function formatRepCounter(step, phase, state) {
   if (!step || step.executionMode !== 'reps' || !step.reps) {
     return t(state, 'sessionNotApplicable');
@@ -143,6 +202,12 @@ export function formatRepCounter(step, phase, state) {
   return `${repNumber} / ${step.reps}`;
 }
 
+/**
+ * Gets phase label.
+ * @param {*} phase phase input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function getPhaseLabel(phase, state) {
   if (!phase) {
     return t(state, 'emptyValue');
@@ -151,6 +216,12 @@ export function getPhaseLabel(phase, state) {
   return t(state, `sessionPhase_${phase.key}`) || phase.name || phase.key;
 }
 
+/**
+ * Formats next step.
+ * @param {number} step step input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function formatNextStep(step, state) {
   if (!step) {
     return t(state, 'sessionNoNextStep');
@@ -161,10 +232,21 @@ export function formatNextStep(step, state) {
   return `${kind}: ${name}`;
 }
 
+/**
+ * Gets status label.
+ * @param {HTMLElement} status status input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function getStatusLabel(status, state) {
   return t(state, `sessionStatus_${status}`) || status;
 }
 
+/**
+ * Checks whether terminal.
+ * @param {HTMLElement} status status input
+ * @returns {boolean} predicate result
+ */
 export function isTerminal(status) {
   return status === SESSION_STATUSES.COMPLETED || status === SESSION_STATUSES.ABORTED;
 }

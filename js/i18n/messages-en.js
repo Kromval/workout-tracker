@@ -1,3 +1,10 @@
+/**
+ * @module js/i18n/messages-en
+ */
+/**
+ * English localized message catalog.
+ * @type {object}
+ */
 export const enMessages = {
   appBrand: 'Workout Planner',
   appBrandMark: 'WP',

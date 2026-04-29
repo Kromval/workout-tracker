@@ -1,3 +1,6 @@
+/**
+ * @module js/storage/workoutRepository
+ */
 import {
   asArray,
   createId,
@@ -15,28 +18,55 @@ import {
 } from './records.js';
 import { generateUniqueId, loadStore, saveStore } from './store.js';
 
+/**
+ * Runs list workouts.
+ * @returns {*} result
+ */
 export function listWorkouts() {
   return getWorkouts();
 }
 
+/**
+ * Reads all workouts.
+ * @returns {*} result
+ */
 export function readAllWorkouts() {
   return getWorkouts();
 }
 
+/**
+ * Gets workouts.
+ * @returns {*} result
+ */
 export function getWorkouts() {
   return sortByUpdatedAtDesc(loadStore().workouts);
 }
 
+/**
+ * Sets workouts.
+ * @param {Array} workouts workouts input
+ * @returns {*} result
+ */
 export function setWorkouts(workouts) {
   const store = loadStore();
   store.workouts = sortByUpdatedAtDesc(asArray(workouts).map(sanitizeWorkout));
   return saveStore(store).workouts;
 }
 
+/**
+ * Gets workout.
+ * @param {string} id id input
+ * @returns {*} result
+ */
 export function getWorkout(id) {
   return findById(loadStore().workouts, id);
 }
 
+/**
+ * Reads workout by id.
+ * @param {string} id id input
+ * @returns {*} result
+ */
 export function readWorkoutById(id) {
   return getWorkout(id);
 }
@@ -94,6 +124,12 @@ export function saveWorkout(workout) {
   return saveStore(store).workouts.find((item) => item.id === normalized.id);
 }
 
+/**
+ * Updates workout.
+ * @param {string} id id input
+ * @param {object} [patch={}] patch input
+ * @returns {*} result
+ */
 export function updateWorkout(id, patch = {}) {
   const store = loadStore();
   const existing = findById(store.workouts, id);
@@ -116,6 +152,11 @@ export function updateWorkout(id, patch = {}) {
   return saveStore(store).workouts.find((item) => item.id === normalized.id);
 }
 
+/**
+ * Deletes workout.
+ * @param {string} id id input
+ * @returns {*} result
+ */
 export function deleteWorkout(id) {
   const store = loadStore();
   const initialLength = store.workouts.length;
@@ -129,6 +170,12 @@ export function deleteWorkout(id) {
   return store.workouts.length !== initialLength;
 }
 
+/**
+ * Runs duplicate workout.
+ * @param {string} id id input
+ * @param {object} [overrides={}] overrides input
+ * @returns {*} result
+ */
 export function duplicateWorkout(id, overrides = {}) {
   const source = getWorkout(id);
 

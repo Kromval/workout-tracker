@@ -1,14 +1,41 @@
+/**
+ * @module tests/features/exercise-data-tags.test
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { SUPPORTED_CONTRAINDICATION_TAGS } from '../../js/features/contraindications.js';
 import { getBuiltInEquipmentCatalog } from '../../js/features/equipment.js';
 
+/**
+ * Module-level source path value.
+ * @type {*}
+ */
 const sourcePath = path.resolve(process.cwd(), 'data', 'exercises.json');
+/**
+ * Module-level exercise records value.
+ * @type {*}
+ */
 const exerciseRecords = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
 
+/**
+ * Shared equipment tags constant.
+ * @type {Set}
+ */
 const EQUIPMENT_TAGS = new Set(getBuiltInEquipmentCatalog().map((item) => item.id));
+/**
+ * Shared difficulty tags constant.
+ * @type {Set}
+ */
 const DIFFICULTY_TAGS = new Set(['beginner', 'intermediate', 'advanced']);
+/**
+ * Shared contraindication tags constant.
+ * @type {Set}
+ */
 const CONTRAINDICATION_TAGS = new Set(SUPPORTED_CONTRAINDICATION_TAGS);
+/**
+ * Shared equipment aliases constant.
+ * @type {Map}
+ */
 const EQUIPMENT_ALIASES = new Map([
   ['bar', 'pull-up-bar'],
   ['cable', 'cable-station'],
@@ -18,6 +45,11 @@ const EQUIPMENT_ALIASES = new Map([
   ['resistance-band', 'bands'],
 ]);
 
+/**
+ * Normalizes equipment id.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeEquipmentId(value) {
   const normalized = String(value || '')
     .trim()

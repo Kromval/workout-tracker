@@ -1,5 +1,16 @@
+/**
+ * @module js/ui/notices
+ */
+/**
+ * Shared pending notice constant.
+ * @type {object}
+ */
 let pendingNotice = null;
 
+/**
+ * Renders pending notice markup.
+ * @param {*} app app input
+ */
 export function renderPendingNotice(app) {
   if (!pendingNotice || !noticeMatchesCurrentHash(pendingNotice)) {
     return;
@@ -15,6 +26,12 @@ export function renderPendingNotice(app) {
   pendingNotice = null;
 }
 
+/**
+ * Sets pending notice.
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ * @param {string} [targetHash=""] target hash input
+ */
 export function setPendingNotice(message, type = 'success', targetHash = '') {
   if (!message) {
     pendingNotice = null;
@@ -28,6 +45,12 @@ export function setPendingNotice(message, type = 'success', targetHash = '') {
   };
 }
 
+/**
+ * Runs navigate with notice.
+ * @param {boolean} hash hash input
+ * @param {string} message message input
+ * @param {string} [type="success"] type input
+ */
 export function navigateWithNotice(hash, message, type = 'success') {
   setPendingNotice(message, type, hash);
   const previousHash = normalizeNoticeHash(window.location.hash || '#home');
@@ -38,12 +61,22 @@ export function navigateWithNotice(hash, message, type = 'success') {
   }
 }
 
+/**
+ * Runs notice matches current hash.
+ * @param {*} notice notice input
+ * @returns {*} result
+ */
 function noticeMatchesCurrentHash(notice) {
   return (
     !notice.targetHash || normalizeNoticeHash(window.location.hash || '#home') === notice.targetHash
   );
 }
 
+/**
+ * Normalizes notice hash.
+ * @param {boolean} hash hash input
+ * @returns {*} result
+ */
 function normalizeNoticeHash(hash) {
   return (
     String(hash || '')

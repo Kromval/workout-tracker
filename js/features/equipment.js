@@ -1,5 +1,12 @@
+/**
+ * @module js/features/equipment
+ */
 import { asArray, isPlainObject, normalizeString } from '../core/utils.js';
 
+/**
+ * Module-level built in equipment records value.
+ * @type {Readonly<Array>}
+ */
 const builtInEquipmentRecords = Object.freeze([
   { id: 'bodyweight', name: { ru: 'Собственный вес', en: 'Bodyweight' } },
   { id: 'dumbbells', name: { ru: 'Гантели', en: 'Dumbbells' } },
@@ -41,12 +48,25 @@ const builtInEquipmentRecords = Object.freeze([
   { id: 'treadmill', name: { ru: 'Беговая дорожка', en: 'Treadmill' } },
 ]);
 
+/**
+ * Module-level built in equipment value.
+ * @type {*}
+ */
 const builtInEquipment = builtInEquipmentRecords.map((item) => normalizeBuiltInEquipment(item));
 
+/**
+ * Gets built in equipment catalog.
+ * @returns {*} result
+ */
 export function getBuiltInEquipmentCatalog() {
   return [...builtInEquipment];
 }
 
+/**
+ * Gets equipment catalog.
+ * @param {object} state state input
+ * @returns {*} result
+ */
 export function getEquipmentCatalog(state) {
   const builtIns = getBuiltInEquipmentCatalog();
   const builtInIds = new Set(builtIns.map((item) => item.id));
@@ -57,11 +77,21 @@ export function getEquipmentCatalog(state) {
   return [...builtIns, ...customItems];
 }
 
+/**
+ * Checks whether built in equipment id.
+ * @param {string} id id input
+ * @returns {boolean} predicate result
+ */
 export function isBuiltInEquipmentId(id) {
   const normalizedId = normalizeString(id);
   return builtInEquipment.some((item) => item.id === normalizedId);
 }
 
+/**
+ * Normalizes built in equipment.
+ * @param {object} item item input
+ * @returns {*} result
+ */
 function normalizeBuiltInEquipment(item) {
   return {
     id: normalizeString(item?.id),
@@ -70,6 +100,11 @@ function normalizeBuiltInEquipment(item) {
   };
 }
 
+/**
+ * Normalizes custom equipment.
+ * @param {object} item item input
+ * @returns {*} result
+ */
 function normalizeCustomEquipment(item) {
   const source = isPlainObject(item) ? item : {};
   const name = normalizeString(source.name);
@@ -84,6 +119,11 @@ function normalizeCustomEquipment(item) {
   };
 }
 
+/**
+ * Normalizes localized text.
+ * @param {string} value value input
+ * @returns {*} result
+ */
 function normalizeLocalizedText(value) {
   if (isPlainObject(value)) {
     return {

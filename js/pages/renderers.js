@@ -1,3 +1,6 @@
+/**
+ * @module js/pages/renderers
+ */
 export { renderListItem } from './components.js';
 export { renderWorkoutDraftItem } from './form-renderers.js';
 
@@ -56,6 +59,10 @@ import {
 } from './workout-page-renderers.js';
 import { renderSettingsPage } from './settings-page-renderers.js';
 
+/**
+ * Module-level page renderers value.
+ * @type {object}
+ */
 export const pageRenderers = {
   home: renderHomePage,
   exercises: renderExercisesPage,

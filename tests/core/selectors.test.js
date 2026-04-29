@@ -1,3 +1,6 @@
+/**
+ * @module tests/core/selectors.test
+ */
 import {
   DEFAULT_RECOMMENDATION_LIMIT,
   selectRecommendedExercises,

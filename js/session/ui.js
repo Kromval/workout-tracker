@@ -1,3 +1,6 @@
+/**
+ * @module js/session/ui
+ */
 import { saveHistoryEntry } from '../features/history.js';
 import { t } from '../i18n/index.js';
 import { localizedText } from '../i18n/index.js';
@@ -29,7 +32,15 @@ import {
   renderFinishStat,
 } from './ui-format.js';
 
+/**
+ * Shared time adjustment sec constant.
+ * @type {number}
+ */
 const TIME_ADJUSTMENT_SEC = 10;
+/**
+ * Shared rating options constant.
+ * @type {Array}
+ */
 const RATING_OPTIONS = [
   { value: '1', emoji: '😐' },
   { value: '2', emoji: '🙂' },
@@ -38,9 +49,21 @@ const RATING_OPTIONS = [
   { value: '5', emoji: '🤮' },
 ];
 
+/**
+ * Module-level active session value.
+ * @type {*}
+ */
 let activeSession = null;
+/**
+ * Module-level active workout id value.
+ * @type {string}
+ */
 let activeWorkoutId = '';
 
+/**
+ * Initializes workout run ui.
+ * @param {object} state state input
+ */
 export function initWorkoutRunUi(state) {
   const root = document.querySelector('[data-session-root]');
 
@@ -71,6 +94,14 @@ export function initWorkoutRunUi(state) {
   renderSessionSnapshot(root, activeSession.getSnapshot(), state);
 }
 
+/**
+ * Creates or restore session.
+ * @param {object} workout workout input
+ * @param {Array} exercises exercises input
+ * @param {object} state state input
+ * @param {string} workoutId workout id input
+ * @returns {*} result
+ */
 function createOrRestoreSession(workout, exercises, state, workoutId) {
   const hooks = createSessionHooks(state);
   const restored = restoreActiveWorkoutSession(exercises, {
@@ -85,6 +116,9 @@ function createOrRestoreSession(workout, exercises, state, workoutId) {
   return createWorkoutSession(workout, exercises, hooks);
 }
 
+/**
+ * Runs pause active session on route exit.
+ */
 function pauseActiveSessionOnRouteExit() {
   if (!activeSession?.isActive?.()) {
     return;
@@ -97,6 +131,11 @@ function pauseActiveSessionOnRouteExit() {
   }
 }
 
+/**
+ * Creates session hooks.
+ * @param {object} state state input
+ * @returns {*} result
+ */
 function createSessionHooks(state) {
   return {
     onTick: (snapshot) => updateSessionUi(snapshot, state),
@@ -115,6 +154,11 @@ function createSessionHooks(state) {
   };
 }
 
+/**
+ * Binds session controls event listeners.
+ * @param {HTMLElement} root root input
+ * @param {object} state state input
+ */
 function bindSessionControls(root, state) {
   if (root.dataset.sessionControlsBound === 'true') {
     return;
@@ -162,6 +206,11 @@ function bindSessionControls(root, state) {
   });
 }
 
+/**
+ * Updates session ui.
+ * @param {object} snapshot snapshot input
+ * @param {object} state state input
+ */
 function updateSessionUi(snapshot, state) {
   const root = document.querySelector('[data-session-root]');
 
@@ -172,6 +221,12 @@ function updateSessionUi(snapshot, state) {
   renderSessionSnapshot(root, snapshot, state);
 }
 
+/**
+ * Renders session snapshot markup.
+ * @param {HTMLElement} root root input
+ * @param {object} snapshot snapshot input
+ * @param {object} state state input
+ */
 function renderSessionSnapshot(root, snapshot, state) {
   const currentStep = snapshot.currentStep;
   const nextStep = getNextStep(snapshot);
@@ -221,6 +276,12 @@ function renderSessionSnapshot(root, snapshot, state) {
   renderFinishScreen(root, snapshot, state);
 }
 
+/**
+ * Renders session playlist markup.
+ * @param {HTMLElement} root root input
+ * @param {object} snapshot snapshot input
+ * @param {object} state state input
+ */
 function renderSessionPlaylist(root, snapshot, state) {
   const playlist = root.querySelector('[data-session-playlist]');
 
@@ -252,6 +313,11 @@ function renderSessionPlaylist(root, snapshot, state) {
     .join('');
 }
 
+/**
+ * Builds playlist steps.
+ * @param {object} snapshot snapshot input
+ * @returns {*} result
+ */
 function buildPlaylistSteps(snapshot) {
   const seen = new Set();
   return (Array.isArray(snapshot.steps) ? snapshot.steps : []).filter((step) => {
@@ -269,6 +335,11 @@ function buildPlaylistSteps(snapshot) {
   });
 }
 
+/**
+ * Formats exercise counter.
+ * @param {object} snapshot snapshot input
+ * @returns {*} result
+ */
 function formatExerciseCounter(snapshot) {
   const exerciseSteps = buildPlaylistSteps(snapshot);
   const activeIndex = Number.isInteger(snapshot.currentStep?.exerciseIndex)
@@ -281,6 +352,12 @@ function formatExerciseCounter(snapshot) {
   return `${safeActiveIndex} / ${exerciseSteps.length}`;
 }
 
+/**
+ * Gets step description.
+ * @param {number} step step input
+ * @param {object} state state input
+ * @returns {*} result
+ */
 function getStepDescription(step, state) {
   if (!step?.exercise) {
     return t(state, 'emptyValue');
@@ -295,6 +372,12 @@ function getStepDescription(step, state) {
   );
 }
 
+/**
+ * Renders finish screen markup.
+ * @param {HTMLElement} root root input
+ * @param {object} snapshot snapshot input
+ * @param {object} state state input
+ */
 function renderFinishScreen(root, snapshot, state) {
   const finish = root.querySelector('[data-session-finish]');
 
@@ -357,6 +440,12 @@ function renderFinishScreen(root, snapshot, state) {
   `;
 }
 
+/**
+ * Handles finish form submit interactions.
+ * @param {HTMLFormElement} form form input
+ * @param {object} snapshot snapshot input
+ * @param {object} state state input
+ */
 function handleFinishFormSubmit(form, snapshot, state) {
   if (!isTerminal(snapshot.status)) {
     return;

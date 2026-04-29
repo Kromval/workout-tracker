@@ -1,3 +1,10 @@
+/**
+ * @module js/features/presets
+ */
+/**
+ * Built-in preset workout catalog.
+ * @type {Array}
+ */
 export const popularPresetWorkouts = [
   {
     id: 'preset-general-warmup',
@@ -265,14 +272,28 @@ export const popularPresetWorkouts = [
   },
 ];
 
+/**
+ * Gets popular preset workouts.
+ * @returns {*} result
+ */
 export function getPopularPresetWorkouts() {
   return popularPresetWorkouts.map(normalizePresetWorkout);
 }
 
+/**
+ * Gets popular preset workout.
+ * @param {string} id id input
+ * @returns {*} result
+ */
 export function getPopularPresetWorkout(id) {
   return getPopularPresetWorkouts().find((workout) => workout.id === id) || null;
 }
 
+/**
+ * Normalizes preset workout.
+ * @param {object} workout workout input
+ * @returns {*} result
+ */
 function normalizePresetWorkout(workout) {
   return {
     ...workout,

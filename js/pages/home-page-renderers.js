@@ -1,3 +1,6 @@
+/**
+ * @module js/pages/home-page-renderers
+ */
 import { renderProgressCalendar } from '../features/calendar.js';
 import { t } from '../i18n/index.js';
 import { renderEmptyState } from './components.js';
@@ -14,6 +17,11 @@ import { escapeAttribute } from '../core/utils.js';
 import { getHomeActivityStats, renderHomeActivityStats, renderHomeStat } from './home-stats.js';
 import { renderWorkoutCard } from './workout-renderers.js';
 
+/**
+ * Renders home page markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderHomePage(state) {
   return `
     <section class="page home-page" data-page-route="home">
@@ -33,6 +41,11 @@ export function renderHomePage(state) {
   `;
 }
 
+/**
+ * Renders home overview region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderHomeOverviewRegion(state) {
   const exercises = selectExerciseCatalog(state);
   const userWorkouts = selectUserWorkouts(state);
@@ -77,6 +90,11 @@ export function renderHomeOverviewRegion(state) {
   `;
 }
 
+/**
+ * Renders home activity region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderHomeActivityRegion(state) {
   const history = selectHistory(state);
   const activityStats = getHomeActivityStats(history);
@@ -87,6 +105,11 @@ export function renderHomeActivityRegion(state) {
   `;
 }
 
+/**
+ * Renders home user workouts region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderHomeUserWorkoutsRegion(state) {
   const exercises = selectExerciseCatalog(state);
   const userWorkouts = selectUserWorkouts(state);
@@ -116,6 +139,11 @@ export function renderHomeUserWorkoutsRegion(state) {
   `;
 }
 
+/**
+ * Renders home preset workouts region markup.
+ * @param {object} state state input
+ * @returns {string} rendered markup
+ */
 export function renderHomePresetWorkoutsRegion(state) {
   const exercises = selectExerciseCatalog(state);
   const presetWorkouts = selectPresetWorkouts();
