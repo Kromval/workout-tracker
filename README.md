@@ -11,6 +11,7 @@ Workout Tracker - open-source PWA-приложение для планирова
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 ## Скриншоты
+
 <img width="1067" height="888" alt="image" src="https://github.com/user-attachments/assets/a1a1cb6d-6ec7-4a1e-a4a3-5754b1937f2c" />
 <img width="1067" height="862" alt="image" src="https://github.com/user-attachments/assets/4dbba6c1-75f3-48d3-b923-637603a2c96c" />
 <img width="1123" height="876" alt="image" src="https://github.com/user-attachments/assets/87c8d826-a4bc-437f-8bf0-59f3c66585b1" />
@@ -18,8 +19,6 @@ Workout Tracker - open-source PWA-приложение для планирова
 <img width="1107" height="885" alt="image" src="https://github.com/user-attachments/assets/5ccd0ad1-1fe6-4d43-a405-fc7ac2caa4ba" />
 <img width="995" height="901" alt="image" src="https://github.com/user-attachments/assets/3d80b08f-96dc-49df-b9c0-e6a312ef83c0" />
 <img width="993" height="856" alt="image" src="https://github.com/user-attachments/assets/10dc186e-90c0-4bd1-aab4-586bf16b5b9a" />
-
-
 
 ## Возможности
 
