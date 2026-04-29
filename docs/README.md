@@ -42,8 +42,6 @@ python -m http.server 8000
 - [Тестирование и качество](testing-and-quality.md) - Jest, Playwright, ESLint, Prettier, coverage и CI.
 - [Развертывание](deployment.md) - публикация как статического сайта.
 - [FAQ](faq.md) - частые вопросы.
-- [Скриншоты](screenshots.md) - список экранов и правила обновления.
-- [AI-промпты](ai-prompts.md) - готовые промпты для поддержки разработки.
 
 ## Основные возможности
 
