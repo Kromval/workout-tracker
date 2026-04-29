@@ -3,6 +3,7 @@
  */
 import { localizedText, t } from '../i18n/index.js';
 import { SESSION_STATUSES } from './core.js';
+import { SESSION_STEP_TYPES, STEP_TYPES } from './model.js';
 import { escapeHtml } from '../core/utils.js';
 import { selectLanguage } from '../core/selectors.js';
 
@@ -93,7 +94,7 @@ export function getCompletedExerciseSteps(snapshot) {
   const completedThroughIndex =
     snapshot.status === SESSION_STATUSES.COMPLETED ? steps.length : Math.max(0, currentStepIndex);
 
-  return steps.slice(0, completedThroughIndex).filter((step) => step?.type === 'exercise');
+  return steps.slice(0, completedThroughIndex).filter(isWorkStep);
 }
 
 /**
@@ -138,6 +139,7 @@ export function getStepExerciseName(step, state) {
   }
 
   return (
+    step.title ||
     localizedText(step.exercise?.name, selectLanguage(state)) ||
     step.exerciseId ||
     t(state, 'emptyValue')
@@ -155,15 +157,35 @@ export function getStepKindLabel(step, state) {
     return t(state, 'sessionNoCurrentStep');
   }
 
-  if (step.type === 'exercise') {
+  if (step.type === SESSION_STEP_TYPES.WORK) {
+    return t(state, 'sessionWorkStep');
+  }
+
+  if (step.type === STEP_TYPES.EXERCISE) {
     return t(state, 'sessionExerciseStep');
   }
 
-  if (step.type === 'rest-between-sets') {
+  if (step.type === STEP_TYPES.REST_BETWEEN_SETS || step.type === SESSION_STEP_TYPES.REST) {
     return t(state, 'sessionRestBetweenSets');
   }
 
-  return t(state, 'sessionRestBetweenExercises');
+  if (step.type === STEP_TYPES.REST_AFTER_EXERCISE || step.type === SESSION_STEP_TYPES.TRANSITION) {
+    return t(state, 'sessionRestBetweenExercises');
+  }
+
+  if (step.type === SESSION_STEP_TYPES.PREPARE) {
+    return t(state, 'sessionPrepareStep');
+  }
+
+  if (step.type === SESSION_STEP_TYPES.COOLDOWN) {
+    return t(state, 'sessionCooldownStep');
+  }
+
+  if (step.type === SESSION_STEP_TYPES.CUE) {
+    return t(state, 'sessionCueStep');
+  }
+
+  return step.type || t(state, 'sessionNoCurrentStep');
 }
 
 /**
@@ -249,4 +271,13 @@ export function getStatusLabel(status, state) {
  */
 export function isTerminal(status) {
   return status === SESSION_STATUSES.COMPLETED || status === SESSION_STATUSES.ABORTED;
+}
+
+/**
+ * Checks whether step is executable work.
+ * @param {*} step step input
+ * @returns {boolean} predicate result
+ */
+function isWorkStep(step) {
+  return step?.type === SESSION_STEP_TYPES.WORK || step?.type === STEP_TYPES.EXERCISE;
 }

@@ -1,7 +1,7 @@
 /**
  * @module js/session/utils
  */
-import { STEP_TYPES } from './model.js';
+import { SESSION_STEP_TYPES, STEP_TYPES } from './model.js';
 
 /**
  * Runs positive integer.
@@ -67,7 +67,10 @@ export function isPlainObject(value) {
  */
 export function isRestStep(step) {
   return (
-    step?.type === STEP_TYPES.REST_BETWEEN_SETS || step?.type === STEP_TYPES.REST_AFTER_EXERCISE
+    step?.type === STEP_TYPES.REST_BETWEEN_SETS ||
+    step?.type === STEP_TYPES.REST_AFTER_EXERCISE ||
+    step?.type === SESSION_STEP_TYPES.REST ||
+    step?.type === SESSION_STEP_TYPES.TRANSITION
   );
 }
 

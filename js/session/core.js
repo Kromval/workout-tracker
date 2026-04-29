@@ -6,19 +6,25 @@ import {
   EXECUTION_MODES,
   RESTORABLE_STATUSES,
   SESSION_PHASES,
+  SESSION_STEP_TYPES,
   SESSION_STATUSES,
   STEP_TYPES,
   TICK_INTERVAL_MS,
 } from './model.js';
 import { normalizeWorkout } from '../features/workouts.js';
 import { playSignal, stopAll as stopAudioSignals } from '../features/audio.js';
+import { compileSessionPlan } from './plan.js';
 
 export { SESSION_PHASES, SESSION_STATUSES } from './model.js';
 export { buildWorkoutSteps } from './steps.js';
+export {
+  compileSessionPlan,
+  compileWorkoutToSessionSteps,
+  normalizeWorkoutBlocks,
+} from './plan.js';
 export { getSessionSnapshot, saveSessionSnapshot, discardSessionSnapshot } from './snapshot.js';
 
 import { normalizeHooks } from './hooks.js';
-import { buildWorkoutSteps } from './steps.js';
 import {
   createPersistedSessionSnapshot,
   discardSessionSnapshot,
@@ -94,7 +100,8 @@ export class WorkoutSession {
    */
   constructor(workout, exercises = [], options = {}) {
     this.workout = normalizeWorkout(workout);
-    this.steps = buildWorkoutSteps(this.workout, exercises);
+    this.sessionPlan = compileSessionPlan(this.workout, exercises, options.planOptions || {});
+    this.steps = this.sessionPlan.steps;
     this.stepDurations = this.steps.map((step) => step.durationSec);
     this.status = SESSION_STATUSES.IDLE;
     this.phase = this.steps[0]?.phase || SESSION_PHASES.FINISHED;
@@ -272,6 +279,13 @@ export class WorkoutSession {
       status: this.status,
       phase: this.phase,
       currentPhase: this.currentPhase,
+      sessionPlan: {
+        version: this.sessionPlan.version,
+        workoutType: this.sessionPlan.workoutType,
+        blocks: this.sessionPlan.blocks,
+        totalDurationSec: this.stepDurations.reduce((total, durationSec) => total + durationSec, 0),
+      },
+      planVersion: this.sessionPlan.version,
       workout: this.workout,
       steps: this.steps.map((step, index) => ({
         ...step,
@@ -358,14 +372,18 @@ export class WorkoutSession {
   restore(snapshot, options = {}) {
     const normalizedSnapshot = normalizeSessionSnapshot(snapshot);
 
-    if (!normalizedSnapshot || !this.canRestoreFromSnapshot(normalizedSnapshot)) {
+    const restorePlan = normalizedSnapshot
+      ? this.createSnapshotRestorePlan(normalizedSnapshot)
+      : null;
+
+    if (!normalizedSnapshot || !restorePlan) {
       return false;
     }
 
     this.status = normalizedSnapshot.status;
-    this.currentStepIndex = normalizedSnapshot.currentStepIndex;
-    this.stepDurations = normalizedSnapshot.steps.map((step) => step.durationSec);
-    this.remainingSec = normalizedSnapshot.remainingSec;
+    this.currentStepIndex = restorePlan.currentStepIndex;
+    this.stepDurations = restorePlan.stepDurations;
+    this.remainingSec = restorePlan.remainingSec;
     this.elapsedSec = normalizedSnapshot.elapsedSec;
     this.startedAt = normalizedSnapshot.startedAt;
     this.endedAt = null;
@@ -528,7 +546,7 @@ export class WorkoutSession {
       this.playAudioSignal('restEnd');
     }
 
-    if (previousStep?.type === STEP_TYPES.EXERCISE) {
+    if (isWorkStep(previousStep)) {
       this.playAudioSignal('exerciseComplete');
     }
 
@@ -536,7 +554,7 @@ export class WorkoutSession {
       this.playAudioSignal('restStart');
     }
 
-    if (currentStep?.type === STEP_TYPES.EXERCISE) {
+    if (isWorkStep(currentStep)) {
       this.playAudioSignal('exerciseStart');
     }
   }
@@ -599,7 +617,7 @@ export class WorkoutSession {
         : null;
     }
 
-    if (step.type === STEP_TYPES.EXERCISE && step.executionMode === EXECUTION_MODES.REPS) {
+    if (isWorkStep(step) && step.executionMode === EXECUTION_MODES.REPS) {
       const repPhase = this.resolveCurrentRepPhase(step);
 
       if (repPhase) {
@@ -741,23 +759,99 @@ export class WorkoutSession {
    * @returns {boolean} predicate result
    */
   canRestoreFromSnapshot(snapshot) {
+    return Boolean(this.createSnapshotRestorePlan(snapshot));
+  }
+
+  /**
+   * Creates snapshot restore plan.
+   * @param {object} snapshot snapshot input
+   * @returns {*} result
+   */
+  createSnapshotRestorePlan(snapshot) {
     if (!RESTORABLE_STATUSES.includes(snapshot.status)) {
-      return false;
+      return null;
     }
 
-    if (snapshot.steps.length !== this.steps.length) {
-      return false;
+    if (snapshot.steps.length === this.steps.length) {
+      const stepIdsMatch = snapshot.steps.every((step, index) => step.id === this.steps[index]?.id);
+
+      if (!stepIdsMatch) {
+        return null;
+      }
+
+      return this.createDirectSnapshotRestorePlan(snapshot);
     }
 
-    const stepIdsMatch = snapshot.steps.every((step, index) => step.id === this.steps[index]?.id);
+    return this.createMigratedSnapshotRestorePlan(snapshot);
+  }
 
-    if (!stepIdsMatch) {
-      return false;
+  /**
+   * Creates direct snapshot restore plan.
+   * @param {object} snapshot snapshot input
+   * @returns {*} result
+   */
+  createDirectSnapshotRestorePlan(snapshot) {
+    const currentDurationSec = snapshot.steps[snapshot.currentStepIndex]?.durationSec;
+
+    if (!Number.isInteger(currentDurationSec) || snapshot.remainingSec > currentDurationSec) {
+      return null;
+    }
+
+    return {
+      currentStepIndex: snapshot.currentStepIndex,
+      stepDurations: snapshot.steps.map((step) => step.durationSec),
+      remainingSec: snapshot.remainingSec,
+    };
+  }
+
+  /**
+   * Creates migrated snapshot restore plan.
+   * @param {object} snapshot snapshot input
+   * @returns {*} result
+   */
+  createMigratedSnapshotRestorePlan(snapshot) {
+    const mappedStepIndexes = snapshot.steps.map((snapshotStep) =>
+      this.findPlanStepIndexForSnapshotStep(snapshotStep),
+    );
+    const currentStepIndex = mappedStepIndexes[snapshot.currentStepIndex];
+
+    if (!Number.isInteger(currentStepIndex) || currentStepIndex < 0) {
+      return null;
     }
 
     const currentDurationSec = snapshot.steps[snapshot.currentStepIndex]?.durationSec;
 
-    return Number.isInteger(currentDurationSec) && snapshot.remainingSec <= currentDurationSec;
+    if (!Number.isInteger(currentDurationSec) || snapshot.remainingSec > currentDurationSec) {
+      return null;
+    }
+
+    const stepDurations = [...this.stepDurations];
+    mappedStepIndexes.forEach((stepIndex, snapshotStepIndex) => {
+      if (stepIndex >= 0) {
+        stepDurations[stepIndex] = snapshot.steps[snapshotStepIndex].durationSec;
+      }
+    });
+
+    return {
+      currentStepIndex,
+      stepDurations,
+      remainingSec: snapshot.remainingSec,
+    };
+  }
+
+  /**
+   * Finds matching plan step index for persisted snapshot step.
+   * @param {object} snapshotStep snapshot step input
+   * @returns {number} matching step index
+   */
+  findPlanStepIndexForSnapshotStep(snapshotStep) {
+    const snapshotStepId = snapshotStep?.id || '';
+    return this.steps.findIndex(
+      (step) =>
+        step.id === snapshotStepId ||
+        step.legacyId === snapshotStepId ||
+        (step.legacyId && step.id.endsWith(`:${snapshotStepId}`)),
+    );
   }
 
   /**
@@ -802,4 +896,13 @@ export class WorkoutSession {
       console.warn('Failed to clear active workout session snapshot.', error);
     }
   }
+}
+
+/**
+ * Checks whether step is executable work.
+ * @param {*} step step input
+ * @returns {boolean} predicate result
+ */
+function isWorkStep(step) {
+  return step?.type === SESSION_STEP_TYPES.WORK || step?.type === STEP_TYPES.EXERCISE;
 }

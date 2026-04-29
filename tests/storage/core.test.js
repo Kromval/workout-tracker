@@ -106,6 +106,29 @@ describe('storage core', () => {
     expect(getDefaultStore()).not.toBe(DEFAULT_STORE);
   });
 
+  test('saveStore propagates localStorage write failures', () => {
+    const error = new Error('Quota exceeded');
+    globalThis.window = {
+      localStorage: {
+        getItem: memoryStorage.getItem,
+        setItem: jest.fn(() => {
+          throw error;
+        }),
+      },
+    };
+
+    expect(() => saveStore({ settings: { language: 'en' } })).toThrow(
+      'Failed to write workout tracker storage.',
+    );
+
+    try {
+      saveStore({ settings: { language: 'en' } });
+    } catch (storageError) {
+      expect(storageError.name).toBe('StorageWriteError');
+      expect(storageError.cause).toBe(error);
+    }
+  });
+
   test('favorites API uses settings as the single source of truth', () => {
     setFavorites(['exercise-a', 'exercise-a', 'exercise-b']);
     expect(getFavorites()).toEqual(['exercise-a', 'exercise-b']);

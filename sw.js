@@ -5,7 +5,7 @@
  * Cache name used by the service worker.
  * @type {string}
  */
-const CACHE_NAME = 'workout-planner-873a6c658c34';
+const CACHE_NAME = 'workout-planner-483cb9518a77';
 
 /**
  * Application shell assets precached by the service worker.
@@ -55,6 +55,7 @@ const APP_SHELL = [
   './js/session/core.js',
   './js/session/hooks.js',
   './js/session/model.js',
+  './js/session/plan.js',
   './js/session/snapshot.js',
   './js/session/steps.js',
   './js/session/ui-format.js',

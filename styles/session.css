@@ -33,7 +33,10 @@
 }
 
 .session-sidebar {
-  display: block;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--space-4);
+  height: 100%;
   min-height: 760px;
   overflow: hidden;
 }
@@ -43,7 +46,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-3);
-  margin-bottom: var(--space-4);
+  margin-bottom: 0;
 }
 
 .session-sidebar__header h2,
@@ -54,7 +57,7 @@
 .session-playlist {
   display: block;
   min-height: 0;
-  height: calc(100% - 68px);
+  height: auto;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: var(--space-1);
@@ -80,6 +83,29 @@
 
 .session-playlist__item--active {
   background: color-mix(in srgb, var(--color-accent) 78%, #ffffff 22%);
+}
+
+.session-playlist__item--prepare {
+  border-left: 4px solid #f7b731;
+}
+
+.session-playlist__item--work,
+.session-playlist__item--exercise {
+  border-left: 4px solid var(--color-accent-strong);
+}
+
+.session-playlist__item--rest,
+.session-playlist__item--rest-between-sets {
+  border-left: 4px solid #54a0ff;
+}
+
+.session-playlist__item--transition,
+.session-playlist__item--rest-after-exercise {
+  border-left: 4px solid #a29bfe;
+}
+
+.session-playlist__item--cooldown {
+  border-left: 4px solid #1dd1a1;
 }
 
 .session-playlist__number {

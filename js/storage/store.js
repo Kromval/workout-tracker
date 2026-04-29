@@ -144,8 +144,20 @@ function writeRawStore(store) {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
   } catch (error) {
-    console.error('Failed to write workout tracker storage.', error);
+    throw createStorageWriteError(error);
   }
+}
+
+/**
+ * Creates storage write error.
+ * @param {*} cause cause input
+ * @returns {Error} storage write error
+ */
+function createStorageWriteError(cause) {
+  const error = new Error('Failed to write workout tracker storage.');
+  error.name = 'StorageWriteError';
+  error.cause = cause;
+  return error;
 }
 
 /**

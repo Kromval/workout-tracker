@@ -63,6 +63,7 @@ export function createPersistedSessionSnapshot(snapshot) {
 
   return normalizeSessionSnapshot({
     version: SESSION_SNAPSHOT_VERSION,
+    planVersion: snapshot.sessionPlan?.version ?? snapshot.planVersion,
     savedAt: nowIso(),
     status: snapshot.status,
     workout: snapshot.workout,
@@ -115,6 +116,7 @@ export function normalizeSessionSnapshot(snapshot) {
 
   return {
     version: positiveInteger(snapshot.version) || SESSION_SNAPSHOT_VERSION,
+    planVersion: positiveInteger(snapshot.planVersion) || null,
     savedAt: normalizeIsoDate(snapshot.savedAt, nowIso()),
     status,
     workout: normalizeWorkout(snapshot.workout),

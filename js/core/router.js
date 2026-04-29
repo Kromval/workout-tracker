@@ -53,7 +53,7 @@ export function getCurrentRoute() {
 export function getRouteParams() {
   const [, id = ''] = getHashParts(window.location.hash);
   return {
-    id: decodeURIComponent(id),
+    id: safeDecodeURIComponent(id),
   };
 }
 
@@ -66,7 +66,7 @@ function syncRouteFromHash() {
 
 /**
  * Normalizes hash.
- * @param {boolean} hash hash input
+ * @param {string} hash hash input
  * @returns {*} result
  */
 function normalizeHash(hash) {
@@ -75,7 +75,7 @@ function normalizeHash(hash) {
 
 /**
  * Gets hash parts.
- * @param {boolean} hash hash input
+ * @param {string} hash hash input
  * @returns {*} result
  */
 function getHashParts(hash) {
@@ -84,4 +84,17 @@ function getHashParts(hash) {
     .split('/')
     .map((part) => part.trim())
     .filter(Boolean);
+}
+
+/**
+ * Decodes URI components without letting malformed hashes break routing.
+ * @param {string} value value input
+ * @returns {string} decoded value or original value
+ */
+function safeDecodeURIComponent(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 }

@@ -289,23 +289,25 @@ function renderSessionPlaylist(root, snapshot, state) {
     return;
   }
 
-  const exerciseSteps = buildPlaylistSteps(snapshot);
-  const activeExerciseIndex = Number.isInteger(snapshot.currentStep?.exerciseIndex)
-    ? snapshot.currentStep.exerciseIndex
+  const playlistSteps = buildPlaylistSteps(snapshot);
+  const activeStepIndex = Number.isInteger(snapshot.currentStepIndex)
+    ? snapshot.currentStepIndex
     : -1;
 
-  playlist.innerHTML = exerciseSteps
+  playlist.innerHTML = playlistSteps
     .map((step, index) => {
       const name = getStepExerciseName(step, state);
       const duration = formatClock(step.durationSec || 0);
-      const isActive = index === activeExerciseIndex;
+      const kind = getStepKindLabel(step, state);
+      const isActive = index === activeStepIndex;
+      const stepType = normalizeString(step.type || step.legacyType || 'step');
 
       return `
-      <article class="session-playlist__item ${isActive ? 'session-playlist__item--active' : ''}">
+      <article class="session-playlist__item session-playlist__item--${escapeAttribute(stepType)} ${isActive ? 'session-playlist__item--active' : ''}">
         <span class="session-playlist__number">${index + 1}</span>
         <div class="session-playlist__body">
           <strong title="${escapeAttribute(name)}">${escapeHtml(name)}</strong>
-          <span>${escapeHtml(duration)}</span>
+          <span>${escapeHtml(kind)} · ${escapeHtml(duration)}</span>
         </div>
       </article>
     `;
@@ -319,20 +321,7 @@ function renderSessionPlaylist(root, snapshot, state) {
  * @returns {*} result
  */
 function buildPlaylistSteps(snapshot) {
-  const seen = new Set();
-  return (Array.isArray(snapshot.steps) ? snapshot.steps : []).filter((step) => {
-    if (step?.type !== 'exercise') {
-      return false;
-    }
-
-    const key = step.workoutItemId || step.id;
-    if (seen.has(key)) {
-      return false;
-    }
-
-    seen.add(key);
-    return true;
-  });
+  return Array.isArray(snapshot.steps) ? snapshot.steps : [];
 }
 
 /**
@@ -341,15 +330,15 @@ function buildPlaylistSteps(snapshot) {
  * @returns {*} result
  */
 function formatExerciseCounter(snapshot) {
-  const exerciseSteps = buildPlaylistSteps(snapshot);
-  const activeIndex = Number.isInteger(snapshot.currentStep?.exerciseIndex)
-    ? snapshot.currentStep.exerciseIndex + 1
-    : exerciseSteps.length;
-  const safeActiveIndex = exerciseSteps.length
-    ? Math.min(Math.max(activeIndex, 1), exerciseSteps.length)
+  const playlistSteps = buildPlaylistSteps(snapshot);
+  const activeIndex = Number.isInteger(snapshot.currentStepIndex)
+    ? snapshot.currentStepIndex + 1
+    : playlistSteps.length;
+  const safeActiveIndex = playlistSteps.length
+    ? Math.min(Math.max(activeIndex, 1), playlistSteps.length)
     : 0;
 
-  return `${safeActiveIndex} / ${exerciseSteps.length}`;
+  return `${safeActiveIndex} / ${playlistSteps.length}`;
 }
 
 /**
@@ -359,6 +348,10 @@ function formatExerciseCounter(snapshot) {
  * @returns {*} result
  */
 function getStepDescription(step, state) {
+  if (step?.title && !step?.exercise) {
+    return getStepKindLabel(step, state);
+  }
+
   if (!step?.exercise) {
     return t(state, 'emptyValue');
   }

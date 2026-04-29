@@ -77,7 +77,11 @@ describe('workout session core', () => {
     expect(session.getSnapshot()).toMatchObject({
       status: SESSION_STATUSES.IDLE,
       currentStepIndex: 0,
-      totalSteps: 3,
+      totalSteps: 7,
+      currentStep: {
+        type: 'prepare',
+        source: 'warmup-template',
+      },
     });
 
     session.start();
@@ -86,19 +90,19 @@ describe('workout session core', () => {
 
     session.tick();
     expect(onTick).toHaveBeenCalled();
-    expect(onPhaseChange).toHaveBeenCalled();
 
     session.addTime(2);
-    expect(session.getSnapshot().currentStep.durationSec).toBe(6);
+    expect(session.getSnapshot().currentStep.durationSec).toBe(302);
 
-    session.subtractTime(10);
+    session.subtractTime(400);
     expect(session.getSnapshot().currentStepIndex).toBeGreaterThan(0);
 
     session.pause();
     expect(clearInterval).toHaveBeenCalled();
     session.resume();
-    session.skipCurrentStep();
-    session.skipCurrentStep();
+    while (session.isActive()) {
+      session.skipCurrentStep();
+    }
 
     const finished = session.getSnapshot();
     expect(finished.status).toBe(SESSION_STATUSES.COMPLETED);
@@ -152,6 +156,39 @@ describe('workout session core', () => {
         { audio: false, persist: false },
       ),
     ).toBeNull();
+  });
+
+  test('migrates legacy active session snapshots onto compiled session plan steps', () => {
+    saveSessionSnapshot({
+      version: 1,
+      savedAt: '2026-04-01T10:00:00.000Z',
+      status: SESSION_STATUSES.PAUSED,
+      workout,
+      steps: [
+        { id: 'pushups:set-1:exercise', durationSec: 4 },
+        { id: 'pushups:rest-after-exercise', durationSec: 90 },
+        { id: 'plank:set-1:exercise', durationSec: 2 },
+      ],
+      currentStepIndex: 2,
+      remainingSec: 1,
+      elapsedSec: 95,
+      startedAt: '2026-04-01T09:58:00.000Z',
+    });
+
+    const restored = restoreWorkoutSession(undefined, exercises, {
+      audio: false,
+      persist: false,
+      autoStartTimer: false,
+    });
+    const snapshot = restored.getSnapshot();
+
+    expect(snapshot.status).toBe(SESSION_STATUSES.PAUSED);
+    expect(snapshot.currentStep).toMatchObject({
+      type: 'work',
+      legacyId: 'plank:set-1:exercise',
+      remainingSec: 1,
+    });
+    expect(snapshot.currentStepIndex).toBeGreaterThan(0);
   });
 
   test('completes immediately for workouts without executable steps', () => {

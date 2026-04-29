@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import prettier from 'prettier';
 import { updateServiceWorkerPrecache } from './precache-utils.js';
 
 /**
@@ -38,14 +39,32 @@ if (!Array.isArray(records)) {
 }
 
 /**
- * Module-level content value.
+ * Module-level source content value.
  * @type {*}
  */
-const content = [
+const sourceContent = [
+  '/**',
+  ' * @module js/features/exercises-data',
+  ' */',
   '// Generated from data/exercises.json. Keep this module static so built-in exercises work without fetch or a server.',
+  '/**',
+  ' * Module-level built in exercise records value.',
+  ' * @type {Array}',
+  ' */',
   `export const builtInExerciseRecords = ${JSON.stringify(records, null, 2)};`,
   '',
 ].join('\n');
+
+/**
+ * Module-level prettier options value.
+ * @type {*}
+ */
+const prettierOptions = (await prettier.resolveConfig(targetPath)) || {};
+/**
+ * Module-level content value.
+ * @type {*}
+ */
+const content = await prettier.format(sourceContent, { ...prettierOptions, filepath: targetPath });
 
 fs.writeFileSync(targetPath, content, 'utf8');
 console.log(`Generated js/features/exercises-data.js with ${records.length} records.`);

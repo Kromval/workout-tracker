@@ -56,8 +56,8 @@ export function handleSettingChange(input, state) {
     return;
   }
 
-  setPendingNotice(t(state, 'settingsSaved'));
   updateSettings(settingsPatch);
+  setPendingNotice(t(state, 'settingsSaved'));
 }
 
 /**
@@ -303,8 +303,14 @@ export async function handleCustomAudioUpload(input, state) {
 
     updateSettings({ customAudio });
     setCustomAudioStatus(t(state, 'customAudioSaved'));
-  } catch {
-    setCustomAudioStatus(t(state, 'customAudioReadFailed'), 'error');
+  } catch (error) {
+    setCustomAudioStatus(
+      t(
+        state,
+        error?.name === 'StorageWriteError' ? 'storageWriteFailed' : 'customAudioReadFailed',
+      ),
+      'error',
+    );
   }
 }
 
