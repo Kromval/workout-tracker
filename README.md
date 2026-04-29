@@ -10,7 +10,6 @@ Workout Tracker - open-source PWA-приложение для планирова
 [![Stack](https://img.shields.io/badge/stack-HTML%20%2B%20CSS%20%2B%20ESM-334155)](#технологии)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-
 ## Возможности
 
 - Каталог встроенных и пользовательских упражнений с поиском, фильтрами, избранным и учетом оборудования.
