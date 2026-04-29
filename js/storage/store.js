@@ -22,11 +22,34 @@ export function loadStore() {
 }
 
 /**
+ * Loads the current persisted payload for export.
+ * @returns {*} result
+ */
+export function loadStoreForExport() {
+  const rawStore = readRawStore();
+
+  if (isFutureStorageVersion(rawStore)) {
+    return clone(rawStore);
+  }
+
+  return loadStore();
+}
+
+/**
+ * Checks whether persisted data is locked by a future schema version.
+ * @returns {boolean} predicate result
+ */
+export function isStorageWriteLocked() {
+  return isFutureStorageVersion(readRawStore());
+}
+
+/**
  * Saves store.
  * @param {object} store store input
  * @returns {*} result
  */
 export function saveStore(store) {
+  assertStorageWritable();
   const nextStore = sanitizeStore(store);
   writeRawStore(nextStore);
   return clone(nextStore);
@@ -59,6 +82,7 @@ export function initializeStorage(store = DEFAULT_STORE) {
     return clone(store);
   }
 
+  assertStorageWritable();
   const nextStore = sanitizeStore(store);
   writeRawStore(nextStore);
   return clone(nextStore);
@@ -122,6 +146,21 @@ function writeRawStore(store) {
   } catch (error) {
     console.error('Failed to write workout tracker storage.', error);
   }
+}
+
+/**
+ * Asserts storage writes are currently allowed.
+ */
+export function assertStorageWritable() {
+  if (!isStorageWriteLocked()) {
+    return;
+  }
+
+  const error = new Error(
+    'Stored workout tracker data uses a newer schema. Export the data or reset storage before saving changes.',
+  );
+  error.name = 'StorageWriteLockedError';
+  throw error;
 }
 
 /**

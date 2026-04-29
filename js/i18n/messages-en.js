@@ -382,6 +382,7 @@ export const enMessages = {
   customAudioUnsupported: 'Only mp3, wav, and ogg are supported.',
   customAudioTooLarge: 'File is too large. Maximum: 512 KB.',
   customAudioReadFailed: 'Could not read the audio file.',
+  audioEvent_tick: 'Timer tick',
   audioEvent_phaseChange: 'Phase change',
   audioEvent_exerciseStart: 'Exercise start',
   audioEvent_restStart: 'Rest start',

@@ -2,25 +2,20 @@
  * @module js/features/audio
  */
 import { getSettings } from '../storage/core.js';
+import { AUDIO_EVENTS } from '../storage/schema.js';
 
 /**
  * Module-level audio events value.
  * @type {Array}
  */
-export const audioEvents = [
-  'phaseChange',
-  'exerciseStart',
-  'restStart',
-  'restEnd',
-  'exerciseComplete',
-  'workoutComplete',
-];
+export const audioEvents = [...AUDIO_EVENTS];
 
 /**
  * Module-level event aliases value.
  * @type {Readonly<object>}
  */
 const eventAliases = Object.freeze({
+  tick: 'tick',
   startExercise: 'exerciseStart',
   exerciseStart: 'exerciseStart',
   phaseChange: 'phaseChange',
@@ -38,6 +33,7 @@ const eventAliases = Object.freeze({
  * @type {Readonly<object>}
  */
 const signalPatterns = Object.freeze({
+  tick: [{ frequency: 880, duration: 0.04, type: 'triangle' }],
   exerciseStart: [
     { frequency: 660, duration: 0.11 },
     { frequency: 880, duration: 0.14, delay: 0.04 },

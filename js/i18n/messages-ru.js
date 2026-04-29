@@ -385,6 +385,7 @@ export const ruMessages = {
   customAudioUnsupported: 'Поддерживаются только mp3, wav и ogg.',
   customAudioTooLarge: 'Файл слишком большой. Максимум: 512 КБ.',
   customAudioReadFailed: 'Не удалось прочитать аудиофайл.',
+  audioEvent_tick: 'Тик таймера',
   audioEvent_phaseChange: 'Смена фазы',
   audioEvent_exerciseStart: 'Старт упражнения',
   audioEvent_restStart: 'Старт отдыха',

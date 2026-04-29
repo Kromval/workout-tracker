@@ -72,6 +72,25 @@ describe('storage core', () => {
     expect(JSON.parse(memoryStorage.getItem(STORAGE_KEY))).toEqual(raw);
   });
 
+  test('allows only export and reset while future schema data is stored', () => {
+    const raw = {
+      version: STORAGE_VERSION + 1,
+      settings: { language: 'en' },
+      futureOnly: { enabled: true },
+    };
+    memoryStorage.setItem(STORAGE_KEY, JSON.stringify(raw));
+
+    expect(JSON.parse(exportStore())).toEqual(raw);
+    expect(() => saveStore({ settings: { language: 'ru' } })).toThrow(/newer schema/);
+    expect(() => importStore(JSON.stringify({ settings: { language: 'ru' } }))).toThrow(
+      /newer schema/,
+    );
+    expect(JSON.parse(memoryStorage.getItem(STORAGE_KEY))).toEqual(raw);
+
+    expect(resetStore()).toEqual(DEFAULT_STORE);
+    expect(JSON.parse(memoryStorage.getItem(STORAGE_KEY))).toEqual(DEFAULT_STORE);
+  });
+
   test('saveStore and resetStore write normalized data', () => {
     const saved = saveStore({
       settings: { language: 'en', favoriteExerciseIds: [' a ', 'a'] },

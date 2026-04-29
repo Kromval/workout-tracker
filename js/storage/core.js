@@ -9,6 +9,7 @@ import {
   IMPORT_MODES,
   STORAGE_VERSION,
 } from './schema.js';
+import { isFutureStorageVersion } from './migrations.js';
 import {
   asArray,
   clone,
@@ -29,7 +30,13 @@ import {
   sanitizeCustomExercise,
   sanitizeEquipment,
 } from './records.js';
-import { generateUniqueId, loadStore, saveStore } from './store.js';
+import {
+  assertStorageWritable,
+  generateUniqueId,
+  loadStore,
+  loadStoreForExport,
+  saveStore,
+} from './store.js';
 
 export { DEFAULT_SETTINGS, DEFAULT_STORE, IMPORT_MODES, STORAGE_META } from './schema.js';
 export {
@@ -50,7 +57,10 @@ export {
   generateUniqueId,
   getDefaultStore,
   initializeStorage,
+  assertStorageWritable,
+  isStorageWriteLocked,
   loadStore,
+  loadStoreForExport,
   resetStore,
   saveStore,
 } from './store.js';
@@ -112,7 +122,12 @@ export {
  * @returns {*} result
  */
 export function exportStore() {
-  const store = loadStore();
+  const store = loadStoreForExport();
+
+  if (isFutureStorageVersion(store)) {
+    return JSON.stringify(store, null, 2);
+  }
+
   const exportData = EXPORT_DATA_KEYS.reduce((result, key) => {
     result[key] = clone(store[key]);
     return result;
@@ -137,6 +152,7 @@ export function exportStore() {
  * @returns {*} result
  */
 export function importStore(json, options = {}) {
+  assertStorageWritable();
   const mode = options.mode === IMPORT_MODES.REPLACE ? IMPORT_MODES.REPLACE : IMPORT_MODES.MERGE;
   const parsed = parseImportJson(json);
   const payload = validateImportPayload(parsed);
