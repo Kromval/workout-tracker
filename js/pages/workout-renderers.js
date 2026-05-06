@@ -336,12 +336,6 @@ export function renderWorkoutExerciseOption(
           ${isFavorite ? `<span class="badge">${t(state, 'favoritesLabel')}</span>` : ''}
         </div>
         <p class="muted">${escapeHtml(description)}</p>
-        <dl class="workout-exercise-option__meta">
-          ${renderInlineMeta(state, 'workoutExerciseDifficulty', exerciseProfileLevel || t(state, 'emptyValue'))}
-          ${renderInlineMeta(state, 'workoutExerciseEquipment', equipmentLabels.join(', ') || t(state, 'emptyValue'))}
-          ${renderInlineMeta(state, 'workoutExerciseMovement', movementPatterns.map(humanizeToken).join(', ') || t(state, 'emptyValue'))}
-          ${renderInlineMeta(state, 'workoutExercisePrimaryMuscles', primaryMuscles.map(humanizeToken).join(', ') || t(state, 'emptyValue'))}
-        </dl>
         <div class="chip-list chip-list--muted">
           <span class="chip">${escapeHtml(type)}</span>
           ${exerciseProfileLevel ? `<span class="chip">${escapeHtml(humanizeToken(exerciseProfileLevel))}</span>` : ''}
@@ -528,22 +522,6 @@ export function formatTempo(tempo, state) {
  */
 export function capitalize(value) {
   return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
-}
-
-/**
- * Renders inline meta markup.
- * @param {object} state state input
- * @param {string} labelKey label key input
- * @param {string} value value input
- * @returns {string} rendered markup
- */
-function renderInlineMeta(state, labelKey, value) {
-  return `
-    <div>
-      <dt>${t(state, labelKey)}</dt>
-      <dd>${escapeHtml(value)}</dd>
-    </div>
-  `;
 }
 
 /**

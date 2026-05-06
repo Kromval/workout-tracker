@@ -402,11 +402,11 @@
 .workout-exercise-option {
   display: block;
   min-width: 0;
-  padding: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   color: #f5f1e8;
   background: rgb(255 255 255 / 0.04);
   border: 1px solid #3d3d46;
-  border-radius: 20px;
+  border-radius: 16px;
   height: auto;
   min-height: 0;
   overflow: visible;
@@ -418,16 +418,16 @@
 }
 
 .workout-exercise-option + .workout-exercise-option {
-  margin-top: var(--space-3);
+  margin-top: var(--space-2);
 }
 
 .workout-exercise-option__body {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-1);
   min-width: 0;
   align-content: start;
   height: auto;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
 }
 
 .workout-exercise-option__title {
@@ -443,8 +443,8 @@
 
 .workout-exercise-option h4 {
   color: #fff;
-  font-size: 1.02rem;
-  line-height: 1.25;
+  font-size: 0.98rem;
+  line-height: 1.2;
   overflow-wrap: anywhere;
   white-space: normal;
 }
@@ -454,49 +454,65 @@
   max-width: 100%;
 }
 
-.workout-exercise-option__meta,
+.workout-exercise-option .muted {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
 .workout-item__meta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
-  gap: var(--space-2);
+  gap: 6px;
   margin: 0;
 }
 
-.workout-exercise-option__meta div,
 .workout-item__meta div {
   min-width: 0;
-  padding: var(--space-2);
+  padding: 6px 8px;
   background: rgb(255 255 255 / 0.04);
   border: 1px solid rgb(255 255 255 / 0.07);
   border-radius: var(--radius-sm);
 }
 
-.workout-exercise-option__meta dt,
 .workout-item__meta dt {
   color: rgb(245 241 232 / 0.64);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.workout-exercise-option__meta dd,
 .workout-item__meta dd {
-  margin: var(--space-1) 0 0;
+  margin: 4px 0 0;
   color: #fff;
-  font-size: 0.86rem;
+  font-size: 0.8rem;
   overflow-wrap: anywhere;
+}
+
+.workout-exercise-option .chip-list {
+  gap: 4px;
+}
+
+.workout-exercise-option .chip {
+  min-height: 22px;
+  padding: 0 8px;
+  font-size: 0.72rem;
+  line-height: 1;
 }
 
 .workout-exercise-option__warnings {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: 6px;
 }
 
 .workout-exercise-option .button {
   display: inline-flex;
   min-width: 0;
   max-width: 100%;
+  min-height: 38px;
+  padding-inline: var(--space-3);
 }
 
 .workout-item {
