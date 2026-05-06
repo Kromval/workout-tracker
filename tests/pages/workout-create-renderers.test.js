@@ -22,10 +22,10 @@ describe('workout create renderers', () => {
     expect(pageMarkup).toContain('data-workout-exercise-movement-filter');
     expect(pageMarkup).toContain('value="squat"');
     expect(optionMarkup).toContain('data-exercise-movement="squat|push"');
-    expect(optionMarkup).toContain('Primary muscles');
     expect(optionMarkup).toContain('Quadriceps');
-    expect(optionMarkup).toContain('Movement');
-    expect(optionMarkup).toContain('Squat, Push');
+    expect(optionMarkup).toContain('Strength');
+    expect(optionMarkup).toContain('Advanced');
+    expect(optionMarkup).toContain('Strength: High, Cardio: Medium');
     expect(optionMarkup).toContain('Missing equipment');
     expect(optionMarkup).toContain('Above profile level');
   });
