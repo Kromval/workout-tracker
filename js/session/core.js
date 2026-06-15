@@ -123,6 +123,7 @@ export class WorkoutSession {
       DEFAULT_SNAPSHOT_SAVE_INTERVAL_MS,
     );
     this.lastSnapshotSavedAt = 0;
+    this.lastTickTime = null;
   }
 
   /**
@@ -313,20 +314,39 @@ export class WorkoutSession {
 
   /**
    * Runs tick.
+   * @param {boolean} [isAutoTick=false] is auto tick input
    * @returns {*} result
    */
-  tick() {
+  tick(isAutoTick = false) {
     if (this.status !== SESSION_STATUSES.RUNNING || !this.getCurrentStep()) {
       return this.getSnapshot();
     }
 
-    this.remainingSec = Math.max(0, this.remainingSec - 1);
-    this.elapsedSec += 1;
-    this.syncCurrentPhase();
-    this.notifyTick();
+    let secondsPassed = 1;
+    if (isAutoTick && this.lastTickTime) {
+      const now = Date.now();
+      const deltaMs = now - this.lastTickTime;
+      if (deltaMs < 1000) {
+        return this.getSnapshot();
+      }
+      secondsPassed = Math.floor(deltaMs / 1000);
+      this.lastTickTime += secondsPassed * 1000;
+    } else {
+      this.lastTickTime = Date.now();
+    }
 
-    if (this.remainingSec === 0) {
-      this.advanceStep();
+    for (let i = 0; i < secondsPassed; i++) {
+      if (this.status !== SESSION_STATUSES.RUNNING || !this.getCurrentStep()) {
+        break;
+      }
+      this.remainingSec = Math.max(0, this.remainingSec - 1);
+      this.elapsedSec += 1;
+      this.syncCurrentPhase();
+      this.notifyTick();
+
+      if (this.remainingSec === 0) {
+        this.advanceStep();
+      }
     }
 
     this.persistSnapshot(false);
@@ -489,7 +509,8 @@ export class WorkoutSession {
       return;
     }
 
-    this.timerId = this.setInterval(() => this.tick(), this.intervalMs);
+    this.lastTickTime = Date.now();
+    this.timerId = this.setInterval(() => this.tick(true), this.intervalMs);
   }
 
   /**

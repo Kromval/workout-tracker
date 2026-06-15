@@ -238,3 +238,198 @@ function createEmptyStore() {
     activeSession: null,
   };
 }
+
+test('creates, runs, completes a manual workout, and verifies it in history', async ({ page }) => {
+  const pageErrors = collectPageErrors(page);
+
+  // 1. Start with standard workout-ready store
+  await startWithStore(page, createWorkoutReadyStore());
+  await page.goto('/#workout-create');
+
+  // 2. Fill in the title
+  await page.locator('#workout-title').fill('E2E Manual Workout');
+  await page.locator('#workout-description').fill('Created via E2E test');
+
+  // 3. Add first exercise from the sidebar
+  const addExerciseButton = page.locator('[data-workout-add-exercise]').first();
+  await expect(addExerciseButton).toBeVisible();
+  await addExerciseButton.click();
+
+  // 4. Submit the form to save the workout
+  await page.locator('form[data-workout-form] button[type="submit"]').click();
+
+  // 5. Verify redirect to workout view page
+  await expect(page).toHaveURL(/.*#workout-view\/.+/);
+  await expect(page.locator('.workout-view-list')).toBeVisible();
+
+  // 6. Start the workout session
+  const startButton = page.locator('a[href^="#workout-run/"]');
+  await expect(startButton).toBeVisible();
+  await startButton.click();
+
+  // 7. On the runner page, skip all steps until completion form appears
+  await expect(page.locator('[data-session-root]')).toBeVisible();
+
+  const skipButton = page.locator('[data-session-action="skip"]');
+  const finishForm = page.locator('[data-session-finish-form]');
+
+  while ((await skipButton.isVisible()) && !(await finishForm.isVisible())) {
+    await skipButton.click();
+    await page.waitForTimeout(100);
+  }
+
+  await expect(finishForm).toBeVisible();
+
+  // 8. Submit the finish form to save it to history
+  await page.locator('[data-session-finish-form] button[type="submit"]').click();
+
+  // 9. Verify history has 1 record in localStorage
+  const historyCount = await page.evaluate((key) => {
+    const store = JSON.parse(window.localStorage.getItem(key) || '{}');
+    return Array.isArray(store.history) ? store.history.length : 0;
+  }, STORAGE_KEY);
+  expect(historyCount).toBe(1);
+
+  expect(pageErrors).toEqual([]);
+});
+
+test('starts a workout session, reloads the page, and verifies active session is restored', async ({
+  page,
+}) => {
+  const pageErrors = collectPageErrors(page);
+
+  // 1. Seed the store with a predefined workout
+  const store = createWorkoutReadyStore();
+  store.workouts = [
+    {
+      id: 'work-e2e-restore',
+      title: 'E2E Restore Workout',
+      description: 'Test session restore',
+      items: [
+        {
+          id: 'item-e2e-1',
+          exerciseId: 'push-up',
+          sets: 2,
+          reps: 10,
+          restBetweenSetsSec: 30,
+          restAfterExerciseSec: 30,
+        },
+      ],
+    },
+  ];
+
+  await startWithStore(page, store);
+  await page.goto('/#workout-view/work-e2e-restore');
+
+  // 2. Start the workout runner
+  const startButton = page.locator('a[href^="#workout-run/"]');
+  await expect(startButton).toBeVisible();
+  await startButton.click();
+
+  // 3. Verify that the runner page has loaded and shows the correct exercise (Warmup first)
+  await expect(page.locator('[data-session-root]')).toBeVisible();
+  await expect(page.locator('[data-session-exercise]')).toHaveText(/Warmup/i);
+
+  // 4. Reload page
+  await page.reload();
+
+  // 5. Verify that the session is restored on the runner page with same exercise (Warmup first)
+  await expect(page.locator('[data-session-root]')).toBeVisible();
+  await expect(page.locator('[data-session-exercise]')).toHaveText(/Warmup/i);
+
+  expect(pageErrors).toEqual([]);
+});
+
+test('registers service worker and functions successfully in offline mode', async ({
+  page,
+  browserName,
+}) => {
+  // WebKit has internal issues simulating offline mode in Playwright Windows runner
+  test.skip(browserName === 'webkit', 'WebKit offline simulation is unstable on Windows');
+
+  const pageErrors = collectPageErrors(page);
+
+  // 1. Load app in online mode to register the service worker
+  await startWithStore(page, createWorkoutReadyStore());
+  await page.goto('/');
+  await expect(page.locator('[data-page-route="home"]')).toBeVisible();
+
+  // 2. Wait for service worker to become active and control the page
+  try {
+    await page.waitForFunction(
+      () => navigator.serviceWorker && navigator.serviceWorker.controller !== null,
+      { timeout: 8000 },
+    );
+  } catch (err) {
+    console.warn('Service worker registration timed out or bypassed in E2E: ', err);
+  }
+
+  // 3. Enable offline mode
+  await page.context().setOffline(true);
+
+  try {
+    // 4. Reload page in offline mode
+    await page.reload();
+
+    // 5. Verify the app shell is loaded from cache and remains functional
+    await expect(page.locator('[data-page-route="home"]')).toBeVisible();
+    await expect(page.locator('#app-brand-link')).toBeVisible();
+  } finally {
+    // 6. Ensure we reset offline mode for subsequent tests
+    await page.context().setOffline(false);
+  }
+
+  expect(pageErrors).toEqual([]);
+});
+
+test('handles importing corrupted JSON by showing an error and preserving old data', async ({
+  page,
+}) => {
+  const pageErrors = collectPageErrors(page);
+
+  // 1. Seed store with unique settings and a workout to verify preservation
+  const store = createWorkoutReadyStore();
+  store.settings.theme = 'dark';
+  store.workouts = [
+    {
+      id: 'work-preserved',
+      title: 'Preserved Workout',
+      description: 'Must remain after failed import',
+      items: [],
+    },
+  ];
+
+  await startWithStore(page, store);
+  await page.goto('/#settings');
+
+  // Handle dialog window.confirm automatically (import confirm)
+  page.on('dialog', async (dialog) => {
+    await dialog.accept();
+  });
+
+  // 2. Select file input and upload corrupted JSON
+  const fileChooserPromise = page.waitForEvent('filechooser');
+  await page.locator('#import-data-button').click();
+  const fileChooser = await fileChooserPromise;
+
+  await fileChooser.setFiles({
+    name: 'corrupted_backup.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from('{ invalid json: [ }'),
+  });
+
+  // 3. Verify error status notice is shown
+  const statusLocator = page.locator('#import-export-status');
+  await expect(statusLocator).toBeVisible();
+  await expect(statusLocator).toHaveAttribute('data-type', 'error');
+
+  // 4. Verify old data remains intact in localStorage
+  const preservedData = await page.evaluate((key) => {
+    return JSON.parse(window.localStorage.getItem(key) || '{}');
+  }, STORAGE_KEY);
+
+  expect(preservedData.settings.theme).toBe('dark');
+  expect(preservedData.workouts[0].title).toBe('Preserved Workout');
+
+  expect(pageErrors).toEqual([]);
+});

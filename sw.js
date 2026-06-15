@@ -5,7 +5,7 @@
  * Cache name used by the service worker.
  * @type {string}
  */
-const CACHE_NAME = 'workout-planner-32b38d53bcde';
+const CACHE_NAME = 'workout-planner-4f0fdf541445';
 
 /**
  * Application shell assets precached by the service worker.
